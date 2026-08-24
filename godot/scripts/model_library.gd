@@ -41,7 +41,7 @@ static func make_character(spec: Dictionary) -> Node3D:
 	_add_capsule(root, "hair", Vector3(0, height * 0.91, -0.01), Vector3(0.26, 0.10, 0.22), hair)
 	_add_sphere(root, "eye_l", Vector3(-0.075, height * 0.85, -0.19), Vector3(0.035, 0.018, 0.018), eye)
 	_add_sphere(root, "eye_r", Vector3(0.075, height * 0.85, -0.19), Vector3(0.035, 0.018, 0.018), eye)
-	_add_box(root, "mouth", Vector3(0, height * 0.79, -0.205), Vector3(0.12, 0.012, 0.012), make_material(Color(0.16, 0.06, 0.05)))
+	_add_capsule(root, "mouth", Vector3(0, height * 0.79, -0.205), Vector3(0.025, 0.075, 0.012), make_material(Color(0.16, 0.06, 0.05)), Vector3(0, 0, 90))
 	_add_capsule(root, "cape", Vector3(0, height * 0.48, 0.09), Vector3(width * 1.16, height * 0.46, 0.08), cloth)
 	_add_capsule(root, "arm_l", Vector3(-width * 0.68, height * 0.53, 0), Vector3(0.10, height * 0.36, 0.10), leather, Vector3(0, 0, -8))
 	_add_capsule(root, "arm_r", Vector3(width * 0.68, height * 0.53, 0), Vector3(0.10, height * 0.36, 0.10), leather, Vector3(0, 0, 8))
@@ -49,15 +49,15 @@ static func make_character(spec: Dictionary) -> Node3D:
 	_add_sphere(root, "shoulder_r", Vector3(width * 0.58, height * 0.67, -0.02), Vector3(0.12, 0.08, 0.10), metal)
 	_add_capsule(root, "leg_l", Vector3(-width * 0.22, height * 0.18, 0), Vector3(0.11, height * 0.34, 0.11), cloth)
 	_add_capsule(root, "leg_r", Vector3(width * 0.22, height * 0.18, 0), Vector3(0.11, height * 0.34, 0.11), cloth)
-	_add_box(root, "boot_l", Vector3(-width * 0.22, 0.02, -0.03), Vector3(0.16, 0.08, 0.22), leather)
-	_add_box(root, "boot_r", Vector3(width * 0.22, 0.02, -0.03), Vector3(0.16, 0.08, 0.22), leather)
-	_add_box(root, "belt", Vector3(0, height * 0.39, -0.01), Vector3(width * 1.14, 0.06, 0.16), leather)
+	_add_capsule(root, "boot_l", Vector3(-width * 0.22, 0.02, -0.03), Vector3(0.08, 0.05, 0.13), leather, Vector3(90, 0, 0))
+	_add_capsule(root, "boot_r", Vector3(width * 0.22, 0.02, -0.03), Vector3(0.08, 0.05, 0.13), leather, Vector3(90, 0, 0))
+	_add_capsule(root, "belt", Vector3(0, height * 0.39, -0.01), Vector3(0.035, width * 0.64, 0.06), leather, Vector3(0, 0, 90))
 	_add_sphere(root, "stone", Vector3(0, height * 0.56, -0.15), Vector3(0.09, 0.12, 0.04), violet)
-	_add_box(root, "trim", Vector3(0, height * 0.65, -0.16), Vector3(width * 0.78, 0.035, 0.035), gold)
+	_add_capsule(root, "trim", Vector3(0, height * 0.65, -0.16), Vector3(0.018, width * 0.45, 0.018), gold, Vector3(0, 0, 90))
 	if str(spec.get("role", "")) == "Defensor":
-		_add_box(root, "shield_l", Vector3(-width * 0.92, height * 0.47, -0.12), Vector3(0.12, 0.48, 0.06), metal)
+		_add_capsule(root, "shield_l", Vector3(-width * 0.92, height * 0.47, -0.12), Vector3(0.18, 0.32, 0.045), metal)
 	if str(spec.get("role", "")) == "Arqueiro":
-		_add_box(root, "quiver", Vector3(-width * 0.42, height * 0.54, 0.22), Vector3(0.12, 0.48, 0.12), leather)
+		_add_cylinder(root, "quiver", Vector3(-width * 0.42, height * 0.54, 0.22), 0.07, 0.48, leather)
 		for i in range(3):
 			_add_cylinder(root, "arrow_back_%s" % i, Vector3(-width * 0.44 + i * 0.04, height * 0.69, 0.25), 0.008, 0.42, make_material(Color(0.78, 0.74, 0.58)), Vector3(12, 0, 0))
 	var model_weapon := make_weapon(weapon)
@@ -103,7 +103,7 @@ static func make_weapon(id: String) -> Node3D:
 		_add_cylinder(root, "arrow", Vector3(0.10, 0.48, 0), 0.015, 0.86, metal, Vector3(90, 0, 0))
 	elif id == "iron_axe":
 		_add_cylinder(root, "grip", Vector3(0, 0.42, 0), 0.04, 0.92, wood)
-		_add_box(root, "axe_head", Vector3(0.07, 0.88, 0), Vector3(0.24, 0.18, 0.06), metal)
+		_add_sphere(root, "axe_head", Vector3(0.07, 0.88, 0), Vector3(0.16, 0.11, 0.035), metal)
 		_add_cone(root, "axe_spike", Vector3(-0.12, 0.88, 0), 0.07, 0.18, metal)
 		_add_sphere(root, "blood_stone", Vector3(0, 0.78, -0.04), Vector3(0.05, 0.05, 0.03), make_material(Color(0.72, 0.12, 0.10), 0.0, 0.4, Color(0.72, 0.05, 0.05, 1.0)))
 	elif id in ["spear", "aes_spear"]:
@@ -111,8 +111,8 @@ static func make_weapon(id: String) -> Node3D:
 		_add_cone(root, "tip", Vector3(0, 1.34, 0), 0.10, 0.28, violet if id == "aes_spear" else metal)
 		_add_cylinder(root, "ring", Vector3(0, 1.16, 0), 0.045, 0.04, gold)
 	else:
-		_add_box(root, "blade", Vector3(0, 0.62, 0), Vector3(0.09, 0.86, 0.035), metal)
-		_add_box(root, "guard", Vector3(0, 0.18, 0), Vector3(0.30, 0.045, 0.05), gold)
+		_add_capsule(root, "blade", Vector3(0, 0.62, 0), Vector3(0.045, 0.46, 0.018), metal)
+		_add_capsule(root, "guard", Vector3(0, 0.18, 0), Vector3(0.025, 0.17, 0.025), gold, Vector3(0, 0, 90))
 		_add_cylinder(root, "grip", Vector3(0, -0.04, 0), 0.035, 0.34, wood)
 		_add_sphere(root, "pommel", Vector3(0, -0.24, 0), Vector3(0.06, 0.06, 0.06), gold)
 	return root
@@ -126,15 +126,15 @@ static func make_tool(id: String) -> Node3D:
 	var blue := make_material(Color(0.36, 0.64, 0.85), 0.0, 0.45, Color(0.24, 0.45, 1.0, 1.0))
 	if id == "aes_compass":
 		_add_cylinder(root, "compass_body", Vector3.ZERO, 0.22, 0.06, metal, Vector3(90, 0, 0))
-		_add_box(root, "needle", Vector3(0, 0.035, 0), Vector3(0.32, 0.02, 0.02), blue)
+		_add_capsule(root, "needle", Vector3(0, 0.035, 0), Vector3(0.012, 0.17, 0.012), blue, Vector3(0, 0, 90))
 		_add_sphere(root, "stone", Vector3(0, 0.075, 0), Vector3(0.06, 0.03, 0.06), blue)
 	elif id == "survey_tools":
 		_add_cylinder(root, "lens", Vector3(-0.08, 0, 0), 0.14, 0.035, green, Vector3(90, 0, 0))
 		_add_cylinder(root, "handle", Vector3(0.10, -0.15, 0), 0.025, 0.38, metal, Vector3(0, 0, -35))
-		_add_box(root, "chalk", Vector3(0.18, 0.08, 0), Vector3(0.06, 0.26, 0.06), make_material(Color(0.86, 0.82, 0.65)))
+		_add_capsule(root, "chalk", Vector3(0.18, 0.08, 0), Vector3(0.035, 0.14, 0.035), make_material(Color(0.86, 0.82, 0.65)))
 	else:
-		_add_box(root, "bag", Vector3.ZERO, Vector3(0.42, 0.30, 0.18), leather)
-		_add_box(root, "flap", Vector3(0, 0.08, -0.095), Vector3(0.36, 0.12, 0.03), make_material(Color(0.18, 0.10, 0.05)))
+		_add_capsule(root, "bag", Vector3.ZERO, Vector3(0.24, 0.20, 0.12), leather, Vector3(0, 0, 90))
+		_add_capsule(root, "flap", Vector3(0, 0.08, -0.095), Vector3(0.055, 0.20, 0.018), make_material(Color(0.18, 0.10, 0.05)), Vector3(0, 0, 90))
 		_add_sphere(root, "healing_stone", Vector3(0.15, 0.02, -0.12), Vector3(0.05, 0.05, 0.025), green)
 	return root
 
@@ -147,16 +147,16 @@ static func make_environment_piece(id: String) -> Node3D:
 	if id == "blood_tree":
 		_add_cylinder(root, "trunk", Vector3(0, 0.65, 0), 0.12, 1.3, wood)
 		_add_sphere(root, "crown", Vector3(0, 1.42, 0), Vector3(0.62, 0.42, 0.62), make_material(Color(0.06, 0.12, 0.07)))
-		_add_box(root, "blood_mark", Vector3(0, 0.76, -0.13), Vector3(0.05, 0.36, 0.015), blood)
+		_add_capsule(root, "blood_mark", Vector3(0, 0.76, -0.13), Vector3(0.022, 0.19, 0.010), blood)
 	elif id == "stone_table":
-		_add_box(root, "slab", Vector3(0, 0.62, 0), Vector3(1.6, 0.12, 0.82), stone)
-		_add_box(root, "base", Vector3(0, 0.28, 0), Vector3(0.95, 0.55, 0.46), stone)
+		_add_capsule(root, "slab", Vector3(0, 0.62, 0), Vector3(0.42, 0.86, 0.08), stone, Vector3(0, 0, 90))
+		_add_capsule(root, "base", Vector3(0, 0.28, 0), Vector3(0.26, 0.52, 0.22), stone, Vector3(0, 0, 90))
 	elif id == "wooden_gate":
 		for i in range(5):
-			_add_box(root, "plank_%s" % i, Vector3(-0.48 + i * 0.24, 0.8, 0), Vector3(0.16, 1.6, 0.10), wood)
-		_add_box(root, "brace", Vector3(0, 0.8, -0.08), Vector3(1.28, 0.12, 0.08), wood)
+			_add_capsule(root, "log_%s" % i, Vector3(-0.48 + i * 0.24, 0.8, 0), Vector3(0.08, 0.82, 0.055), wood)
+		_add_capsule(root, "brace", Vector3(0, 0.8, -0.08), Vector3(0.06, 0.68, 0.04), wood, Vector3(0, 0, 90))
 	else:
-		_add_box(root, "crate", Vector3(0, 0.25, 0), Vector3(0.5, 0.5, 0.5), wood)
+		_add_capsule(root, "supply_bundle", Vector3(0, 0.25, 0), Vector3(0.28, 0.26, 0.22), wood, Vector3(0, 0, 90))
 	return root
 
 static func _add_box(parent: Node3D, name: String, position: Vector3, size: Vector3, material: Material) -> MeshInstance3D:

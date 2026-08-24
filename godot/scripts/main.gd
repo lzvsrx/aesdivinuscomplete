@@ -158,8 +158,8 @@ func _build_ui() -> void:
 	var actions := _button_grid(4)
 	actions.add_theme_constant_override("separation", 8)
 	center.add_child(actions)
-	actions.add_child(_button("Iniciar cena", _start_scene))
-	actions.add_child(_button("Resolver missao", _complete_mission))
+	actions.add_child(_button("Jogar cena/missao", _play_scene_and_mission))
+	actions.add_child(_button("Concluir missao", _complete_mission))
 	actions.add_child(_button("Salvar", func() -> void: _autosave("Save manual.")))
 	actions.add_child(_button("Galeria 3D", func() -> void: get_tree().change_scene_to_file("res://scenes/model_gallery.tscn")))
 	var system_actions := _button_grid(4)
@@ -850,11 +850,27 @@ func _selected_mission() -> Dictionary:
 func _start_scene() -> void:
 	var mission := _selected_mission()
 	var scenes: Array = data.get("missionScenes", {}).get(mission.get("id", ""), [])
-	if scenes.is_empty():
-		_add_journal("Cena aberta: %s." % mission.get("title", "Missao"))
-	else:
-		_add_journal("%s: %s" % [scenes[0].get("title", mission.get("title", "")), scenes[0].get("text", "")])
+	state["mode"] = "mission_scene"
+	state["currentSceneIndex"] = 0
+	_show_scene_screen(mission, scenes)
+	_add_journal_once("Cena iniciada: %s." % mission.get("title", "Missao"))
 	_autosave("Cena iniciada.")
+
+func _play_scene_and_mission() -> void:
+	var mission := _selected_mission()
+	var scenes: Array = data.get("missionScenes", {}).get(mission.get("id", ""), [])
+	state["mode"] = "mission"
+	state["currentSceneIndex"] = 0
+	_show_playable_mission_flow(mission, scenes)
+	_add_journal_once("Cena e missao iniciadas: %s." % mission.get("title", "Missao"))
+	_autosave("Cena e missao iniciadas.")
+
+func _start_mission() -> void:
+	var mission := _selected_mission()
+	state["mode"] = "mission"
+	_show_mission_screen(mission)
+	_add_journal_once("Missao iniciada: %s." % mission.get("title", "Missao"))
+	_autosave("Missao iniciada.")
 
 func _complete_mission() -> void:
 	var mission := _selected_mission()
@@ -866,12 +882,170 @@ func _complete_mission() -> void:
 	campaign["day"] = int(campaign.get("day", 1)) + 1
 	state["campaign"] = campaign
 	_apply_rewards(mission.get("rewards", {}))
-	_add_journal("Missao resolvida: %s." % mission.get("title", ""))
+	state["mode"] = "mission_result"
+	_add_journal_once("Missao resolvida: %s." % mission.get("title", ""))
+	_show_mission_result(mission)
 	selected_mission_index = min(selected_mission_index + 1, data.get("missions", []).size() - 1)
 	mission_list.select(selected_mission_index)
-	_refresh_mission_detail()
 	_refresh_resources()
 	_autosave("Missao resolvida.")
+
+func _show_scene_screen(mission: Dictionary, scenes: Array) -> void:
+	var scene: Dictionary = {}
+	if scenes.is_empty():
+		scene = {
+			"title": mission.get("title", "Cena"),
+			"camera": "Camera cinematica focada no objetivo principal.",
+			"text": mission.get("objective", ""),
+			"choice": "Prosseguir",
+			"effect": mission.get("impact", "")
+		}
+	else:
+		scene = scenes[0]
+	detail_title.text = "Cena - %s" % scene.get("title", mission.get("title", ""))
+	detail_text.text = "\n".join([
+		"[b]Cena ativa[/b]",
+		scene.get("text", ""),
+		"",
+		"[b]Camera[/b]",
+		scene.get("camera", ""),
+		"",
+		"[b]Escolha[/b]",
+		scene.get("choice", "Prosseguir"),
+		"",
+		"[b]Consequencia[/b]",
+		scene.get("effect", mission.get("impact", "")),
+		"",
+		"[b]Proximo passo[/b]",
+		"Use Jogar cena/missao para abrir a narrativa e o encontro jogavel juntos."
+	])
+
+func _show_playable_mission_flow(mission: Dictionary, scenes: Array) -> void:
+	var scene: Dictionary = {}
+	if scenes.is_empty():
+		scene = {
+			"title": mission.get("title", "Cena"),
+			"camera": "Camera cinematica focada no objetivo principal.",
+			"text": mission.get("objective", ""),
+			"choice": "Prosseguir",
+			"effect": mission.get("impact", "")
+		}
+	else:
+		scene = scenes[0]
+	var enemies := _mission_enemies(mission)
+	var rewards: Dictionary = mission.get("rewards", {})
+	var lines: Array[String] = [
+		"[b]Cena em execucao[/b]",
+		scene.get("text", ""),
+		"",
+		"[b]Camera[/b]",
+		scene.get("camera", ""),
+		"",
+		"[b]Escolha da cena[/b]",
+		scene.get("choice", "Prosseguir"),
+		"",
+		"[b]Missao jogavel ativa[/b]",
+		"%s - %s" % [mission.get("act", ""), mission.get("title", "")],
+		"Tipo: %s" % mission.get("type", ""),
+		"Objetivo: %s" % mission.get("objective", ""),
+		"",
+		"[b]Jogabilidade acontecendo[/b]",
+		"- A cena abre a situacao.",
+		"- A missao entra no mesmo fluxo.",
+		"- Turnos, PA, movimento, cobertura, medo, coragem e lideranca ficam representados neste encontro.",
+		"- Ao concluir, recompensas e consequencias sao aplicadas e o jogo avanca.",
+		"",
+		"[b]Ameacas no encontro[/b]"
+	]
+	for enemy in enemies:
+		lines.append("- %s / %s / HP %s / arma %s" % [
+			enemy.get("name", ""),
+			enemy.get("role", ""),
+			enemy.get("maxHp", enemy.get("hp", 0)),
+			enemy.get("weapon", "")
+		])
+	lines.append("")
+	lines.append("[b]Recompensas previstas[/b]")
+	lines.append("Comida %s | Madeira %s | Ferro %s | Ouro %s | Tropas %s" % [
+		rewards.get("food", 0),
+		rewards.get("wood", 0),
+		rewards.get("iron", 0),
+		rewards.get("gold", 0),
+		rewards.get("troops", 0)
+	])
+	lines.append("")
+	lines.append("[b]Comando[/b]")
+	lines.append("Use Concluir missao para resolver o encontro, salvar resultado e avancar.")
+	detail_title.text = "Jogando - %s" % mission.get("title", "")
+	detail_text.text = "\n".join(lines)
+
+func _show_mission_screen(mission: Dictionary) -> void:
+	var enemies := _mission_enemies(mission)
+	var rewards: Dictionary = mission.get("rewards", {})
+	var lines: Array[String] = [
+		"[b]Missao ativa[/b]",
+		"%s - %s" % [mission.get("act", ""), mission.get("title", "")],
+		"Tipo: %s" % mission.get("type", ""),
+		"",
+		"[b]Objetivo jogavel[/b]",
+		mission.get("objective", ""),
+		"",
+		"[b]Regras em uso[/b]",
+		"- Turnos com 2 PA",
+		"- Movimento, ataque, cobertura, medo, coragem e lideranca",
+		"- Autosave ao iniciar e concluir",
+		"",
+		"[b]Inimigos/ameacas previstas[/b]"
+	]
+	for enemy in enemies:
+		lines.append("- %s / %s / HP %s / arma %s" % [
+			enemy.get("name", ""),
+			enemy.get("role", ""),
+			enemy.get("maxHp", enemy.get("hp", 0)),
+			enemy.get("weapon", "")
+		])
+	lines.append("")
+	lines.append("[b]Recompensas e impacto[/b]")
+	lines.append("Comida %s | Madeira %s | Ferro %s | Ouro %s | Tropas %s" % [
+		rewards.get("food", 0),
+		rewards.get("wood", 0),
+		rewards.get("iron", 0),
+		rewards.get("gold", 0),
+		rewards.get("troops", 0)
+	])
+	lines.append(mission.get("impact", ""))
+	lines.append("")
+	lines.append("[b]Comando[/b]")
+	lines.append("Use Concluir missao para registrar resultado, aplicar recompensas e avancar.")
+	detail_title.text = "Missao - %s" % mission.get("title", "")
+	detail_text.text = "\n".join(lines)
+
+func _show_mission_result(mission: Dictionary) -> void:
+	var completed: Array = state.get("campaign", {}).get("completed", [])
+	detail_title.text = "Resultado - %s" % mission.get("title", "")
+	detail_text.text = "\n".join([
+		"[b]Missao concluida[/b]",
+		"Registro salvo no banco local e no estado da campanha.",
+		"",
+		"[b]Total concluido[/b]",
+		"%s missoes/cenas." % completed.size(),
+		"",
+		"[b]Impacto aplicado[/b]",
+		mission.get("impact", ""),
+		"",
+		"[b]Proxima missao selecionada[/b]",
+		"A lista avanca automaticamente para o proximo ponto da campanha."
+	])
+
+func _mission_enemies(mission: Dictionary) -> Array:
+	var sets: Dictionary = data.get("enemySets", {})
+	var set_id := str(mission.get("enemySet", ""))
+	if set_id == "" or not sets.has(set_id):
+		if str(mission.get("type", "")).contains("Chefe"):
+			set_id = "manifestation"
+		else:
+			set_id = "forest_first_contact"
+	return sets.get(set_id, [])
 
 func _apply_rewards(rewards: Dictionary) -> void:
 	var p: Dictionary = state.get("principality", {})
@@ -886,6 +1060,11 @@ func _add_journal(line: String) -> void:
 	campaign["journal"] = journal
 	state["campaign"] = campaign
 	_refresh_log()
+
+func _add_journal_once(line: String) -> void:
+	var journal: Array = state.get("campaign", {}).get("journal", [])
+	if journal.is_empty() or journal.back() != line:
+		_add_journal(line)
 
 func _autosave(message: String) -> void:
 	state["last_event"] = {"message": message, "at": Time.get_datetime_string_from_system(true)}
@@ -930,13 +1109,13 @@ class AvatarPreview:
 		var eye := _eye_color(character_data.get("eyeColor", "Castanho"))
 		var weapon: String = str(character_data.get("weapon", "iron_sword"))
 
-		draw_ellipse(Vector2(center.x, center.y + 93), 80, 11, Color(0, 0, 0, 0.35))
-		draw_polygon([Vector2(center.x - 86, 86), Vector2(center.x + 86, 86), Vector2(center.x + 104, 230), Vector2(center.x - 104, 230)], [palette.secondary.darkened(0.35), palette.secondary, Color(0.02, 0.02, 0.02), palette.secondary.darkened(0.15)])
+		draw_ellipse(Vector2(center.x, center.y + 93), 72, 9, Color(0, 0, 0, 0.30))
+		_draw_cloak(center, palette)
 		_draw_body(center, body_width, body_shape, palette)
-		draw_rect(Rect2(center.x - body_width * 0.34, 176, body_width * 0.68, 9), Color(0.10, 0.08, 0.06))
+		draw_rounded_rect(Rect2(center.x - body_width * 0.34, 176, body_width * 0.68, 9), 4, Color(0.10, 0.08, 0.06))
 		draw_circle(Vector2(center.x, 151), 11, palette.primary)
-		draw_rounded_rect(Rect2(center.x - 76, 112, 28, 102), 14, Color(0.18, 0.18, 0.18))
-		draw_rounded_rect(Rect2(center.x + 48, 112, 28, 102), 14, Color(0.18, 0.18, 0.18))
+		_draw_vertical_capsule(Vector2(center.x - 66, 160), 18, 94, Color(0.18, 0.18, 0.18))
+		_draw_vertical_capsule(Vector2(center.x + 66, 160), 18, 94, Color(0.18, 0.18, 0.18))
 		_draw_head(center, face)
 		_draw_hair(center, hair, hair_style)
 		_draw_eye(Vector2(center.x - 14, 78), eye, eye_shape, -1)
@@ -947,12 +1126,32 @@ class AvatarPreview:
 			draw_arc(Vector2(center.x + 88, 150), 58, -PI / 2, PI / 2, 28, Color(0.48, 0.28, 0.12), 5)
 			draw_line(Vector2(center.x + 88, 92), Vector2(center.x + 88, 208), Color(0.88, 0.82, 0.62), 2)
 		elif weapon == "spear":
-			draw_line(Vector2(center.x + 92, 36), Vector2(center.x + 92, 232), Color(0.75, 0.61, 0.28), 7)
+			draw_line(Vector2(center.x + 92, 36), Vector2(center.x + 92, 232), Color(0.75, 0.61, 0.28), 6)
 			draw_polygon([Vector2(center.x + 92, 16), Vector2(center.x + 108, 48), Vector2(center.x + 92, 68), Vector2(center.x + 76, 48)], [Color(0.9, 0.88, 0.78), Color(0.52, 0.56, 0.56), Color(0.24, 0.26, 0.26), Color(0.78, 0.78, 0.72)])
 		else:
-			draw_line(Vector2(center.x + 88, 72), Vector2(center.x + 88, 226), Color(0.45, 0.27, 0.16), 8)
+			draw_line(Vector2(center.x + 88, 72), Vector2(center.x + 88, 226), Color(0.45, 0.27, 0.16), 6)
 			draw_polygon([Vector2(center.x + 88, 24), Vector2(center.x + 103, 88), Vector2(center.x + 88, 126), Vector2(center.x + 73, 88)], [Color(0.9, 0.9, 0.84), Color(0.58, 0.62, 0.62), Color(0.25, 0.28, 0.28), Color(0.78, 0.78, 0.72)])
 		draw_string(ThemeDB.fallback_font, Vector2(18, size.y - 18), character_data.get("name", "William"), HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(0.82, 0.66, 0.32))
+
+	func _draw_cloak(center: Vector2, palette: Dictionary) -> void:
+		var points := PackedVector2Array([
+			Vector2(center.x - 72, 94),
+			Vector2(center.x + 72, 94),
+			Vector2(center.x + 88, 220),
+			Vector2(center.x + 58, 232),
+			Vector2(center.x - 58, 232),
+			Vector2(center.x - 88, 220)
+		])
+		var colors := PackedColorArray([
+			palette.secondary.lightened(0.05),
+			palette.secondary,
+			palette.secondary.darkened(0.32),
+			Color(0.025, 0.028, 0.028),
+			Color(0.025, 0.028, 0.028),
+			palette.secondary.darkened(0.18)
+		])
+		draw_polygon(points, colors)
+		draw_arc(Vector2(center.x, 102), 73, PI, TAU, 40, palette.secondary.lightened(0.08), 4)
 
 	func _draw_body(center: Vector2, body_width: float, body_shape: String, palette: Dictionary) -> void:
 		var shoulder := body_width * 0.5
@@ -972,15 +1171,33 @@ class AvatarPreview:
 		draw_polygon([
 			Vector2(center.x - shoulder, 104),
 			Vector2(center.x + shoulder, 104),
-			Vector2(center.x + waist, 222),
-			Vector2(center.x - waist, 222)
-		], [Color(0.22, 0.23, 0.23), Color(0.30, 0.31, 0.31), Color(0.12, 0.12, 0.12), Color(0.18, 0.19, 0.19)])
+			Vector2(center.x + waist * 0.92, 216),
+			Vector2(center.x + waist * 0.74, 224),
+			Vector2(center.x - waist * 0.74, 224),
+			Vector2(center.x - waist * 0.92, 216)
+		], [
+			Color(0.22, 0.23, 0.23),
+			Color(0.30, 0.31, 0.31),
+			Color(0.14, 0.14, 0.14),
+			Color(0.10, 0.10, 0.10),
+			Color(0.12, 0.12, 0.12),
+			Color(0.18, 0.19, 0.19)
+		])
 		draw_polygon([
 			Vector2(center.x - shoulder * 0.68, 118),
 			Vector2(center.x + shoulder * 0.68, 118),
-			Vector2(center.x + waist * 0.55, 204),
-			Vector2(center.x - waist * 0.55, 204)
-		], [palette.primary.lightened(0.08), palette.primary, palette.primary.darkened(0.32), palette.primary.darkened(0.12)])
+			Vector2(center.x + waist * 0.50, 204),
+			Vector2(center.x + waist * 0.40, 214),
+			Vector2(center.x - waist * 0.40, 214),
+			Vector2(center.x - waist * 0.50, 204)
+		], [
+			palette.primary.lightened(0.08),
+			palette.primary,
+			palette.primary.darkened(0.24),
+			palette.primary.darkened(0.36),
+			palette.primary.darkened(0.28),
+			palette.primary.darkened(0.12)
+		])
 
 	func _draw_head(center: Vector2, face: String) -> void:
 		var head_rect := Rect2(center.x - 36, 40, 72, 78)
@@ -1029,7 +1246,7 @@ class AvatarPreview:
 		if beard == "Bigode nobre":
 			draw_line(Vector2(center.x - 17, 95), Vector2(center.x + 17, 95), hair, 5)
 		elif beard == "Cavanhaque":
-			draw_rect(Rect2(center.x - 10, 104, 20, 16), hair, true)
+			_draw_vertical_capsule(Vector2(center.x, 111), 10, 16, hair)
 		elif beard == "Barba cheia":
 			draw_arc(Vector2(center.x, 91), 30, 0.1, PI - 0.1, 24, hair, 13)
 		else:
@@ -1084,4 +1301,17 @@ class AvatarPreview:
 		return {"primary": Color(0.82, 0.66, 0.32), "secondary": Color(0.19, 0.21, 0.21)}
 
 	func draw_rounded_rect(r: Rect2, radius: float, color: Color) -> void:
-		draw_rect(r, color, true)
+		var d: float = min(radius * 2.0, min(r.size.x, r.size.y))
+		var rr: float = d * 0.5
+		draw_rect(Rect2(r.position + Vector2(rr, 0), Vector2(max(0.0, r.size.x - d), r.size.y)), color, true)
+		draw_rect(Rect2(r.position + Vector2(0, rr), Vector2(r.size.x, max(0.0, r.size.y - d))), color, true)
+		draw_circle(r.position + Vector2(rr, rr), rr, color)
+		draw_circle(r.position + Vector2(r.size.x - rr, rr), rr, color)
+		draw_circle(r.position + Vector2(rr, r.size.y - rr), rr, color)
+		draw_circle(r.position + Vector2(r.size.x - rr, r.size.y - rr), rr, color)
+
+	func _draw_vertical_capsule(center: Vector2, radius: float, height: float, color: Color) -> void:
+		var body_height: float = max(0.0, height - radius * 2.0)
+		draw_rect(Rect2(center.x - radius, center.y - body_height * 0.5, radius * 2.0, body_height), color, true)
+		draw_circle(Vector2(center.x, center.y - body_height * 0.5), radius, color)
+		draw_circle(Vector2(center.x, center.y + body_height * 0.5), radius, color)

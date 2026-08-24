@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-24T21:20:05.989Z",
+  "generatedAt": "2026-08-24T21:37:21.400Z",
   "game": "Aes Divinus",
   "source": "src/data.js",
   "fearStates": {
@@ -458,6 +458,70 @@
       "trauma": "Ferida no ombro"
     }
   ],
+  "enemySets": {
+    "forest_first_contact": [
+      {
+        "id": "barbarian_1",
+        "name": "Saqueador",
+        "side": "enemy",
+        "role": "Barbaro",
+        "maxHp": 24,
+        "hp": 24,
+        "strength": 9,
+        "agility": 10,
+        "perception": 8,
+        "courage": 52,
+        "loyalty": 0,
+        "inspiration": 0,
+        "defense": 2,
+        "weapon": "iron_axe",
+        "armor": "light",
+        "position": 1,
+        "ai": "aggressive"
+      },
+      {
+        "id": "barbarian_2",
+        "name": "Batedor",
+        "side": "enemy",
+        "role": "Arqueiro",
+        "maxHp": 19,
+        "hp": 19,
+        "strength": 7,
+        "agility": 13,
+        "perception": 12,
+        "courage": 48,
+        "loyalty": 0,
+        "inspiration": 0,
+        "defense": 1,
+        "weapon": "bow",
+        "armor": "cloth",
+        "position": 4,
+        "ai": "archer"
+      }
+    ],
+    "manifestation": [
+      {
+        "id": "dread_wolf",
+        "name": "Manifestacao",
+        "side": "enemy",
+        "role": "Criatura aterrorizante",
+        "size": 2,
+        "maxHp": 45,
+        "hp": 45,
+        "strength": 15,
+        "agility": 11,
+        "perception": 14,
+        "courage": 95,
+        "loyalty": 0,
+        "inspiration": 0,
+        "defense": 5,
+        "weapon": "claws",
+        "armor": "medium",
+        "position": 2,
+        "ai": "terror"
+      }
+    ]
+  },
   "initialPrincipality": {
     "food": 42,
     "wood": 28,

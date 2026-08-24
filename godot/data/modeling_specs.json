@@ -12,7 +12,8 @@
   "modularCharacterSystem": {
     "runtimeSlots": ["body", "body_shape", "face", "eye_shape", "eye_color", "hair_style", "hair_color", "beard", "palette", "armor", "weapon", "tool", "divine_stone"],
     "godotPreview": "godot/scripts/main.gd AvatarPreview draws every character creation field used by the web version.",
-    "modelLibrary": "godot/scripts/model_library.gd creates proxy 3D bodies, eyes, hair, beard/face cues, armor trim, stones, weapons, tools and creature silhouettes.",
+    "modelLibrary": "godot/scripts/model_library.gd creates rounded proxy 3D bodies, eyes, hair, beard/face cues, armor trim, stones, weapons, tools and creature silhouettes.",
+    "shapeQualityRule": "Avoid visible square blockouts in final-facing previews. Use capsules, spheres, cylinders, cones, softened shields, cloth silhouettes and clean sockets; BoxMesh is reserved only for hidden collision or deliberate hard-surface props.",
     "finalPipeline": "Replace proxy MeshInstance3D parts with signed-off .glb files that keep the same socket and slot names."
   },
   "palette": {
