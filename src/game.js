@@ -430,7 +430,7 @@ export class AesDivinusGame {
   }
 
   configureGithubSync(config = {}) {
-    this.state.githubSync = normalizeGithubSyncSettings({ ...(this.state.githubSync ?? {}), ...config });
+    this.state.githubSync = normalizeGithubSyncSettings({ ...(this.state.githubSync ?? {}), ...config, enabled: true });
     this.queueSave("github_sync_settings", "Configuracao de sincronizacao GitHub atualizada.", {
       enabled: this.state.githubSync.enabled,
       owner: this.state.githubSync.owner,

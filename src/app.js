@@ -861,13 +861,14 @@ function renderGithubSyncPanel() {
   const panel = el("article", "github-sync-panel");
   panel.innerHTML = `
     <h2>Autosave no GitHub</h2>
-    <p>Opcional para singleplayer: use um token pessoal do GitHub com permissao somente neste repositorio. O jogo nao traz token embutido.</p>
+    <p>Obrigatorio no fluxo de save: ao criar conta, login, personagem e progresso, o jogo tenta enviar os sistemas para o GitHub. Use um token pessoal com permissao somente neste repositorio; o jogo nao traz token embutido.</p>
     <div class="settings-grid">
-      <label>Ativar <select name="enabled"><option value="false" ${!sync.enabled ? "selected" : ""}>Desligado</option><option value="true" ${sync.enabled ? "selected" : ""}>Ligado</option></select></label>
       <label>Usuario/organizacao <input name="owner" autocomplete="username" inputmode="text" autocapitalize="none" value="${escapeHtml(sync.owner ?? "")}" placeholder="lzvsrx"></label>
       <label>Repositorio <input name="repo" inputmode="text" autocapitalize="none" value="${escapeHtml(sync.repo ?? "")}" placeholder="aesdivinuscomplete"></label>
       <label>Branch <input name="branch" inputmode="text" autocapitalize="none" value="${escapeHtml(sync.branch ?? "main")}" placeholder="main"></label>
       <label>Caminho do save <input name="path" inputmode="text" autocapitalize="none" value="${escapeHtml(sync.path ?? "saves/aes-divinus-save.json")}" placeholder="saves/aes-divinus-save.json"></label>
+      <label>Pasta dos sistemas <input name="systemPath" inputmode="text" autocapitalize="none" value="${escapeHtml(sync.systemPath ?? "saves/systems")}" placeholder="saves/systems"></label>
+      <label>Salvar por sistemas <select name="structuredSaves"><option value="true" ${sync.structuredSaves !== false ? "selected" : ""}>Ligado</option><option value="false" ${sync.structuredSaves === false ? "selected" : ""}>Desligado</option></select></label>
       <label>Token pessoal <input name="token" type="password" autocomplete="new-password" value="${escapeHtml(sync.token ?? "")}" placeholder="ghp_..."></label>
     </div>
     <dl>
@@ -879,7 +880,7 @@ function renderGithubSyncPanel() {
   fields.forEach((field) => {
     field.addEventListener("change", () => {
       const data = Object.fromEntries([...fields].map((item) => [item.name, item.value]));
-      game.configureGithubSync({ ...data, enabled: data.enabled === "true" });
+      game.configureGithubSync({ ...data, enabled: true, structuredSaves: data.structuredSaves === "true" });
       render();
     });
   });

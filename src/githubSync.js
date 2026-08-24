@@ -2,11 +2,13 @@ import { sanitizeText } from "./security.js";
 
 export function defaultGithubSyncSettings() {
   return {
-    enabled: false,
-    owner: "",
-    repo: "",
+    enabled: true,
+    owner: "lzvsrx",
+    repo: "aesdivinuscomplete",
     branch: "main",
     path: "saves/aes-divinus-save.json",
+    systemPath: "saves/systems",
+    structuredSaves: true,
     token: "",
     lastSyncAt: null,
     lastError: null
@@ -14,13 +16,16 @@ export function defaultGithubSyncSettings() {
 }
 
 function cleanConfig(config = {}) {
+  const defaults = defaultGithubSyncSettings();
   return {
-    ...defaultGithubSyncSettings(),
+    ...defaults,
     ...config,
-    owner: sanitizeText(config.owner ?? "", 80).replace(/[^A-Za-z0-9_.-]/g, ""),
-    repo: sanitizeText(config.repo ?? "", 100).replace(/[^A-Za-z0-9_.-]/g, ""),
-    branch: sanitizeText(config.branch ?? "main", 80).replace(/[^A-Za-z0-9_./-]/g, "") || "main",
-    path: sanitizeText(config.path ?? "saves/aes-divinus-save.json", 160).replace(/^\/+/, "") || "saves/aes-divinus-save.json",
+    owner: sanitizeText(config.owner ?? defaults.owner, 80).replace(/[^A-Za-z0-9_.-]/g, ""),
+    repo: sanitizeText(config.repo ?? defaults.repo, 100).replace(/[^A-Za-z0-9_.-]/g, ""),
+    branch: sanitizeText(config.branch ?? defaults.branch, 80).replace(/[^A-Za-z0-9_./-]/g, "") || defaults.branch,
+    path: sanitizeText(config.path ?? defaults.path, 160).replace(/^\/+/, "") || defaults.path,
+    systemPath: sanitizeText(config.systemPath ?? defaults.systemPath, 160).replace(/^\/+|\/+$/g, "") || defaults.systemPath,
+    structuredSaves: config.structuredSaves !== false && config.structuredSaves !== "false",
     token: String(config.token ?? "").trim()
   };
 }
@@ -38,15 +43,10 @@ function toBase64Utf8(value) {
   return Buffer.from(json, "utf8").toString("base64");
 }
 
-export async function pushSaveToGithub(state, config, { fetchApi = globalThis.fetch } = {}) {
+async function putGithubFile({ path, content, message, config, fetchApi }) {
   const safeConfig = cleanConfig(config);
-  if (!safeConfig.enabled) return { ok: false, skipped: true, reason: "Sincronizacao GitHub desligada." };
-  if (!fetchApi) return { ok: false, reason: "Fetch indisponivel neste dispositivo." };
-  if (!safeConfig.owner || !safeConfig.repo || !safeConfig.token) {
-    return { ok: false, reason: "Configure usuario, repositorio e token do GitHub." };
-  }
-
-  const url = `https://api.github.com/repos/${safeConfig.owner}/${safeConfig.repo}/contents/${encodeURIComponent(safeConfig.path).replaceAll("%2F", "/")}`;
+  const cleanPath = sanitizeText(path, 220).replace(/^\/+/, "");
+  const url = `https://api.github.com/repos/${safeConfig.owner}/${safeConfig.repo}/contents/${encodeURIComponent(cleanPath).replaceAll("%2F", "/")}`;
   const headers = {
     Accept: "application/vnd.github+json",
     Authorization: `Bearer ${safeConfig.token}`,
@@ -62,26 +62,65 @@ export async function pushSaveToGithub(state, config, { fetchApi = globalThis.fe
     return { ok: false, reason: `GitHub respondeu ${current.status} ao ler save remoto.` };
   }
 
-  const payload = {
-    savedAt: new Date().toISOString(),
-    game: "Aes Divinus",
-    version: 1,
-    state
-  };
   const response = await fetchApi(url, {
     method: "PUT",
     headers,
     body: JSON.stringify({
-      message: "Autosave Aes Divinus",
+      message,
       branch: safeConfig.branch,
-      content: toBase64Utf8(payload),
+      content: toBase64Utf8(content),
       sha
     })
   });
 
   if (!response.ok) return { ok: false, reason: `GitHub respondeu ${response.status} ao enviar save.` };
   const result = await response.json();
-  return { ok: true, commitSha: result.commit?.sha ?? null, path: safeConfig.path };
+  return { ok: true, commitSha: result.commit?.sha ?? null, path: cleanPath };
+}
+
+export function buildSystemSaveFiles(state, config = {}) {
+  const safeConfig = cleanConfig(config);
+  const base = safeConfig.systemPath;
+  const common = {
+    savedAt: new Date().toISOString(),
+    game: "Aes Divinus",
+    version: 1
+  };
+  return [
+    { path: safeConfig.path, label: "snapshot completo", content: { ...common, system: "full_state", state } },
+    { path: `${base}/account.json`, label: "conta", content: { ...common, system: "account", account: state.account, rememberedProfiles: state.rememberedProfiles, session: state.session } },
+    { path: `${base}/character.json`, label: "personagem", content: { ...common, system: "player_character", playerCharacter: state.playerCharacter } },
+    { path: `${base}/campaign.json`, label: "campanha", content: { ...common, system: "campaign", selectedMissionId: state.selectedMissionId, currentSceneIndex: state.currentSceneIndex, campaign: state.campaign } },
+    { path: `${base}/principality.json`, label: "principado", content: { ...common, system: "principality", principality: state.principality } },
+    { path: `${base}/inventory-economy.json`, label: "inventario e economia", content: { ...common, system: "inventory_economy", inventory: state.inventory, economy: state.economy } },
+    { path: `${base}/combat.json`, label: "combate", content: { ...common, system: "combat", battle: state.battle, heroes: state.heroes } },
+    { path: `${base}/settings.json`, label: "configuracoes", content: { ...common, system: "settings", settings: state.settings, graphics: state.graphics, hardware: state.hardware, audio: state.audio } },
+    { path: `${base}/journal-codex.json`, label: "diario e codex", content: { ...common, system: "journal_codex", journal: state.campaign?.journal ?? [], codex: state.codex } }
+  ];
+}
+
+export async function pushSaveToGithub(state, config, { fetchApi = globalThis.fetch } = {}) {
+  const safeConfig = cleanConfig(config);
+  if (!safeConfig.enabled) return { ok: false, skipped: true, reason: "Sincronizacao GitHub desligada." };
+  if (!fetchApi) return { ok: false, reason: "Fetch indisponivel neste dispositivo." };
+  if (!safeConfig.owner || !safeConfig.repo || !safeConfig.token) {
+    return { ok: false, reason: "Configure usuario, repositorio e token do GitHub." };
+  }
+
+  const files = safeConfig.structuredSaves ? buildSystemSaveFiles(state, safeConfig) : buildSystemSaveFiles(state, safeConfig).slice(0, 1);
+  const results = [];
+  for (const file of files) {
+    const result = await putGithubFile({
+      path: file.path,
+      content: file.content,
+      message: `Autosave Aes Divinus - ${file.label}`,
+      config: safeConfig,
+      fetchApi
+    });
+    results.push(result);
+    if (!result.ok) return { ok: false, reason: result.reason, files: results };
+  }
+  return { ok: true, files: results, path: safeConfig.path };
 }
 
 export { cleanConfig as normalizeGithubSyncSettings };

@@ -33,7 +33,7 @@ Esta versao e uma implementacao jogavel web/desktop/mobile do documento de desig
 - **Pedras dos itens:** armas, armaduras e ferramentas possuem pedra associada para lore, gameplay e direcao de modelagem.
 - **Codex:** explicacao interna dos sistemas principais.
 - **Save completo:** todo progresso e salvo no IndexedDB com autosave.
-- **Autosave GitHub opcional:** a aba Config permite enviar o save para um repositorio do proprio jogador usando token pessoal fornecido por ele, sem segredo embutido no jogo.
+- **Autosave GitHub obrigatorio no fluxo:** criar conta, logar, criar personagem e salvar progresso disparam envio para o repositorio configurado, usando token pessoal fornecido pelo dono do jogo.
 - **Deteccao de hardware:** o jogo identifica CPU logica, memoria aproximada, GPU/WebGL, tela, pixel ratio, touch e preferencia de movimento reduzido para aplicar qualidade automaticamente.
 - **Audio adaptativo:** mapa sonoro por tela/acao com alternativas pesquisadas no Pixabay, controle de volume salvo no banco e fallback Web Audio para nao quebrar quando os MP3s locais ainda nao existem.
 - **Configuracoes completas de jogador:** fonte, escala da interface, tamanho de tela, densidade, contraste, modos de daltonismo, movimento reduzido, velocidade de combate, botoes maiores, privacidade e confirmacao de reset.
@@ -126,7 +126,7 @@ Todas as configuracoes ficam salvas no IndexedDB junto do resto do progresso.
 
 O cadastro e o login sao lembrados por dispositivo quando a opcao **Lembrar cadastro e login neste dispositivo** esta marcada. O jogo salva perfis recentes no banco local para preencher nome/email na proxima abertura, e a senha digitada nao entra no estado do jogo.
 
-Na aba **Config**, o painel **Autosave no GitHub** permite configurar:
+Na aba **Config**, o painel **Autosave no GitHub** configura o envio automatico obrigatorio do fluxo de save:
 
 - usuario ou organizacao
 - repositorio
@@ -134,7 +134,21 @@ Na aba **Config**, o painel **Autosave no GitHub** permite configurar:
 - caminho do arquivo de save
 - token pessoal do jogador
 
-Quando ativado, cada save local tambem tenta enviar um snapshot JSON para o GitHub pela API Contents. O token fica apenas no armazenamento local criptografado quando WebCrypto esta disponivel, e e removido do snapshot enviado ao repositorio.
+Cada save local tambem tenta enviar snapshots JSON para o GitHub pela API Contents. Isso acontece ao criar conta, logar, criar personagem, comprar/vender/equipar itens, iniciar/avancar missoes, combater, mudar configuracoes e salvar manualmente. O token fica apenas no armazenamento local criptografado quando WebCrypto esta disponivel, e e removido do snapshot enviado ao repositorio.
+
+Importante: o GitHub nao aceita escrita anonima pela API. Se o token pessoal ainda nao foi preenchido, o save local continua funcionando e o painel mostra que o envio remoto esta pendente por falta de token.
+
+Por padrao, o jogo fica configurado para `lzvsrx/aesdivinuscomplete` e salva:
+
+- `saves/aes-divinus-save.json`: snapshot completo.
+- `saves/systems/account.json`: conta, perfis lembrados e sessao do dispositivo.
+- `saves/systems/character.json`: personagem criado.
+- `saves/systems/campaign.json`: campanha, missao atual, cenas e diario.
+- `saves/systems/principality.json`: recursos, reputacoes e estado do principado.
+- `saves/systems/inventory-economy.json`: itens, equipamentos, moeda e transacoes.
+- `saves/systems/combat.json`: combate atual e herois.
+- `saves/systems/settings.json`: configuracoes, audio, hardware e graficos.
+- `saves/systems/journal-codex.json`: diario e codex.
 
 ## Configuracao automatica por hardware
 
@@ -281,7 +295,7 @@ npm run build:windows
 
 Saidas:
 
-- `release/Aes Divinus Setup 0.1.3.exe`
+- `release/Aes Divinus Setup 0.1.4.exe`
 - `release/win-unpacked/`
 
 ## Build Linux
@@ -350,7 +364,7 @@ Sem secrets Apple, ele gera `Aes-Divinus-iOS-unsigned.ipa`, util para validacao 
 - `APPLE_TEAM_ID`: Team ID da Apple Developer.
 - `KEYCHAIN_PASSWORD`: senha temporaria para o keychain do runner.
 
-Depois rode manualmente **Actions > Build iOS IPA > Run workflow** usando `v0.1.3` como release tag.
+Depois rode manualmente **Actions > Build iOS IPA > Run workflow** usando `v0.1.4` como release tag.
 
 ## Scripts principais
 
