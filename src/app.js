@@ -1,5 +1,6 @@
 import { AesDivinusGame, CHARACTER_OPTIONS, EQUIPMENT_DESIGNS, FEAR_STATES, MISSIONS, POSITION_TRAITS, QUALITY_PRESETS, SCREEN_FLOW, WEAPONS } from "./game.js";
 import { AUDIO_CATALOG, AudioSystem } from "./audio.js";
+import { escapeHtml } from "./security.js";
 
 const app = document.querySelector("#app");
 const game = new AesDivinusGame();
@@ -14,7 +15,7 @@ const tabs = [
   ["principality", "Principado"],
   ["characters", "Personagens"],
   ["inventory", "Arsenal"],
-  ["settings", "Hardware"],
+  ["settings", "Config"],
   ["flow", "Telas"],
   ["codex", "Codex"]
 ];
@@ -85,9 +86,24 @@ function render() {
   audio.configure(game.state.audio);
   syncAmbience();
   app.innerHTML = "";
+  applyUserSettings();
   app.dataset.quality = game.state.graphics.quality;
   app.dataset.touch = game.state.hardware?.info?.touch ? "true" : "false";
   app.append(renderShell());
+}
+
+function applyUserSettings() {
+  const settings = game.state.settings ?? {};
+  app.style.setProperty("--user-font-scale", settings.fontScale ?? 1);
+  app.style.setProperty("--user-ui-scale", settings.interfaceScale ?? 1);
+  app.dataset.screenWidth = settings.screenWidth ?? "auto";
+  app.dataset.density = settings.layoutDensity ?? "normal";
+  app.dataset.contrast = settings.contrast ?? "normal";
+  app.dataset.colorBlind = settings.colorBlindMode ?? "off";
+  app.dataset.motion = settings.motion ?? "auto";
+  app.dataset.textSpacing = settings.textSpacing ?? "normal";
+  app.dataset.targetSize = settings.targetSize ?? "auto";
+  app.dataset.privacy = settings.privacyMode ? "true" : "false";
 }
 
 function syncAmbience() {
@@ -153,7 +169,10 @@ function renderTopBar() {
       const loaded = await game.load();
       saveStatus = loaded ? "Banco carregado" : "Sem save";
     }),
-    actionButton("Novo", "Reiniciar banco da campanha", () => game.reset())
+    actionButton("Novo", "Reiniciar banco da campanha", () => {
+      if (game.state.settings?.confirmDanger && !confirm("Reiniciar campanha e limpar o banco local?")) return false;
+      return game.reset();
+    })
   );
   header.append(saveTools);
   return header;
@@ -167,8 +186,8 @@ function renderAuthScreen() {
     <p class="eyebrow">Banco local / campanha persistente</p>
     <h1>Aes Divinus</h1>
     <p>Entre para carregar sua campanha local ou cadastre um perfil minimo para salvar personagem, missoes, escolhas e eventos.</p>
-    <label>Nome <input name="name" autocomplete="name" placeholder="William" value="${game.state.account?.name ?? ""}"></label>
-    <label>Email <input name="email" type="email" autocomplete="email" placeholder="voce@email.com" value="${game.state.account?.email ?? ""}"></label>
+    <label>Nome <input name="name" autocomplete="name" placeholder="William" value="${escapeHtml(game.state.account?.name ?? "")}"></label>
+    <label>Email <input name="email" type="email" autocomplete="email" placeholder="voce@email.com" value="${escapeHtml(game.state.account?.email ?? "")}"></label>
     <label>Senha <input name="password" type="password" autocomplete="current-password" minlength="6" placeholder="minimo 6 caracteres"></label>
     <p class="form-error" aria-live="polite"></p>
   `;
@@ -202,7 +221,7 @@ function renderCharacterCreator() {
     <h1>Forje seu herdeiro</h1>
     <p>O personagem criado assume o papel de William na campanha e altera atributos iniciais conforme origem e equipamento.</p>
     <div class="creator-grid">
-      <label>Nome <input name="name" placeholder="William" value="${current.name ?? "William"}"></label>
+      <label>Nome <input name="name" placeholder="William" value="${escapeHtml(current.name ?? "William")}"></label>
       <label>Tratamento <select name="pronoun">${options(["Livre", "Ele", "Ela", "Neutro"], current.pronoun)}</select></label>
       <label>Origem <select name="origin">${CHARACTER_OPTIONS.origins.map((item) => `<option value="${item.id}" ${current.origin === item.id ? "selected" : ""}>${item.label} - ${item.bonus}</option>`).join("")}</select></label>
       <label>Corpo <select name="body">${options(CHARACTER_OPTIONS.bodies, current.body)}</select></label>
@@ -244,7 +263,7 @@ function renderTitleScreen() {
     <img class="title-logo" src="./assets/aes-divinus-logo.png" alt="Aes Divinus">
     <img class="title-studio" src="./assets/lzasantosworldsgames-logo.png" alt="LZASANTOSWORLDSGAMES">
     <h1>Aes Divinus</h1>
-    <p>${game.state.playerCharacter?.name ?? "William"} carrega a coroa antes de merecer o reino.</p>
+    <p>${escapeHtml(game.state.playerCharacter?.name ?? "William")} carrega a coroa antes de merecer o reino.</p>
   `;
   const menu = el("div", "title-menu");
   menu.append(
@@ -268,11 +287,11 @@ function renderMissionScene() {
   frame.innerHTML = `
     <p class="eyebrow">${game.selectedMission.act} / cena ${game.state.currentSceneIndex + 1}</p>
     <h1>${scene?.title ?? game.selectedMission.title}</h1>
-    <p>${scene?.text ?? game.selectedMission.objective}</p>
+    <p>${escapeHtml(scene?.text ?? game.selectedMission.objective)}</p>
     <dl>
-      <dt>Camera</dt><dd>${scene?.camera ?? "Plano tatico."}</dd>
-      <dt>Escolha</dt><dd>${scene?.choice ?? "Avancar"}</dd>
-      <dt>Efeito</dt><dd>${scene?.effect ?? "A missao continua."}</dd>
+      <dt>Camera</dt><dd>${escapeHtml(scene?.camera ?? "Plano tatico.")}</dd>
+      <dt>Escolha</dt><dd>${escapeHtml(scene?.choice ?? "Avancar")}</dd>
+      <dt>Efeito</dt><dd>${escapeHtml(scene?.effect ?? "A missao continua.")}</dd>
     </dl>
   `;
   frame.append(actionButton("Avancar", "Ir para a proxima cena ou iniciar missao", () => {
@@ -301,7 +320,7 @@ function renderMissionPanel() {
   MISSIONS.forEach((mission) => {
     const item = el("button", `mission-item ${game.state.selectedMissionId === mission.id ? "selected" : ""}`);
     item.type = "button";
-    item.innerHTML = `<strong>${mission.order}. ${mission.title}</strong><span>${mission.act} / ${mission.type}</span>`;
+    item.innerHTML = `<strong>${mission.order}. ${escapeHtml(mission.title)}</strong><span>${escapeHtml(mission.act)} / ${escapeHtml(mission.type)}</span>`;
     item.addEventListener("click", () => {
       game.state.selectedMissionId = mission.id;
       game.queueSave("mission_select", `Missao selecionada: ${mission.title}.`, { missionId: mission.id });
@@ -313,11 +332,11 @@ function renderMissionPanel() {
   const mission = game.selectedMission;
   const detail = el("article", "mission-detail");
   detail.innerHTML = `
-    <p class="eyebrow">${mission.act}</p>
-    <h1>${mission.order}. ${mission.title}</h1>
-    <p>${mission.objective}</p>
-    <p class="mission-impact"><strong>Impacto:</strong> ${mission.impact}</p>
-    <div class="objective-list">${mission.optional.map((item) => `<span>${item}</span>`).join("")}</div>
+    <p class="eyebrow">${escapeHtml(mission.act)}</p>
+    <h1>${mission.order}. ${escapeHtml(mission.title)}</h1>
+    <p>${escapeHtml(mission.objective)}</p>
+    <p class="mission-impact"><strong>Impacto:</strong> ${escapeHtml(mission.impact)}</p>
+    <div class="objective-list">${mission.optional.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}</div>
   `;
   detail.append(actionButton(mission.managementOnly ? "Abrir cena de conselho" : "Abrir cenas da missao", "Comecar fluxo narrativo da missao", () => {
     audio.playForMission(mission);
@@ -351,7 +370,7 @@ function renderCombat() {
 
   if (battle.outcome) {
     const modal = el("div", "result-modal");
-    modal.innerHTML = `<strong>${battle.outcome === "victory" ? "Vitoria" : "Derrota"}</strong><span>${battle.log[0] ?? ""}</span>`;
+    modal.innerHTML = `<strong>${battle.outcome === "victory" ? "Vitoria" : "Derrota"}</strong><span>${escapeHtml(battle.log[0] ?? "")}</span>`;
     modal.append(actionButton("Voltar ao principado", "Encerrar resultado", () => {
       audio.play(game.state.battle.outcome === "victory" ? "victory" : "defeat", { volume: 0.8 });
       game.state.mode = "briefing";
@@ -369,7 +388,7 @@ function renderBattleHeader(mission) {
   const header = el("div", "battle-header");
   const battle = game.state.battle;
   header.innerHTML = `
-    <div><strong>${mission.title}</strong><span>${mission.objective}</span></div>
+    <div><strong>${escapeHtml(mission.title)}</strong><span>${escapeHtml(mission.objective)}</span></div>
     <div class="round-clock"><span>Rodada ${battle.round}</span><span>${minutesToClock(battle.clockMinutes)}</span></div>
   `;
   return header;
@@ -400,7 +419,7 @@ function renderFormation(side) {
         render();
       });
     } else {
-      slot.innerHTML = `<span class="slot-label">${POSITION_TRAITS[i].label}</span>`;
+      slot.innerHTML = `<span class="slot-label">${escapeHtml(POSITION_TRAITS[i].label)}</span>`;
     }
     formation.append(slot);
   }
@@ -411,10 +430,10 @@ function unitToken(unit) {
   const fear = FEAR_STATES[unit.fear ?? "steady"].label;
   return `
     <span class="unit-figure ${unit.side}"></span>
-    <strong>${unit.name}</strong>
-    <small>${unit.role}</small>
+    <strong>${escapeHtml(unit.name)}</strong>
+    <small>${escapeHtml(unit.role)}</small>
     <span class="bar"><i style="width:${pct(unit.hp, unit.maxHp)}"></i></span>
-    <em>${unit.hp}/${unit.maxHp} HP / ${fear}</em>
+    <em>${unit.hp}/${unit.maxHp} HP / ${escapeHtml(fear)}</em>
   `;
 }
 
@@ -465,7 +484,7 @@ function drawArena() {
     ctx.fillStyle = "#111";
     ctx.font = "11px system-ui";
     ctx.textAlign = "center";
-    ctx.fillText(unit.name.slice(0, 8), sideX, y + 30);
+    ctx.fillText(String(unit.name).slice(0, 8), sideX, y + 30);
   });
 }
 
@@ -474,7 +493,7 @@ function renderActionBar(unit) {
   if (!unit) return bar;
   const target = selectedTarget();
   const disabled = unit.side !== "ally" || game.state.battle.outcome;
-  bar.innerHTML = `<div><strong>${unit.name}</strong><span>${unit.ap ?? 0} PA disponiveis</span></div>`;
+  bar.innerHTML = `<div><strong>${escapeHtml(unit.name)}</strong><span>${unit.ap ?? 0} PA disponiveis</span></div>`;
   bar.append(
     actionButton("Atacar", "Atacar alvo selecionado", () => performAttack(unit, target), disabled || !target || target.side === unit.side || unit.ap < 1),
     actionButton("Recuar", "Mover para tras", () => game.move(unit.id, 1), disabled || unit.ap < 1),
@@ -510,13 +529,13 @@ function performAttack(unit, target) {
 function renderUnitCard(unit, title) {
   const card = el("div", "unit-card");
   if (!unit) {
-    card.innerHTML = `<h2>${title}</h2><p>Nenhuma unidade.</p>`;
+    card.innerHTML = `<h2>${escapeHtml(title)}</h2><p>Nenhuma unidade.</p>`;
     return card;
   }
   const { weapon, armor } = game.equipment(unit);
   card.innerHTML = `
-    <h2>${title}</h2>
-    <div class="unit-title"><strong>${unit.name}</strong><span>${unit.role}</span></div>
+    <h2>${escapeHtml(title)}</h2>
+    <div class="unit-title"><strong>${escapeHtml(unit.name)}</strong><span>${escapeHtml(unit.role)}</span></div>
     <span class="bar big"><i style="width:${pct(unit.hp, unit.maxHp)}"></i></span>
     <dl>
       <dt>HP</dt><dd>${unit.hp}/${unit.maxHp}</dd>
@@ -525,9 +544,9 @@ function renderUnitCard(unit, title) {
       <dt>Percepcao</dt><dd>${unit.perception}</dd>
       <dt>Coragem</dt><dd>${unit.courage}</dd>
       <dt>Lealdade</dt><dd>${unit.loyalty ?? "-"}</dd>
-      <dt>Estado</dt><dd>${FEAR_STATES[unit.fear ?? "steady"].label}</dd>
-      <dt>Arma</dt><dd>${weapon.name}</dd>
-      <dt>Armadura</dt><dd>${armor.name}</dd>
+      <dt>Estado</dt><dd>${escapeHtml(FEAR_STATES[unit.fear ?? "steady"].label)}</dd>
+      <dt>Arma</dt><dd>${escapeHtml(weapon.name)}</dd>
+      <dt>Armadura</dt><dd>${escapeHtml(armor.name)}</dd>
       <dt>Iniciativa</dt><dd>${game.initiative(unit)}</dd>
     </dl>
   `;
@@ -540,7 +559,7 @@ function renderInitiative() {
   const live = game.living().sort((a, b) => game.initiative(b) - game.initiative(a));
   live.forEach((unit) => {
     const row = el("div", `initiative-row ${game.state.battle.activeId === unit.id ? "active" : ""}`);
-    row.innerHTML = `<span>${unit.name}</span><strong>${game.initiative(unit)}</strong>`;
+    row.innerHTML = `<span>${escapeHtml(unit.name)}</span><strong>${game.initiative(unit)}</strong>`;
     box.append(row);
   });
   return box;
@@ -548,7 +567,7 @@ function renderInitiative() {
 
 function renderLog() {
   const log = el("div", "log");
-  log.innerHTML = `<h2>Registro</h2>${(game.state.battle?.log ?? []).map((line) => `<p>${line}</p>`).join("")}`;
+  log.innerHTML = `<h2>Registro</h2>${(game.state.battle?.log ?? []).map((line) => `<p>${escapeHtml(line)}</p>`).join("")}`;
   return log;
 }
 
@@ -587,11 +606,11 @@ function renderPrincipality() {
 }
 
 function resource(label, value) {
-  return `<div class="resource"><strong>${value}</strong><span>${label}</span></div>`;
+  return `<div class="resource"><strong>${value}</strong><span>${escapeHtml(label)}</span></div>`;
 }
 
 function reputation(label, value) {
-  return `<div class="rep"><span>${label}</span><i><b style="width:${value}%"></b></i><strong>${value}</strong></div>`;
+  return `<div class="rep"><span>${escapeHtml(label)}</span><i><b style="width:${value}%"></b></i><strong>${value}</strong></div>`;
 }
 
 function renderCharacters() {
@@ -604,7 +623,7 @@ function renderCodex() {
   const grid = el("div", "codex-grid");
   game.state.codex.forEach((entry) => {
     const item = el("article", "codex-entry");
-    item.innerHTML = `<h2>${entry.title}</h2><p>${entry.text}</p>`;
+    item.innerHTML = `<h2>${escapeHtml(entry.title)}</h2><p>${escapeHtml(entry.text)}</p>`;
     grid.append(item);
   });
   const systems = el("article", "codex-entry wide");
@@ -626,13 +645,13 @@ function renderInventory() {
     card.style.setProperty("--accent", item.color);
     card.innerHTML = `
       <div class="equipment-icon ${item.icon}"></div>
-      <p class="eyebrow">${item.kind}</p>
-      <h2>${item.name}</h2>
-      <strong>${item.role}</strong>
-      <p>${item.silhouette}</p>
+      <p class="eyebrow">${escapeHtml(item.kind)}</p>
+      <h2>${escapeHtml(item.name)}</h2>
+      <strong>${escapeHtml(item.role)}</strong>
+      <p>${escapeHtml(item.silhouette)}</p>
       <dl>
-        <dt>Material</dt><dd>${item.material}</dd>
-        <dt>Jogo</dt><dd>${item.gameplay}</dd>
+        <dt>Material</dt><dd>${escapeHtml(item.material)}</dd>
+        <dt>Jogo</dt><dd>${escapeHtml(item.gameplay)}</dd>
       </dl>
     `;
     grid.append(card);
@@ -647,7 +666,7 @@ function renderScreensCatalog() {
   const grid = el("div", "screen-card-grid");
   SCREEN_FLOW.forEach((screen, index) => {
     const card = el("article", `screen-card ${game.state.mode === screen.id ? "active" : ""}`);
-    card.innerHTML = `<span>${String(index + 1).padStart(2, "0")}</span><h2>${screen.label}</h2><strong>${screen.template}</strong><p>${screen.purpose}</p>`;
+    card.innerHTML = `<span>${String(index + 1).padStart(2, "0")}</span><h2>${escapeHtml(screen.label)}</h2><strong>${escapeHtml(screen.template)}</strong><p>${escapeHtml(screen.purpose)}</p>`;
     grid.append(card);
   });
   wrap.append(grid);
@@ -741,8 +760,69 @@ function renderHardwareSettings() {
     audio.play("ui_click", { volume: 0.45 });
   });
 
-  wrap.append(summary, specs, applied, audioPanel, notes);
+  wrap.append(summary, specs, applied, renderUserSettings(), audioPanel, renderSecurityPanel(), notes);
   return wrap;
+}
+
+function renderUserSettings() {
+  const settings = game.state.settings ?? game.defaultSettings();
+  const panel = el("article", "user-settings");
+  panel.innerHTML = `
+    <h2>Jogabilidade e acessibilidade</h2>
+    <div class="settings-grid">
+      ${rangeSetting("fontScale", "Fonte", settings.fontScale, 0.85, 1.45, 0.05, `${Math.round(settings.fontScale * 100)}%`)}
+      ${rangeSetting("interfaceScale", "Interface", settings.interfaceScale, 0.9, 1.25, 0.05, `${Math.round(settings.interfaceScale * 100)}%`)}
+      ${rangeSetting("combatSpeed", "Velocidade de combate", settings.combatSpeed, 0.5, 2, 0.25, `${settings.combatSpeed}x`)}
+      ${selectSetting("screenWidth", "Tamanho de tela", settings.screenWidth, [["auto", "Automatico"], ["compact", "Compacto"], ["comfort", "Confortavel"], ["wide", "Amplo"]])}
+      ${selectSetting("layoutDensity", "Densidade", settings.layoutDensity, [["compact", "Compacta"], ["normal", "Normal"], ["comfortable", "Espacada"]])}
+      ${selectSetting("targetSize", "Tamanho dos botoes", settings.targetSize, [["auto", "Automatico"], ["large", "Grande"], ["extra", "Extra"]])}
+      ${selectSetting("contrast", "Contraste", settings.contrast, [["normal", "Normal"], ["high", "Alto"]])}
+      ${selectSetting("colorBlindMode", "Cores", settings.colorBlindMode, [["off", "Padrao"], ["deuteranopia", "Deuteranopia"], ["protanopia", "Protanopia"], ["tritanopia", "Tritanopia"]])}
+      ${selectSetting("motion", "Movimento", settings.motion, [["auto", "Automatico"], ["reduced", "Reduzido"], ["full", "Completo"]])}
+      ${selectSetting("textSpacing", "Espacamento de texto", settings.textSpacing, [["normal", "Normal"], ["wide", "Amplo"]])}
+    </div>
+    <div class="settings-toggles">
+      ${toggleSetting("autosave", "Autosave", settings.autosave)}
+      ${toggleSetting("confirmDanger", "Confirmar reset", settings.confirmDanger)}
+      ${toggleSetting("privacyMode", "Modo privacidade", settings.privacyMode)}
+    </div>
+  `;
+  panel.querySelectorAll("[data-setting]").forEach((control) => {
+    control.addEventListener("input", () => {
+      const value = control.type === "checkbox" ? control.checked : control.value;
+      game.setUserSetting(control.dataset.setting, value);
+      applyUserSettings();
+      render();
+    });
+  });
+  panel.append(actionButton("Restaurar configuracoes", "Voltar configuracoes padrao", () => game.resetUserSettings()));
+  return panel;
+}
+
+function renderSecurityPanel() {
+  const panel = el("article", "security-panel");
+  panel.innerHTML = `
+    <h2>Seguranca do save</h2>
+    <dl>
+      <dt>Banco</dt><dd>IndexedDB ${game.database?.available?.() ? "ativo" : "indisponivel"}</dd>
+      <dt>Criptografia local</dt><dd>${globalThis.crypto?.subtle ? "AES-GCM disponivel" : "Fallback sem WebCrypto"}</dd>
+      <dt>Integridade</dt><dd>Hash SHA-256 por snapshot e evento</dd>
+      <dt>Privacidade</dt><dd>${game.state.settings?.privacyMode ? "Ativa" : "Normal"}</dd>
+    </dl>
+  `;
+  return panel;
+}
+
+function rangeSetting(key, label, value, min, max, step, display) {
+  return `<label>${escapeHtml(label)} <span>${escapeHtml(display)}</span><input data-setting="${key}" type="range" min="${min}" max="${max}" step="${step}" value="${value}"></label>`;
+}
+
+function selectSetting(key, label, value, choices) {
+  return `<label>${escapeHtml(label)} <select data-setting="${key}">${choices.map(([id, text]) => `<option value="${id}" ${value === id ? "selected" : ""}>${escapeHtml(text)}</option>`).join("")}</select></label>`;
+}
+
+function toggleSetting(key, label, checked) {
+  return `<label class="toggle-setting"><input data-setting="${key}" type="checkbox" ${checked ? "checked" : ""}> ${escapeHtml(label)}</label>`;
 }
 
 function renderFlowRail(activeId) {
@@ -750,19 +830,19 @@ function renderFlowRail(activeId) {
   rail.innerHTML = `<h2>Fluxo</h2>`;
   SCREEN_FLOW.slice(0, 6).forEach((screen, index) => {
     const row = el("div", `flow-step ${screen.id === activeId ? "active" : ""}`);
-    row.innerHTML = `<span>${index + 1}</span><strong>${screen.label}</strong><small>${screen.template}</small>`;
+    row.innerHTML = `<span>${index + 1}</span><strong>${escapeHtml(screen.label)}</strong><small>${escapeHtml(screen.template)}</small>`;
     rail.append(row);
   });
   return rail;
 }
 
 function options(items, selected) {
-  return items.map((item) => `<option ${item === selected ? "selected" : ""}>${item}</option>`).join("");
+  return items.map((item) => `<option ${item === selected ? "selected" : ""}>${escapeHtml(item)}</option>`).join("");
 }
 
 function renderJournal() {
   const journal = el("section", "journal");
-  journal.innerHTML = `<h2>Diario</h2>${game.state.campaign.journal.slice(-6).reverse().map((line) => `<p>${line}</p>`).join("")}`;
+  journal.innerHTML = `<h2>Diario</h2>${game.state.campaign.journal.slice(-6).reverse().map((line) => `<p>${escapeHtml(line)}</p>`).join("")}`;
   return journal;
 }
 

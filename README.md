@@ -34,6 +34,8 @@ Esta versao e uma implementacao jogavel web/desktop/mobile do documento de desig
 - **Save completo:** todo progresso e salvo no IndexedDB.
 - **Deteccao de hardware:** o jogo identifica CPU logica, memoria aproximada, GPU/WebGL, tela, pixel ratio, touch e preferencia de movimento reduzido para aplicar qualidade automaticamente.
 - **Audio adaptativo:** mapa sonoro por tela/acao com alternativas pesquisadas no Pixabay, controle de volume salvo no banco e fallback Web Audio para nao quebrar quando os MP3s locais ainda nao existem.
+- **Configuracoes completas de jogador:** fonte, escala da interface, tamanho de tela, densidade, contraste, modos de daltonismo, movimento reduzido, velocidade de combate, botoes maiores, privacidade e confirmacao de reset.
+- **Seguranca do save:** sanitizacao de entradas/textos, payloads sensiveis redigidos, envelope AES-GCM no IndexedDB quando WebCrypto esta disponivel e hash de integridade por snapshot/evento.
 
 ## Telas implementadas
 
@@ -45,7 +47,7 @@ Esta versao e uma implementacao jogavel web/desktop/mobile do documento de desig
 6. **Combate** - arena tatica por turnos.
 7. **Arsenal** - armas, ferramentas e direcao visual.
 8. **Principado** - recursos, reputacao e politicas.
-9. **Hardware/Audio** - diagnostico do dispositivo, configuracao grafica e mapa sonoro.
+9. **Config** - diagnostico do dispositivo, configuracao grafica, acessibilidade, audio e seguranca.
 10. **Codex** - sistemas e referencias do jogo.
 
 ## Campanha
@@ -92,6 +94,26 @@ Fontes pesquisadas no Pixabay:
 
 O jogo evita hotlink externo: baixe os efeitos escolhidos do Pixabay e salve com os nomes indicados em `assets/audio/README.md`. Enquanto os arquivos nao existirem, o fallback sintetizado mantem a aplicacao funcionando sem erro. Consulte sempre a licenca oficial: https://pixabay.com/service/license-summary/.
 
+## Configuracoes do jogador
+
+A aba **Config** concentra opcoes para diferentes tipos de jogadores e dispositivos:
+
+- escala de fonte
+- escala da interface
+- tamanho/largura da tela
+- densidade compacta, normal ou espacada
+- contraste normal ou alto
+- modos de cor para deuteranopia, protanopia e tritanopia
+- movimento automatico, reduzido ou completo
+- espacamento de texto
+- velocidade de combate
+- tamanho de botoes
+- autosave
+- confirmacao para reset da campanha
+- modo privacidade para desfocar email/marca em captura ou streaming
+
+Todas as configuracoes ficam salvas no IndexedDB junto do resto do progresso.
+
 ## Configuracao automatica por hardware
 
 Ao iniciar, o jogo avalia o dispositivo e escolhe um perfil:
@@ -129,9 +151,9 @@ A tela **Hardware** permite reavaliar o dispositivo ou trocar a qualidade manual
 
 Cada item possui funcao de gameplay, silhueta, materiais e leitura visual para orientar icones, modelagem 3D e balanceamento.
 
-## Banco de dados local
+## Banco de dados local e seguranca
 
-O jogo usa IndexedDB com o banco `aes-divinus-db`.
+O jogo usa IndexedDB com o banco `aes-divinus-db`, versao 3.
 
 Stores:
 
@@ -143,8 +165,19 @@ Stores:
 - `principalities`
 - `battles`
 - `events`
+- `security`
 
 O save guarda um snapshot completo do estado e tambem registra eventos auditaveis como login, cadastro, criacao de personagem, inicio de missao, ataque, movimento, medo, inspiracao, fim de turno, vitoria, derrota e politicas do principado.
+
+Medidas de seguranca implementadas:
+
+- senha digitada nao e salva no estado.
+- nomes, emails, textos e payloads de eventos passam por sanitizacao.
+- renderizacao escapa HTML para reduzir risco de XSS vindo de save local/importado.
+- payloads com nomes como `password`, `senha`, `token`, `secret`, `certificate` ou `profile` sao redigidos.
+- quando WebCrypto esta disponivel, o snapshot principal e salvo em envelope AES-GCM com chave local do dispositivo.
+- cada snapshot e evento recebe hash de integridade.
+- saves antigos em texto puro continuam carregando e sao migrados no proximo save.
 
 ## Como rodar em desenvolvimento
 
@@ -190,6 +223,8 @@ Cobertura atual:
 - campanha completa com 47 entradas numeradas
 - prologo da Floresta de Sangue antes dos cinco atos
 - catalogo de audio, fontes Pixabay e fallback sem quebra
+- configuracoes de acessibilidade/interface persistentes
+- sanitizacao, criptografia local e hashes do banco
 - deteccao de hardware e aplicacao de perfil grafico
 
 ## Build web
@@ -208,7 +243,7 @@ npm run build:windows
 
 Saidas:
 
-- `release/Aes Divinus Setup 0.1.0.exe`
+- `release/Aes Divinus Setup 0.1.1.exe`
 - `release/win-unpacked/`
 
 ## Build Linux
@@ -277,7 +312,7 @@ Sem secrets Apple, ele gera `Aes-Divinus-iOS-unsigned.ipa`, util para validacao 
 - `APPLE_TEAM_ID`: Team ID da Apple Developer.
 - `KEYCHAIN_PASSWORD`: senha temporaria para o keychain do runner.
 
-Depois rode manualmente **Actions > Build iOS IPA > Run workflow** usando `v0.1.0` como release tag.
+Depois rode manualmente **Actions > Build iOS IPA > Run workflow** usando `v0.1.1` como release tag.
 
 ## Scripts principais
 

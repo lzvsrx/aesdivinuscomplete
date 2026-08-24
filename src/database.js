@@ -1,5 +1,7 @@
+import { createSecureEnvelope, digestRecord, openSecureEnvelope, redactSensitiveState, sanitizePayload, sanitizeText } from "./security.js";
+
 export const DB_NAME = "aes-divinus-db";
-export const DB_VERSION = 2;
+export const DB_VERSION = 3;
 export const ACTIVE_SAVE_ID = "active";
 export const LEGACY_SAVE_KEY = "aes-divinus-save-v1";
 
@@ -8,9 +10,10 @@ function clone(value) {
 }
 
 export class IndexedDbGameDatabase {
-  constructor({ indexedDB = globalThis.indexedDB, legacyStorage = globalThis.localStorage } = {}) {
+  constructor({ indexedDB = globalThis.indexedDB, legacyStorage = globalThis.localStorage, cryptoApi = globalThis.crypto } = {}) {
     this.indexedDB = indexedDB;
     this.legacyStorage = legacyStorage;
+    this.cryptoApi = cryptoApi;
     this.dbPromise = null;
   }
 
@@ -27,7 +30,7 @@ export class IndexedDbGameDatabase {
 
       request.onupgradeneeded = () => {
         const db = request.result;
-        for (const store of ["saves", "accounts", "playerCharacters", "campaigns", "heroes", "principalities", "battles", "events"]) {
+        for (const store of ["saves", "accounts", "playerCharacters", "campaigns", "heroes", "principalities", "battles", "events", "security"]) {
           if (!db.objectStoreNames.contains(store)) db.createObjectStore(store, { keyPath: "id" });
         }
         const eventStore = request.transaction.objectStore("events");
@@ -45,6 +48,10 @@ export class IndexedDbGameDatabase {
   async load() {
     const db = await this.open();
     const save = await this.get(db, "saves", ACTIVE_SAVE_ID);
+    if (save?.secure) {
+      const opened = await openSecureEnvelope(save.secure, { cryptoApi: this.cryptoApi, storage: this.legacyStorage });
+      if (opened) return clone(opened);
+    }
     if (save?.state) return clone(save.state);
 
     const migrated = this.loadLegacySave();
@@ -69,32 +76,50 @@ export class IndexedDbGameDatabase {
   async save(state, event = {}) {
     const db = await this.open();
     const snapshot = clone(state);
+    const safeSnapshot = redactSensitiveState(snapshot);
     const now = new Date().toISOString();
+    const secure = await createSecureEnvelope(snapshot, { cryptoApi: this.cryptoApi, storage: this.legacyStorage });
+    const stateHash = await digestRecord(snapshot, { cryptoApi: this.cryptoApi });
     const eventRecord = {
       id: `${now}-${Math.random().toString(36).slice(2)}`,
-      type: event.type ?? "autosave",
-      message: event.message ?? "Estado salvo.",
+      type: sanitizeText(event.type ?? "autosave", 60),
+      message: sanitizeText(event.message ?? "Estado salvo.", 240),
       createdAt: now,
       day: snapshot.campaign?.day ?? 1,
       mode: snapshot.mode,
       missionId: snapshot.selectedMissionId,
       battleRound: snapshot.battle?.round ?? null,
-      payload: clone(event.payload ?? {})
+      payload: sanitizePayload(clone(event.payload ?? {}))
     };
+    eventRecord.digest = await digestRecord(eventRecord, { cryptoApi: this.cryptoApi });
 
-    await this.writeTransaction(db, ["saves", "accounts", "playerCharacters", "campaigns", "heroes", "principalities", "battles", "events"], (stores) => {
+    await this.writeTransaction(db, ["saves", "accounts", "playerCharacters", "campaigns", "heroes", "principalities", "battles", "events", "security"], (stores) => {
       stores.saves.put({
         id: ACTIVE_SAVE_ID,
         version: DB_VERSION,
         updatedAt: now,
-        state: snapshot
+        state: secure ? null : safeSnapshot,
+        secure,
+        integrity: {
+          algorithm: "SHA-256",
+          hash: stateHash
+        }
       });
-      stores.accounts.put({ id: ACTIVE_SAVE_ID, updatedAt: now, account: snapshot.account });
-      stores.playerCharacters.put({ id: ACTIVE_SAVE_ID, updatedAt: now, playerCharacter: snapshot.playerCharacter });
-      stores.campaigns.put({ id: ACTIVE_SAVE_ID, updatedAt: now, campaign: snapshot.campaign });
-      stores.heroes.put({ id: ACTIVE_SAVE_ID, updatedAt: now, heroes: snapshot.heroes });
-      stores.principalities.put({ id: ACTIVE_SAVE_ID, updatedAt: now, principality: snapshot.principality });
-      stores.battles.put({ id: ACTIVE_SAVE_ID, updatedAt: now, battle: snapshot.battle });
+      stores.accounts.put({ id: ACTIVE_SAVE_ID, updatedAt: now, account: safeSnapshot.account });
+      stores.playerCharacters.put({ id: ACTIVE_SAVE_ID, updatedAt: now, playerCharacter: safeSnapshot.playerCharacter });
+      stores.campaigns.put({ id: ACTIVE_SAVE_ID, updatedAt: now, campaign: safeSnapshot.campaign });
+      stores.heroes.put({ id: ACTIVE_SAVE_ID, updatedAt: now, heroes: safeSnapshot.heroes });
+      stores.principalities.put({ id: ACTIVE_SAVE_ID, updatedAt: now, principality: safeSnapshot.principality });
+      stores.battles.put({ id: ACTIVE_SAVE_ID, updatedAt: now, battle: safeSnapshot.battle });
+      stores.security.put({
+        id: ACTIVE_SAVE_ID,
+        updatedAt: now,
+        encrypted: Boolean(secure),
+        integrity: {
+          algorithm: "SHA-256",
+          hash: stateHash
+        }
+      });
       stores.events.put(eventRecord);
     });
 
@@ -103,7 +128,7 @@ export class IndexedDbGameDatabase {
 
   async reset(state) {
     const db = await this.open();
-    await this.writeTransaction(db, ["saves", "accounts", "playerCharacters", "campaigns", "heroes", "principalities", "battles", "events"], (stores) => {
+    await this.writeTransaction(db, ["saves", "accounts", "playerCharacters", "campaigns", "heroes", "principalities", "battles", "events", "security"], (stores) => {
       stores.saves.clear();
       stores.accounts.clear();
       stores.playerCharacters.clear();
@@ -112,6 +137,7 @@ export class IndexedDbGameDatabase {
       stores.principalities.clear();
       stores.battles.clear();
       stores.events.clear();
+      stores.security.clear();
     });
     return this.save(state, { type: "reset", message: "Novo jogo criado e banco reiniciado." });
   }

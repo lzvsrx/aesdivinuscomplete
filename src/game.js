@@ -15,6 +15,7 @@ import {
 } from "./data.js";
 import { IndexedDbGameDatabase, LEGACY_SAVE_KEY } from "./database.js";
 import { detectHardware, QUALITY_PRESETS } from "./hardware.js";
+import { clampNumber, sanitizeEmail, sanitizeText } from "./security.js";
 
 const SAVE_KEY = LEGACY_SAVE_KEY;
 
@@ -68,6 +69,7 @@ export class AesDivinusGame {
         masterVolume: 0.7,
         currentAmbience: null
       },
+      settings: this.defaultSettings(),
       currentSceneIndex: 0,
       battle: null,
       heroes: clone(HEROES),
@@ -80,6 +82,24 @@ export class AesDivinusGame {
         journal: ["William chega a Floresta de Sangue com poucos aliados e muitas duvidas."]
       },
       codex: clone(CODEX)
+    };
+  }
+
+  defaultSettings() {
+    return {
+      fontScale: 1,
+      interfaceScale: 1,
+      screenWidth: "auto",
+      layoutDensity: "normal",
+      contrast: "normal",
+      colorBlindMode: "off",
+      motion: "auto",
+      textSpacing: "normal",
+      combatSpeed: 1,
+      targetSize: "auto",
+      autosave: true,
+      confirmDanger: true,
+      privacyMode: false
     };
   }
 
@@ -120,6 +140,30 @@ export class AesDivinusGame {
     this.queueSave("audio_volume", "Volume principal alterado.", { masterVolume: this.state.audio.masterVolume });
   }
 
+  setUserSetting(key, value) {
+    const next = { ...this.defaultSettings(), ...(this.state.settings ?? {}) };
+    if (key === "fontScale") next.fontScale = clampNumber(value, 0.85, 1.45, 1);
+    else if (key === "interfaceScale") next.interfaceScale = clampNumber(value, 0.9, 1.25, 1);
+    else if (key === "screenWidth") next.screenWidth = ["auto", "compact", "comfort", "wide"].includes(value) ? value : "auto";
+    else if (key === "layoutDensity") next.layoutDensity = ["compact", "normal", "comfortable"].includes(value) ? value : "normal";
+    else if (key === "contrast") next.contrast = ["normal", "high"].includes(value) ? value : "normal";
+    else if (key === "colorBlindMode") next.colorBlindMode = ["off", "deuteranopia", "protanopia", "tritanopia"].includes(value) ? value : "off";
+    else if (key === "motion") next.motion = ["auto", "reduced", "full"].includes(value) ? value : "auto";
+    else if (key === "textSpacing") next.textSpacing = ["normal", "wide"].includes(value) ? value : "normal";
+    else if (key === "combatSpeed") next.combatSpeed = clampNumber(value, 0.5, 2, 1);
+    else if (key === "targetSize") next.targetSize = ["auto", "large", "extra"].includes(value) ? value : "auto";
+    else if (key === "autosave") next.autosave = Boolean(value);
+    else if (key === "confirmDanger") next.confirmDanger = Boolean(value);
+    else if (key === "privacyMode") next.privacyMode = Boolean(value);
+    this.state.settings = next;
+    this.queueSave("user_setting", `Configuracao alterada: ${key}.`, { key, value: next[key] });
+  }
+
+  resetUserSettings() {
+    this.state.settings = this.defaultSettings();
+    this.queueSave("settings_reset", "Configuracoes restauradas.", { settings: this.state.settings });
+  }
+
   ensureRuntimeDefaults() {
     this.state.selectedMissionId = MISSIONS.some((mission) => mission.id === this.state.selectedMissionId)
       ? this.state.selectedMissionId
@@ -140,6 +184,7 @@ export class AesDivinusGame {
     this.state.audio.enabled = this.state.audio.enabled !== false;
     const numericVolume = Number(this.state.audio.masterVolume);
     this.state.audio.masterVolume = Number.isFinite(numericVolume) ? Math.max(0, Math.min(1, numericVolume)) : 0.7;
+    this.state.settings = { ...this.defaultSettings(), ...(this.state.settings ?? {}) };
   }
 
   enterAsGuest() {
@@ -155,8 +200,8 @@ export class AesDivinusGame {
   }
 
   registerAccount({ name, email, password }) {
-    const cleanName = String(name ?? "").trim();
-    const cleanEmail = String(email ?? "").trim().toLowerCase();
+    const cleanName = sanitizeText(name, 80);
+    const cleanEmail = sanitizeEmail(email);
     const cleanPassword = String(password ?? "");
     if (cleanName.length < 2) return { ok: false, reason: "Informe um nome com pelo menos 2 caracteres." };
     if (!cleanEmail.includes("@") || !cleanEmail.includes(".")) return { ok: false, reason: "Informe um email valido." };
@@ -174,11 +219,11 @@ export class AesDivinusGame {
   }
 
   loginAccount({ email, name }) {
-    const cleanEmail = String(email ?? "").trim().toLowerCase();
+    const cleanEmail = sanitizeEmail(email);
     if (this.state.account?.email === cleanEmail || cleanEmail.includes("@")) {
       this.state.account = {
         id: `local-${cleanEmail}`,
-        name: this.state.account?.name ?? String(name ?? "Jogador").trim() ?? "Jogador",
+        name: this.state.account?.name ?? sanitizeText(name, 80) ?? "Jogador",
         email: cleanEmail,
         createdAt: this.state.account?.createdAt ?? new Date().toISOString(),
         guest: false
@@ -191,19 +236,19 @@ export class AesDivinusGame {
   }
 
   createCharacter(options) {
-    const name = String(options.name ?? "").trim();
+    const name = sanitizeText(options.name, 80);
     if (name.length < 2) return { ok: false, reason: "Escolha um nome para o personagem." };
     const origin = CHARACTER_OPTIONS.origins.find((item) => item.id === options.origin) ?? CHARACTER_OPTIONS.origins[0];
     this.state.playerCharacter = {
       id: "player_avatar",
       name,
-      pronoun: options.pronoun ?? "Livre",
+      pronoun: sanitizeText(options.pronoun ?? "Livre", 40),
       origin: origin.id,
       originLabel: origin.label,
-      body: options.body ?? CHARACTER_OPTIONS.bodies[2],
-      face: options.face ?? CHARACTER_OPTIONS.faces[0],
-      hair: options.hair ?? CHARACTER_OPTIONS.hair[0],
-      beard: options.beard ?? CHARACTER_OPTIONS.beards[0],
+      body: sanitizeText(options.body ?? CHARACTER_OPTIONS.bodies[2], 40),
+      face: sanitizeText(options.face ?? CHARACTER_OPTIONS.faces[0], 40),
+      hair: sanitizeText(options.hair ?? CHARACTER_OPTIONS.hair[0], 40),
+      beard: sanitizeText(options.beard ?? CHARACTER_OPTIONS.beards[0], 40),
       palette: options.palette ?? CHARACTER_OPTIONS.palettes[0].id,
       weapon: options.weapon ?? "iron_sword",
       createdAt: new Date().toISOString()
