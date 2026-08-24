@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { AesDivinusGame } from "../src/game.js";
 import { MemoryGameDatabase } from "../src/database.js";
-import { buildSystemSaveFiles, pushSaveToGithub } from "../src/githubSync.js";
+import { buildSystemSaveFiles, normalizeGithubSyncSettings, pushSaveToGithub } from "../src/githubSync.js";
 import { createSecureEnvelope, escapeHtml, openSecureEnvelope, sanitizePayload, sanitizeText } from "../src/security.js";
 
 function memoryStorage() {
@@ -97,4 +97,43 @@ test("remote sync state redacts personal email, device id and github token", () 
   assert.ok(!remote.includes("device-secret"));
   assert.ok(!remote.includes("ghp_secret"));
   assert.ok(remote.includes("lz***@example.com"));
+});
+
+test("github sync normalizes unsafe repository paths", () => {
+  const settings = normalizeGithubSyncSettings({
+    path: "../secrets/token.json",
+    systemPath: "saves/../../private",
+    owner: "lzvsrx<script>",
+    repo: "aesdivinuscomplete"
+  });
+  assert.equal(settings.path, "saves/aes-divinus-save.json");
+  assert.equal(settings.systemPath, "saves/systems");
+  assert.equal(settings.owner, "lzvsrxscript");
+});
+
+test("github sync retries transient failures before reporting success", async () => {
+  let putAttempts = 0;
+  const fetchApi = async (url, init = {}) => {
+    if (!init.method) return { ok: false, status: 404 };
+    putAttempts += 1;
+    if (putAttempts === 1) return { ok: false, status: 503 };
+    return { ok: true, json: async () => ({ commit: { sha: "retry-ok" } }) };
+  };
+
+  const result = await pushSaveToGithub(
+    { campaign: { day: 3 } },
+    { enabled: true, structuredSaves: false, owner: "lzvsrx", repo: "aesdivinuscomplete", branch: "main", path: "saves/test.json", token: "token" },
+    { fetchApi }
+  );
+
+  assert.equal(result.ok, true);
+  assert.equal(putAttempts, 2);
+});
+
+test("memory database keeps event history bounded", async () => {
+  const database = new MemoryGameDatabase(null, { maxEvents: 3 });
+  for (let index = 0; index < 10; index += 1) {
+    await database.save({ campaign: { day: index } }, { type: "tick", message: `Evento ${index}` });
+  }
+  assert.equal(await database.countEvents(), 3);
 });

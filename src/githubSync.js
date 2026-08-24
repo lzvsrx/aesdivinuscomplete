@@ -1,5 +1,7 @@
 import { sanitizeText } from "./security.js";
 
+const TRANSIENT_STATUS = new Set([408, 409, 425, 429, 500, 502, 503, 504]);
+
 export function defaultGithubSyncSettings() {
   return {
     enabled: true,
@@ -23,11 +25,21 @@ function cleanConfig(config = {}) {
     owner: sanitizeText(config.owner ?? defaults.owner, 80).replace(/[^A-Za-z0-9_.-]/g, ""),
     repo: sanitizeText(config.repo ?? defaults.repo, 100).replace(/[^A-Za-z0-9_.-]/g, ""),
     branch: sanitizeText(config.branch ?? defaults.branch, 80).replace(/[^A-Za-z0-9_./-]/g, "") || defaults.branch,
-    path: sanitizeText(config.path ?? defaults.path, 160).replace(/^\/+/, "") || defaults.path,
-    systemPath: sanitizeText(config.systemPath ?? defaults.systemPath, 160).replace(/^\/+|\/+$/g, "") || defaults.systemPath,
+    path: normalizeRepoPath(config.path ?? defaults.path, defaults.path),
+    systemPath: normalizeRepoPath(config.systemPath ?? defaults.systemPath, defaults.systemPath).replace(/\/+$/g, "") || defaults.systemPath,
     structuredSaves: config.structuredSaves !== false && config.structuredSaves !== "false",
     token: String(config.token ?? "").trim()
   };
+}
+
+function normalizeRepoPath(value, fallback) {
+  const cleaned = sanitizeText(value, 180)
+    .replaceAll("\\", "/")
+    .replace(/^\/+/, "")
+    .replace(/\/+/g, "/");
+  const parts = cleaned.split("/").filter(Boolean);
+  if (!parts.length || parts.some((part) => part === "." || part === "..")) return fallback;
+  return parts.map((part) => part.replace(/[^A-Za-z0-9_. -]/g, "")).filter(Boolean).join("/") || fallback;
 }
 
 function toBase64Utf8(value) {
@@ -45,7 +57,7 @@ function toBase64Utf8(value) {
 
 async function putGithubFile({ path, content, message, config, fetchApi }) {
   const safeConfig = cleanConfig(config);
-  const cleanPath = sanitizeText(path, 220).replace(/^\/+/, "");
+  const cleanPath = normalizeRepoPath(path, safeConfig.path);
   const url = `https://api.github.com/repos/${safeConfig.owner}/${safeConfig.repo}/contents/${encodeURIComponent(cleanPath).replaceAll("%2F", "/")}`;
   const headers = {
     Accept: "application/vnd.github+json",
@@ -54,7 +66,7 @@ async function putGithubFile({ path, content, message, config, fetchApi }) {
   };
 
   let sha = null;
-  const current = await fetchApi(`${url}?ref=${encodeURIComponent(safeConfig.branch)}`, { headers });
+  const current = await fetchWithRetry(fetchApi, `${url}?ref=${encodeURIComponent(safeConfig.branch)}`, { headers });
   if (current.ok) {
     const body = await current.json();
     sha = body.sha ?? null;
@@ -62,7 +74,7 @@ async function putGithubFile({ path, content, message, config, fetchApi }) {
     return { ok: false, reason: `GitHub respondeu ${current.status} ao ler save remoto.` };
   }
 
-  const response = await fetchApi(url, {
+  const response = await fetchWithRetry(fetchApi, url, {
     method: "PUT",
     headers,
     body: JSON.stringify({
@@ -76,6 +88,20 @@ async function putGithubFile({ path, content, message, config, fetchApi }) {
   if (!response.ok) return { ok: false, reason: `GitHub respondeu ${response.status} ao enviar save.` };
   const result = await response.json();
   return { ok: true, commitSha: result.commit?.sha ?? null, path: cleanPath };
+}
+
+async function fetchWithRetry(fetchApi, url, init, attempts = 2) {
+  let lastError = null;
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    try {
+      const response = await fetchApi(url, init);
+      if (!TRANSIENT_STATUS.has(response.status) || attempt === attempts) return response;
+    } catch (error) {
+      lastError = error;
+      if (attempt === attempts) throw error;
+    }
+  }
+  throw lastError ?? new Error("Falha de rede ao acessar GitHub.");
 }
 
 export function buildSystemSaveFiles(state, config = {}) {

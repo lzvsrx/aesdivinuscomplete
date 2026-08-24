@@ -130,7 +130,7 @@ export const AUDIO_CATALOG = {
 };
 
 export class AudioSystem {
-  constructor({ catalog = AUDIO_CATALOG, audioFactory = (src) => new Audio(src), contextFactory = () => new AudioContext() } = {}) {
+  constructor({ catalog = AUDIO_CATALOG, audioFactory = (src) => new Audio(src), contextFactory = () => new (globalThis.AudioContext ?? globalThis.webkitAudioContext)() } = {}) {
     this.catalog = catalog;
     this.audioFactory = audioFactory;
     this.contextFactory = contextFactory;

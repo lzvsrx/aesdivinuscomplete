@@ -54,6 +54,7 @@ export class AesDivinusGame {
     this.state = this.createNewState();
     this.lastSaveError = null;
     this.lastGithubSync = null;
+    this.persistQueue = Promise.resolve(true);
   }
 
   createNewState() {
@@ -445,6 +446,12 @@ export class AesDivinusGame {
   }
 
   async persist(type = "autosave", message = "Estado salvo.", payload = {}) {
+    const run = () => this.writeSave(type, message, payload);
+    this.persistQueue = this.persistQueue.then(run, run);
+    return this.persistQueue;
+  }
+
+  async writeSave(type = "autosave", message = "Estado salvo.", payload = {}) {
     if (!this.database) return false;
     try {
       if (type === "reset" && typeof this.database.reset === "function") {
@@ -457,6 +464,15 @@ export class AesDivinusGame {
         this.lastGithubSync = sync;
         this.state.githubSync.lastSyncAt = sync.ok ? new Date().toISOString() : this.state.githubSync.lastSyncAt;
         this.state.githubSync.lastError = sync.ok ? null : sync.reason;
+        await this.database.save(this.state, {
+          type: "github_sync_status",
+          message: sync.ok ? "Status de sincronizacao GitHub atualizado." : "Falha de sincronizacao GitHub registrada.",
+          payload: {
+            ok: sync.ok,
+            reason: sync.reason ?? null,
+            files: sync.files?.length ?? 0
+          }
+        });
       }
       this.lastSaveError = null;
       return true;
@@ -541,6 +557,7 @@ export class AesDivinusGame {
 
   queueSave(type, message, payload = {}) {
     void this.persist(type, message, payload);
+    return this.persistQueue;
   }
 
   get selectedMission() {

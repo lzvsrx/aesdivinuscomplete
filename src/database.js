@@ -4,6 +4,7 @@ export const DB_NAME = "aes-divinus-db";
 export const DB_VERSION = 3;
 export const ACTIVE_SAVE_ID = "active";
 export const LEGACY_SAVE_KEY = "aes-divinus-save-v1";
+export const MAX_EVENT_RECORDS = 500;
 
 function clone(value) {
   return structuredClone(value);
@@ -49,7 +50,7 @@ export class IndexedDbGameDatabase {
     const db = await this.open();
     const save = await this.get(db, "saves", ACTIVE_SAVE_ID);
     if (save?.secure) {
-      const opened = await openSecureEnvelope(save.secure, { cryptoApi: this.cryptoApi, storage: this.legacyStorage });
+      const opened = await this.openStoredEnvelope(save.secure);
       if (opened) return clone(opened);
     }
     if (save?.state) return clone(save.state);
@@ -122,6 +123,7 @@ export class IndexedDbGameDatabase {
       });
       stores.events.put(eventRecord);
     });
+    await this.pruneOldEvents(MAX_EVENT_RECORDS);
 
     return true;
   }
@@ -151,6 +153,40 @@ export class IndexedDbGameDatabase {
     });
   }
 
+  async openStoredEnvelope(envelope) {
+    try {
+      return await openSecureEnvelope(envelope, { cryptoApi: this.cryptoApi, storage: this.legacyStorage });
+    } catch {
+      return null;
+    }
+  }
+
+  async pruneOldEvents(limit = MAX_EVENT_RECORDS) {
+    const db = await this.open();
+    const total = await this.countEvents();
+    const overflow = total - limit;
+    if (overflow <= 0) return 0;
+
+    return new Promise((resolve, reject) => {
+      let deleted = 0;
+      const transaction = db.transaction("events", "readwrite");
+      const index = transaction.objectStore("events").index("byTime");
+      const cursor = index.openCursor();
+
+      cursor.onsuccess = () => {
+        const current = cursor.result;
+        if (!current || deleted >= overflow) return;
+        current.delete();
+        deleted += 1;
+        current.continue();
+      };
+      cursor.onerror = () => reject(cursor.error);
+      transaction.oncomplete = () => resolve(deleted);
+      transaction.onerror = () => reject(transaction.error);
+      transaction.onabort = () => reject(transaction.error);
+    });
+  }
+
   get(db, storeName, id) {
     return new Promise((resolve, reject) => {
       const request = db.transaction(storeName, "readonly").objectStore(storeName).get(id);
@@ -172,9 +208,10 @@ export class IndexedDbGameDatabase {
 }
 
 export class MemoryGameDatabase {
-  constructor(initialState = null) {
+  constructor(initialState = null, { maxEvents = MAX_EVENT_RECORDS } = {}) {
     this.state = initialState ? clone(initialState) : null;
     this.events = [];
+    this.maxEvents = maxEvents;
   }
 
   async load() {
@@ -189,6 +226,7 @@ export class MemoryGameDatabase {
       message: event.message ?? "Estado salvo.",
       payload: clone(event.payload ?? {})
     });
+    this.events = this.events.slice(-this.maxEvents);
     return true;
   }
 
