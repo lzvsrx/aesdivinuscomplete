@@ -24,6 +24,11 @@ test("Godot mission flow opens a playable arena instead of text-only mission scr
   assert.ok(script.includes("_cover_for_mission"));
   assert.ok(script.includes("_draw_path_overlay"));
   assert.ok(script.includes("_draw_action_fx"));
+  assert.ok(script.includes("_draw_player_cloak"));
+  assert.ok(script.includes("_draw_player_weapon"));
+  assert.ok(script.includes("_player_palette"));
+  assert.ok(script.includes("_player_hair_color"));
+  assert.ok(script.includes("_player_eye_color"));
   assert.ok(script.includes("action_fx_timer"));
   assert.ok(script.includes("visual_player_cell"));
   assert.ok(script.includes("_attack_nearest"));

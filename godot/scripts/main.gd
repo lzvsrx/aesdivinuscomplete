@@ -2163,30 +2163,215 @@ class MissionArena:
 
 	func _draw_player(board: Rect2, gold: Color) -> void:
 		var pos := _cell_center_visual(board, visual_player_cell)
-		var scale: float = clamp(min(_cell_size(board).x, _cell_size(board).y) / 76.0, 0.78, 1.35)
-		var body := Color(0.74, 0.56, 0.24)
+		var scale: float = clamp(min(_cell_size(board).x, _cell_size(board).y) / 70.0, 0.62, 1.05)
+		var palette := _player_palette()
+		var hair := _player_hair_color()
+		var eye := _player_eye_color()
+		var weapon := str(player_data.get("weapon", "iron_sword"))
 		if guarded:
-			draw_circle(pos, 34 * scale, Color(gold.r, gold.g, gold.b, 0.18))
-			draw_arc(pos, 31 * scale, -PI * 0.86, PI * 0.86, 28, Color(gold.r, gold.g, gold.b, 0.62), 4 * scale)
-		draw_circle(pos + Vector2(0, 23) * scale, 20 * scale, Color(0, 0, 0, 0.28))
+			draw_circle(pos, 39 * scale, Color(gold.r, gold.g, gold.b, 0.18))
+			draw_arc(pos, 36 * scale, -PI * 0.86, PI * 0.86, 28, Color(gold.r, gold.g, gold.b, 0.62), 4 * scale)
+		draw_circle(pos + Vector2(0, 31) * scale, 31 * scale, Color(0, 0, 0, 0.30))
+		_draw_player_weapon(pos, scale, weapon, gold)
+		_draw_player_cloak(pos, scale, palette.secondary)
+		_draw_player_body(pos, scale, palette.primary, gold)
+		_draw_soft_rect(Rect2(pos.x - 26 * scale, pos.y + 16 * scale, 52 * scale, 6 * scale), 3 * scale, Color(0.10, 0.08, 0.06))
+		draw_circle(pos + Vector2(0, 0) * scale, 8 * scale, palette.primary.lightened(0.08))
+		_draw_player_head(pos, scale)
+		_draw_player_hair(pos, scale, hair)
+		_draw_player_eye(pos + Vector2(-8, -42) * scale, scale, eye, -1)
+		_draw_player_eye(pos + Vector2(8, -42) * scale, scale, eye, 1)
+		draw_line(pos + Vector2(-8, -25) * scale, pos + Vector2(9, -25) * scale, Color(0.18, 0.08, 0.06), max(1.0, 2.0 * scale))
+		_draw_player_beard(pos, scale, hair)
+		draw_rect(Rect2(pos.x - 34 * scale, pos.y - 64 * scale, 68 * scale, 105 * scale), Color(gold.r, gold.g, gold.b, 0.24), false, max(1.5, 2.0 * scale))
+		draw_string(ThemeDB.fallback_font, pos + Vector2(-38, 53) * scale, player_data.get("name", "William"), HORIZONTAL_ALIGNMENT_CENTER, 76 * scale, 12 * scale, gold)
+
+	func _draw_player_cloak(pos: Vector2, scale: float, color: Color) -> void:
 		draw_polygon([
-			pos + Vector2(-24, -1) * scale,
-			pos + Vector2(24, -1) * scale,
-			pos + Vector2(16, 29) * scale,
-			pos + Vector2(-16, 29) * scale
+			pos + Vector2(-41, -9) * scale,
+			pos + Vector2(41, -9) * scale,
+			pos + Vector2(52, 41) * scale,
+			pos + Vector2(28, 47) * scale,
+			pos + Vector2(-28, 47) * scale,
+			pos + Vector2(-52, 41) * scale
 		], [
-			body.lightened(0.06),
-			body,
-			body.darkened(0.20),
-			body.darkened(0.08)
+			color.lightened(0.05),
+			color,
+			color.darkened(0.35),
+			Color(0.025, 0.028, 0.028),
+			Color(0.025, 0.028, 0.028),
+			color.darkened(0.20)
 		])
-		draw_circle(pos + Vector2(0, 8) * scale, 19 * scale, body)
-		draw_circle(pos + Vector2(0, -15) * scale, 14 * scale, Color(0.72, 0.53, 0.38))
-		draw_line(pos + Vector2(-21, 14) * scale, pos + Vector2(21, 14) * scale, Color(0.08, 0.06, 0.04), 4 * scale)
-		draw_circle(pos + Vector2(-6, -17) * scale, 2.2 * scale, Color.BLACK)
-		draw_circle(pos + Vector2(6, -17) * scale, 2.2 * scale, Color.BLACK)
-		draw_rect(Rect2(pos.x - 24 * scale, pos.y - 30 * scale, 48 * scale, 62 * scale), Color(gold.r, gold.g, gold.b, 0.24), false, max(2.0, 2.0 * scale))
-		draw_string(ThemeDB.fallback_font, pos + Vector2(-38, 43) * scale, player_data.get("name", "William"), HORIZONTAL_ALIGNMENT_CENTER, 76 * scale, 13 * scale, gold)
+		draw_arc(pos + Vector2(0, -4) * scale, 42 * scale, PI, TAU, 32, color.lightened(0.08), max(2.0, 3.0 * scale))
+
+	func _draw_player_body(pos: Vector2, scale: float, primary: Color, gold: Color) -> void:
+		var body_width: float = _player_body_width() * 0.44
+		var shoulder: float = body_width * 0.50
+		var waist: float = body_width * 0.38
+		var shape := str(player_data.get("bodyShape", "Trapezio"))
+		if shape == "Triangular":
+			shoulder = body_width * 0.34
+			waist = body_width * 0.55
+		elif shape == "Oval":
+			shoulder = body_width * 0.48
+			waist = body_width * 0.55
+		elif shape == "Triangulo invertido":
+			shoulder = body_width * 0.58
+			waist = body_width * 0.32
+		draw_polygon([
+			pos + Vector2(-shoulder, -1) * scale,
+			pos + Vector2(shoulder, -1) * scale,
+			pos + Vector2(waist, 39) * scale,
+			pos + Vector2(waist * 0.70, 45) * scale,
+			pos + Vector2(-waist * 0.70, 45) * scale,
+			pos + Vector2(-waist, 39) * scale
+		], [
+			primary.lightened(0.10),
+			primary,
+			primary.darkened(0.25),
+			primary.darkened(0.35),
+			primary.darkened(0.28),
+			primary.darkened(0.12)
+		])
+		draw_circle(pos + Vector2(-shoulder - 9, 8) * scale, 12 * scale, Color(0.17, 0.18, 0.18))
+		draw_circle(pos + Vector2(shoulder + 9, 8) * scale, 12 * scale, Color(0.17, 0.18, 0.18))
+		draw_line(pos + Vector2(-shoulder * 0.72, 13) * scale, pos + Vector2(shoulder * 0.72, 13) * scale, Color(0.10, 0.08, 0.06), max(2.0, 4.0 * scale))
+		draw_circle(pos + Vector2(0, 20) * scale, 7 * scale, gold.lightened(0.08))
+
+	func _draw_player_head(pos: Vector2, scale: float) -> void:
+		var face := str(player_data.get("face", "Oval"))
+		var head := Rect2(pos.x - 20 * scale, pos.y - 61 * scale, 40 * scale, 43 * scale)
+		if face == "Longo":
+			head = Rect2(pos.x - 18 * scale, pos.y - 65 * scale, 36 * scale, 49 * scale)
+		elif face == "Redondo":
+			head = Rect2(pos.x - 22 * scale, pos.y - 59 * scale, 44 * scale, 41 * scale)
+		_draw_soft_rect(head, 20 * scale, Color(0.72, 0.53, 0.38))
+		if face in ["Triangular", "Coracao", "Diamante"]:
+			draw_polygon([
+				pos + Vector2(-20, -43) * scale,
+				pos + Vector2(20, -43) * scale,
+				pos + Vector2(0, -15) * scale
+			], [
+				Color(0.72, 0.53, 0.38),
+				Color(0.64, 0.45, 0.32),
+				Color(0.58, 0.39, 0.28)
+			])
+
+	func _draw_player_hair(pos: Vector2, scale: float, hair: Color) -> void:
+		var style := str(player_data.get("hair", "Ondulado 2B"))
+		if style == "Raspado":
+			draw_arc(pos + Vector2(0, -46) * scale, 21 * scale, PI, TAU, 20, hair, max(3.0, 5.0 * scale))
+			return
+		var thickness := 8.0
+		if style.contains("Cacheado") or style.contains("Crespo"):
+			thickness = 13.0
+		elif style.contains("Liso"):
+			thickness = 10.0
+		draw_arc(pos + Vector2(0, -44) * scale, 22 * scale, PI, TAU, 24, hair, thickness * scale)
+		if style.contains("Cacheado") or style.contains("Crespo"):
+			for offset in [-14, -6, 5, 13]:
+				draw_circle(pos + Vector2(offset, -58 + abs(offset) * 0.18) * scale, 5 * scale, hair.lightened(0.05))
+
+	func _draw_player_eye(pos: Vector2, scale: float, eye: Color, side: int) -> void:
+		var eye_shape := str(player_data.get("eyeShape", "Amendoados"))
+		var width := 8.0
+		var height := 4.0
+		if eye_shape.contains("Redondos"):
+			height = 5.5
+		if eye_shape.contains("finos") or eye_shape.contains("Orientais"):
+			height = 3.0
+			width = 9.0
+		var tilt := 0.0
+		if eye_shape.contains("Caidos"):
+			tilt = side * 2.0
+		draw_line(pos + Vector2(-width * 0.5, tilt) * scale, pos + Vector2(width * 0.5, -tilt) * scale, Color(0.03, 0.03, 0.03), max(1.0, 2.0 * scale))
+		draw_circle(pos, height * 0.65 * scale, eye)
+		draw_circle(pos, height * 0.25 * scale, Color(0.02, 0.02, 0.02))
+
+	func _draw_player_beard(pos: Vector2, scale: float, hair: Color) -> void:
+		var beard := str(player_data.get("beard", "Barba curta"))
+		if beard == "Sem barba":
+			return
+		if beard == "Bigode nobre":
+			draw_line(pos + Vector2(-10, -31) * scale, pos + Vector2(10, -31) * scale, hair, max(2.0, 4.0 * scale))
+		elif beard == "Cavanhaque":
+			draw_circle(pos + Vector2(0, -18) * scale, 5 * scale, hair)
+		elif beard == "Barba cheia":
+			draw_arc(pos + Vector2(0, -33) * scale, 18 * scale, 0.1, PI - 0.1, 24, hair, max(5.0, 8.0 * scale))
+		else:
+			draw_arc(pos + Vector2(0, -31) * scale, 14 * scale, 0.2, PI - 0.2, 18, hair, max(3.0, 5.0 * scale))
+
+	func _draw_player_weapon(pos: Vector2, scale: float, weapon: String, gold: Color) -> void:
+		if weapon == "bow":
+			draw_arc(pos + Vector2(48, 2) * scale, 35 * scale, -PI / 2, PI / 2, 28, Color(0.48, 0.28, 0.12), max(2.0, 4.0 * scale))
+			draw_line(pos + Vector2(48, -33) * scale, pos + Vector2(48, 37) * scale, Color(0.88, 0.82, 0.62), max(1.0, 1.6 * scale))
+			draw_line(pos + Vector2(16, 0) * scale, pos + Vector2(47, 0) * scale, gold, max(1.5, 2.0 * scale))
+		elif weapon == "spear" or weapon == "aes_spear":
+			draw_line(pos + Vector2(46, -58) * scale, pos + Vector2(46, 48) * scale, Color(0.75, 0.61, 0.28), max(2.0, 4.0 * scale))
+			draw_polygon([
+				pos + Vector2(46, -70) * scale,
+				pos + Vector2(56, -52) * scale,
+				pos + Vector2(46, -40) * scale,
+				pos + Vector2(36, -52) * scale
+			], [Color(0.9, 0.88, 0.78), Color(0.52, 0.56, 0.56), Color(0.24, 0.26, 0.26), Color(0.78, 0.78, 0.72)])
+		else:
+			draw_line(pos + Vector2(48, -32) * scale, pos + Vector2(48, 47) * scale, Color(0.45, 0.27, 0.16), max(2.0, 4.0 * scale))
+			draw_polygon([
+				pos + Vector2(48, -61) * scale,
+				pos + Vector2(57, -25) * scale,
+				pos + Vector2(48, -3) * scale,
+				pos + Vector2(39, -25) * scale
+			], [Color(0.9, 0.9, 0.84), Color(0.58, 0.62, 0.62), Color(0.25, 0.28, 0.28), Color(0.78, 0.78, 0.72)])
+
+	func _player_palette() -> Dictionary:
+		var palette_id := str(player_data.get("palette", "iron_gold"))
+		if palette_id == "blue_steel":
+			return {"primary": Color(0.45, 0.62, 0.70), "secondary": Color(0.18, 0.24, 0.28)}
+		if palette_id == "blood_iron":
+			return {"primary": Color(0.48, 0.16, 0.12), "secondary": Color(0.15, 0.08, 0.07)}
+		if palette_id == "green_oath":
+			return {"primary": Color(0.32, 0.52, 0.36), "secondary": Color(0.08, 0.16, 0.10)}
+		if palette_id == "ash_violet":
+			return {"primary": Color(0.44, 0.40, 0.54), "secondary": Color(0.16, 0.14, 0.20)}
+		return {"primary": Color(0.74, 0.56, 0.24), "secondary": Color(0.18, 0.20, 0.20)}
+
+	func _player_body_width() -> float:
+		var body := str(player_data.get("body", "Atletico"))
+		if body == "Magro":
+			return 88.0
+		if body in ["Definido", "Fit"]:
+			return 108.0
+		if body in ["Forte", "Musculoso"]:
+			return 142.0
+		if body in ["Corpulento", "Gordinho"]:
+			return 164.0
+		return 128.0
+
+	func _player_eye_color() -> Color:
+		var key := str(player_data.get("eyeColor", "Castanho")).to_lower()
+		if key.contains("violeta") or key.contains("ametista"):
+			return Color(0.56, 0.40, 0.79)
+		if key.contains("azul") or key.contains("safira"):
+			return Color(0.36, 0.64, 0.85)
+		if key.contains("verde"):
+			return Color(0.43, 0.64, 0.37)
+		if key.contains("cinza"):
+			return Color(0.66, 0.69, 0.68)
+		if key.contains("ambar") or key.contains("mel"):
+			return Color(0.86, 0.58, 0.18)
+		return Color(0.42, 0.24, 0.10)
+
+	func _player_hair_color() -> Color:
+		var key := str(player_data.get("hairColor", "Preto natural")).to_lower()
+		if key.contains("loiro") or key.contains("dourado"):
+			return Color(0.78, 0.62, 0.25)
+		if key.contains("cobre") or key.contains("vermelho"):
+			return Color(0.70, 0.24, 0.12)
+		if key.contains("castanho") or key.contains("marrom"):
+			return Color(0.34, 0.20, 0.11)
+		if key.contains("cinza") or key.contains("acinzentado"):
+			return Color(0.42, 0.42, 0.40)
+		return Color(0.04, 0.035, 0.03)
 
 	func _cell_center_visual(board: Rect2, cell: Vector2) -> Vector2:
 		var cs := _cell_size(board)
