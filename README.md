@@ -1,0 +1,251 @@
+# Aes Divinus
+
+**Aes Divinus** e um RPG tatico por turnos de fantasia medieval sombria criado para a LZASANTOSWORLDSGAMES. O projeto combina combate por posicoes, coragem, medo, lideranca, consequencias persistentes, criacao de personagem, cenas de missao, gestao de principado e banco local de progresso.
+
+Esta versao e uma implementacao jogavel web/desktop/mobile do documento de design do jogo, com empacotamento para Windows, Linux, Android e projeto iOS.
+
+## Status
+
+- Jogo web funcional.
+- App desktop com Electron.
+- Windows installer NSIS gerado.
+- Linux portatil gerado.
+- Android APK debug gerado.
+- Projeto iOS Capacitor criado e pronto para Xcode.
+- Banco local IndexedDB ativo.
+- Testes automatizados passando.
+
+## Principais sistemas do jogo
+
+- **Login e cadastro local:** tela inicial com cadastro minimo, login local e modo convidado.
+- **Criacao de personagem:** nome, tratamento, origem, corpo, rosto, cabelo, barba, paleta e arma inicial.
+- **Fluxo sequencial de telas:** conta, personagem, titulo, cenas, mesa de missoes, combate, arsenal, principado e codex.
+- **Cenas de missao:** cenas narrativas antes das missoes, com camera, escolha e efeito.
+- **Combate tatico por turnos:** unidades com 2 PA, iniciativa, fila de turno, movimento, ataque, guarda, inspiracao, flecha de fogo e espera.
+- **Sistema de posicoes:** seis posicoes por lado, linha de frente, retaguarda, altura, cobertura e alcance.
+- **Acerto e dano separados:** chance de acerto por agilidade, defesa, cobertura, distancia e estado; dano por arma, forca, armadura e mitigacao.
+- **Medo e coragem:** estados psicologicos como Firme, Nervoso, Assustado, Apavorado, Paralisado e Desesperado.
+- **Lideranca:** William pode inspirar aliados, recuperar coragem e fortalecer iniciativa.
+- **Principado:** comida, madeira, ferro, ouro, tropas, infraestrutura e reputacao por faccoes.
+- **Consequencias persistentes:** resultados de combate e gestao alteram personagens, recursos, diario e reputacao.
+- **Arsenal e ferramentas:** fichas visuais de modelagem e gameplay para armas e ferramentas.
+- **Codex:** explicacao interna dos sistemas principais.
+- **Save completo:** todo progresso e salvo no IndexedDB.
+
+## Telas implementadas
+
+1. **Conta** - login, cadastro e convidado.
+2. **Personagem** - criacao modular do protagonista.
+3. **Titulo** - menu principal com logo do jogo e marca da desenvolvedora.
+4. **Cena** - narrativa antes da missao.
+5. **Mesa** - selecao de missoes e diario.
+6. **Combate** - arena tatica por turnos.
+7. **Arsenal** - armas, ferramentas e direcao visual.
+8. **Principado** - recursos, reputacao e politicas.
+9. **Codex** - sistemas e referencias do jogo.
+
+## Armas e ferramentas
+
+- Espada de ferro
+- Lanca de ferro
+- Lanca Aes
+- Machado de ferro
+- Martelo de guerra
+- Arco de batedor
+- Flecha de fogo
+- Kit de campo
+- Ferramentas de percepcao
+
+Cada item possui funcao de gameplay, silhueta, materiais e leitura visual para orientar icones, modelagem 3D e balanceamento.
+
+## Banco de dados local
+
+O jogo usa IndexedDB com o banco `aes-divinus-db`.
+
+Stores:
+
+- `saves`
+- `accounts`
+- `playerCharacters`
+- `campaigns`
+- `heroes`
+- `principalities`
+- `battles`
+- `events`
+
+O save guarda um snapshot completo do estado e tambem registra eventos auditaveis como login, cadastro, criacao de personagem, inicio de missao, ataque, movimento, medo, inspiracao, fim de turno, vitoria, derrota e politicas do principado.
+
+## Como rodar em desenvolvimento
+
+Requisitos:
+
+- Node.js 25+ ou versao moderna compativel
+- npm
+
+Instale dependencias:
+
+```powershell
+npm install
+```
+
+Rode o servidor local:
+
+```powershell
+npm start
+```
+
+Abra:
+
+```text
+http://localhost:5173
+```
+
+## Testes
+
+```powershell
+npm test
+```
+
+Cobertura atual:
+
+- inicio de batalha e iniciativa
+- ataque, acerto, dano e PA
+- medo/coragem
+- decisoes do principado
+- save/load
+- eventos no banco
+- cadastro/criacao de personagem
+- cenas entrando em combate
+
+## Build web
+
+```powershell
+npm run prepare:web
+```
+
+Gera `dist-web/`, usado por Electron e Capacitor.
+
+## Build Windows
+
+```powershell
+npm run build:windows
+```
+
+Saidas:
+
+- `release/Aes Divinus Setup 0.1.0.exe`
+- `release/win-unpacked/`
+
+## Build Linux
+
+No Windows, o comando abaixo gera uma pasta Linux portatil:
+
+```powershell
+npm run build:linux
+```
+
+Saida:
+
+- `release/linux-unpacked/`
+
+Para gerar AppImage e `.deb`, rode em Linux ou WSL:
+
+```bash
+npm run build:linux:installer
+```
+
+## Build Android
+
+O projeto Android usa Capacitor.
+
+Primeira vez, se o JDK 21 portatil nao existir:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/setup-android-jdk21.ps1
+```
+
+Gerar APK debug:
+
+```powershell
+npm run android:apk
+```
+
+Saida:
+
+- `android/app/build/outputs/apk/debug/app-debug.apk`
+
+## Build iOS
+
+O projeto iOS foi criado com Capacitor:
+
+```powershell
+npm run ios:sync
+```
+
+No Windows, nao e possivel gerar `.ipa` assinado. Para finalizar iOS, abra em um Mac:
+
+```text
+ios/App/App.xcworkspace
+```
+
+Depois instale CocoaPods, configure assinatura Apple no Xcode, rode Archive e exporte o `.ipa`.
+
+## Scripts principais
+
+```json
+{
+  "start": "python -m http.server 5173",
+  "test": "node --test tests/*.test.mjs",
+  "prepare:web": "node scripts/prepare-web.mjs",
+  "desktop": "npm run prepare:web && electron .",
+  "build:windows": "npm run prepare:web && electron-builder --win nsis --x64",
+  "build:linux": "npm run prepare:web && electron-builder --linux dir --x64",
+  "build:linux:installer": "npm run prepare:web && electron-builder --linux AppImage deb --x64",
+  "android:apk": "npm run android:sync && powershell -ExecutionPolicy Bypass -File scripts/build-android-debug.ps1",
+  "ios:sync": "npm run prepare:web && cap sync ios"
+}
+```
+
+## Estrutura do projeto
+
+```text
+assets/                 logos, icones e marca da desenvolvedora
+src/                    jogo web, sistemas, banco e UI
+tests/                  testes automatizados
+electron/               entrada do app desktop
+android/                projeto nativo Android Capacitor
+ios/                    projeto nativo iOS Capacitor
+scripts/                scripts de build e setup
+build/                  icones de empacotamento
+release/                builds geradas localmente, nao versionadas
+```
+
+## Arte e marca
+
+- Logo do jogo: `assets/aes-divinus-logo.png`
+- Icones do jogo: `assets/aes-divinus-icon-512.png`, `assets/aes-divinus-icon-192.png`, `assets/favicon.png`
+- Logo LZASANTOSWORLDSGAMES: `assets/lzasantosworldsgames-logo.png`
+
+## Instaladores e releases
+
+Os binarios grandes devem ficar no GitHub Releases, nao no historico Git:
+
+- Windows: `.exe`
+- Linux: `.zip` portatil ou AppImage/deb quando gerado em Linux
+- Android: `.apk`
+- iOS: `.ipa` assinado em macOS/Xcode
+
+## Limitacoes conhecidas
+
+- O login/cadastro atual e local, salvo em IndexedDB. Login online real exige servidor, API e autenticacao segura.
+- O iOS precisa de macOS, Xcode, CocoaPods e certificado Apple para gerar IPA.
+- AppImage/deb completos devem ser gerados em Linux ou WSL; no Windows foi gerada versao Linux portatil.
+
+## Desenvolvedora
+
+LZASANTOSWORLDSGAMES
+
+## Licenca
+
+Todos os direitos reservados a LZASANTOSWORLDSGAMES, salvo definicao posterior de licenca.
+

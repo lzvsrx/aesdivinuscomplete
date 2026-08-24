@@ -1,0 +1,5410 @@
+
+---PAGE 1---
+
+AES  DIVINUS
+ 
+Game  Design  Document  (GDD)  Consolidado
+ 
+RPG  tático  3D  por  turnos  •  fantasia  medieval  sombria  •  gestão  de  principado  •  narrativa  sistêmica  
+ 
+Desenvolvido  por:  LZASANTOSWORLDSGAMES
+ 
+Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+
+---PAGE 2---
+
+ 
+Referência  visual  de  vestuário,  silhueta  e  equipamento  medieval  para  personagens  humanos.  
+Versão  consolidada  -  24/08/2026  
+Empresa  desenvolvedora:  LZASANTOSWORLDSGAMES  
+A  LZASANTOSWORLDSGAMES  será  a  empresa  responsável  pelo  desenvolvimento  de  Aes  Divinus,  
+incluindo
+ 
+planejamento,
+ 
+programação,
+ 
+modelagem
+ 
+3D,
+ 
+design
+ 
+de
+ 
+jogo,
+ 
+sistemas
+ 
+de
+ 
+combate
+ 
+por
+ 
+turnos,
+ 
+animações,
+ 
+interface,
+ 
+integração
+ 
+de
+ 
+áudio,
+ 
+testes,
+ 
+otimização
+ 
+e
+ 
+evolução
+ 
+do
+ 
+projeto.
+ 
+ 
+Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+
+---PAGE 3---
+
+1.  Visão  geral  do  projeto  Aes  Divinus  é  concebido  como  um  RPG  tático  3D  por  turnos  no  qual  combate,  exploração,  coragem,  medo,  
+lealdade,
+ 
+reputação,
+ 
+traumas,
+ 
+recursos
+ 
+e
+ 
+governo
+ 
+do
+ 
+principado
+ 
+formam
+ 
+um
+ 
+único
+ 
+sistema.
+ 
+O
+ 
+jogador
+ 
+acompanha
+ 
+William,
+ 
+que
+ 
+precisa
+ 
+sobreviver
+ 
+a
+ 
+ameaças
+ 
+humanas
+ 
+e
+ 
+sobrenaturais
+ 
+enquanto
+ 
+prova
+ 
+que
+ 
+é
+ 
+capaz
+ 
+de
+ 
+comandar
+ 
+pessoas
+ 
+e
+ 
+governar.
+ 
+O
+ 
+projeto
+ 
+preserva
+ 
+as
+ 
+ideias
+ 
+fornecidas
+ 
+e
+ 
+reorganiza
+ 
+os
+ 
+sistemas
+ 
+para
+ 
+que
+ 
+funcionem
+ 
+de
+ 
+forma
+ 
+coerente
+ 
+em
+ 
+um
+ 
+jogo
+ 
+3D
+ 
+por
+ 
+turnos.
+ 
+Item  Definição  Gênero  RPG  tático  3D  por  turnos  com  exploração,  narrativa,  gestão  e  consequências  persistentes.  Perspectiva  Câmera  3D  em  terceira  pessoa  na  exploração;  câmera  tática/cinematográfica  no  combate.  Estrutura  Missões,  exploração,  encontros  táticos,  decisões  narrativas  e  administração  do  principado.  Tom  Fantasia  medieval  sombria,  tensão  psicológica,  política,  guerra  e  horror  sobrenatural.  Pilar  narrativo  William  não  precisa  apenas  vencer:  precisa  conquistar  confiança,  lealdade  e  legitimidade.  Plataformas-alvo  Windows,  Linux,  Android  e  iOS.  Engine  oficial  Godot  Engine  4.x.  
+1.1.  Tecnologia  oficial,  modelagem  3D  e  plataformas
+ 
+Aes  Divinus  será  desenvolvido  oficialmente  na  Godot  Engine  4.x  pela  LZASANTOSWORLDSGAMES.  A  
+Godot
+ 
+será
+ 
+responsável
+ 
+pela
+ 
+lógica
+ 
+do
+ 
+jogo,
+ 
+cenas
+ 
+3D,
+ 
+combate
+ 
+por
+ 
+turnos,
+ 
+IA,
+ 
+interface,
+ 
+física,
+ 
+animação
+ 
+em
+ 
+runtime,
+ 
+áudio,
+ 
+salvamento,
+ 
+gerenciamento
+ 
+de
+ 
+recursos
+ 
+e
+ 
+exportação
+ 
+das
+ 
+versões
+ 
+finais.
+ 
+Programa  oficial  de  modelagem  3D:  Blender.  O  Blender  foi  escolhido  para  criação  dos  modelos  dos  
+personagens,
+ 
+criaturas,
+ 
+armas,
+ 
+armaduras,
+ 
+roupas,
+ 
+cabelos,
+ 
+barbas,
+ 
+cenários
+ 
+e
+ 
+objetos.
+ 
+Também
+ 
+será
+ 
+usado
+ 
+para
+ 
+sculpt,
+ 
+retopologia,
+ 
+UV,
+ 
+rigging,
+ 
+skinning,
+ 
+animações
+ 
+e
+ 
+preparação
+ 
+de
+ 
+LODs.
+ 
+Pipeline  principal:  Blender  →  glTF  2.0  (.glb)  →  Godot  Engine.  O  formato  GLB  será  priorizado  para  
+personagens
+ 
+e
+ 
+assets
+ 
+3D
+ 
+por
+ 
+integrar
+ 
+malha,
+ 
+esqueleto,
+ 
+materiais
+ 
+e
+ 
+animações
+ 
+em
+ 
+um
+ 
+fluxo
+ 
+adequado
+ 
+à
+ 
+Godot.
+ 
+FBX
+ 
+poderá
+ 
+ser
+ 
+usado
+ 
+apenas
+ 
+quando
+ 
+algum
+ 
+asset
+ 
+ou
+ 
+ferramenta
+ 
+externa
+ 
+exigir
+ 
+conversão
+ 
+específica.
+ 
+Plataformas  oficiais  planejadas:  Windows,  Linux,  Android  e  iOS.  O  projeto  deverá  usar  uma  base  de  código  
+multiplataforma,
+ 
+com
+ 
+interfaces
+ 
+responsivas
+ 
+e
+ 
+perfis
+ 
+gráficos
+ 
+distintos
+ 
+para
+ 
+desktop
+ 
+e
+ 
+dispositivos
+ 
+móveis.
+ 
+Área  Tecnologia  Uso  Engine  Godot  Engine  4.x  Jogo,  combate,  IA,  UI,  áudio,  física,  saves  e  builds.  Modelagem  3D  Blender  Personagens,  criaturas,  roupas,  equipamentos,  cenários,  rig  e  animação.  Formato  3D  principal  glTF  2.0  /  GLB  Intercâmbio  principal  Blender  →  Godot.  Desktop  Windows  e  Linux  Versões  com  maior  qualidade  gráfica  e  controles  de  teclado/mouse  e  gamepad.  
+Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+---PAGE 4---
+
+Mobile  Android  e  iOS  UI  touch,  otimização,  LODs,  texturas  e  efeitos  adaptados  ao  hardware  móvel.  
+2.  Pilares  de  design  ●  Combate  tático  legível:  decisões  por  turno,  posição,  alcance,  iniciativa,  formação,  tipos  de  dano  e  
+estados.
+ ●  Consequências  persistentes:  ferimentos,  traumas,  lealdade  e  reputação  continuam  depois  da  batalha.  ●  Liderança  como  mecânica:  William  influencia  coragem,  formação,  moral  e  decisões  do  grupo.  ●  Gestão  conectada  à  guerra:  comida,  madeira,  ferro,  ouro,  tropas  e  infraestrutura  afetam  missões  e  
+população.
+ ●  Personagens  individualizados:  atributos  físicos,  psicológicos,  aparência  3D,  equipamento  e  relações  
+próprias.
+ ●  Narrativa  sistêmica:  resultados  emergem  da  combinação  entre  combate,  medo,  recursos  e  escolhas.  
+3.  Loop  principal  O  ciclo  central  do  jogo  será:  
+EXPLORAR  →  IDENTIFICAR  AMEAÇA  →  PREPARAR  FORMAÇÃO  →  COMBATER  →  SOFRER  
+CONSEQUÊNCIAS
+ 
+→
+ 
+ADMINISTRAR
+ 
+RECURSOS
+ 
+→
+ 
+DECIDIR
+ 
+→
+ 
+PRÓXIMA
+ 
+MISSÃO
+ 
+Cada  etapa  alimenta  a  seguinte.  Uma  batalha  pode  ferir  um  companheiro;  o  trauma  reduz  desempenho;  a  
+derrota
+ 
+pode
+ 
+reduzir
+ 
+reputação;
+ 
+baixa
+ 
+reputação
+ 
+pode
+ 
+causar
+ 
+deserções;
+ 
+deserções
+ 
+reduzem
+ 
+tropas;
+ 
+isso
+ 
+altera
+ 
+a
+ 
+dificuldade
+ 
+e
+ 
+as
+ 
+opções
+ 
+da
+ 
+próxima
+ 
+missão.
+ 
+4.  Estrutura  do  mundo  e  exploração  3D  A  exploração  deixa  de  ser  side-scroller  e  passa  a  ser  totalmente  3D.  O  jogador  controla  William  em  terceira  
+pessoa,
+ 
+com
+ 
+companheiros
+ 
+seguindo
+ 
+em
+ 
+formação.
+ 
+Áreas
+ 
+podem
+ 
+ser
+ 
+florestas,
+ 
+vilas,
+ 
+estradas,
+ 
+fortalezas,
+ 
+ruínas,
+ 
+cavernas,
+ 
+campos
+ 
+de
+ 
+batalha
+ 
+e
+ 
+regiões
+ 
+do
+ 
+principado.
+ 
+A
+ 
+exploração
+ 
+deve
+ 
+ter
+ 
+rotas
+ 
+alternativas,
+ 
+pontos
+ 
+de
+ 
+interesse,
+ 
+interações,
+ 
+coleta,
+ 
+armadilhas,
+ 
+emboscadas
+ 
+e
+ 
+transições
+ 
+naturais
+ 
+para
+ 
+combate
+ 
+por
+ 
+turnos.
+ 
+Sistema  Funcionamento  3D  Percepção  Revela  pistas,  inimigos  ocultos,  armadilhas,  rotas  e  objetos  interativos.  Formação  Jogador  escolhe  ordem  e  espaçamento  do  grupo  antes  do  contato.  Stealth  leve  Linha  de  visão  e  ruído  podem  permitir  evitar  ou  iniciar  encontros  em  vantagem.  Interação  Portas,  alavancas,  baús,  rastros,  corpos,  NPCs,  recursos  e  elementos  de  cenário.  Acampamento  Recuperação  limitada,  conversa,  troca  de  equipamento  e  tratamento  de  traumas.  Mapa  Mapa  regional  para  deslocamento  e  mapas  locais  3D  para  exploração.  
+Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+---PAGE 5---
+
+5.  Combate  3D  por  turnos  O  combate  ocorre  em  arenas  3D  integradas  ao  cenário.  Quando  um  encontro  começa,  o  jogo  congela  a  
+ação
+ 
+em
+ 
+tempo
+ 
+real
+ 
+e
+ 
+entra
+ 
+no
+ 
+modo
+ 
+tático.
+ 
+O
+ 
+campo
+ 
+pode
+ 
+usar
+ 
+uma
+ 
+malha
+ 
+de
+ 
+navegação
+ 
+com
+ 
+pontos/áreas
+ 
+de
+ 
+movimento
+ 
+em
+ 
+vez
+ 
+de
+ 
+uma
+ 
+grade
+ 
+visual
+ 
+rígida.
+ 
+Cada
+ 
+personagem
+ 
+possui
+ 
+alcance
+ 
+de
+ 
+movimento
+ 
+por
+ 
+turno,
+ 
+linha
+ 
+de
+ 
+visão,
+ 
+cobertura,
+ 
+orientação,
+ 
+zona
+ 
+de
+ 
+controle
+ 
+e
+ 
+alcance
+ 
+de
+ 
+arma.
+ 
+Elemento  Regra  proposta  Turno  Unidade  abstrata  de  ação;  não  representa  literalmente  15  minutos.  Relógio  da  missão  Avança  separadamente  e  pode  disparar  reforços,  fuga,  morte  de  civis  ou  fracasso.  Ações  Movimento,  ataque,  habilidade,  item,  postura,  interação,  inspiração  e  espera.  Pontos  de  Ação  Base  recomendada:  2  PA  por  turno;  habilidades  podem  consumir  1  ou  2.  Reação  Parry,  ataque  de  oportunidade,  guarda  ou  habilidade  específica.  Altura  Terreno  elevado  melhora  visão  e  pode  beneficiar  ataques  à  distância.  Cobertura  Reduz  chance  de  acerto  de  projéteis;  pode  ser  parcial  ou  total.  Flanqueamento  Ataques  laterais/traseiros  recebem  bônus  e  podem  reduzir  defesa.  
+6.  Iniciativa  e  ordem  de  turno  Fórmula-base  sugerida:  
+Iniciativa  =  Agilidade  +  modificadores  de  estado  +  equipamento  +  bônus  situacionais  
+Exemplo  Agilidade  Coragem/estado  Iniciativa  aproximada  Donovan  15  normal  +15  +  bônus  Ethan  12  corajoso  +12  +  bônus  de  estado  Albert  10  normal  +10  +  bônus  William  14  inspirado  +14  +  bônus  de  liderança  A  Coragem  não  precisa  ser  somada  diretamente  sempre;  ela  funciona  melhor  como  estado/modificador.  
+Medo
+ 
+pode
+ 
+reduzir
+ 
+iniciativa,
+ 
+precisão
+ 
+ou
+ 
+disponibilidade
+ 
+de
+ 
+ações,
+ 
+enquanto
+ 
+Bravura
+ 
+pode
+ 
+conceder
+ 
+bônus.
+ 
+7.  Atributos  principais  Atributo  Função  Vida  (HP)  Capacidade  física  de  continuar  em  combate.  Força  Dano  corpo  a  corpo,  carga,  uso  de  armadura  pesada  e  testes  físicos.  Agilidade  Precisão,  esquiva,  iniciativa,  mobilidade  e  algumas  reações.  Percepção  Detecção,  linha  de  visão,  armadilhas,  emboscadas  e  precisão  contextual.  
+Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+---PAGE 6---
+
+Coragem  Resistência  ao  medo,  horror,  intimidação  e  colapso  psicológico.  Lealdade  Vontade  de  seguir  William,  obedecer  ordens  e  permanecer  no  grupo.  Inspiração  Capacidade  de  William/líderes  de  alterar  moral  e  desempenho  do  grupo.  Defesa  Resultado  de  armadura,  postura,  escudo,  cobertura  e  habilidades.  
+8.  Acerto,  dano  e  defesa  O  sistema  separa  acerto  de  dano  para  criar  builds  e  equipamentos  distintos.  
+Cálculo  Modelo  Acerto  Precisão  do  atacante  vs.  Evasão/Defesa  do  alvo  +  distância  +  cobertura  +  estado.  Dano  físico  Dano  da  arma  +  escala  de  Força/Agilidade  +  bônus  -  mitigação  da  armadura.  Crítico  Chance  baixa  influenciada  por  arma,  habilidade,  posição  e  estado  do  alvo.  Bloqueio  Escudo/arma  absorve  ou  reduz  dano;  pode  consumir  reação.  Esquiva  Se  bem-sucedida,  evita  dano,  mas  pode  reposicionar  ou  consumir  recurso.  Parry  Reação  técnica;  reduz/anula  golpe  e  pode  abrir  contra-ataque.  
+9.  Tipos  de  dano  e  resistências  Tipo  Exemplos  Uso  tático  Corte  Espadas,  machados  Bom  contra  alvos  sem  proteção  pesada;  variável  contra  placas.  Perfuração  Lanças,  flechas,  estocadas  Útil  contra  aberturas  e  alvos  específicos.  Impacto  Martelos,  maças  Bom  contra  armaduras  rígidas  e  para  atordoamento.  Fogo  Flechas  incendiárias,  magia/efeitos  
+Dano  contínuo,  medo  e  controle  de  área.  Sobrenatural  Criaturas/artefatos  Pode  afetar  Coragem  além  da  Vida.  
+10.  Armaduras  e  mobilidade  Categoria  Vantagens  Desvantagens  Leve  Alta  mobilidade,  esquiva  e  iniciativa  
+Baixa  mitigação.  
+Média  Equilíbrio  entre  proteção  e  movimento  
+Sem  especialização  extrema.  
+Pesada  Alta  proteção  e  estabilidade  Menor  mobilidade;  exige  Força.  Armadura  não  é  apenas  'menos  dano':  peso,  ruído,  resistência  por  tipo  de  dano  e  custo  de  movimento  
+devem
+ 
+importar.
+ Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+---PAGE 7---
+
+11.  Medo  e  coragem  O  sistema  de  medo  é  um  dos  elementos  centrais.  Criaturas,  mortes,  emboscadas,  fogo,  isolamento  e  
+eventos
+ 
+narrativos
+ 
+podem
+ 
+causar
+ 
+testes
+ 
+de
+ 
+Coragem.
+ 
+O
+ 
+objetivo
+ 
+é
+ 
+fazer
+ 
+o
+ 
+jogador
+ 
+administrar
+ 
+não
+ 
+apenas
+ 
+HP,
+ 
+mas
+ 
+a
+ 
+capacidade
+ 
+psicológica
+ 
+do
+ 
+grupo.
+ 
+Estado  Efeito  sugerido  Nervoso  Pequena  penalidade  de  precisão/percepção.  Assustado  Penalidade  de  iniciativa  e  precisão.  Apavorado  Chance  de  perder  ação,  recuar  ou  rejeitar  ordem  arriscada.  Paralisado  Não  age  até  superar  teste  ou  receber  ajuda.  Desesperado  Pode  tentar  fugir  ou  agir  de  forma  imprevisível.  Teste-base:  Ameaça  do  inimigo/evento  vs.  Coragem  +  bônus  de  liderança  +  experiência  +  proximidade  de  
+aliados.
+ 
+12.  Coragem  e  lealdade  são  sistemas  diferentes  Coragem  responde  à  pergunta  'eu  consigo  continuar  lutando?'.  Lealdade  responde  à  pergunta  'eu  quero  
+continuar
+ 
+lutando
+ 
+por
+ 
+William?'.
+ 
+Um
+ 
+personagem
+ 
+pode
+ 
+ser
+ 
+corajoso
+ 
+e
+ 
+desleal,
+ 
+ou
+ 
+medroso
+ 
+e
+ 
+extremamente
+ 
+leal.
+ 
+Essa
+ 
+separação
+ 
+deve
+ 
+influenciar
+ 
+diálogos,
+ 
+ordens,
+ 
+deserções,
+ 
+sacrifícios,
+ 
+conflitos
+ 
+internos
+ 
+e
+ 
+finais.
+ 
+13.  Inspiração  e  comandos  de  liderança  Comando  Efeito  Líder  de  Ataque  Aumenta  temporariamente  Coragem,  iniciativa  e  dano.  Mantenham  a  Formação!  Reduz  chance  de  fuga  e  melhora  defesa  coletiva.  Não  Recuem!  Impede  retirada  involuntária  por  alguns  turnos.  Reagrupar  Remove  parte  de  penalidades  de  medo  e  aproxima  aliados.  Protejam  os  Feridos  Altera  prioridade  de  IA  e  concede  bônus  defensivo.  
+14.  Traumas  físicos  e  psicológicos  Chegar  a  0  de  Vida  não  precisa  significar  morte  automática.  Dependendo  do  golpe,  dificuldade  e  recursos  
+médicos,
+ 
+o
+ 
+personagem
+ 
+pode
+ 
+sobreviver
+ 
+com
+ 
+trauma.
+ 
+Da
+ 
+mesma
+ 
+forma,
+ 
+colapso
+ 
+de
+ 
+Coragem
+ 
+pode
+ 
+gerar
+ 
+trauma
+ 
+psicológico.
+ 
+Categoria  Exemplos  Consequência  Físico  Perna  ferida,  braço  ferido,  olho  ferido,  cicatriz  
+Penalidades,  animações  e  aparência  persistentes.  Psicológico  Medo  de  monstros,  fogo,  pesadelos,  perda  de  confiança  
+Testes  adicionais  e  diálogos  específicos.  Social  Humilhação,  desobediência,  ressentimento  
+Alteração  de  Lealdade  e  relações.  Tratamento  pode  envolver  repouso,  curandeiros,  recursos,  eventos,  conversas  e  tempo  de  campanha.  
+Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+---PAGE 8---
+
+15.  Bravura  do  Guerreiro  Característica  rara.  Quando  Coragem  chega  a  0,  o  personagem  realiza  um  teste  especial.  Se  vencer,  ativa  
+BRAVURA
+ 
+DO
+ 
+GUERREIRO:
+ 
+recupera
+ 
+parte
+ 
+da
+ 
+Coragem,
+ 
+recebe
+ 
+bônus
+ 
+temporário
+ 
+e
+ 
+pode
+ 
+adquirir
+ 
+uma
+ 
+qualidade
+ 
+permanente.
+ 
+A
+ 
+mecânica
+ 
+deve
+ 
+ser
+ 
+rara
+ 
+para
+ 
+preservar
+ 
+seu
+ 
+impacto
+ 
+dramático.
+ 
+16.  Reputação  por  facções  Grupo  Exemplos  de  fatores  Companheiros  Decisões  pessoais,  resgates,  sacrifícios,  promessas.  Infantaria  Vitórias,  baixas,  suprimentos,  liderança  no  campo.  Cavaleiros  Honra,  estratégia,  privilégios  e  política.  Camponeses  Comida,  impostos,  proteção,  justiça.  Duques/Nobreza  Alianças,  poder,  diplomacia,  sucessão.  Reino  Resultado  agregado  de  campanhas  e  decisões  maiores.  A  reputação  não  será  um  único  percentual.  William  pode  ser  amado  por  soldados  e  rejeitado  por  
+camponeses,
+ 
+criando
+ 
+consequências
+ 
+políticas
+ 
+distintas.
+ 
+17.  Recursos  e  principado  Recurso  Usos  Comida  População,  exército,  expedições  e  moral.  Madeira  Construção,  reparos,  fortificações  e  armas.  Ferro  Armas,  armaduras,  ferramentas  e  infraestrutura.  Ouro  Salários,  comércio,  diplomacia,  especialistas.  Tropas  Defesa,  missões  e  controle  territorial.  Infraestrutura  Produção,  segurança,  recuperação  e  capacidade  logística.  Exemplo  de  cadeia  sistêmica:  comida  baixa  →  insatisfação  camponesa  →  reputação  baixa  →  recrutamento  
+pior
+ 
+→
+ 
+lealdade
+ 
+militar
+ 
+afetada
+ 
+→
+ 
+deserções
+ 
+→
+ 
+menos
+ 
+tropas
+ 
+→
+ 
+missões
+ 
+mais
+ 
+difíceis.
+ 
+18.  Tipos  de  missão  Missão  Objetivo  Defesa  Proteger  vila/fortificação  por  determinado  número  de  rodadas.  Resgate  Localizar  e  retirar  civis/aliados.  Sobrevivência  Aguentar  até  reforços  ou  abertura  de  rota.  Caçada  Rastrear  e  eliminar  alvo  prioritário.  Escolta  Levar  pessoa/carga  a  destino.  Retirada  Escapar  antes  do  cerco.  Investigação  Coletar  pistas  e  identificar  ameaça.  Assalto  Romper  defesa  e  capturar  objetivo.  Diplomacia  armada  Resolver  tensão  com  possibilidade  de  combate.  
+Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+---PAGE 9---
+
+19.  Relógio  de  missão  O  relógio  de  missão  é  separado  dos  turnos.  Ele  pode  ser  mostrado  como  tempo  abstrato  ou  contador  de  
+rodadas.
+ 
+A
+ 
+passagem
+ 
+do
+ 
+tempo
+ 
+pode
+ 
+disparar
+ 
+reforços,
+ 
+mudanças
+ 
+climáticas,
+ 
+morte
+ 
+de
+ 
+reféns,
+ 
+fuga
+ 
+de
+ 
+alvos
+ 
+ou
+ 
+objetivos
+ 
+secundários.
+ 
+20.  Câmera  3D  Situação  Câmera  Exploração  Terceira  pessoa  atrás  de  William,  com  ajuste  de  distância.  Combate  Câmera  tática  3D  orbitável  com  foco  automático  no  personagem  ativo.  Ataque  especial  Zoom  curto  cinematográfico  sem  esconder  informações  essenciais.  Chefe  Enquadramento  mais  aberto  para  comunicar  escala.  Diálogo  Planos  médios/close-ups  com  câmera  dirigida.  Gestão  Mapa/mesa  estratégica  ou  interface  dedicada.  
+21.  Direção  de  arte  e  modelagem  3D  dos  personagens  Os  materiais  visuais  enviados  serão  usados  como  referências  de  construção  de  personagens,  não  como  
+cópias
+ 
+literais.
+ 
+O
+ 
+objetivo
+ 
+é
+ 
+criar
+ 
+um
+ 
+sistema
+ 
+modular
+ 
+capaz
+ 
+de
+ 
+combinar
+ 
+corpo,
+ 
+rosto,
+ 
+olhos,
+ 
+cabelo,
+ 
+barba,
+ 
+vestuário,
+ 
+armadura,
+ 
+armas,
+ 
+ferimentos
+ 
+e
+ 
+idade.
+ 
+Isso
+ 
+reduz
+ 
+custo
+ 
+de
+ 
+produção
+ 
+e
+ 
+aumenta
+ 
+variedade
+ 
+de
+ 
+NPCs.
+ 
+ 
+Referência  de  variações  de  formato  corporal  masculino.  
+Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+
+---PAGE 10---
+
+ 
+Referência  de  curvatura/tipo  de  cabelo.  
+Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+
+---PAGE 11---
+
+ 
+Referência  de  formatos  de  rosto.  
+Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+
+---PAGE 12---
+
+ 
+Referência  de  formatos  de  olhos.  
+Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+
+---PAGE 13---
+
+Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+
+---PAGE 14---
+
+Referência  de  categorias  de  composição  corporal.  
+Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+---PAGE 15---
+
+Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+
+---PAGE 16---
+
+Referência  de  cores  de  olhos.  
+ 
+Referência  de  tons  e  nuances  de  cabelo.  
+Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+
+---PAGE 17---
+
+ 
+Referência  complementar  de  cores  de  olhos.  
+22.  Sistema  modular  de  criação  3D  Módulo  Variações  planejadas  Corpo  Magro,  definido,  fit,  atlético,  musculoso,  forte,  corpulento;  altura  e  proporções  controladas  por  morphs.  Formato  corporal  Retângulo,  triângulo,  trapezoide,  oval,  triângulo  invertido.  Rosto  Oval,  coração,  diamante,  alongado,  redondo,  quadrado,  triangular.  Olhos  Redondos,  amendoados,  finos,  caídos,  profundos/escondidos  e  variações.  Cor  dos  olhos  Castanho,  azul,  verde,  cinza,  âmbar,  avelã  e  variações  realistas.  
+Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+
+---PAGE 18---
+
+Cabelo  Liso  1A-1C,  ondulado  2A-2C,  cacheado  3A-3C,  crespo  4A-4C.  Cor  do  cabelo  Preto,  castanhos,  loiros  e  reflexos  naturais;  grisalho  por  idade.  Barba  Sistema  modular  com  estilos  associados  ao  rosto,  profissão,  idade  e  cultura.  Pele  Tons  variados,  sujeira,  cicatrizes,  rugas,  queimaduras  e  ferimentos.  Equipamento  Camadas  separadas:  roupa  base,  cinto,  botas,  luvas,  armadura,  capa,  armas  e  acessórios.  
+23.  Barbas:  15  estilos  e  adaptação  ao  rosto  A  barba  deve  ser  um  componente  de  personalização  3D.  As  recomendações  por  formato  de  rosto  podem  
+orientar
+ 
+a
+ 
+geração
+ 
+procedural
+ 
+de
+ 
+NPCs,
+ 
+mas
+ 
+não
+ 
+devem
+ 
+restringir
+ 
+o
+ 
+jogador.
+ 
+O
+ 
+sistema
+ 
+pode
+ 
+oferecer
+ 
+pelo
+ 
+menos
+ 
+15
+ 
+estilos:
+ 
+●  Barba  riscada  ●  Barba  lenhador  ●  Barba  média  pontuda  ●  Barba  média  arredondada  ●  Barba  curta  encaixada  ●  Barba  curta  em  degradê  ●  Barba  âncora  ●  Barba  circular  ●  Barba  cheia  ●  Tira  no  queixo  ●  Barba  por  fazer  ●  Barba  com  bigode  proeminente  ●  Cavanhaque  ●  Barba  completa  ●  Barba  reta  
+Formato  de  rosto  Direção  estética  Redondo  Laterais  controladas  e  mais  comprimento  no  queixo  para  alongar.  Quadrado  Comprimento  curto/médio  e  formas  que  suavizem  ângulos.  Oval  Grande  liberdade;  evitar  exagero  vertical  se  alongar  demais.  Triangular  Volume  e  bigode  usados  para  equilibrar  testa  e  mandíbula.  Na  modelagem,  cada  barba  deve  ter  LODs,  máscara  de  pele,  variações  de  densidade  e  cor  compatível  com  
+o
+ 
+cabelo.
+ 
+Para
+ 
+personagens
+ 
+principais,
+ 
+usar
+ 
+hair
+ 
+cards
+ 
+ou
+ 
+groom
+ 
+de
+ 
+maior
+ 
+qualidade;
+ 
+para
+ 
+NPCs
+ 
+distantes,
+ 
+versões
+ 
+simplificadas.
+ 
+24.  Pipeline  de  modelagem  3D  1)  Concept/turnaround:  definir  silhueta,  rosto,  roupa,  arma  e  materiais.  
+Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+---PAGE 19---
+
+2)  Base  mesh:  corpo  humano  com  topologia  preparada  para  deformação.  
+3)  Sculpt:  volumes  anatômicos,  rosto,  idade,  cicatrizes  e  detalhes.  
+4)  Retopologia:  malha  otimizada  para  jogo  e  animação.  
+5)  UV:  distribuição  eficiente,  podendo  compartilhar  atlas  entre  NPCs.  
+6)  Texturas  PBR:  Base  Color,  Normal,  Roughness,  Metallic  e  AO  conforme  necessidade.  
+7)  Cabelo/barba:  hair  cards/groom  conforme  importância  do  personagem.  
+8)  Rig:  esqueleto  humano  comum  para  reaproveitar  animações.  
+9)  Skinning:  pesos  revisados  em  ombros,  quadril,  mãos,  joelhos  e  rosto.  
+10)  Animações:  locomotion,  combate,  hit  reactions,  medo,  diálogos  e  cinematics.  
+11)  LODs:  versões  progressivamente  mais  leves  para  distância.  
+12)  Exportação:  GLB/GLTF  ou  FBX  conforme  pipeline  escolhido  e  testes  na  engine.  
+25.  Animações  necessárias  Grupo  Animações  Locomoção  Idle,  andar,  correr,  sprint,  agachar,  virar,  subir/descer.  Combate  Ataques  por  arma,  defesa,  parry,  esquiva,  reação,  queda,  morte.  Tático  Selecionar  alvo,  postura  de  guarda,  esperar,  usar  item,  inspirar.  Psicológico  Nervoso,  assustado,  apavorado,  paralisado,  fuga.  Social  Conversas,  apontar,  saudar,  discutir,  comemorar,  lamentar.  Ferimentos  Mancar,  braço  lesionado,  exaustão,  dor.  Criaturas  Locomoção  própria,  transformação,  ataques,  roar,  stagger  e  morte.  
+26.  IA  dos  inimigos  e  aliados  A  IA  opera  por  avaliação  de  utilidade  no  turno.  Cada  ação  recebe  pontuação  com  base  em  objetivo,  ameaça,  
+alcance,
+ 
+estado
+ 
+psicológico,
+ 
+personalidade,
+ 
+ordem
+ 
+de
+ 
+William
+ 
+e
+ 
+risco.
+ 
+Perfil  Comportamento  Bárbaro  agressivo  Avança,  flanqueia  e  prioriza  alvos  vulneráveis.  Arqueiro  Busca  linha  de  visão,  altura  e  cobertura.  Defensor  Protege  objetivo  e  mantém  zona  de  controle.  Criatura  aterrorizante  Ataca  Coragem,  separa  grupo  e  explora  pânico.  Aliado  leal  Segue  ordens  mesmo  com  risco  elevado.  Aliado  desleal  Pode  ignorar  ordem  suicida,  recuar  ou  desertar.  
+Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+---PAGE 20---
+
+27.  Inventário,  equipamentos  e  progressão  Equipamentos  têm  estatísticas,  peso,  condição  e  afinidade  com  atributos.  A  progressão  deve  evitar  inflação  
+excessiva
+ 
+de
+ 
+números;
+ 
+novas
+ 
+opções
+ 
+táticas
+ 
+são
+ 
+mais
+ 
+interessantes
+ 
+que
+ 
+apenas
+ 
+dano
+ 
+maior.
+ 
+Categoria  Exemplos  Armas  Espadas,  lanças,  machados,  martelos,  arcos,  bestas.  Defesa  Escudos,  armaduras  leves/médias/pesadas.  Consumíveis  Bandagens,  ervas,  comida,  antídotos,  itens  de  coragem.  Utilidade  Tochas,  ferramentas,  cordas,  chaves,  itens  de  missão.  Artefatos  Itens  raros  ligados  ao  sobrenatural  e  à  narrativa.  
+28.  Interface  e  UX  ●  HUD  de  exploração  discreto:  Vida,  estado,  objetivo  e  interações.  ●  HUD  tático:  ordem  de  iniciativa,  PA,  movimento,  alcance,  cobertura,  estados  e  previsão  de  dano.  ●  Tela  de  personagem:  atributos,  equipamento,  traumas,  coragem,  lealdade  e  relações.  ●  Tela  de  principado:  recursos,  população,  reputações,  tropas,  construções  e  eventos.  ●  Codificação  visual  clara  de  medo,  ferimentos  e  estados  sem  depender  apenas  de  cor.  ●  Legendas,  escala  de  UI,  remapeamento  de  controles,  contraste  e  opções  de  acessibilidade.  
+29.  Áudio  O  áudio  deve  comunicar  perigo  e  estado  psicológico.  Camadas  de  música  podem  intensificar  conforme  
+Coragem
+ 
+cai.
+ 
+Criaturas
+ 
+devem
+ 
+ter
+ 
+assinaturas
+ 
+sonoras
+ 
+reconhecíveis.
+ 
+Armaduras
+ 
+e
+ 
+armas
+ 
+precisam
+ 
+de
+ 
+impactos
+ 
+diferentes
+ 
+por
+ 
+material.
+ 
+30.  Prólogo:  Floresta  de  Sangue  O  primeiro  protótipo  narrativo  deve  usar  o  prólogo  da  Floresta  de  Sangue.  William,  Ethan,  Donovan  e  Albert  
+enfrentam
+ 
+os
+ 
+primeiros
+ 
+bárbaros;
+ 
+depois
+ 
+surge
+ 
+a
+ 
+criatura
+ 
+que
+ 
+se
+ 
+transforma.
+ 
+Essa
+ 
+sequência
+ 
+ensina
+ 
+movimento,
+ 
+formação,
+ 
+iniciativa,
+ 
+ataque,
+ 
+defesa,
+ 
+medo
+ 
+e
+ 
+liderança
+ 
+sem
+ 
+apresentar
+ 
+todos
+ 
+os
+ 
+sistemas
+ 
+de
+ 
+uma
+ 
+vez.
+ 
+Etapa  Tutorial  Exploração  inicial  Movimento  3D,  câmera,  interação  e  Percepção.  Primeiro  contato  Entrada  no  modo  por  turnos  e  iniciativa.  Bárbaros  Ataque,  movimento,  cobertura,  parry/esquiva.  Companheiros  Ordens,  formação  e  habilidades.  Transformação  Medo,  Coragem  e  ameaça  sobrenatural.  Consequência  Ferimentos,  diálogo,  lealdade  e  retorno  ao  gerenciamento.  
+31.  Plano  de  protótipos  Protótipo  Conteúdo  Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+---PAGE 21---
+
+P1  -  Combate  base  William,  Ethan,  2  bárbaros,  HP,  Força,  Agilidade,  ataque,  movimento  3D,  esquiva,  turnos,  vitória/derrota.  P2  -  Tática  Coragem,  medo,  iniciativa,  parry,  armadura,  tipos  de  dano,  cobertura.  P3  -  Personagens  Traumas,  Lealdade,  Inspiração,  personalidades,  relações  e  customização  visual.  P4  -  Meta-jogo  Reputação,  recursos,  principado,  consequências  e  missões  encadeadas.  P5  -  Vertical  Slice  Floresta  de  Sangue  completa  com  arte,  áudio,  UI  e  narrativa  em  qualidade  representativa.  
+32.  Estrutura  técnica  oﬁcial  em  Godot  Engine  4  A  implementação  deverá  considerar  desde  o  início  Windows,  Linux,  Android  e  iOS.  Sistemas  de  entrada  
+devem
+ 
+usar
+ 
+Input
+ 
+Map
+ 
+para
+ 
+abstrair
+ 
+teclado,
+ 
+mouse,
+ 
+gamepad
+ 
+e
+ 
+toque.
+ 
+A
+ 
+interface
+ 
+deve
+ 
+se
+ 
+adaptar
+ 
+a
+ 
+diferentes
+ 
+resoluções,
+ 
+proporções
+ 
+de
+ 
+tela
+ 
+e
+ 
+densidades.
+ 
+Assets
+ 
+3D
+ 
+terão
+ 
+LODs
+ 
+e
+ 
+configurações
+ 
+de
+ 
+qualidade
+ 
+para
+ 
+permitir
+ 
+versões
+ 
+móveis
+ 
+sem
+ 
+alterar
+ 
+as
+ 
+regras
+ 
+do
+ 
+combate
+ 
+ou
+ 
+o
+ 
+conteúdo
+ 
+da
+ 
+campanha.
+ 
+A  arquitetura  deve  ser  orientada  a  dados  para  permitir  balanceamento  sem  reescrever  lógica.  Resources  
+podem
+ 
+armazenar
+ 
+personagens,
+ 
+armas,
+ 
+armaduras,
+ 
+habilidades,
+ 
+estados
+ 
+e
+ 
+missões.
+ 
+Sistema  Responsabilidade  GameState  Estado  global  da  campanha,  flags  e  progressão.  TurnManager  Fila  de  iniciativa,  início/fim  de  turno  e  reações.  Combatant  Atributos,  PA,  estados,  equipamento  e  ações.  AbilitySystem  Custos,  alvos,  efeitos,  cooldowns  e  animações.  FearSystem  Testes  de  Coragem,  estados  psicológicos  e  recuperação.  LoyaltySystem  Relações,  ordens,  deserção  e  eventos.  ReputationSystem  Valores  por  facção  e  gatilhos  narrativos.  PrincipalitySystem  Recursos,  produção,  consumo  e  infraestrutura.  MissionSystem  Objetivos,  relógio,  falhas,  reforços  e  recompensas.  SaveSystem  Persistência  de  campanha,  personagens  e  mundo.  CharacterAssembler  Combina  corpo,  rosto,  cabelo,  barba,  roupa  e  equipamento  3D.  
+33.  Estrutura  de  dados  de  personagem  Cada  personagem  deve  possuir  dados  persistentes  equivalentes  a:  
+Grupo  Campos  Identidade  ID,  nome,  idade,  origem,  facção,  profissão.  Aparência  Corpo,  rosto,  olhos,  cabelo,  barba,  pele,  cicatrizes.  Combate  HP,  Força,  Agilidade,  Percepção,  Defesa,  resistências.  Psicológico  Coragem,  traumas,  medos,  Bravura  do  Guerreiro.  Social  Lealdade,  relação  com  William,  reputações  pessoais.  Equipamento  Arma,  armadura,  escudo,  acessórios,  inventário.  Progressão  Nível/experiência,  talentos,  habilidades,  qualidades.  Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+---PAGE 22---
+
+34.  Salvamento  e  consequências  O  save  precisa  registrar  consequências  reais:  mortos,  feridos,  traumas,  relações,  recursos,  reputações,  
+missões
+ 
+concluídas,
+ 
+escolhas
+ 
+políticas,
+ 
+estado
+ 
+das
+ 
+vilas
+ 
+e
+ 
+disponibilidade
+ 
+de
+ 
+NPCs.
+ 
+O
+ 
+jogo
+ 
+deve
+ 
+evitar
+ 
+restaurar
+ 
+automaticamente
+ 
+o
+ 
+mundo
+ 
+após
+ 
+cada
+ 
+missão.
+ 
+35.  Balanceamento  ●  Testar  primeiro  o  tempo  médio  de  um  turno  e  de  um  combate.  ●  Limitar  quantidade  de  unidades  simultâneas  para  manter  legibilidade.  ●  Medo  deve  criar  decisões,  não  remover  controle  do  jogador  constantemente.  ●  Traumas  precisam  ser  relevantes  sem  transformar  qualquer  erro  em  campanha  inviável.  ●  Lealdade  deve  mudar  de  forma  compreensível  e  ligada  a  eventos  observáveis.  ●  Economia  deve  ter  gargalos,  mas  oferecer  caminhos  de  recuperação.  ●  Chefes  devem  alterar  regras/objetivos,  não  apenas  ter  HP  elevado.  
+36.  Conteúdo  mínimo  do  jogo  completo  Para  transformar  o  protótipo  em  jogo  completo,  o  escopo  final  deve  incluir  campanha,  mapas  3D,  
+personagens
+ 
+principais,
+ 
+NPCs
+ 
+modulares,
+ 
+inimigos
+ 
+humanos,
+ 
+criaturas,
+ 
+equipamentos,
+ 
+missões,
+ 
+eventos
+ 
+políticos,
+ 
+sistema
+ 
+de
+ 
+principado,
+ 
+áudio,
+ 
+cinemáticas,
+ 
+interface,
+ 
+acessibilidade,
+ 
+salvamento
+ 
+e
+ 
+polimento.
+ 
+37.  Referências  e  links  fornecidos  Conversa  compartilhada  -  organização  do  mapa/ideias 
+Documento  principal  -  jogo  Aes  Divinus 
+Google  Drive  -  referência  1 
+Google  Drive  -  referência  2 
+Google  Drive  -  referência  3 
+Google  Drive  -  referência  4 
+Google  Drive  -  referência  5 
+Google  Drive  -  referência  6 
+Google  Drive  -  referência  7 
+Observação:  os  links  foram  preservados  como  referências.  O  conteúdo  que  estava  diretamente  disponível  
+no
+ 
+pedido
+ 
+foi
+ 
+consolidado;
+ 
+materiais
+ 
+externos
+ 
+com
+ 
+acesso
+ 
+restrito
+ 
+devem
+ 
+ser
+ 
+incorporados
+ 
+em
+ 
+uma
+ 
+próxima
+ 
+revisão
+ 
+quando
+ 
+estiverem
+ 
+acessíveis/exportados.
+ 
+38.  Decisões  de  conversão  para  3D  e  turnos  Ideia  original  Versão  consolidada  
+Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+---PAGE 23---
+
+Side-scroller  lateral  Exploração  3D  em  terceira  pessoa  +  arena  tática  3D  por  turnos.  Linhas  dianteira/traseira  Posicionamento  3D,  zona  de  controle,  cobertura  e  formação.  Rodada  =  15  minutos  Turno  abstrato;  relógio  da  missão  separado.  Câmera  lateral  Câmera  tática  orbitável  e  cinematográfica.  Formação  simples  Formação  pré-combate  +  posição  real  no  cenário.  Aparência  fixa  Sistema  modular  3D  de  corpo,  rosto,  olhos,  cabelo,  barba  e  equipamento.  
+39.  Critérios  para  considerar  o  jogo  'completo'  ●  O  loop  exploração  →  combate  →  consequências  →  gestão  funciona  sem  sistemas  isolados.  ●  O  prólogo  é  jogável  do  início  ao  fim  em  3D  e  por  turnos.  ●  William  e  companheiros  possuem  modelos,  rig,  animações,  equipamentos  e  estados  psicológicos.  ●  Medo,  Coragem,  Lealdade,  Inspiração,  traumas  e  reputação  produzem  consequências  persistentes.  ●  Há  variedade  de  missões  e  inimigos,  incluindo  criaturas  sobrenaturais.  ●  O  principado  reage  às  decisões  do  jogador  e  altera  o  conteúdo  futuro.  ●  UI,  áudio,  salvamento,  opções  gráficas,  controles  e  acessibilidade  estão  implementados.  ●  Performance  e  LODs  permitem  cenas  3D  estáveis  no  hardware-alvo.  
+40.  Próxima  etapa  de  produção  A  prioridade  prática  é  construir  o  Vertical  Slice  da  Floresta  de  Sangue.  Ele  deve  provar  o  combate  3D  por  
+turnos,
+ 
+a
+ 
+transição
+ 
+exploração/combate,
+ 
+o
+ 
+sistema
+ 
+de
+ 
+medo,
+ 
+a
+ 
+liderança
+ 
+de
+ 
+William
+ 
+e
+ 
+a
+ 
+qualidade
+ 
+visual
+ 
+básica.
+ 
+Somente
+ 
+depois
+ 
+disso
+ 
+o
+ 
+escopo
+ 
+de
+ 
+campanha,
+ 
+principado
+ 
+e
+ 
+grande
+ 
+variedade
+ 
+de
+ 
+personagens
+ 
+deve
+ 
+ser
+ 
+expandido.
+ 
+41.  Plataformas,  controles  e  otimização  multiplataforma  Plataforma  Controles  Diretrizes  Windows  Teclado/mouse  e  gamepad  Qualidade  alta;  opções  gráficas  completas;  diferentes  resoluções.  Linux  Teclado/mouse  e  gamepad  Compatibilidade  e  testes  de  drivers/renderização;  distribuição  nativa.  Android  Touch  e  gamepad  compatível  UI  touch,  LOD  agressivo,  texturas  otimizadas,  menor  custo  de  shaders  e  partículas.  iOS  Touch  e  gamepad  compatível  UI  touch,  otimização  para  dispositivos  Apple  e  processo  próprio  de  assinatura/publicação.  A  experiência,  história,  combate  por  turnos,  personagens  e  sistemas  centrais  deverão  permanecer  
+equivalentes
+ 
+entre
+ 
+as
+ 
+quatro
+ 
+plataformas.
+ 
+As
+ 
+diferenças
+ 
+serão
+ 
+principalmente
+ 
+de
+ 
+interface,
+ 
+controles,
+ 
+resolução,
+ 
+qualidade
+ 
+gráfica,
+ 
+densidade
+ 
+de
+ 
+efeitos,
+ 
+tamanho
+ 
+de
+ 
+texturas,
+ 
+LOD
+ 
+e
+ 
+desempenho.
+ 
+42.  Pipeline  oﬁcial  de  personagens  para  o  jogo  1.  Definição  visual  e  ficha  do  personagem.  Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+---PAGE 24---
+
+2.  Criação/sculpt  do  personagem  no  Blender.  
+3.  Retopologia  para  uma  malha  adequada  a  jogos.  
+4.  UV  e  materiais  PBR.  
+5.  Cabelo  e  barba  otimizados  para  tempo  real.  
+6.  Rig  humano  padronizado  e  reutilizável.  
+7.  Skinning  e  testes  de  deformação.  
+8.  Criação/importação  e  organização  das  animações.  
+9.  Criação  de  LOD0,  LOD1,  LOD2  e,  quando  necessário,  LOD3.  
+10.  Exportação  prioritária  em  GLB/glTF  2.0.  
+11.  Importação  e  configuração  na  Godot  Engine  4.  
+12.  Testes  de  animação,  materiais,  colisão  e  gameplay.  
+13.  Perfil  desktop  para  Windows/Linux.  
+14.  Perfil  otimizado  mobile  para  Android/iOS.  
+Decisão  técnica  oficial  do  projeto:  LZASANTOSWORLDSGAMES  desenvolverá  Aes  Divinus  na  Godot  
+Engine
+ 
+4.x,
+ 
+utilizando
+ 
+Blender
+ 
+como
+ 
+ferramenta
+ 
+principal
+ 
+de
+ 
+criação
+ 
+e
+ 
+preparação
+ 
+dos
+ 
+modelos
+ 
+3D
+ 
+e
+ 
+GLB/glTF
+ 
+2.0
+ 
+como
+ 
+pipeline
+ 
+preferencial
+ 
+de
+ 
+integração.
+ 
+O
+ 
+jogo
+ 
+terá
+ 
+versões
+ 
+planejadas
+ 
+para
+ 
+Windows,
+ 
+Linux,
+ 
+Android
+ 
+e
+ 
+iOS.
+ 
+43.  Escalabilidade  de  hardware  e  desempenho  Aes  Divinus  será  desenvolvido  pela  LZASANTOSWORLDSGAMES  com  uma  arquitetura  gráfica  e  técnica  
+escalável,
+ 
+para
+ 
+funcionar
+ 
+em
+ 
+uma
+ 
+ampla
+ 
+variedade
+ 
+de
+ 
+hardware,
+ 
+desde
+ 
+computadores
+ 
+e
+ 
+dispositivos
+ 
+móveis
+ 
+básicos
+ 
+até
+ 
+máquinas
+ 
+e
+ 
+aparelhos
+ 
+de
+ 
+alto
+ 
+desempenho.
+ 
+A
+ 
+jogabilidade,
+ 
+história
+ 
+e
+ 
+regras
+ 
+do
+ 
+combate
+ 
+por
+ 
+turnos
+ 
+permanecerão
+ 
+as
+ 
+mesmas;
+ 
+a
+ 
+engine
+ 
+ajustará
+ 
+principalmente
+ 
+a
+ 
+qualidade
+ 
+visual
+ 
+e
+ 
+o
+ 
+custo
+ 
+de
+ 
+processamento.
+ 
+Perfil  Hardware-alvo  Qualidade  Ajustes  principais  Muito  baixo  Hardware  básico/antigo  compatível  
+Desempenho  prioritário  Resolução  reduzida,  sombras  simplificadas,  LOD  agressivo,  menos  partículas  e  pós-processamento.  Baixo  PCs  de  entrada  e  celulares  modestos  
+Baixa  Texturas  menores,  iluminação  e  efeitos  simplificados,  menor  distância  de  detalhes.  Médio  Hardware  intermediário  Equilibrada  Texturas  e  sombras  médias,  efeitos  moderados  e  boa  distância  de  visão.  
+Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+---PAGE 25---
+
+Alto  PCs/celulares  fortes  Alta  Texturas  detalhadas,  sombras  melhores,  maior  distância  de  visão  e  mais  efeitos.  Ultra  Hardware  de  alto  desempenho  
+Máxima  Maior  resolução,  detalhes,  LOD  distante,  efeitos,  partículas  e  qualidade  de  sombras.  
+44.  Sistema  automático  e  manual  de  qualidade  ●  Detecção  inicial  de  desempenho  para  recomendar  um  preset  gráfico.  ●  Presets  Muito  Baixo,  Baixo,  Médio,  Alto  e  Ultra.  ●  Resolução  e  escala  de  renderização  configuráveis.  ●  Qualidade  de  texturas,  sombras,  iluminação,  partículas  e  pós-processamento  configurável.  ●  Distância  de  visão  e  níveis  de  LOD  ajustáveis.  ●  Limite  de  FPS  configurável  e  opção  de  sincronização  vertical  quando  suportada.  ●  Redução  de  efeitos  e  densidade  visual  em  dispositivos  móveis  de  entrada.  ●  Configurações  salvas  por  dispositivo.  ●  Opção  de  ajuste  individual  para  usuários  que  preferirem  configurar  cada  recurso  manualmente.  
+45.  Estratégia  de  otimização  A  otimização  será  considerada  desde  o  início  da  produção,  e  não  apenas  no  final.  Modelos  feitos  no  Blender  
+terão
+ 
+topologia
+ 
+apropriada
+ 
+para
+ 
+tempo
+ 
+real
+ 
+e
+ 
+múltiplos
+ 
+LODs.
+ 
+A
+ 
+Godot
+ 
+Engine
+ 
+será
+ 
+configurada
+ 
+com
+ 
+perfis
+ 
+de
+ 
+qualidade,
+ 
+occlusion/frustum
+ 
+culling
+ 
+quando
+ 
+aplicável,
+ 
+gerenciamento
+ 
+de
+ 
+distância,
+ 
+materiais
+ 
+e
+ 
+shaders
+ 
+escaláveis,
+ 
+pooling
+ 
+para
+ 
+objetos
+ 
+reutilizáveis
+ 
+e
+ 
+controle
+ 
+de
+ 
+partículas.
+ 
+Texturas
+ 
+serão
+ 
+dimensionadas
+ 
+conforme
+ 
+a
+ 
+importância
+ 
+do
+ 
+asset
+ 
+e
+ 
+a
+ 
+plataforma.
+ 
+O
+ 
+projeto
+ 
+deverá
+ 
+ser
+ 
+testado
+ 
+continuamente
+ 
+em
+ 
+hardware
+ 
+de
+ 
+entrada,
+ 
+intermediário
+ 
+e
+ 
+avançado.
+ 
+Objetivo  técnico:  oferecer  a  maior  compatibilidade  prática  possível  em  Windows,  Linux,  Android  e  iOS,  
+mantendo
+ 
+boa
+ 
+legibilidade
+ 
+e
+ 
+estabilidade
+ 
+no
+ 
+hardware
+ 
+mais
+ 
+simples
+ 
+suportado
+ 
+e
+ 
+aproveitando
+ 
+recursos
+ 
+gráficos
+ 
+adicionais
+ 
+quando
+ 
+executado
+ 
+em
+ 
+hardware
+ 
+mais
+ 
+potente.
+ 
+Os
+ 
+requisitos
+ 
+mínimos
+ 
+e
+ 
+recomendados
+ 
+definitivos
+ 
+serão
+ 
+estabelecidos
+ 
+por
+ 
+benchmark
+ 
+durante
+ 
+o
+ 
+desenvolvimento,
+ 
+evitando
+ 
+prometer
+ 
+compatibilidade
+ 
+com
+ 
+equipamentos
+ 
+que
+ 
+não
+ 
+atendam
+ 
+aos
+ 
+recursos
+ 
+mínimos
+ 
+exigidos
+ 
+pela
+ 
+versão
+ 
+da
+ 
+Godot
+ 
+e
+ 
+pelo
+ 
+jogo.
+ 
+46.  Perﬁs  completos  de  qualidade  gráﬁca  O  jogo  terá  presets  escaláveis  para  adaptar  a  apresentação  visual  ao  hardware.  Os  valores  abaixo  são  
+metas
+ 
+de
+ 
+projeto
+ 
+e
+ 
+deverão
+ 
+ser
+ 
+validados
+ 
+por
+ 
+benchmarks
+ 
+durante
+ 
+a
+ 
+produção.
+ 
+O
+ 
+jogador
+ 
+poderá
+ 
+usar
+ 
+o
+ 
+preset
+ 
+automático
+ 
+ou
+ 
+alterar
+ 
+opções
+ 
+individualmente.
+ 
+Preset  Objetivo  Texturas  Sombras/iluminação  
+Geometria/LOD  Efeitos  
+Muito  Baixo  Máxima  compatibilidade  
+Baixa  resolução  
+Sombras  mínimas  ou  simplificadas  
+LOD  troca  cedo;  menor  distância  
+Poucas  partículas;  pós-processamento  mínimo  Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+---PAGE 26---
+
+Baixo  Hardware  de  entrada  
+Baixa/Média  Sombras  baixas;  poucas  luzes  dinâmicas  
+LOD  conservador  
+Efeitos  reduzidos  
+Médio  Equilíbrio  Média/Alta  Sombras  médias;  iluminação  equilibrada  
+LOD  intermediário  
+Partículas  e  pós-processamento  moderados  Alto  Alta  fidelidade  Alta  Sombras  altas;  mais  luzes/efeitos  
+Maior  distância  e  detalhe  
+Efeitos  completos  
+Ultra  Máxima  fidelidade  
+Máxima  compatível  com  VRAM  
+Sombras  e  iluminação  máximas  previstas  
+LOD  distante;  maior  densidade  
+Máxima  qualidade  de  partículas  e  pós-processamento  
+47.  Perﬁs  de  desempenho  por  classe  de  hardware  Classe  Exemplo  de  cenário  
+Preset  inicial  Meta  de  FPS  Resolução/escala  
+Prioridade  
+Entrada  PC  integrado/antigo  ou  celular  básico  compatível  
+Muito  Baixo/Baixo  
+30  FPS  estáveis  
+720p  ou  escala  dinâmica  equivalente  
+Estabilidade  e  legibilidade  
+Intermediário  PC  com  GPU  dedicada  modesta  ou  celular  intermediário  
+Médio  30-60  FPS  900p/1080p  ou  escala  dinâmica  
+Equilíbrio  
+Avançado  PC  moderno  ou  mobile  topo  de  linha  
+Alto  60  FPS  quando  viável  
+1080p+  Qualidade  +  fluidez  
+Entusiasta  GPU/CPU  de  alto  desempenho  
+Ultra  60  FPS  ou  superior  quando  viável  
+1440p/4K  conforme  hardware  
+Fidelidade  máxima  
+A  taxa  de  quadros  não  será  vinculada  à  lógica  dos  turnos.  Animações,  câmera  e  interface  devem  continuar  
+corretas
+ 
+em
+ 
+taxas
+ 
+diferentes.
+ 
+Em
+ 
+mobile,
+ 
+temperatura,
+ 
+bateria
+ 
+e
+ 
+throttling
+ 
+térmico
+ 
+também
+ 
+serão
+ 
+considerados.
+ 
+48.  Opções  gráﬁcas  individuais  ●  Resolução,  modo  janela/tela  cheia  e  escala  de  renderização.  ●  Limite  de  FPS  e  V-Sync  quando  disponível.  ●  Qualidade  de  texturas  e  filtragem.  ●  Sombras:  resolução,  distância  e  quantidade.  ●  Iluminação,  reflexos  e  efeitos  volumétricos  conforme  suporte.  ●  Anti-aliasing  e  nitidez.  ●  Distância  de  visão,  densidade  de  cenário  e  LOD.  ●  Partículas,  decalques,  vegetação  e  física  visual.  Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+---PAGE 27---
+
+●  Pós-processamento:  bloom,  profundidade  de  campo,  motion  blur  e  efeitos  de  tela.  ●  Qualidade  de  cabelo/barba  e  quantidade  de  personagens  detalhados.  ●  Preset  de  economia  de  bateria/temperatura  para  Android  e  iOS.  
+49.  Detecção  automática  e  benchmark  Na  primeira  execução,  o  jogo  poderá  recomendar  um  preset  usando  informações  de  CPU,  GPU,  memória  e  
+plataforma,
+ 
+seguido
+ 
+de
+ 
+um
+ 
+benchmark
+ 
+curto
+ 
+em
+ 
+cena
+ 
+representativa.
+ 
+Se
+ 
+houver
+ 
+quedas
+ 
+persistentes,
+ 
+o
+ 
+sistema
+ 
+poderá
+ 
+sugerir
+ 
+reduzir
+ 
+escala
+ 
+de
+ 
+renderização,
+ 
+sombras,
+ 
+distância,
+ 
+partículas
+ 
+ou
+ 
+densidade
+ 
+antes
+ 
+de
+ 
+reduzir
+ 
+elementos
+ 
+que
+ 
+afetem
+ 
+legibilidade.
+ 
+50.  Catálogo  de  erros  prováveis  e  como  resolver  Não  é  possível  prever  literalmente  todo  erro  futuro  de  hardware,  driver,  sistema  operacional,  engine  ou  
+código.
+ 
+Esta
+ 
+seção
+ 
+documenta
+ 
+as
+ 
+principais
+ 
+classes
+ 
+de
+ 
+falha
+ 
+que
+ 
+o
+ 
+projeto
+ 
+deve
+ 
+antecipar,
+ 
+registrar
+ 
+e
+ 
+tratar.
+ 
+Erro/sintoma  Causa  provável  Diagnóstico  Solução  planejada  Jogo  não  inicia  Driver/API  gráfica  incompatível,  arquivos  ausentes  ou  build  incorreta  
+Log  da  Godot,  versão  do  SO/GPU  
+Atualizar  driver;  validar  requisitos;  reparar/reinstalar  arquivos;  oferecer  renderer/configuração  compatível  quando  possível.  Tela  preta  Shader,  renderer,  resolução  ou  inicialização  de  cena  
+Log  gráfico;  iniciar  com  preset  seguro  
+Desativar  efeitos  problemáticos;  resetar  config;  usar  preset  Muito  Baixo;  corrigir  shader/material.  FPS  baixo  GPU/CPU  saturada,  draw  calls,  sombras,  partículas  ou  resolução  
+Profiler  da  Godot  e  medição  CPU/GPU  
+LODs,  culling,  reduzir  sombras/partículas/resolução,  otimizar  scripts  e  batches.  Travamentos/stutter  Carregamento  síncrono,  compilação,  GC/alocações  ou  streaming  
+Profiler  e  frame-time  Pré-carregar,  carregar  assíncrono,  pooling,  reduzir  alocações  e  distribuir  trabalho.  Crash  por  memória  Texturas/malhas  grandes  ou  vazamento  
+Uso  RAM/VRAM  e  logs  Comprimir/redimensionar  assets,  descarregar  recursos,  limitar  cache  e  corrigir  referências.  Textura  rosa/preta/ausente  
+Material/shader/textura  não  importado  
+Inspecionar  material  e  importação  
+Reimportar,  corrigir  paths,  shader  e  mapas  PBR.  Modelo  invisível  Cull  mask,  escala,  posição,  importação  ou  material  
+Remote  scene  tree  e  câmera  
+Corrigir  transform,  layers,  bounds,  material  e  importação  GLB.  Modelo  deformado  Rig,  pesos  ou  escala  do  esqueleto  
+Testar  animação  no  Blender/Godot  
+Aplicar  transforms,  corrigir  skinning,  nomes/ossos  e  reexportar  GLB.  
+Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+---PAGE 28---
+
+Animação  quebrada  Skeleton  incompatível,  tracks  erradas  ou  root  motion  
+AnimationTree/Player  Padronizar  rig,  revisar  tracks,  root  bone  e  import  settings.  Cabelo/barba  atravessando  corpo  
+Skinning,  cards  ou  colisão  inadequados  
+Teste  de  poses  extremas  
+Ajustar  pesos/cards,  ocultar  partes  sob  roupa  e  criar  variantes  por  equipamento.  Z-fighting/flicker  Superfícies  coplanares  ou  precisão  de  depth  
+Inspeção  de  malha/câmera  
+Separar  superfícies,  ajustar  near/far  e  geometria.  Sombras  piscando  Bias,  distância  ou  cascatas  
+Teste  em  várias  câmeras  
+Ajustar  bias,  distância  e  qualidade  por  preset.  Input  não  responde  Input  Map,  foco  ou  dispositivo  
+Monitor  de  eventos  Mapear  ações,  tratar  hot-plug,  touch/gamepad  e  restaurar  defaults.  Touch  ruim  no  mobile  Botões  pequenos,  gestos  conflitantes  
+Teste  em  tamanhos  reais  
+UI  responsiva,  áreas  de  toque  maiores  e  layout  específico  mobile.  UI  cortada  Aspect  ratio,  safe  area  ou  escala  
+Testar  resoluções/notch  Anchors/containers,  safe  areas  e  escalonamento  de  UI.  Texto  ilegível  Escala/resolução/contraste  
+Teste  de  acessibilidade  Escala  de  fonte,  contraste,  fundos  e  presets  de  UI.  Save  corrompido  Interrupção  de  escrita  ou  mudança  de  versão  
+Validação  e  versionamento  
+Escrita  atômica,  backup,  checksum  e  migração  de  saves.  Save  incompatível  após  update  
+Schema  alterado  Versão  do  save  Migradores  por  versão  e  fallback  para  backup.  IA  trava  NavigationMesh  inválida,  estado  sem  saída  ou  alvo  inacessível  
+Debug  nav/estado  Rebake  navmesh,  timeout,  fallback  de  ação  e  validação  de  alvo.  
+Personagem  atravessa  cenário  
+Colisor,  velocidade  ou  física  
+Debug  collision  shapes  Corrigir  shapes/layers,  movimento  e  testes  de  colisão.  Turno  não  termina  Estado  assíncrono  ou  ação  sem  callback  
+Logs  do  TurnManager  Timeout,  máquina  de  estados  explícita  e  finalização  garantida.  Ordem  de  iniciativa  errada  
+Estado/modificador  aplicado  duas  vezes  
+Log  determinístico  da  fila  
+Centralizar  cálculo  e  testes  unitários.  Dano  incorreto  Resistência/armadura/fórmula  duplicada  
+Combat  log  detalhado  Uma  função  autoritativa  de  cálculo  +  testes  automatizados.  Desync  visual/lógica  Animação  controla  regra  ou  sinais  duplicados  
+Logs  de  eventos  Lógica  autoritativa  separada  da  animação;  sinais  idempotentes.  Áudio  falha/estoura  Bus,  volume,  importação  ou  muitas  vozes  
+Profiler  de  áudio  Limites  de  vozes,  compressão,  buses  e  prioridades.  Android  fecha  sozinho  Memória,  GPU,  permissões  ou  incompatibilidade  
+Logcat/crash  logs  Reduzir  memória,  revisar  renderer,  permissões  e  dispositivos-alvo.  Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+---PAGE 29---
+
+APK/AAB  não  exporta  SDK/JDK/keystore/export  templates  
+Output  de  exportação  Configurar  toolchain,  templates,  assinatura  e  versões  exigidas.  iOS  não  compila/publica  Xcode,  assinatura,  provisioning  ou  requisitos  Apple  
+Logs  Xcode  Corrigir  certificados/perfis,  bundle  ID  e  versões  requeridas.  Linux  abre  sem  áudio/gráfico  
+Driver,  backend  ou  dependência  do  sistema  
+Logs  e  distro/driver  Testar  distros-alvo,  drivers  e  configuração  de  renderer/áudio.  Windows  bloqueia/alerta  Assinatura/reputação  ou  antivírus  
+Código  do  alerta  Assinar  builds  quando  aplicável,  empacotar  corretamente  e  evitar  falsos  positivos.  Config  gráfica  deixa  jogo  inutilizável  
+Valor  inválido  ou  resolução  fora  da  tela  
+Arquivo  de  configuração  Modo  seguro,  timeout  de  confirmação  e  botão  Restaurar  padrões.  Superaquecimento  mobile  
+Carga  contínua  de  GPU/CPU  
+Temperatura/FPS  em  testes  longos  
+Limitar  FPS,  escala  dinâmica  e  preset  bateria.  Bateria  drena  rápido  FPS  alto,  GPU/CPU/rádio  
+Teste  energético  30  FPS  opcional,  reduzir  efeitos  e  atividade  em  segundo  plano.  
+51.  Erros  especíﬁcos  do  pipeline  Blender  →  GLB  →  Godot  ●  Escala  errada:  aplicar  transforms  no  Blender,  padronizar  unidades  e  validar  altura  real  do  personagem  
+antes
+ 
+da
+ 
+exportação.
+ ●  Orientação/eixos  incorretos:  usar  um  preset  de  exportação  único  e  nunca  corrigir  manualmente  cada  
+personagem
+ 
+na
+ 
+Godot.
+ ●  Materiais  diferentes  do  Blender:  usar  materiais  PBR  compatíveis  e  validar  mapas  exportados;  efeitos  
+exclusivos
+ 
+do
+ 
+Blender
+ 
+precisam
+ 
+ser
+ 
+recriados
+ 
+na
+ 
+Godot.
+ ●  Rig  incompatível:  manter  um  esqueleto-base  documentado  e  nomes  de  ossos  consistentes.  ●  Animações  ausentes:  conferir  NLA/Actions,  faixas  exportadas  e  importação  no  
+AnimationPlayer/AnimationTree.
+ ●  Morphs/blend  shapes  ausentes:  testar  exportação  e  limitar  o  conjunto  aos  necessários  para  
+gameplay/facial.
+ ●  Asset  pesado:  reduzir  polígonos,  criar  LODs,  comprimir  texturas  e  limitar  materiais  por  personagem.  ●  Transparência  de  cabelo  problemática:  revisar  ordenação,  alpha/scissor  e  materiais  específicos  para  hair  
+cards.
+ 
+52.  Sistema  de  logs,  recuperação  e  modo  seguro  Builds  de  desenvolvimento  terão  logs  detalhados  por  sistema:  boot,  renderer,  importação,  combate,  
+iniciativa,
+ 
+IA,
+ 
+saves,
+ 
+áudio
+ 
+e
+ 
+plataforma.
+ 
+A
+ 
+versão
+ 
+final
+ 
+manterá
+ 
+logs
+ 
+essenciais
+ 
+sem
+ 
+registrar
+ 
+dados
+ 
+pessoais
+ 
+desnecessários.
+ 
+Se
+ 
+o
+ 
+jogo
+ 
+detectar
+ 
+falha
+ 
+durante
+ 
+inicialização
+ 
+gráfica,
+ 
+poderá
+ 
+oferecer
+ 
+um
+ 
+Modo
+ 
+Seguro
+ 
+com
+ 
+resolução
+ 
+conservadora,
+ 
+preset
+ 
+Muito
+ 
+Baixo
+ 
+e
+ 
+efeitos
+ 
+avançados
+ 
+desligados.
+ 
+●  Backup  automático  do  arquivo  de  configuração  antes  de  alterações  críticas.  ●  Botão  Restaurar  configurações  gráficas.  Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+---PAGE 30---
+
+●  Confirmação  com  contagem  regressiva  ao  trocar  resolução/tela  cheia.  ●  Backup  rotativo  de  saves  importantes.  ●  Validação  de  arquivos  e  mensagens  de  erro  compreensíveis.  ●  Código  interno/identificador  de  erro  para  facilitar  suporte  e  reprodução.  ●  Crash  reports  e  logs  de  teste  durante  desenvolvimento,  respeitando  privacidade  e  permissões.  
+53.  Matriz  obrigatória  de  testes  de  desempenho  A  LZASANTOSWORLDSGAMES  deverá  manter  uma  matriz  de  testes  que  cubra  hardware  de  entrada,  
+intermediário
+ 
+e
+ 
+avançado
+ 
+em
+ 
+Windows/Linux
+ 
+e
+ 
+múltiplas
+ 
+faixas
+ 
+de
+ 
+dispositivos
+ 
+Android/iOS.
+ 
+Cada
+ 
+build
+ 
+candidata
+ 
+será
+ 
+testada
+ 
+em
+ 
+exploração,
+ 
+combate
+ 
+com
+ 
+muitas
+ 
+unidades,
+ 
+chefe,
+ 
+efeitos
+ 
+intensos,
+ 
+carregamento,
+ 
+save/load
+ 
+e
+ 
+sessão
+ 
+prolongada.
+ 
+Teste  Entrada  Intermediário  Avançado  Critério  Exploração  3D  Obrigatório  Obrigatório  Obrigatório  Frame-time  estável  e  sem  streaming  perceptível  excessivo  Combate  lotado  Obrigatório  Obrigatório  Obrigatório  Turnos  responsivos  e  animações  estáveis  Carregamento  Obrigatório  Obrigatório  Obrigatório  Sem  congelamentos  prolongados  Memória  Obrigatório  Obrigatório  Obrigatório  Sem  crescimento  anormal  durante  sessão  Temperatura  mobile  
+Android/iOS  Android/iOS  Android/iOS  Sem  throttling  severo  em  sessão  longa  Save/Load  Obrigatório  Obrigatório  Obrigatório  Integridade  e  compatibilidade  
+54.  Política  de  compatibilidade  O  objetivo  é  suportar  o  maior  intervalo  razoável  de  hardware,  mas  'rodar  em  qualquer  hardware'  não  será  
+tratado
+ 
+como
+ 
+promessa
+ 
+absoluta.
+ 
+Os
+ 
+requisitos
+ 
+mínimos
+ 
+serão
+ 
+definidos
+ 
+após
+ 
+profiling
+ 
+do
+ 
+Vertical
+ 
+Slice.
+ 
+Hardware
+ 
+abaixo
+ 
+desses
+ 
+requisitos
+ 
+poderá
+ 
+não
+ 
+possuir
+ 
+memória,
+ 
+recursos
+ 
+gráficos
+ 
+ou
+ 
+versão
+ 
+de
+ 
+sistema
+ 
+operacional
+ 
+suficiente.
+ 
+Essa
+ 
+política
+ 
+evita
+ 
+sacrificar
+ 
+estabilidade
+ 
+do
+ 
+jogo
+ 
+inteiro
+ 
+para
+ 
+suportar
+ 
+dispositivos
+ 
+tecnicamente
+ 
+incompatíveis.
+ 
+55.  Guia  oﬁcial  para  geração  de  imagens  e  modelos  3D  Todo  conteúdo  visual  de  Aes  Divinus  deverá  seguir  uma  direção  de  arte  consistente  antes  de  ser  
+transformado
+ 
+em
+ 
+asset
+ 
+final.
+ 
+Imagens
+ 
+conceituais
+ 
+servem
+ 
+como
+ 
+referência;
+ 
+os
+ 
+modelos
+ 
+3D
+ 
+finais
+ 
+serão
+ 
+construídos
+ 
+e
+ 
+otimizados
+ 
+no
+ 
+Blender
+ 
+e
+ 
+integrados
+ 
+à
+ 
+Godot
+ 
+Engine
+ 
+4.
+ 
+Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+---PAGE 31---
+
+56.  Direção  visual  geral  ●  Fantasia  medieval  sombria  com  proporções  humanas  críveis  e  estilização  realista  moderada.  ●  Materiais  fisicamente  coerentes:  metal,  couro,  tecido,  madeira,  pedra,  pele,  cabelo,  lama,  sangue  e  
+desgaste.
+ ●  Paleta  e  iluminação  devem  reforçar  tensão,  guerra,  natureza  hostil  e  elementos  sobrenaturais.  ●  Silhuetas  devem  permitir  reconhecer  classe,  função  e  ameaça  mesmo  à  distância.  ●  Personagens  importantes  recebem  maior  densidade  de  detalhes;  NPCs  comuns  compartilham  peças  
+modulares.
+ ●  Nada  deve  depender  de  detalhes  minúsculos  para  comunicar  informação  essencial  de  gameplay.  
+57.  Como  gerar  concept  arts  e  imagens  de  referência  Antes  da  modelagem,  cada  personagem,  criatura,  equipamento  e  ambiente  deve  receber  uma  ficha  visual.  A  
+imagem
+ 
+não
+ 
+deve
+ 
+ser
+ 
+tratada
+ 
+automaticamente
+ 
+como
+ 
+modelo
+ 
+pronto:
+ 
+ela
+ 
+precisa
+ 
+fornecer
+ 
+informações
+ 
+suficientes
+ 
+para
+ 
+reconstrução
+ 
+3D.
+ 
+Imagem  Obrigatório  Finalidade  Personagem  -  frente  Pose  neutra,  corpo  inteiro,  braços  afastados  
+Proporções,  roupa  e  acessórios.  
+Personagem  -  costas  Mesma  roupa  e  proporção  Partes  não  visíveis  na  frente.  Personagem  -  perfil  Vista  lateral  Profundidade  do  rosto,  corpo  e  equipamentos.  Rosto  Frente  +  perfil  +  3/4  Escultura  facial  e  identidade.  Equipamento  Vistas  isoladas  Modelagem  de  arma,  armadura  e  acessórios.  Criatura  Frente,  lateral,  costas  e  escala  Anatomia,  rig  e  leitura  da  silhueta.  Ambiente  Visão  geral  +  detalhes  Arquitetura,  materiais,  escala  e  composição.  Prop  Frente/lateral/topo  quando  necessário  
+Modelagem  precisa  e  reutilizável.  
+58.  Padrão  de  personagem  3D  Os  personagens  humanos  serão  construídos  sobre  uma  base  modular.  Corpo,  cabeça,  cabelo,  barba,  
+roupas
+ 
+e
+ 
+equipamentos
+ 
+devem
+ 
+poder
+ 
+ser
+ 
+combinados
+ 
+sem
+ 
+criar
+ 
+um
+ 
+modelo
+ 
+completamente
+ 
+novo
+ 
+para
+ 
+cada
+ 
+NPC.
+ 
+●  Corpo  base  com  variações  de  altura,  massa,  musculatura  e  proporções.  ●  Cabeças  com  formatos  de  rosto  distintos  e  morphs  controlados.  ●  Olhos  com  formato,  íris  e  cores  variadas.  ●  Cabelos  separados  por  estilo,  comprimento,  curvatura  e  cor.  ●  Barbas  separadas  por  estilo  e  densidade.  ●  Pele  com  variações  de  tom,  idade,  sujeira,  cicatrizes  e  ferimentos.  ●  Roupa  em  camadas:  roupa  base,  botas,  luvas,  cinto,  capa,  armadura  e  acessórios.  ●  Sockets/bones  para  armas,  escudos  e  objetos.  ●  Rig  compartilhado  sempre  que  a  anatomia  permitir  para  reutilização  de  animações.  
+Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+---PAGE 32---
+
+59.  Orçamento  geométrico  e  LOD  Os  números  abaixo  são  faixas  iniciais  de  produção,  não  limites  absolutos.  Devem  ser  ajustados  após  
+profiling
+ 
+em
+ 
+hardware-alvo.
+ 
+Asset  LOD0  aproximado  LOD1  LOD2  Uso  Herói/personagem  principal  
+40k-80k  triângulos  ~60%  ~30%  Close-ups,  combate  e  cinematics.  NPC  importante  25k-50k  ~60%  ~30%  Diálogo  e  combate.  NPC  comum  15k-35k  ~50%  ~25%  Multidões  e  exploração.  Criatura  grande  40k-100k  conforme  necessidade  
+~60%  ~30%  Chefes  e  monstros.  
+Prop  médio  2k-15k  ~50%  ~20%  Objetos  de  cenário.  Prop  pequeno  200-5k  ~50%  ~20%  Itens  repetidos.  
+60.  Texturas  e  materiais  PBR  ●  Base  Color/Albedo:  cor  sem  iluminação  pintada  artificialmente.  ●  Normal  Map:  detalhes  de  alta  frequência  vindos  do  sculpt/bake.  ●  Roughness:  controla  aspereza  e  resposta  à  luz.  ●  Metallic:  usado  corretamente  para  metais;  não  como  mapa  genérico  de  brilho.  ●  Ambient  Occlusion:  detalhe  de  contato  quando  útil  ao  pipeline.  ●  Emissive:  somente  em  elementos  que  realmente  emitem  luz  visual,  magia  ou  efeitos.  ●  Máscaras  combinadas  podem  ser  usadas  para  reduzir  memória  e  amostras  de  textura.  ●  Materiais  devem  possuir  versões  simplificadas  para  presets  baixos/mobile.  
+Referência  inicial  de  resolução:  personagens  principais  podem  usar  conjuntos  de  2K/4K  quando  necessário;  
+NPCs
+ 
+e
+ 
+objetos
+ 
+recorrentes
+ 
+devem
+ 
+priorizar
+ 
+1K/2K
+ 
+e
+ 
+atlas.
+ 
+Mobile
+ 
+deverá
+ 
+usar
+ 
+variantes
+ 
+comprimidas
+ 
+e
+ 
+menores
+ 
+conforme
+ 
+memória
+ 
+disponível.
+ 
+61.  Cabelo  e  barba  Cabelo  e  barba  deverão  ser  produzidos  pensando  em  tempo  real.  Para  a  maior  parte  do  jogo,  hair  cards  são  
+preferíveis
+ 
+a
+ 
+sistemas
+ 
+extremamente
+ 
+densos.
+ 
+Personagens
+ 
+principais
+ 
+podem
+ 
+receber
+ 
+solução
+ 
+mais
+ 
+detalhada
+ 
+desde
+ 
+que
+ 
+exista
+ 
+fallback
+ 
+simplificado.
+ 
+●  Criar  scalp/base  para  evitar  falhas  visuais  entre  mechas.  ●  Usar  cards  seguindo  o  fluxo  natural  dos  fios.  ●  Separar  sobrancelhas,  cílios,  cabelo  e  barba  quando  necessário.  ●  Criar  LOD  específico  reduzindo  quantidade  de  cards.  ●  Usar  materiais  alpha  eficientes  e  testar  ordenação/transparência  na  Godot.  ●  Cores  devem  derivar  de  parâmetros/material  para  ampliar  variedade  sem  duplicar  geometria.  ●  Barbas  devem  respeitar  rosto  e  mandíbula  e  possuir  variantes  compatíveis  com  capacetes/armaduras.  
+Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+---PAGE 33---
+
+62.  Criaturas  e  monstros  Cada  criatura  precisa  ser  desenhada  a  partir  de  sua  função  de  gameplay.  O  concept  deve  indicar  escala  
+comparada
+ 
+a
+ 
+um
+ 
+humano,
+ 
+pontos
+ 
+de
+ 
+ataque,
+ 
+locomoção,
+ 
+regiões
+ 
+vulneráveis,
+ 
+transformação
+ 
+e
+ 
+leitura
+ 
+visual
+ 
+do
+ 
+nível
+ 
+de
+ 
+ameaça.
+ 
+●  Anatomia  deve  suportar  fisicamente  as  animações  previstas,  mesmo  quando  sobrenatural.  ●  Criaturas  que  afetam  Coragem  precisam  de  silhueta,  animação  e  áudio  capazes  de  comunicar  ameaça.  ●  Chefes  devem  ter  elementos  visuais  ligados  às  fases  e  mecânicas.  ●  Partes  destrutíveis  ou  mutáveis  precisam  ser  planejadas  como  meshes/materiais  separados.  ●  Criaturas  transformáveis  devem  definir  antecipadamente  se  usarão  morphs,  troca  de  mesh,  rig  adicional  
+ou
+ 
+combinação.
+ 
+63.  Armas,  armaduras  e  roupas  Asset  Requisitos  3D  Gameplay  Espadas/machados  Escala  realista,  pivô  correto,  material  metal/madeira/couro  
+Tipo  de  dano,  alcance  e  animação.  Lanças  Comprimento  consistente  e  mãos  posicionadas  no  rig  
+Perfuração  e  controle  de  distância.  Arcos/bestas  Partes  móveis  preparadas  Ataque  à  distância  e  animação.  Escudos  Grip/socket  e  colisão  visual  Bloqueio,  defesa  e  cobertura.  Armaduras  Peças  modulares,  skinning  e  ocultação  de  corpo  
+Proteção,  peso  e  mobilidade.  
+Roupas/capas  Malha  otimizada;  física  apenas  onde  agrega  valor  
+Identidade,  facção  e  leitura  visual.  
+64.  Ambientes  3D  ●  Construir  ambientes  em  kits  modulares:  paredes,  portas,  pisos,  telhados,  ruínas,  cercas,  pedras  e  
+vegetação.
+ ●  Usar  métricas  padronizadas  para  portas,  escadas,  cobertura,  corredores  e  áreas  de  combate.  ●  Separar  geometria  visual  de  colisão  quando  isso  melhorar  desempenho.  ●  Criar  LOD/HLOD  ou  agrupamentos  equivalentes  para  elementos  distantes.  ●  Vegetação  deve  possuir  versões  simplificadas  e  densidade  controlada  por  preset.  ●  Áreas  táticas  precisam  preservar  espaço  de  navegação,  câmera  e  legibilidade  dos  personagens.  ●  Decals  podem  representar  lama,  sangue,  desgaste  e  marcas  sem  aumentar  excessivamente  a  
+geometria.
+ 
+65.  Rigging  e  animação  Personagens  humanos  deverão  compartilhar  um  esqueleto-base  sempre  que  possível.  O  rig  de  produção  no  
+Blender
+ 
+pode
+ 
+conter
+ 
+controles
+ 
+avançados,
+ 
+mas
+ 
+o
+ 
+arquivo
+ 
+exportado
+ 
+à
+ 
+Godot
+ 
+deve
+ 
+carregar
+ 
+somente
+ 
+os
+ 
+ossos
+ 
+necessários
+ 
+ao
+ 
+runtime.
+ 
+●  Root  bone  consistente  para  movimento  e  root  motion  quando  utilizado.  ●  Bones  de  mãos  para  armas  e  escudos.  ●  Bones  auxiliares  somente  quando  justificarem  custo.  ●  Animações  separadas  por  clips  com  nomes  padronizados.  Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+---PAGE 34---
+
+●  AnimationTree  na  Godot  para  locomotion,  combate,  estados  e  transições.  ●  Hit  reactions  por  direção  e  intensidade.  ●  Animações  específicas  para  medo,  trauma,  cansaço  e  liderança.  ●  Testar  todas  as  animações  com  armaduras  e  proporções  corporais  extremas.  
+66.  Pipeline  de  produção  de  cada  asset  3D  1.  Briefing:  função  no  jogo,  escala,  importância,  plataforma  e  orçamento.  
+2.  Concept  art:  vistas  necessárias  e  materiais  identificados.  
+3.  Blockout:  formas  e  proporções  em  baixa  complexidade.  
+4.  Sculpt/high-poly:  detalhes  quando  necessários.  
+5.  Retopologia:  malha  de  jogo  limpa.  
+6.  UV:  organização  e  texel  density  coerente.  
+7.  Bake:  normal/AO  e  demais  mapas  necessários.  
+8.  Texturização  PBR.  
+9.  Rig  e  skinning  se  o  asset  for  animado.  
+10.  Animação  quando  aplicável.  
+11.  LODs  e  colisores.  
+12.  Exportação  GLB/glTF  2.0.  
+13.  Importação  na  Godot  4.  
+14.  Configuração  de  materiais,  skeleton,  AnimationTree  e  colisão.  
+15.  Teste  no  gameplay  real.  
+16.  Profiling  em  hardware  fraco,  médio  e  forte.  
+17.  Correção,  aprovação  e  versionamento.  
+67.  Convenção  de  nomes  e  organização  Tipo  Exemplo  Personagem  CHR_William_Base  Criatura  CRE_BloodForest_Beast  Arma  WPN_Sword_Iron_01  Armadura  ARM_Knight_Chest_01  Cenário  ENV_Forest_Rock_01  Prop  PRP_WoodCrate_01  Material  MAT_Iron_Worn  Textura  T_William_Body_BaseColor  Animação  ANM_Human_Sword_Attack_01  Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+---PAGE 35---
+
+68.  Critérios  de  aprovação  visual  e  técnica  ●  Silhueta  e  identidade  correspondem  ao  concept  aprovado.  ●  Escala  está  correta  em  relação  ao  personagem  humano  padrão.  ●  Topologia  de  deformação  não  quebra  nas  animações.  ●  UVs  não  apresentam  sobreposição  indevida  ou  desperdício  excessivo.  ●  Materiais  funcionam  corretamente  na  Godot,  não  apenas  no  Blender.  ●  LODs  não  causam  mudanças  visuais  excessivamente  perceptíveis.  ●  Asset  atende  orçamento  de  memória  e  desempenho.  ●  Colisão  e  navegação  funcionam  no  gameplay.  ●  Asset  funciona  nos  presets  Muito  Baixo  até  Ultra.  ●  Versão  mobile  mantém  leitura  visual  mesmo  com  simplificação.  ●  Nomes,  pastas,  origem  e  versão  do  asset  estão  documentados.  
+69.  Modelo  de  brieﬁng  para  gerar  um  personagem  Nome:  [personagem].  Função:  [classe/papel].  Idade:  [idade].  Corpo:  [tipo/proporção].  Rosto:  [formato].  
+Olhos:
+ 
+[formato/cor].
+ 
+Cabelo:
+ 
+[tipo/cor/comprimento].
+ 
+Barba:
+ 
+[estilo/cor].
+ 
+Roupa:
+ 
+[camadas].
+ 
+Armadura:
+ 
+[tipo].
+ 
+Armas:
+ 
+[equipamento].
+ 
+Personalidade
+ 
+visual:
+ 
+[descrição].
+ 
+Estado
+ 
+físico:
+ 
+[cicatrizes/ferimentos].
+ 
+Vistas
+ 
+necessárias:
+ 
+frente,
+ 
+costas,
+ 
+perfil
+ 
+e
+ 
+3/4;
+ 
+corpo
+ 
+inteiro
+ 
+em
+ 
+pose
+ 
+neutra;
+ 
+rosto
+ 
+em
+ 
+detalhe;
+ 
+equipamento
+ 
+isolado;
+ 
+iluminação
+ 
+neutra;
+ 
+fundo
+ 
+simples;
+ 
+proporções
+ 
+consistentes
+ 
+entre
+ 
+todas
+ 
+as
+ 
+vistas.
+ 
+70.  Regra  de  consistência  visual  Toda  imagem  gerada  ou  desenhada  deverá  ser  tratada  como  material  de  pré-produção  até  ser  validada.  
+Uma
+ 
+única
+ 
+imagem
+ 
+em
+ 
+perspectiva
+ 
+não
+ 
+deve
+ 
+determinar
+ 
+sozinha
+ 
+a
+ 
+geometria
+ 
+final.
+ 
+Personagens
+ 
+importantes
+ 
+exigem
+ 
+turnaround
+ 
+e
+ 
+ficha
+ 
+de
+ 
+materiais.
+ 
+A
+ 
+equipe
+ 
+da
+ 
+LZASANTOSWORLDSGAMES
+ 
+deverá
+ 
+manter
+ 
+uma
+ 
+biblioteca
+ 
+de
+ 
+referências
+ 
+aprovadas
+ 
+para
+ 
+impedir
+ 
+que
+ 
+personagens,
+ 
+criaturas
+ 
+e
+ 
+cenários
+ 
+pareçam
+ 
+pertencer
+ 
+a
+ 
+estilos
+ 
+diferentes.
+ 
+71.  Sistema  oﬁcial  de  ações  do  jogador  As  ações  de  Aes  Divinus  serão  organizadas  por  contexto:  exploração  3D,  combate  tático  por  turnos,  
+interação,
+ 
+liderança,
+ 
+inventário,
+ 
+gerenciamento
+ 
+do
+ 
+principado
+ 
+e
+ 
+interface.
+ 
+Na
+ 
+Godot
+ 
+Engine,
+ 
+cada
+ 
+comando
+ 
+deverá
+ 
+existir
+ 
+como
+ 
+uma
+ 
+ação
+ 
+semântica
+ 
+no
+ 
+InputMap,
+ 
+evitando
+ 
+vincular
+ 
+a
+ 
+lógica
+ 
+diretamente
+ 
+a
+ 
+uma
+ 
+tecla.
+ 
+Assim,
+ 
+a
+ 
+mesma
+ 
+ação
+ 
+poderá
+ 
+ser
+ 
+acionada
+ 
+por
+ 
+teclado,
+ 
+mouse,
+ 
+gamepad
+ 
+ou
+ 
+touchscreen
+ 
+e
+ 
+poderá
+ 
+ser
+ 
+remapeada
+ 
+pelo
+ 
+jogador.
+ 
+Ação  Funcionamento  Contexto  Ícone  proposto  Feedback  visual  Mover  Desloca  William/grupo  na  exploração  ou  seleciona  destino  válido  no  combate.  
+Exploração/Combate  
+Bota  +  seta  Área  alcançável  destacada  e  trajetória.  
+Correr  Aumenta  velocidade  fora  do  combate;  pode  elevar  ruído/fadiga  se  implementados.  
+Exploração  Figura  correndo  Animação  e  indicador  de  stamina  quando  aplicável.  
+Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+---PAGE 36---
+
+Interagir  Conversa,  abre,  coleta,  ativa  mecanismos  e  examina  objetos.  
+Exploração  Mão  aberta  Contorno/glow  no  objeto  +  texto  da  ação.  
+Examinar  Mostra  detalhes,  pistas  ou  descrição.  
+Exploração  Olho/lupa  Painel  curto  com  informação.  
+Atacar  corpo  a  corpo  
+Seleciona  arma,  alvo  e  executa  golpe  dentro  do  alcance.  
+Combate  Espada  Previsão  de  acerto/dano  e  alvo  contornado.  
+Atacar  à  distância  Seleciona  alvo  por  linha  de  visão  e  alcance.  
+Combate  Arco  e  flecha  Linha/área  de  alcance  e  cobertura.  Mover  taticamente  Consome  movimento/PA  conforme  distância  e  terreno.  
+Combate  Pegadas  Tiles/área  navegável  e  custo.  
+Parry  Reação  defensiva  técnica  contra  ataque  elegível.  
+Combate  Duas  espadas  cruzadas  
+Janela/estado  de  reação  e  brilho  defensivo.  Esquivar  Evita  golpe  e  pode  reposicionar.  
+Combate  Silhueta  com  seta  lateral  
+Destino  de  esquiva  e  chance/condição.  Bloquear  Usa  escudo/arma  para  reduzir  dano.  
+Combate  Escudo  Escudo  iluminado  e  valor  de  mitigação.  Habilidade  Abre  habilidades  específicas  do  personagem.  
+Combate  Estrela/runa  Barra  radial  ou  painel  de  habilidades.  Usar  item  Consome  poção,  bandagem  ou  item  tático.  
+Combate/Exploração  
+Bolsa/frasco  Quantidade  restante  e  efeito.  
+Trocar  arma  Alterna  equipamento  permitido.  
+Combate/Exploração  
+Espada  +  setas  Preview  de  arma  e  custo  se  houver.  
+Postura  de  guarda  Prepara  reação  e  defesa  até  próximo  turno.  
+Combate  Escudo  com  olho  Área  de  ameaça/zona  de  controle.  Esperar  Mantém  posição  e  encerra/adianta  ação  conforme  regra.  
+Combate  Ampulheta  Confirmação  clara  antes  de  encerrar.  
+Encerrar  turno  Finaliza  voluntariamente  o  turno  atual.  
+Combate  Seta  circular/check  Botão  destacado  e  confirmação  quando  ainda  houver  PA.  Inspirar  William  usa  comando  de  liderança  para  alterar  moral.  
+Combate  Estandarte/raios  Aura  sobre  aliados  afetados.  
+Reagrupar  Reduz  pânico  e  aproxima/estabiliza  formação.  
+Combate  Três  soldados  +  setas  
+Área  de  efeito  e  aliados  válidos.  
+Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+---PAGE 37---
+
+Manter  formação  Fortalece  coesão  e  reduz  fuga.  
+Combate  Três  escudos  Linhas  ligando  membros  da  formação.  Não  recuar  Impede  retirada  involuntária  temporariamente.  
+Combate  Bota  travada/escudo  
+Estado  aplicado  nos  retratos.  
+Fugir/Retirar  Tenta  sair  da  batalha  por  rota  válida.  
+Combate  Porta  +  seta  Rotas  de  retirada  destacadas.  
+Ajuda/Reviver  Auxilia  aliado  incapacitado  quando  permitido.  
+Combate  Mão  +  cruz  Indicador  de  alcance  e  custo.  
+Abrir  inventário  Gerencia  itens  e  equipamentos.  
+Geral  Mochila  Painel  de  inventário.  Mapa  Abre  mapa  local/regional.  
+Exploração  Mapa  dobrado  Objetivos,  locais  e  filtros.  Diário/Missões  Exibe  objetivos,  progresso  e  consequências.  
+Geral  Livro/pergaminho  Objetivos  ativos  destacados.  
+Personagens  Abre  fichas,  atributos,  traumas  e  relações.  
+Geral  Busto  humano  Retratos  e  abas.  
+Principado  Abre  gestão  de  recursos  e  território.  
+Meta-jogo  Castelo/coroa  Painel  estratégico.  
+Pausar  Suspende  jogo  e  abre  menu.  
+Geral  Duas  barras  Overlay  de  pausa.  
+72.  Fluxo  de  uma  ação  de  combate  Toda  ação  tática  deve  seguir  uma  sequência  previsível  para  reduzir  erros:  selecionar  ação  →  mostrar  
+alvos/área
+ 
+válidos
+ 
+→
+ 
+mostrar
+ 
+custo
+ 
+e
+ 
+previsão
+ 
+→
+ 
+selecionar
+ 
+alvo/destino
+ 
+→
+ 
+confirmar
+ 
+quando
+ 
+necessário
+ 
+→
+ 
+executar
+ 
+lógica
+ 
+→
+ 
+tocar
+ 
+animação/efeito
+ 
+→
+ 
+aplicar
+ 
+dano/estado
+ 
+→
+ 
+atualizar
+ 
+HUD
+ 
+→
+ 
+registrar
+ 
+no
+ 
+combat
+ 
+log
+ 
+→
+ 
+verificar
+ 
+morte,
+ 
+medo,
+ 
+objetivo
+ 
+e
+ 
+fim
+ 
+de
+ 
+turno.
+ 
+●  Ação  indisponível:  ícone  permanece  visível,  porém  desabilitado,  com  motivo  em  tooltip.  ●  Alvo  inválido:  cursor/contorno  muda  e  a  confirmação  é  bloqueada.  ●  Ação  perigosa  ou  irreversível:  exigir  confirmação  somente  quando  realmente  necessário.  ●  Área  de  efeito:  visualizar  exatamente  quem  será  atingido  antes  da  execução.  ●  Ataque:  mostrar  previsão  sem  garantir  resultado  quando  houver  rolagem/probabilidade.  ●  Cancelamento:  permitir  voltar  da  seleção  de  alvo  sem  gastar  PA  antes  da  confirmação.  
+73.  Ações  de  exploração  3D  Ação  Uso  Ícone  Observação  Andar/Correr  Navegação  do  mundo  Bota  Velocidade  deve  respeitar  controle  analógico.  Interagir  NPCs,  portas,  baús,  mecanismos  
+Mão  Prompt  contextual  próximo  ao  objeto.  
+Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+---PAGE 38---
+
+Examinar  Pistas  e  objetos  narrativos  
+Olho  Percepção  pode  revelar  opções  extras.  Coletar  Recursos  e  loot  Mão  +  saco  Mostrar  quantidade/nome.  Agachar  Aproximação  discreta  quando  aplicável  
+Pessoa  agachada  Reduz  perfil/ruído.  
+Formação  Alterar  posição  dos  companheiros  
+Três  figuras  Preset  de  formação.  
+Acampamento  Descanso  e  gestão  do  grupo  
+Fogueira  Disponível  apenas  em  locais  permitidos.  Rastrear  Seguir  pistas  com  Percepção  
+Pegadas  +  lupa  Pode  revelar  direção/ameaça.  
+74.  Ícones  de  atributos  e  estados  Sistema  Ícone-base  Forma  visual  Uso  Vida  Coração  Coração  sólido  HUD,  retrato  e  ficha.  Força  Punho  Punho  fechado  Atributos  e  requisitos.  Agilidade  Asa/bota  veloz  Silhueta  leve  Iniciativa,  esquiva  e  precisão.  Percepção  Olho  Olho  estilizado  Exploração  e  detecção.  Coragem  Leão/coração  com  chama  
+Símbolo  forte  Moral  e  testes  de  medo.  
+Lealdade  Aperto  de  mãos/brasão  Dois  elementos  unidos  Relações  com  William.  Inspiração  Estandarte  com  brilho  Bandeira  vertical  Comandos  de  liderança.  Defesa  Escudo  Escudo  simples  Armadura/mitigação.  Iniciativa  Relâmpago  Raio  Ordem  de  turnos.  Pontos  de  Ação  Diamante/hexágono  Marcadores  preenchíveis  
+Quantidade  de  ações  restantes.  Movimento  Pegadas  Duas  pegadas  Distância  disponível.  Precisão  Mira  Retículo  Chance  de  acerto.  Crítico  Estrela  quebrada  Explosão  pontual  Chance/resultado  crítico.  
+75.  Ícones  de  medo  e  condição  psicológica  ●  Nervoso  —  Olho  com  pequena  vibração:  Primeiro  nível  de  tensão.  ●  Assustado  —  Rosto/olho  com  alerta:  Penalidades  moderadas.  ●  Apavorado  —  Crânio/rosto  com  linhas  de  choque:  Risco  de  perder  ação  ou  recuar.  ●  Paralisado  —  Figura  presa  por  linhas:  Não  pode  agir.  ●  Desesperado  —  Figura  correndo  de  um  símbolo  de  ameaça:  Pode  fugir  ou  agir  de  modo  imprevisível.  ●  Bravura  do  Guerreiro  —  Espada  diante  de  chama/coração:  Superação  especial  do  colapso  de  Coragem.  
+76.  Ícones  de  dano,  defesa  e  status  físico  Tipo  Ícone  Leitura  Corte  Lâmina  com  risco  diagonal  Dano  de  espada/machado.  Perfuração  Ponta  de  lança  Dano  perfurante.  Impacto  Martelo/onda  de  impacto  Dano  contundente.  Fogo  Chama  Fogo  e  queimadura.  Sobrenatural  Olho/runa  distorcida  Dano  ou  influência  sobrenatural.  Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+---PAGE 39---
+
+Sangramento  Gota  Dano  periódico  físico.  Atordoado  Estrelas  sobre  cabeça  Ações  limitadas/perdidas.  Envenenado  Frasco/crânio  pequeno  Dano/penalidade  por  veneno.  Ferido  Bandagem  Ferimento  atual.  Trauma  físico  Osso  rachado  Consequência  persistente.  Trauma  psicológico  Cabeça  com  fissura  Consequência  mental  persistente.  Cobertura  parcial  Escudo  pela  metade  Proteção  parcial.  Cobertura  total  Escudo  cheio/parede  Proteção  forte/linha  bloqueada.  
+77.  Ícones  do  principado  e  economia  Recurso/área  Ícone  Uso  Comida  Espiga/pão  Estoque  e  consumo.  Madeira  Troncos  Construção  e  reparos.  Ferro  Lingote  Armas,  armaduras  e  estruturas.  Ouro  Moeda  Economia  e  pagamentos.  Tropas  Capacete/lanças  Força  militar.  Infraestrutura  Martelo  +  edifício  Construções  e  capacidade.  População  Grupo  de  pessoas  Habitantes.  Felicidade/ordem  Sol/brasão  Estabilidade  social.  Reputação  Brasão  com  estrela  Prestígio  por  facção.  Camponeses  Forquilha/espiga  Facção  popular.  Infantaria  Espada  +  escudo  Facção  militar.  Cavaleiros  Elmo  Facção  de  elite.  Nobreza/Duques  Coroa  Política.  Reino  Castelo  Reputação  geral  territorial.  
+78.  Ícones  de  missão  e  mapa  ●  Objetivo  principal  —  Losango/coroa.  ●  Objetivo  secundário  —  Losango  menor.  ●  Defesa  —  Escudo  sobre  local.  ●  Resgate  —  Pessoa  +  mão.  ●  Sobrevivência  —  Escudo  +  ampulheta.  ●  Caçada  —  Mira  +  pegadas.  ●  Escolta  —  Carroça/pessoa  +  seta.  ●  Retirada  —  Porta  +  seta.  ●  Investigação  —  Lupa.  ●  Assalto  —  Espadas  +  portão.  ●  NPC  importante  —  Balão/brasão.  ●  Comerciante  —  Moeda  +  bolsa.  ●  Curandeiro  —  Cruz/bandagem.  ●  Acampamento  —  Fogueira.  ●  Perigo  —  Triângulo  com  exclamação.  ●  Criatura  sobrenatural  —  Olho/runa.  ●  Destino  —  Marcador  de  mapa.  
+Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+---PAGE 40---
+
+79.  Linguagem  visual  dos  ícones  Os  ícones  devem  formar  uma  família  visual  própria  de  Aes  Divinus.  A  interface  pode  usar  formas  inspiradas  
+em
+ 
+gravações
+ 
+medievais,
+ 
+metal,
+ 
+pergaminho
+ 
+e
+ 
+brasões,
+ 
+mas
+ 
+os
+ 
+símbolos
+ 
+de
+ 
+gameplay
+ 
+devem
+ 
+continuar
+ 
+simples.
+ 
+Um
+ 
+ícone
+ 
+deve
+ 
+comunicar
+ 
+uma
+ 
+ideia
+ 
+principal,
+ 
+evitando
+ 
+mini-ilustrações
+ 
+detalhadas
+ 
+que
+ 
+desapareçam
+ 
+em
+ 
+telas
+ 
+pequenas.
+ 
+●  Mesma  espessura  visual  de  traço  em  toda  a  família.  ●  Silhueta  reconhecível  em  tamanho  pequeno.  ●  Perspectiva  consistente;  preferencialmente  frontal  ou  quase  plana  para  HUD.  ●  Área  de  respiro  semelhante  entre  símbolos.  ●  Versões  normal,  hover/foco,  selecionada,  desabilitada  e  alerta.  ●  Não  usar  somente  cor  para  diferenciar  estados:  combinar  cor  +  forma  +  contorno  +  texto/tooltip.  ●  Ícones  críticos  recebem  rótulo  textual  quando  houver  espaço.  ●  No  mobile,  aumentar  área  clicável  sem  necessariamente  aumentar  demais  o  desenho.  ●  Evitar  detalhes  decorativos  dentro  do  símbolo  principal.  ●  Testar  sobre  fundos  claros,  escuros,  floresta,  pedra,  fogo  e  cenas  de  combate.  
+80.  Estados  visuais  de  botões  e  ícones  Estado  Visual  Comportamento  Disponível  Contraste  normal  +  símbolo  nítido  Pode  ser  selecionado.  Hover/Foco  Contorno/brilho  e  leve  ampliação  Mostra  tooltip.  Selecionado  Moldura  forte  +  fundo  destacado  Ação  atual.  Desabilitado  Menor  contraste,  mas  ainda  legível  
+Tooltip  explica  por  que  não  pode  usar.  Alerta  Forma  auxiliar/exclamação  Requer  atenção.  Cooldown  Máscara  radial/contador  Mostra  tempo/turnos  restantes.  Sem  recurso  Ícone  +  custo  em  evidência  Bloqueia  execução.  Novo  Pequeno  marcador  adicional  Indica  item/ação  recém-desbloqueada.  
+81.  Layout  do  HUD  de  combate  HUD  sugerido:  topo  =  ordem  de  iniciativa  e  relógio/objetivo  da  missão;  canto  esquerdo  =  retratos  do  grupo,  
+Vida,
+ 
+Coragem
+ 
+e
+ 
+estados;
+ 
+centro
+ 
+inferior
+ 
+=
+ 
+barra
+ 
+de
+ 
+ações;
+ 
+canto
+ 
+direito
+ 
+=
+ 
+informações
+ 
+do
+ 
+alvo
+ 
+e
+ 
+previsão
+ 
+de
+ 
+combate;
+ 
+mundo
+ 
+3D
+ 
+=
+ 
+marcadores
+ 
+de
+ 
+movimento,
+ 
+cobertura,
+ 
+linha
+ 
+de
+ 
+visão,
+ 
+ameaça
+ 
+e
+ 
+objetivos.
+ 
+Informações
+ 
+temporárias
+ 
+devem
+ 
+aparecer
+ 
+próximas
+ 
+ao
+ 
+evento
+ 
+sem
+ 
+cobrir
+ 
+personagens.
+ 
+82.  Barra  de  ações  A  barra  principal  deverá  priorizar  as  ações  mais  frequentes:  Movimento,  Ataque,  Habilidades,  
+Defesa/Reação,
+ 
+Item
+ 
+e
+ 
+Encerrar
+ 
+Turno.
+ 
+Ações
+ 
+de
+ 
+liderança
+ 
+aparecem
+ 
+para
+ 
+William
+ 
+e
+ 
+personagens
+ 
+habilitados.
+ 
+Submenus
+ 
+só
+ 
+devem
+ 
+existir
+ 
+quando
+ 
+reduzirem
+ 
+poluição
+ 
+visual.
+ 
+Ordem  sugerida:  [Mover]  [Ataque]  [Habilidades]  [Defesa]  [Item]  [Liderança]  [Esperar]  [Encerrar  Turno].  
+Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+---PAGE 41---
+
+83.  Controles  multiplataforma  Ação  lógica  PC  teclado/mouse  Gamepad  Android/iOS  Godot  InputMap  Confirmar/Interagir  Clique  esquerdo  /  tecla  configurável  
+Botão  principal  Toque  confirm  
+Cancelar/Voltar  Esc  /  clique  direito  Botão  secundário  Botão  voltar/gesto  cancel  Mover  câmera  WASD/bordas/mouse  
+Analógico  direito  Arrastar  camera_move  
+Rotacionar  câmera  Mouse  Analógico  direito  Arrastar  com  gesto  definido  
+camera_rotate  
+Zoom  Roda  do  mouse  Gatilhos  Pinça  camera_zoom  Selecionar  unidade  Clique  D-pad/analógico  +  confirmar  
+Toque  select_unit  
+Abrir  inventário  Tecla  remapeável  Menu/atalho  Botão  HUD  open_inventory  Encerrar  turno  Tecla  remapeável  Atalho  dedicado  Botão  HUD  end_turn  
+84.  Acessibilidade  dos  ícones  e  HUD  ●  Todo  ícone  importante  deve  ter  nome/descrição  acessível  na  interface.  ●  Tooltips  devem  explicar  função,  custo  e  motivo  de  indisponibilidade.  ●  Contraste  forte  entre  HUD,  ícones  e  fundo  do  mundo.  ●  Escala  de  interface  e  texto  ajustável.  ●  Ícones  e  texto  devem  escalar  juntos.  ●  Não  depender  exclusivamente  de  vermelho/verde  para  sucesso,  perigo  ou  facção.  ●  Estados  críticos  devem  usar  símbolo,  forma,  texto  e/ou  animação  além  da  cor.  ●  Ordem  de  navegação  por  teclado/gamepad  deve  ser  lógica.  ●  Touch  targets  precisam  ser  confortáveis  em  telas  pequenas.  ●  Opção  para  reduzir  animações  de  interface  e  efeitos  que  prejudiquem  leitura.  
+85.  Produção  técnica  dos  ícones  Os  ícones  deverão  ser  criados  primeiro  como  vetores  ou  em  resolução  alta  e  exportados  em  versões  
+adequadas
+ 
+à
+ 
+interface.
+ 
+Para
+ 
+Godot,
+ 
+a
+ 
+equipe
+ 
+deverá
+ 
+manter
+ 
+arquivos-fonte
+ 
+editáveis
+ 
+e
+ 
+exportações
+ 
+organizadas.
+ 
+O
+ 
+tamanho
+ 
+final
+ 
+deve
+ 
+ser
+ 
+testado
+ 
+nos
+ 
+quatro
+ 
+alvos:
+ 
+Windows,
+ 
+Linux,
+ 
+Android
+ 
+e
+ 
+iOS.
+ 
+Ícones
+ 
+não
+ 
+devem
+ 
+conter
+ 
+texto
+ 
+embutido;
+ 
+rótulos
+ 
+ficam
+ 
+separados
+ 
+para
+ 
+tradução
+ 
+e
+ 
+acessibilidade.
+ 
+●  Fonte  mestre  vetorial  quando  possível.  ●  Exportação  PNG/WebP  ou  SVG  conforme  teste  de  compatibilidade  e  custo  na  UI.  ●  Nomes  padronizados:  ICO_Action_Attack,  ICO_Status_Fear,  ICO_Resource_Food  etc.  ●  Variantes  de  estado  preferencialmente  controladas  por  tema/material/UI  em  vez  de  duplicar  dezenas  de  
+arquivos.
+ ●  Atlas  somente  quando  trouxer  ganho  real  e  não  dificultar  manutenção.  ●  Safe  margins  para  não  cortar  símbolo  em  diferentes  botões.  ●  Teste  em  100%,  150%  e  200%  de  escala  de  UI.  
+86.  Referências  técnicas  pesquisadas  para  esta  deﬁnição  A  definição  foi  alinhada  com  práticas  documentadas  da  Godot  para  InputMap  e  suporte  a  múltiplos  
+dispositivos,
+ 
+além
+ 
+de
+ 
+diretrizes
+ 
+de
+ 
+acessibilidade
+ 
+e
+ 
+iconografia
+ 
+que
+ 
+recomendam
+ 
+símbolos
+ 
+simples,
+ Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+---PAGE 42---
+
+reconhecíveis,  consistentes,  com  bom  contraste  e  sem  depender  de  uma  única  forma  de  transmitir  
+informação.
+ 
+A
+ 
+implementação
+ 
+final
+ 
+deverá
+ 
+validar
+ 
+essas
+ 
+decisões
+ 
+por
+ 
+testes
+ 
+de
+ 
+usabilidade.
+ 
+●  Godot  Engine  -  Input  examples  /  InputMap:  
+https://docs.godotengine.org/en/stable/tutorials/inputs/input_examples.html
+ ●  Godot  Engine  -  Controllers,  gamepads  and  joysticks:  
+https://github.com/godotengine/godot-docs/blob/master/tutorials/inputs/controllers_gamepads_joysticks.rs
+t
+ ●  Apple  Human  Interface  Guidelines  -  Icons:  
+https://developer.apple.com/design/human-interface-guidelines/icons
+ ●  Apple  Human  Interface  Guidelines  -  Accessibility:  
+https://developer.apple.com/design/human-interface-guidelines/accessibility/
+ ●  Microsoft  Xbox  Accessibility  Guidelines  -  Contrast:  
+https://learn.microsoft.com/en-us/gaming/accessibility/xbox-accessibility-guidelines/102
+ ●  Microsoft  Xbox  Accessibility  Guidelines  -  Text/Icon  scaling:  
+https://learn.microsoft.com/gaming/accessibility/xbox-accessibility-guidelines/101
+ ●  Game  Accessibility  Guidelines  -  Interactive  elements:  
+https://gameaccessibilityguidelines.com/give-a-clear-indication-that-interactive-elements-are-interactive/
+ 
+87.  Melhorias  de  design  após  pesquisa  Para  tornar  Aes  Divinus  mais  completo,  cada  encontro  deve  combinar  pelo  menos  dois  elementos  entre  
+terreno,
+ 
+comportamento
+ 
+inimigo
+ 
+e
+ 
+condição
+ 
+de
+ 
+vitória.
+ 
+O
+ 
+objetivo
+ 
+é
+ 
+impedir
+ 
+que
+ 
+todas
+ 
+as
+ 
+batalhas
+ 
+sejam
+ 
+apenas
+ 
+'elimine
+ 
+todos'.
+ 
+O
+ 
+cenário
+ 
+deve
+ 
+contar
+ 
+história,
+ 
+oferecer
+ 
+escolhas
+ 
+táticas
+ 
+e
+ 
+criar
+ 
+ritmo
+ 
+entre
+ 
+tensão,
+ 
+combate,
+ 
+investigação,
+ 
+descanso
+ 
+e
+ 
+decisão.
+ 
+●  Objetivos  múltiplos  e  opcionais  com  consequências  reais.  ●  Terreno  interativo:  portas,  pontes,  fogo,  barricadas,  altura,  cobertura,  armadilhas  e  rotas  alternativas.  ●  Eventos  dinâmicos  durante  a  batalha:  reforços,  desabamento,  transformação,  incêndio,  fuga  de  civis  e  
+mudança
+ 
+de
+ 
+objetivo.
+ ●  Inimigos  com  funções  claras:  defensor,  arqueiro,  flanqueador,  comandante,  suporte,  criatura  de  medo  e  
+chefe.
+ ●  Condições  de  vitória  diferentes  de  matar  todos:  sobreviver,  escapar,  proteger,  capturar,  interromper,  
+investigar
+ 
+ou
+ 
+negociar.
+ ●  Consequências  entre  missões:  mortos,  feridos,  reputação,  recursos,  lealdade  e  mudanças  físicas  no  
+mapa.
+ ●  Áreas  seguras  entre  picos  de  tensão  para  diálogo,  exploração  e  preparação.  ●  Landmarks  e  composição  visual  para  orientar  o  jogador  sem  depender  somente  de  marcadores.  
+88.  Estrutura  completa  da  campanha  A  campanha  será  estruturada  em  prólogo,  cinco  atos  e  epílogo.  Esta  estrutura  organiza  as  ideias  já  
+existentes
+ 
+sem
+ 
+substituir
+ 
+a
+ 
+narrativa
+ 
+autoral:
+ 
+nomes
+ 
+de
+ 
+regiões,
+ 
+antagonistas
+ 
+e
+ 
+revelações
+ 
+podem
+ 
+ser
+ 
+ajustados
+ 
+quando
+ 
+o
+ 
+roteiro
+ 
+definitivo
+ 
+for
+ 
+consolidado.
+ 
+Parte  Função  narrativa  Sistemas  introduzidos  Escalada  
+Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+---PAGE 43---
+
+Prólogo  —  Floresta  de  Sangue  
+Apresentar  William,  Ethan,  Donovan  e  Albert  e  revelar  a  ameaça  sobrenatural.  
+Exploração,  combate,  iniciativa,  medo,  liderança.  
+Bárbaros  →  criatura  transformada.  
+Ato  I  —  O  Peso  da  Coroa  
+Retorno  ao  principado  e  primeiros  problemas  de  governo.  
+Principado,  recursos,  reputação,  lealdade,  missões  locais.  
+Crise  social  +  ataques  coordenados.  
+Ato  II  —  Fronteiras  em  Chamas  
+A  guerra  deixa  de  ser  localizada.  
+Mapa  regional,  escolta,  defesa,  cerco,  tropas.  
+Inimigos  humanos  organizados  +  monstros.  Ato  III  —  Vozes  Sob  a  Terra  
+Investigar  a  origem  do  sobrenatural.  
+Investigação,  ruínas,  artefatos,  traumas  e  escolhas  difíceis.  
+Horror,  corrupção  e  revelações.  
+Ato  IV  —  Reino  Dividido  Conflito  político  e  militar  atinge  o  auge.  
+Alianças,  facções,  deserção,  grandes  batalhas.  
+Guerra  civil/ruptura  política.  
+Ato  V  —  Aes  Divinus  Confronto  com  a  causa  central  da  crise.  
+Todos  os  sistemas  combinados.  
+Missões  finais  e  chefe  multifásico.  Epílogo  Mostrar  consequências  das  escolhas.  
+Reputação,  sobreviventes,  principado  e  relações.  
+Finais  variáveis.  
+89.  Prólogo  —  Floresta  de  Sangue:  cenas  e  missões  Cena/Missão  Conteúdo  Objetivo  Sistema/função  Cena  P0  —  Abertura  Cinemática  curta  mostrando  contexto,  grupo  e  viagem.  
+Sem  combate.  Apresentar  William  e  tom.  
+Missão  P1  —  Pela  Estrada  Velha  
+Explorar  trilha  e  aprender  câmera/interação.  
+Seguir  rastros;  opcional:  encontrar  suprimentos.  
+Movimento,  interação,  Percepção.  
+Cena  P2  —  Sinais  na  Mata  
+Corpos,  marcas  e  silêncio  anormal.  
+Investigar  3  pistas.  Environmental  storytelling  e  tensão.  Missão  P3  —  Emboscada  
+Primeiro  combate  contra  bárbaros.  
+Vencer  ou  forçar  retirada  inimiga;  opcional:  ninguém  cair.  
+Turnos,  PA,  ataque,  movimento,  cobertura.  
+Cena  P4  —  Depois  do  Sangue  
+Companheiros  reagem  à  batalha.  
+Escolha  de  diálogo.  Lealdade  e  personalidade.  Missão  P5  —  O  Sobrevivente  
+Encontrar  sobrevivente/inimigo  ferido.  
+Interrogar,  ajudar  ou  executar.  
+Escolhas  e  reputação.  
+Cena  P6  —  A  Transformação  
+Um  inimigo/criatura  se  transforma.  
+Sobreviver  à  primeira  manifestação.  
+Medo  e  Coragem.  
+Missão  P7  —  Não  Olhe  para  Trás  
+Combate/retirada  contra  criatura  superior.  
+Escapar,  proteger  companheiros;  opcional:  coletar  amostra/pista.  
+Medo,  liderança  e  retirada.  
+Cena  P8  —  Retorno  Grupo  volta  transformado  pela  experiência.  
+Decidir  como  relatar  o  ocorrido.  
+Primeira  consequência  política.  
+90.  Ato  I  —  O  Peso  da  Coroa  Missão  Tipo  Objetivo  Impacto  Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+---PAGE 44---
+
+1.  Conselho  de  Pedra  Cena  de  conselho  Escolher  prioridade:  comida,  defesa  ou  investigação.  
+Abre  rotas  e  modifica  recursos.  
+2.  Celeiros  Vazios  Investigação/gestão  Descobrir  causa  da  falta  de  comida.  
+Pode  revelar  roubo,  corrupção  ou  ataque.  3.  A  Vila  sem  Sinos  Exploração  +  resgate  Encontrar  moradores  e  retirar  sobreviventes.  
+Primeiro  mapa  semiaberto.  4.  Lobos  na  Estrada  Escolta  Levar  carregamento  até  o  principado.  
+Emboscadas  e  rotas  alternativas.  5.  Dívida  de  Sangue  Missão  de  companheiro  Resolver  conflito  ligado  a  Donovan/Ethan/Albert.  
+Lealdade  individual.  
+6.  O  Portão  ao  Anoitecer  Defesa  Defender  entrada  por  várias  rodadas.  
+Barricadas,  arqueiros  e  reforços.  7.  Julgamento  do  Príncipe  
+Cena  política  Julgar  responsáveis/consequências.  
+Reputação  por  facção.  
+8.  Chefe  —  O  Arauto  da  Mata  
+Caçada/chefe  Eliminar  ou  capturar  criatura/comandante.  
+Chefe  com  medo  e  terreno.  
+91.  Ato  II  —  Fronteiras  em  Chamas  ●  9.  Ponte  de  Cinzas  —  Defesa/controle  —  Segurar  ponte  ou  destruí-la.  —  Muda  rota  estratégica.  ●  10.  Caravana  Perdida  —  Busca/resgate  —  Localizar  caravana  antes  do  tempo  acabar.  —  Recursos  e  
+sobreviventes.
+ ●  11.  Fortaleza  Partida  —  Assalto  —  Abrir  portão  por  infiltração,  sabotagem  ou  ataque  frontal.  —  Três  
+rotas.
+ ●  12.  Campo  dos  Mortos  —  Investigação  —  Descobrir  por  que  corpos  desapareceram.  —  Sobrenatural  
+cresce.
+ ●  13.  Sangue  entre  Estandartes  —  Diplomacia  armada  —  Evitar  ou  vencer  conflito  entre  aliados.  —  
+Reputação
+ 
+política.
+ ●  14.  Cerco  —  Grande  batalha  —  Defender  setores,  comandar  tropas  e  escolher  onde  intervir.  —  Perdas  
+persistentes.
+ ●  15.  O  General  sem  Rosto  —  Chefe  —  Quebrar  comando  inimigo  e  sobreviver  às  fases.  —  Inimigos  
+coordenados
+ 
++
+ 
+medo.
+ 
+92.  Ato  III  —  Vozes  Sob  a  Terra  ●  16.  Mosteiro  Abandonado  —  Exploração/horror  —  Encontrar  registros  e  sobreviver  ao  local.  —  Puzzles  
+leves
+ 
+e
+ 
+medo.
+ ●  17.  Sob  a  Cripta  —  Dungeon  tática  —  Abrir  caminho  por  ruínas  subterrâneas.  —  Luz,  armadilhas  e  rotas.  ●  18.  O  Nome  Proibido  —  Investigação  —  Reconstruir  ritual  por  documentos  e  testemunhos.  —  Lore  e  
+decisão.
+ ●  19.  Ecos  de  Medo  —  Missão  psicológica  —  Enfrentar  manifestação  ligada  aos  traumas  do  grupo.  —  
+Traumas
+ 
+alteram
+ 
+encontros.
+ ●  20.  O  Artefato  —  Escolha  crítica  —  Destruir,  guardar  ou  usar  objeto  sobrenatural.  —  Campanha  ramifica.  ●  21.  A  Boca  da  Terra  —  Chefe  —  Impedir  ritual/selar  passagem.  —  Objetivo  por  fases,  não  apenas  HP.  
+Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+---PAGE 45---
+
+93.  Ato  IV  —  Reino  Dividido  ●  22.  Mensageiros  —  Corrida  estratégica  —  Entregar  ordens  antes  que  regiões  caiam.  —  Mapa  e  tempo.  ●  23.  A  Escolha  dos  Duques  —  Política  —  Convencer  facções  com  reputação  acumulada.  —  Alianças  
+reais.
+ ●  24.  Irmãos  contra  Irmãos  —  Batalha  moral  —  Vencer  sem  massacrar  aliados  quando  possível.  —  
+Captura/rendição.
+ ●  25.  A  Cidade  Cercada  —  Mapa  grande  —  Gerenciar  comida,  setores  e  civis  durante  cerco.  —  Principado  
++
+ 
+combate.
+ ●  26.  Traição  —  Cena/combate  variável  —  Traidor  depende  de  relações/decisões.  —  Lealdade  paga  
+consequência.
+ ●  27.  O  Trono  Vazio  —  Assalto  político  —  Retomar/proteger  centro  de  poder.  —  Várias  rotas  e  objetivos.  
+94.  Ato  V  —  Aes  Divinus  ●  28.  Marcha  Final  —  Preparação  —  Escolher  tropas,  companheiros  e  suprimentos.  —  Tudo  que  foi  
+administrado
+ 
+importa.
+ ●  29.  Terra  Corrompida  —  Travessia  —  Cruzar  região  alterada  pelo  sobrenatural.  —  Recursos  e  Coragem.  ●  30.  Os  Que  Ficaram  —  Missão  de  consequências  —  Encontrar  personagens/facções  conforme  escolhas  
+anteriores.
+ 
+—
+ 
+Campanha
+ 
+reativa.
+ ●  31.  Portões  do  Abismo  —  Assalto  —  Romper  três  objetivos  em  ordem  escolhida.  —  Grande  arena  
+multiobjetivo.
+ ●  32.  O  Preço  da  Coroa  —  Cena  decisiva  —  Escolha  política/pessoal  antes  do  final.  —  Define  aliados  e  
+condições.
+ ●  33.  Aes  Divinus  —  Chefe  final  multifásico  —  Sobreviver,  quebrar  mecanismos/ritual  e  enfrentar  entidade.  
+—
+ 
+Combate,
+ 
+medo,
+ 
+liderança,
+ 
+terreno.
+ ●  34.  Última  Ordem  —  Decisão  final  —  Escolher  destino  do  poder/principado.  —  Define  epílogo.  
+95.  Estrutura  interna  de  cada  missão  Cada  missão  deve  ser  escrita  como  um  pequeno  arco  e  não  apenas  como  um  mapa.  Estrutura  padrão:  
+briefing
+ 
+→
+ 
+preparação
+ 
+→
+ 
+aproximação
+ 
+→
+ 
+descoberta
+ 
+→
+ 
+complicação
+ 
+→
+ 
+encontro
+ 
+principal
+ 
+→
+ 
+decisão/consequência
+ 
+→
+ 
+debriefing.
+ 
+Nem
+ 
+todas
+ 
+precisam
+ 
+usar
+ 
+todas
+ 
+as
+ 
+etapas.
+ 
+●  Objetivo  principal  obrigatório.  ●  1  a  3  objetivos  opcionais  significativos.  ●  Pelo  menos  uma  oportunidade  de  Percepção/exploração  quando  apropriado.  ●  Pelo  menos  uma  escolha  tática  ou  narrativa.  ●  Uma  condição  de  falha  clara  e  comunicada.  ●  Recompensa  e  consequência  ligadas  ao  resultado,  não  somente  XP.  ●  Variação  de  terreno  ou  regra  em  relação  à  missão  anterior.  ●  Checkpoint/autosave  em  transições  importantes.  ●  Diálogo  pós-missão  reagindo  a  baixas,  decisões  e  desempenho.  
+Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+---PAGE 46---
+
+96.  Cenas  cinematográﬁcas  e  cenas  jogáveis  A  prioridade  será  usar  cenas  jogáveis  sempre  que  o  jogador  puder  participar.  Cinemáticas  serão  reservadas  
+para
+ 
+momentos
+ 
+em
+ 
+que
+ 
+direção
+ 
+de
+ 
+câmera,
+ 
+transformação,
+ 
+revelação
+ 
+ou
+ 
+atuação
+ 
+precisa
+ 
+de
+ 
+controle.
+ 
+Toda
+ 
+cinemática
+ 
+deverá
+ 
+poder
+ 
+ser
+ 
+pausada;
+ 
+cenas
+ 
+já
+ 
+vistas
+ 
+poderão
+ 
+ser
+ 
+puladas
+ 
+quando
+ 
+isso
+ 
+não
+ 
+quebrar
+ 
+escolhas.
+ 
+Legendas
+ 
+e
+ 
+identificação
+ 
+de
+ 
+falante
+ 
+serão
+ 
+configuráveis.
+ 
+●  Cena  de  abertura:  curta  e  focada  no  conflito  imediato.  ●  Cena  de  descoberta:  câmera  aproxima  pistas  sem  retirar  controle  por  tempo  excessivo.  ●  Cena  de  transformação:  usa  animação,  áudio  e  câmera  para  introduzir  medo.  ●  Cena  de  conselho:  diálogo  interativo  com  escolhas  e  consequências.  ●  Cena  de  companheiro:  relações  e  traumas  aparecem  visualmente.  ●  Cena  de  chefe:  apresenta  mecânica  visualmente  antes  de  exigir  resposta.  ●  Cena  de  consequência:  mostra  alterações  físicas  no  principado  e  sobreviventes.  
+97.  Design  dos  mapas  e  arenas  ●  Cada  área  deve  ter  landmark  reconhecível  para  orientação.  ●  Combates  devem  oferecer  cobertura,  altura,  gargalos,  rotas  laterais  e  elementos  interativos  sem  exigir  
+todos
+ 
+ao
+ 
+mesmo
+ 
+tempo.
+ ●  Evitar  arenas  planas  e  vazias.  ●  Rotas  alternativas  devem  ter  trade-offs:  segurança,  tempo,  recursos  ou  informação.  ●  Ambientes  devem  mudar  após  eventos:  casas  queimadas,  pontes  destruídas,  campos  ocupados,  
+fortificações
+ 
+construídas.
+ ●  Áreas  grandes  devem  ser  divididas  em  setores  carregáveis/gerenciáveis  para  memória  e  desempenho.  ●  Usar  occlusão  e  composição  do  cenário  também  como  ferramenta  de  performance.  
+98.  Chefes  completos  Chefes  não  serão  apenas  inimigos  com  muita  Vida.  Cada  chefe  deve  possuir  identidade  tática,  regra  
+especial,
+ 
+mudança
+ 
+de
+ 
+fase,
+ 
+interação
+ 
+com
+ 
+o
+ 
+cenário
+ 
+e
+ 
+consequência
+ 
+narrativa.
+ 
+Fase  Mudança  Objetivo  Perigo  Contrajogo  1  Apresenta  padrão  Entender  comportamento  
+Ataques  básicos  Cobertura/posicionamento  2  Arena  ou  comportamento  muda  
+Desativar  fonte  de  poder  
+Novas  áreas  perigosas  
+Interagir  com  cenário  
+3  Pressão  máxima  Finalizar  objetivo  Medo/reforços/tempo  
+Liderança  e  recursos  guardados  
+99.  Missões  de  companheiros  William,  Ethan,  Donovan,  Albert  e  demais  companheiros  deverão  possuir  arcos  pessoais.  Missões  pessoais  
+alteram
+ 
+Lealdade,
+ 
+habilidades,
+ 
+traumas,
+ 
+aparência,
+ 
+diálogos
+ 
+e
+ 
+possibilidade
+ 
+de
+ 
+permanecer
+ 
+ou
+ 
+abandonar
+ 
+o
+ 
+grupo.
+ 
+Um
+ 
+companheiro
+ 
+não
+ 
+deve
+ 
+existir
+ 
+apenas
+ 
+como
+ 
+unidade
+ 
+de
+ 
+combate.
+ 
+Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+---PAGE 47---
+
+100.  Sistema  de  escolhas  e  consequências  ●  Escolhas  imediatas:  mudam  diálogo,  recursos  ou  estado  da  missão.  ●  Escolhas  intermediárias:  alteram  disponibilidade  de  NPCs,  lojas,  tropas  e  missões.  ●  Escolhas  de  longo  prazo:  alteram  facções,  principado,  aliados  e  finais.  ●  Consequências  devem  ser  comunicadas  pelo  mundo,  não  apenas  por  uma  tela  de  números.  ●  Nem  toda  escolha  deve  ter  resposta  moral  óbvia;  algumas  devem  envolver  custo  entre  duas  prioridades  
+válidas.
+ ●  O  jogo  deve  registrar  flags  de  campanha  para  cenas  futuras  reconhecerem  decisões  anteriores.  
+101.  Diﬁculdade  e  modos  de  assistência  Além  dos  presets  gráficos,  Aes  Divinus  terá  dificuldade  de  gameplay  separada.  A  dificuldade  poderá  alterar  
+dano,
+ 
+recursos,
+ 
+tolerância
+ 
+do
+ 
+medo,
+ 
+agressividade
+ 
+inimiga
+ 
+e
+ 
+margem
+ 
+de
+ 
+erro
+ 
+sem
+ 
+esconder
+ 
+a
+ 
+história.
+ 
+Modo  Objetivo  Exemplo  de  ajustes  História  Priorizar  narrativa  Inimigos  menos  letais,  medo  mais  tolerante,  recursos  abundantes.  Aventureiro  Experiência  equilibrada  Balanceamento  padrão.  Estrategista  Tática  exigente  IA  mais  eficiente,  recursos  menores,  erros  mais  caros.  Sobrevivente  Alta  pressão  Traumas,  recursos  e  consequências  mais  severos.  Personalizado  Acessibilidade  e  preferência  Sliders/opções  separadas  por  sistema.  
+102.  Save,  checkpoints  e  proteção  de  progresso  ●  Autosave  antes/depois  de  missões  e  em  transições  importantes.  ●  Save  manual  fora  de  estados  tecnicamente  inseguros.  ●  Slots  separados  para  saves  manuais  e  automáticos.  ●  Backups  rotativos  para  recuperação.  ●  Bosses  longos  devem  possuir  marcos/fases  recuperáveis  quando  tecnicamente  viável.  ●  Nunca  apagar  silenciosamente  um  save  manual  com  autosave.  
+103.  Acessibilidade  integrada  às  cenas  e  missões  ●  Subtítulos  para  diálogos  importantes  e  opção  de  personalização.  ●  Informação  crítica  nunca  depende  exclusivamente  de  áudio.  ●  Objetivos  claros  e  revisáveis  no  diário.  ●  Tutoriais  interativos  podem  ser  revisitados.  ●  Pausa  em  gameplay  single-player  e  cinematics,  exceto  operações  técnicas  como  loading/save.  ●  Controles  remapeáveis  e  sensibilidade  configurável.  ●  Tamanho/contraste  de  UI  e  ícones  ajustáveis.  ●  Opções  de  dificuldade/assistência  separadas  da  qualidade  gráfica.  ●  Touch  targets  grandes  e  espaçados  em  Android/iOS.  
+Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+---PAGE 48---
+
+104.  Otimização  das  cenas  na  Godot  Engine  4  As  cenas  3D  deverão  ser  construídas  para  escalar  do  hardware  básico  ao  forte.  Godot  oferece  mesh  LOD,  
+visibility
+ 
+ranges/HLOD,
+ 
+frustum
+ 
+culling
+ 
+e
+ 
+occlusion
+ 
+culling.
+ 
+Em
+ 
+mapas
+ 
+grandes,
+ 
+setores/tiles
+ 
+podem
+ 
+ser
+ 
+carregados
+ 
+conforme
+ 
+necessidade.
+ 
+Personagens
+ 
+animados
+ 
+distantes
+ 
+devem
+ 
+reduzir
+ 
+custo
+ 
+de
+ 
+animação
+ 
+quando
+ 
+possível.
+ 
+●  LOD  automático/manual  para  meshes  e  personagens,  validando  deformações  em  meshes  com  skinning.  ●  Occlusion  culling  especialmente  em  vilas,  fortalezas,  ruínas  e  interiores.  ●  Visibility  ranges  para  partículas,  decoração,  luzes  e  geometria  distante.  ●  Poucas  transparências  sobrepostas,  principalmente  vegetação  e  cabelo.  ●  Luzes  estáticas/baked  onde  apropriado  e  luz  dinâmica  apenas  quando  agrega  gameplay/visual.  ●  NavigationRegions/NavigationMaps  por  setores  e  NavigationObstacles  apenas  onde  necessários.  ●  Desativar  avoidance  em  obstáculos  que  não  precisam  dele.  ●  Profiling  de  cada  missão  em  hardware  de  entrada  antes  de  aprovação.  
+105.  Conteúdo  secundário  ●  Contratos  de  caça  a  criaturas  com  variantes  e  pistas.  ●  Eventos  aleatórios  de  estrada  com  decisão,  combate  ou  comércio.  ●  Missões  de  companheiros.  ●  Pedidos  de  vilas  que  afetam  reputação.  ●  Ruínas  opcionais  com  lore  e  artefatos.  ●  Treinamento  no  castelo  para  testar  builds  e  tutorial.  ●  Caçadas  de  elite  opcionais  como  desafios  de  fim  de  jogo.  ●  Eventos  do  principado  ligados  a  estação,  recursos  e  guerra.  ●  Codex  de  criaturas,  personagens,  facções,  regiões  e  acontecimentos  descobertos.  
+106.  Critério  de  completude  do  jogo  Aes  Divinus  será  considerado  funcionalmente  completo  quando  a  campanha  puder  ser  jogada  do  prólogo  ao  
+epílogo;
+ 
+todas
+ 
+as
+ 
+missões
+ 
+principais
+ 
+tiverem
+ 
+briefing,
+ 
+mapa,
+ 
+objetivos,
+ 
+consequências
+ 
+e
+ 
+debriefing;
+ 
+os
+ 
+arcos
+ 
+de
+ 
+companheiros
+ 
+estiverem
+ 
+integrados;
+ 
+o
+ 
+principado
+ 
+reagir
+ 
+às
+ 
+decisões;
+ 
+os
+ 
+finais
+ 
+refletirem
+ 
+reputação,
+ 
+sobreviventes
+ 
+e
+ 
+escolhas;
+ 
+e
+ 
+as
+ 
+quatro
+ 
+plataformas-alvo
+ 
+passarem
+ 
+por
+ 
+testes
+ 
+de
+ 
+performance,
+ 
+controles,
+ 
+save/load,
+ 
+acessibilidade
+ 
+e
+ 
+estabilidade.
+ 
+107.  Referências  de  pesquisa  aplicadas  ●  Godot  -  Optimizing  3D  performance:  
+https://docs.godotengine.org/en/latest/tutorials/performance/optimizing_3d_performance.html
+ ●  Godot  -  Mesh  LOD:  https://docs.godotengine.org/en/stable/tutorials/3d/mesh_lod.html  ●  Godot  -  Navigation:  https://docs.godotengine.org/en/latest/tutorials/navigation/index.html  ●  Game  Accessibility  Guidelines  -  Basic:  https://gameaccessibilityguidelines.com/basic/  ●  Game  Accessibility  Guidelines  -  Intermediate:  https://gameaccessibilityguidelines.com/intermediate/  ●  Microsoft  Xbox  Accessibility  Guideline  108:  
+https://learn.microsoft.com/en-us/gaming/accessibility/xbox-accessibility-guidelines/108
+ 
+Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+---PAGE 49---
+
+●  Microsoft  -  Accessibility  metadata  /  saving:  
+https://learn.microsoft.com/en-us/gaming/game-publishing/concepts/metadata-accessibility
+ 
+108.  Formatos  oﬁciais  de  distribuição  por  plataforma  A  LZASANTOSWORLDSGAMES  deverá  gerar  builds  específicas  de  Aes  Divinus  para  cada  plataforma-alvo.  
+O
+ 
+projeto
+ 
+continuará
+ 
+compartilhando
+ 
+a
+ 
+mesma
+ 
+base
+ 
+de
+ 
+gameplay
+ 
+na
+ 
+Godot
+ 
+Engine
+ 
+4,
+ 
+mas
+ 
+empacotamento,
+ 
+assinatura,
+ 
+bibliotecas
+ 
+e
+ 
+processo
+ 
+de
+ 
+instalação
+ 
+serão
+ 
+tratados
+ 
+separadamente
+ 
+por
+ 
+sistema
+ 
+operacional.
+ 
+Plataforma  Formato  principal  Entrega  planejada  Observações  técnicas  Windows  .exe  Executável  do  jogo  acompanhado  dos  arquivos/bibliotecas  necessários  ou  instalador/pacote  de  distribuição.  
+Testar  Windows  64-bit  suportado,  permissões,  drivers  e  empacotamento.  
+Linux  Executável  Linux  nativo  +  pacote/arquivos  necessários  
+Build  Linux  64-bit  portátil  e,  quando  possível,  formatos  de  distribuição  adicionais.  
+Objetivo  de  ampla  compatibilidade  entre  distribuições  modernas  suportadas;  não  prometer  literalmente  todas  as  distros  sem  testes.  Android  .apk  e  build  de  loja  quando  necessária  
+APK  para  instalação/testes  diretos;  para  publicação  em  lojas,  gerar  também  o  formato  exigido  pela  loja.  
+Assinatura,  arquitetura,  permissões,  SDK  e  requisitos  de  publicação  devem  ser  validados.  
+iOS  .ipa  Pacote  IPA  assinado  para  dispositivos/distribuição  autorizada.  
+Exige  processo  Apple  de  assinatura,  provisioning,  certificados  e  ferramentas  compatíveis.  
+109.  Estratégia  especíﬁca  para  Linux  A  versão  Linux  será  preparada  para  funcionar  no  maior  número  razoável  de  distribuições  modernas  
+compatíveis.
+ 
+Como
+ 
+não
+ 
+existe
+ 
+um
+ 
+único
+ 
+arquivo
+ 
+universal
+ 
+que
+ 
+garanta
+ 
+funcionamento
+ 
+em
+ 
+literalmente
+ 
+todas
+ 
+as
+ 
+distribuições
+ 
+Linux,
+ 
+a
+ 
+equipe
+ 
+deverá
+ 
+priorizar
+ 
+um
+ 
+executável
+ 
+Linux
+ 
+64-bit
+ 
+bem
+ 
+empacotado,
+ 
+minimizar
+ 
+dependências
+ 
+externas,
+ 
+documentar
+ 
+bibliotecas
+ 
+necessárias
+ 
+e
+ 
+testar
+ 
+em
+ 
+famílias
+ 
+de
+ 
+distribuições
+ 
+populares.
+ 
+Quando
+ 
+fizer
+ 
+sentido
+ 
+para
+ 
+a
+ 
+distribuição
+ 
+do
+ 
+jogo,
+ 
+poderão
+ 
+ser
+ 
+preparados
+ 
+pacotes
+ 
+portáteis
+ 
+ou
+ 
+formatos
+ 
+adicionais
+ 
+para
+ 
+ampliar
+ 
+a
+ 
+compatibilidade.
+ 
+●  Testar  em  distribuições  baseadas  em  Ubuntu/Debian.  ●  Testar  em  distribuições  baseadas  em  Fedora.  ●  Testar  em  distribuições  rolling-release  relevantes,  como  Arch  e  derivadas,  quando  fizer  parte  da  matriz  
+de
+ 
+suporte.
+ ●  Validar  drivers  gráficos  e  os  renderizadores  escolhidos  na  Godot.  ●  Evitar  depender  de  bibliotecas  do  sistema  que  possam  ser  empacotadas  ou  substituídas  por  alternativas  
+mais
+ 
+portáveis.
+ Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+---PAGE 50---
+
+●  Manter  uma  página  de  requisitos  e  problemas  conhecidos  por  distribuição/driver.  ●  Separar  'compatível/testado'  de  'pode  funcionar,  mas  ainda  não  validado'.  
+110.  Builds  de  desenvolvimento,  teste  e  lançamento  ●  Development  Build:  logs  e  ferramentas  de  diagnóstico  ativados  para  a  equipe.  ●  QA  Build:  versão  candidata  para  testes  de  gameplay,  desempenho,  saves  e  compatibilidade.  ●  Release  Candidate:  conteúdo  congelado,  correções  críticas  e  validação  das  quatro  plataformas.  ●  Release  Build:  versão  final  assinada/empacotada  para  distribuição.  ●  Cada  build  deve  registrar  versão  do  jogo,  commit/build  interno,  plataforma  e  configuração  para  facilitar  
+diagnóstico.
+ 
+111.  Regra  de  entrega  multiplataforma  Entregas  planejadas:  Windows  =  executável  .exe;  Android  =  pacote  .apk  para  instalação/testes  diretos;  iOS  
+=
+ 
+pacote
+ 
+.ipa
+ 
+devidamente
+ 
+assinado;
+ 
+Linux
+ 
+=
+ 
+executável
+ 
+nativo
+ 
+64-bit
+ 
+e
+ 
+estrutura
+ 
+de
+ 
+distribuição
+ 
+projetada
+ 
+para
+ 
+a
+ 
+maior
+ 
+compatibilidade
+ 
+prática
+ 
+possível
+ 
+entre
+ 
+distribuições
+ 
+suportadas.
+ 
+Quando
+ 
+lojas
+ 
+ou
+ 
+sistemas
+ 
+de
+ 
+distribuição
+ 
+exigirem
+ 
+formatos
+ 
+adicionais,
+ 
+a
+ 
+LZASANTOSWORLDSGAMES
+ 
+deverá
+ 
+gerar
+ 
+também
+ 
+esses
+ 
+pacotes
+ 
+sem
+ 
+substituir
+ 
+os
+ 
+formatos
+ 
+de
+ 
+build
+ 
+usados
+ 
+internamente
+ 
+para
+ 
+testes.
+ 
+112.  Mecânicas  oﬁciais  de  combate  adaptadas  ao  Aes  
+Divinus
+ As  mecânicas  abaixo  integram  oficialmente  Aes  Divinus,  preservando  o  formato  já  definido:  RPG  tático  3D  
+por
+ 
+turnos,
+ 
+exploração
+ 
+3D,
+ 
+câmera
+ 
+lateral/tática
+ 
+nos
+ 
+confrontos,
+ 
+até
+ 
+seis
+ 
+personagens,
+ 
+Coragem,
+ 
+Medo,
+ 
+Lealdade,
+ 
+Inspiração,
+ 
+Traumas,
+ 
+Reputação
+ 
+e
+ 
+gerenciamento
+ 
+do
+ 
+principado.
+ 
+Os
+ 
+números
+ 
+são
+ 
+valores-base
+ 
+de
+ 
+balanceamento
+ 
+e
+ 
+poderão
+ 
+ser
+ 
+refinados
+ 
+por
+ 
+testes.
+ 
+113.  Sistema  de  batalha  A  exploração  3D  transita  para  uma  arena  tática  lateral.  O  grupo  ocupa  o  lado  esquerdo  e  os  inimigos  o  
+direito.
+ 
+A
+ 
+câmera
+ 
+mantém
+ 
+leitura
+ 
+das
+ 
+formações
+ 
+e
+ 
+aproxima
+ 
+golpes,
+ 
+parries,
+ 
+habilidades,
+ 
+transformações
+ 
+e
+ 
+momentos
+ 
+narrativos.
+ 
+●  Fluxo:  início  da  rodada  →  avanço/controle  do  relógio  →  ordem  de  iniciativa  →  turnos  individuais  →  
+efeitos
+ 
+→
+ 
+objetivos
+ 
+→
+ 
+fim
+ 
+da
+ 
+rodada.
+ ●  Cada  unidade  possui  posição,  Vida,  Coragem,  Agilidade,  Força,  equipamento,  estados  e  iniciativa.  ●  Vitória  pode  exigir  eliminar,  sobreviver,  retirar,  resgatar,  defender,  capturar  ou  interromper  um  objetivo.  
+114.  Rodadas  e  relógio  de  15  minutos  Cada  rodada  completa  representa  15  minutos  no  tempo  do  mundo.  Não  são  15  minutos  reais  de  espera.  
+Depois
+ 
+que
+ 
+todas
+ 
+as
+ 
+unidades
+ 
+elegíveis
+ 
+agem,
+ 
+o
+ 
+relógio
+ 
+narrativo
+ 
+avança
+ 
+15
+ 
+minutos.
+ 
+Missões
+ 
+podem
+ 
+usar
+ 
+esse
+ 
+relógio
+ 
+para
+ 
+reforços,
+ 
+mudanças
+ 
+de
+ 
+objetivo
+ 
+ou
+ 
+falha.
+ 
+Rodada  Tempo  Evento  de  exemplo  Resultado  
+Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+---PAGE 51---
+
+1  00:15  Primeiro  contato  Combate  normal  2  00:30  Inimigos  reorganizam  Mudança  tática  3  00:45  Aviso  de  reforços  Jogador  recebe  alerta  4  01:00  Reforços  Novos  inimigos  podem  entrar  6  01:30  Prazo  crítico  Missão  pode  falhar  ou  mudar  Exemplo:  resgatar  civis  em  até  6  rodadas  =  90  minutos  no  relógio  do  jogo.  O  limite  deve  sempre  aparecer  
+claramente
+ 
+no
+ 
+HUD.
+ 
+115.  Sistema  de  posições  ●  Lado  esquerdo:  até  6  personagens  do  jogador  em  posições  individuais.  ●  Lado  direito:  até  6  inimigos  pequenos/humanos  em  uma  formação  comum.  ●  Até  2  inimigos  grandes  quando  cada  criatura  ocupa  múltiplos  espaços.  ●  Formações  mistas  podem  usar  4  inimigos  pequenos  +  animais  pequenos,  respeitando  a  capacidade  
+espacial
+ 
+da
+ 
+arena.
+ ●  Linha  dianteira  favorece  corpo  a  corpo/proteção;  traseira  favorece  arco,  suporte  e  unidades  vulneráveis.  ●  Mover  ou  trocar  posição  possui  custo  definido  pelo  sistema  de  ações.  ●  Inimigos  grandes  podem  atingir  múltiplas  posições,  bloquear  espaços  ou  alterar  a  arena.  
+116.  Sistema  de  vez  e  iniciativa  Fórmula-base:  Iniciativa  =  Agilidade  +  modificador  de  Coragem  +  bônus/penalidades  de  estado,  habilidade  e  
+equipamento.
+ 
+●  Maior  iniciativa  age  primeiro.  ●  Em  empate,  maior  Agilidade  tem  prioridade;  persistindo,  usa-se  desempate  determinístico.  ●  Medo  reduz  iniciativa  de  acordo  com  sua  severidade.  ●  Paralisado,  inconsciente  ou  impossibilitado  não  realiza  normalmente  seu  turno.  ●  Coragem  participa  da  iniciativa,  mas  não  substitui  Agilidade;  isso  mantém  personagens  rápidos  
+relevantes.
+ 
+117.  Ataque,  acerto  e  dano  O  sistema  separa  acerto  de  dano  para  preservar  a  função  de  Agilidade  e  Força.  
+●  Acerto:  Agilidade  do  atacante  +  precisão/modificadores  contra  Agilidade/Evasão  do  defensor.  ●  Dano:  faixa  da  arma  +  contribuição  de  Força  +  bônus  −  mitigação/resistência.  ●  Ataques  à  distância  consideram  alcance,  linha  de  visão,  cobertura  e  munição.  ●  O  HUD  mostra  previsão  de  acerto  e  faixa  de  dano  antes  da  confirmação.  ●  Armadura,  resistência  e  tipo  de  dano  entram  somente  depois  que  o  ataque  acerta.  
+118.  Esquiva,  Parry  e  Bloqueio  ●  Esquiva:  baseada  principalmente  em  Agilidade  +  efeitos  do  personagem;  sucesso  pode  causar  0  dano.  ●  Parry:  Agilidade  +  habilidade  marcial  +  arma/escudo  +  efeitos;  pode  anular/reduzir  e  habilitar  
+contra-ataque.
+ Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+---PAGE 52---
+
+●  Bloqueio:  defesa  de  mitigação,  especialmente  com  escudo.  ●  Golpes  gigantes/sobrenaturais  podem  ser  classificados  como  não-aparáveis,  mas  ainda  admitir  esquiva  
+ou
+ 
+mitigação.
+ ●  Armadura  pesada  pode  reduzir  eficiência  de  esquiva;  estados  de  medo  também  podem  prejudicar  
+reações.
+ 
+119.  Medo  e  Coragem  Cada  monstro/evento  possui  Ameaça.  Quando  a  Coragem  efetiva  fica  abaixo  da  Ameaça,  ocorre  teste  de  
+Medo.
+ 
+Quanto
+ 
+maior
+ 
+a
+ 
+diferença,
+ 
+maior
+ 
+a
+ 
+possibilidade
+ 
+de
+ 
+um
+ 
+estado
+ 
+severo.
+ 
+Estado  Efeito  Recuperação  Nervoso  Pequena  penalidade  de  iniciativa/precisão  
+Tempo,  liderança  ou  afastamento  
+Assustado  Penalidade  maior  de  iniciativa,  acerto  e  defesa  
+Inspirar/Reagrupar/teste  
+Apavorado  Pode  perder  ação  ou  recuar  Liderança/afastar-se  da  ameaça  Paralisado  Não  age  temporariamente  Teste,  habilidade  aliada  ou  fim  do  efeito  Desesperado  Pode  tentar  fugir/abandonar  posição  
+Lealdade  e  liderança  podem  conter  Coragem  inferior  à  Ameaça  não  causa  paralisia  automática:  a  diferença  e  o  teste  determinam  a  severidade,  
+evitando
+ 
+perda
+ 
+constante
+ 
+de
+ 
+controle.
+ 
+120.  Armas  e  dano-base  Arma  Dano  Tipo  Observação  Espada  de  ferro  —  1  mão  
+5–10  Corte  Versátil  
+Espada  Aes  —  1  mão  10–15  Corte  Material/categoria  especial  Espada  de  ferro  —  2  mãos  
+6–12  Corte  Ocupa  duas  mãos  
+Espada  Aes  —  2  mãos  12–20  Corte  Alto  dano  Martelo  de  guerra  —  2  mãos  
+6–12  Impacto  Bom  contra  proteção  rígida  Arco  +  flecha  normal  3–8  Perfuração  Distância  Arco  +  flecha  Aes  8–13  Perfuração  Munição  especial  Arco  +  flecha  de  fogo  3–8  +  queimadura  Perfuração/Fogo  Mesmo  dano  inicial  da  normal  +  efeito  de  fogo  Machado  de  ferro  —  1  mão  
+4–9  Corte  Uma  mão  
+Bastão  4–9  Impacto  Contundente  Lança  de  ferro  5–10  Perfuração  Maior  alcance  Lança  Aes  10–15  Perfuração  Versão  especial  'Aes'  será  uma  categoria/material  especial  do  universo,  documentada  no  codex  e  representada  visualmente  
+de
+ 
+forma
+ 
+própria.
+ 
+Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+---PAGE 53---
+
+121.  Sistema  de  armaduras  Categoria  Nível  Composição  Função  Leve  1  Couro  da  vestimenta  superior  à  inferior  
+Mobilidade  e  proteção  leve  Leve  2  Couro  +  malha  sob  a  roupa  superior  
+Proteção  leve  reforçada  
+Leve  3  Chapéu/capacete  de  batalha,  malha  superior,  proteção  de  coxas  e  peças/calçados  de  ferro  
+Máximo  da  classe  leve  
+Média  1  Gibão  da  parte  superior  à  inferior  
+Equilíbrio  inicial  
+Média  2  Peitoral  de  escamas  +  cota  de  malha  extensa  
+Proteção  intermediária  robusta  Média  3  Breastplate,  grevas  parciais  e  barbute  
+Máximo  da  classe  média  
+Pesada  1  Cota  de  anéis  +  malha  flexível  nos  pés/pernas  
+Entrada  da  classe  pesada  Pesada  2  Brigantina,  grevas,  tassets  parciais  e  capacete  enclosed  
+Alta  proteção  
+Pesada  3  Armadura  completa  de  placas  +  armet  
+Máxima  proteção  física  convencional  
+122.  Armadura,  Agilidade  e  Força  ●  Leve:  menor  mitigação,  favorece  iniciativa  e  esquiva.  ●  Média:  equilíbrio  entre  proteção  e  mobilidade.  ●  Pesada:  maior  mitigação,  maior  peso  e  penalidade  de  mobilidade/esquiva.  ●  Armaduras  médias/pesadas  podem  exigir  Força  mínima;  não  cumprir  o  requisito  gera  penalidades.  ●  Tipos  de  dano  mantêm  importância:  corte,  perfuração,  impacto,  fogo  e  sobrenatural.  ●  Equipamentos  Aes  podem  alterar  regras  normais,  mas  devem  ser  raros  e  balanceados.  
+123.  Integração  com  os  demais  sistemas  Uma  batalha  longa  consome  rodadas  →  o  relógio  avança  →  reforços  podem  chegar  →  a  Ameaça  cresce  →  
+personagens
+ 
+com
+ 
+Coragem
+ 
+baixa
+ 
+sofrem
+ 
+Medo
+ 
+→
+ 
+Medo
+ 
+altera
+ 
+iniciativa/defesa
+ 
+→
+ 
+William
+ 
+usa
+ 
+Inspiração
+ 
+→
+ 
+ferimentos
+ 
+podem
+ 
+gerar
+ 
+Traumas
+ 
+→
+ 
+resultados
+ 
+modificam
+ 
+Lealdade
+ 
+e
+ 
+Reputação
+ 
+→
+ 
+consequências
+ 
+retornam
+ 
+ao
+ 
+principado,
+ 
+recursos,
+ 
+tropas
+ 
+e
+ 
+missões
+ 
+futuras.
+ 
+124.  Exemplo  de  rodada  Na  Rodada  3,  o  relógio  passa  de  00:30  para  00:45  ao  final  do  ciclo.  William,  Ethan,  Donovan  e  Albert  
+enfrentam
+ 
+quatro
+ 
+bárbaros
+ 
+e
+ 
+dois
+ 
+animais.
+ 
+A
+ 
+iniciativa
+ 
+considera
+ 
+Agilidade,
+ 
+Coragem
+ 
+e
+ 
+estados.
+ 
+Ethan
+ 
+usa
+ 
+lança
+ 
+de
+ 
+ferro
+ 
+(5–10);
+ 
+primeiro
+ 
+vence
+ 
+o
+ 
+teste
+ 
+de
+ 
+acerto
+ 
+por
+ 
+Agilidade,
+ 
+depois
+ 
+calcula
+ 
+o
+ 
+dano
+ 
+com
+ 
+Força
+ 
+e
+ 
+mitigação.
+ 
+Donovan
+ 
+recebe
+ 
+um
+ 
+ataque
+ 
+e
+ 
+tenta
+ 
+Parry.
+ 
+William
+ 
+usa
+ 
+Inspirar.
+ 
+Ao
+ 
+chegar
+ 
+a
+ 
+00:45,
+ 
+o
+ 
+HUD
+ 
+avisa
+ 
+que
+ 
+reforços
+ 
+entram
+ 
+em
+ 
+01:00.
+ 
+O
+ 
+jogador
+ 
+precisa
+ 
+decidir
+ 
+entre
+ 
+acelerar
+ 
+o
+ 
+objetivo,
+ 
+reorganizar
+ 
+a
+ 
+formação
+ 
+ou
+ 
+iniciar
+ 
+retirada.
+ 
+Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  
+
+---PAGE 54---
+
+125.  Implementação  modular  na  Godot  Engine  4  ●  BattleManager  —  estado  geral,  objetivos,  vitória  e  derrota.  ●  RoundManager  —  rodadas  e  avanço  de  15  minutos.  ●  TurnManager  —  iniciativa  e  fila  de  unidades.  ●  FormationManager  —  seis  posições  aliadas  e  ocupação  inimiga  por  tamanho.  ●  CombatResolver  —  acerto,  dano,  esquiva,  parry  e  bloqueio.  ●  FearSystem  —  Ameaça,  Coragem  e  estados  de  medo.  ●  EquipmentSystem  —  armas,  armaduras,  munições,  requisitos  e  modificadores.  ●  StatusEffectSystem  —  queimadura,  medo,  paralisia,  ferimentos  e  buffs/debuffs.  ●  MissionTimer  —  reforços,  eventos  e  falhas  associados  a  rodadas.  ●  CombatLog  —  registro  dos  cálculos  para  transparência  e  depuração.  ●  Armas,  armaduras  e  inimigos  devem  usar  Resources/dados  configuráveis  em  vez  de  valores  espalhados  
+pelos
+ 
+scripts.
+ 
+Aes  Divinus  |  LZASANTOSWORLDSGAMES  |  RPG  Tático  3D  por  Turnos  |  Godot  Engine  4  

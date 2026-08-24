@@ -1,0 +1,16 @@
+{
+  "appId": "com.lzasantosworldsgames.aesdivinus",
+  "appName": "Aes Divinus",
+  "webDir": "dist-web",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https"
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 1200,
+      "backgroundColor": "#0d0f10",
+      "showSpinner": false
+    }
+  }
+}

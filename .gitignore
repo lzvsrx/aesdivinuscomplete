@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+
+# Generated web bundle
+dist-web/
+
+# Build outputs and release binaries
+release/
+*.blockmap
+
+# Local toolchains and temporary downloads
+tools/
+build/failed/
+
+# Temporary or backup native projects
+android-capacitor8-backup/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
