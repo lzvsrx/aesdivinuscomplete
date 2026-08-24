@@ -52,7 +52,7 @@ export class AesDivinusGame {
   createNewState() {
     return {
       mode: "auth",
-      selectedMissionId: "stone_council",
+      selectedMissionId: "prologue_opening",
       activeTab: "mission",
       authMode: "login",
       account: null,
@@ -62,6 +62,11 @@ export class AesDivinusGame {
         auto: true,
         quality: "medium",
         preset: QUALITY_PRESETS.medium
+      },
+      audio: {
+        enabled: true,
+        masterVolume: 0.7,
+        currentAmbience: null
       },
       currentSceneIndex: 0,
       battle: null,
@@ -100,6 +105,41 @@ export class AesDivinusGame {
       preset
     };
     this.queueSave("graphics_quality", `Qualidade grafica definida: ${preset.label}.`, { quality, auto });
+  }
+
+  setAudioEnabled(enabled) {
+    this.state.audio ??= { enabled: true, masterVolume: 0.7, currentAmbience: null };
+    this.state.audio.enabled = Boolean(enabled);
+    this.queueSave("audio_enabled", `Audio ${enabled ? "ativado" : "desativado"}.`, { enabled: Boolean(enabled) });
+  }
+
+  setAudioVolume(masterVolume) {
+    this.state.audio ??= { enabled: true, masterVolume: 0.7, currentAmbience: null };
+    const numericVolume = Number(masterVolume);
+    this.state.audio.masterVolume = Number.isFinite(numericVolume) ? Math.max(0, Math.min(1, numericVolume)) : 0.7;
+    this.queueSave("audio_volume", "Volume principal alterado.", { masterVolume: this.state.audio.masterVolume });
+  }
+
+  ensureRuntimeDefaults() {
+    this.state.selectedMissionId = MISSIONS.some((mission) => mission.id === this.state.selectedMissionId)
+      ? this.state.selectedMissionId
+      : "prologue_opening";
+    this.state.activeTab ??= "mission";
+    this.state.hardware ??= null;
+    this.state.graphics ??= {
+      auto: true,
+      quality: "medium",
+      preset: QUALITY_PRESETS.medium
+    };
+    this.state.graphics.preset = QUALITY_PRESETS[this.state.graphics.quality] ?? QUALITY_PRESETS.medium;
+    this.state.audio ??= {
+      enabled: true,
+      masterVolume: 0.7,
+      currentAmbience: null
+    };
+    this.state.audio.enabled = this.state.audio.enabled !== false;
+    const numericVolume = Number(this.state.audio.masterVolume);
+    this.state.audio.masterVolume = Number.isFinite(numericVolume) ? Math.max(0, Math.min(1, numericVolume)) : 0.7;
   }
 
   enterAsGuest() {
@@ -211,7 +251,7 @@ export class AesDivinusGame {
       return;
     }
     const mission = this.selectedMission;
-    if (mission.managementOnly) this.goToMode("briefing");
+    if (mission.managementOnly) this.resolveManagementMission(mission);
     else this.startSelectedMission();
   }
 
@@ -229,6 +269,7 @@ export class AesDivinusGame {
     const loaded = await this.database.load();
     if (!loaded) return false;
     this.state = loaded;
+    this.ensureRuntimeDefaults();
     return true;
   }
 
@@ -307,10 +348,18 @@ export class AesDivinusGame {
   resolveManagementMission(mission) {
     this.applyRewards(mission.rewards);
     this.state.campaign.day += 1;
-    this.state.campaign.completedMissions.push(mission.id);
+    if (!this.state.campaign.completedMissions.includes(mission.id)) this.state.campaign.completedMissions.push(mission.id);
     this.state.campaign.journal.push(`${mission.title}: a prioridade do principado estabilizou recursos e reputacao.`);
+    this.selectNextMission(mission.id);
     this.state.mode = "briefing";
     this.queueSave("management_mission", `${mission.title} resolvida.`, { missionId: mission.id });
+  }
+
+  selectNextMission(currentMissionId = this.state.selectedMissionId) {
+    const currentIndex = MISSIONS.findIndex((mission) => mission.id === currentMissionId);
+    const next = MISSIONS[currentIndex + 1];
+    if (next) this.state.selectedMissionId = next.id;
+    return next ?? null;
   }
 
   units(side = null) {
@@ -676,10 +725,11 @@ export class AesDivinusGame {
 
     if (victory) {
       this.applyRewards(mission.rewards);
-      this.state.campaign.completedMissions.push(mission.id);
+      if (!this.state.campaign.completedMissions.includes(mission.id)) this.state.campaign.completedMissions.push(mission.id);
       this.state.campaign.journal.push(`${mission.title}: vitoria em ${this.state.battle.round} rodadas.`);
       if (this.state.battle.round <= 6) this.state.principality.reputation.infantry += 2;
       if (allies.every((unit) => unit.hp > 0)) this.state.principality.reputation.companions += 2;
+      this.selectNextMission(mission.id);
     } else {
       this.state.principality.food = Math.max(0, this.state.principality.food - 6);
       this.state.principality.troops = Math.max(0, this.state.principality.troops - 2);

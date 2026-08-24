@@ -1,10 +1,13 @@
 import { AesDivinusGame, CHARACTER_OPTIONS, EQUIPMENT_DESIGNS, FEAR_STATES, MISSIONS, POSITION_TRAITS, QUALITY_PRESETS, SCREEN_FLOW, WEAPONS } from "./game.js";
+import { AUDIO_CATALOG, AudioSystem } from "./audio.js";
 
 const app = document.querySelector("#app");
 const game = new AesDivinusGame();
+const audio = new AudioSystem();
 let saveStatus = "Banco pronto";
 await game.load();
 game.detectAndApplyHardware();
+audio.configure(game.state.audio);
 
 const tabs = [
   ["mission", "Missao"],
@@ -42,6 +45,10 @@ function selectedAlly() {
   return active()?.side === "ally" ? active() : game.living("ally")[0];
 }
 
+function currentMissionForScreen() {
+  return MISSIONS.find((item) => item.id === game.state.battle?.missionId) ?? game.selectedMission;
+}
+
 function actionButton(label, title, handler, disabled = false) {
   const button = document.createElement("button");
   button.className = "action-button";
@@ -50,6 +57,9 @@ function actionButton(label, title, handler, disabled = false) {
   button.title = title;
   button.disabled = disabled;
   button.addEventListener("click", () => {
+    void audio.unlock();
+    audio.configure(game.state.audio);
+    audio.play("ui_click", { volume: 0.6 });
     const result = handler();
     if (result instanceof Promise) {
       saveStatus = "Salvando...";
@@ -72,10 +82,24 @@ function actionButton(label, title, handler, disabled = false) {
 }
 
 function render() {
+  audio.configure(game.state.audio);
+  syncAmbience();
   app.innerHTML = "";
   app.dataset.quality = game.state.graphics.quality;
   app.dataset.touch = game.state.hardware?.info?.touch ? "true" : "false";
   app.append(renderShell());
+}
+
+function syncAmbience() {
+  if (!game.state.audio?.enabled) {
+    audio.stopLoop();
+    return;
+  }
+  const mission = currentMissionForScreen();
+  if (game.state.mode === "title") audio.startLoop("title_ambience");
+  else if (game.state.mode === "mission_scene") audio.startLoop(mission.act.includes("Floresta") ? "forest_ambience" : "mission_scene");
+  else if (game.state.mode === "combat") audio.startLoop(mission.type.includes("Chefe") ? "fear" : "forest_ambience");
+  else audio.stopLoop();
 }
 
 function renderShell() {
@@ -109,6 +133,8 @@ function renderTopBar() {
     button.textContent = label;
     button.className = game.state.activeTab === id ? "active" : "";
     button.addEventListener("click", () => {
+      void audio.unlock();
+      audio.play("menu_open", { volume: 0.55 });
       game.state.activeTab = id;
       game.queueSave("ui_tab", `Aba aberta: ${label}.`, { activeTab: id });
       render();
@@ -223,7 +249,10 @@ function renderTitleScreen() {
   const menu = el("div", "title-menu");
   menu.append(
     actionButton("Continuar", "Ir para a mesa de missoes", () => game.goToMode("briefing")),
-    actionButton("Iniciar campanha", "Comecar a primeira cena do Conselho de Pedra", () => game.startStoryScene("stone_council")),
+    actionButton("Iniciar campanha", "Comecar o prologo na Floresta de Sangue", () => {
+      audio.playForMission(MISSIONS[0]);
+      game.startStoryScene("prologue_opening");
+    }),
     actionButton("Arsenal", "Ver armas e ferramentas", () => game.goToMode("inventory")),
     actionButton("Personagem", "Editar/criar personagem", () => game.goToMode("character_create")),
     actionButton("Salvar", "Salvar banco local", () => game.save())
@@ -246,7 +275,10 @@ function renderMissionScene() {
       <dt>Efeito</dt><dd>${scene?.effect ?? "A missao continua."}</dd>
     </dl>
   `;
-  frame.append(actionButton("Avancar", "Ir para a proxima cena ou iniciar missao", () => game.advanceScene()));
+  frame.append(actionButton("Avancar", "Ir para a proxima cena ou iniciar missao", () => {
+    audio.playForMission(game.selectedMission);
+    game.advanceScene();
+  }));
   screen.append(frame, renderFlowRail("mission_scene"));
   return screen;
 }
@@ -287,8 +319,14 @@ function renderMissionPanel() {
     <p class="mission-impact"><strong>Impacto:</strong> ${mission.impact}</p>
     <div class="objective-list">${mission.optional.map((item) => `<span>${item}</span>`).join("")}</div>
   `;
-  detail.append(actionButton(mission.managementOnly ? "Abrir cena de conselho" : "Abrir cenas da missao", "Comecar fluxo narrativo da missao", () => game.startStoryScene(mission.id)));
-  detail.append(actionButton("Iniciar direto", "Pular cenas e iniciar sistema principal da missao", () => game.startSelectedMission()));
+  detail.append(actionButton(mission.managementOnly ? "Abrir cena de conselho" : "Abrir cenas da missao", "Comecar fluxo narrativo da missao", () => {
+    audio.playForMission(mission);
+    game.startStoryScene(mission.id);
+  }));
+  detail.append(actionButton("Iniciar direto", "Pular cenas e iniciar sistema principal da missao", () => {
+    audio.play(mission.managementOnly ? "mission_scene" : "combat_start", { volume: 0.55 });
+    game.startSelectedMission();
+  }));
   detail.append(renderJournal());
   panel.append(list, detail);
   return panel;
@@ -297,7 +335,7 @@ function renderMissionPanel() {
 function renderCombat() {
   const battle = game.state.battle;
   const wrap = el("section", "combat-layout");
-  const mission = game.selectedMission;
+  const mission = currentMissionForScreen();
   const activeUnit = active();
 
   const stage = el("div", "battle-stage");
@@ -315,6 +353,7 @@ function renderCombat() {
     const modal = el("div", "result-modal");
     modal.innerHTML = `<strong>${battle.outcome === "victory" ? "Vitoria" : "Derrota"}</strong><span>${battle.log[0] ?? ""}</span>`;
     modal.append(actionButton("Voltar ao principado", "Encerrar resultado", () => {
+      audio.play(game.state.battle.outcome === "victory" ? "victory" : "defeat", { volume: 0.8 });
       game.state.mode = "briefing";
       game.state.battle = null;
       game.save();
@@ -437,15 +476,35 @@ function renderActionBar(unit) {
   const disabled = unit.side !== "ally" || game.state.battle.outcome;
   bar.innerHTML = `<div><strong>${unit.name}</strong><span>${unit.ap ?? 0} PA disponiveis</span></div>`;
   bar.append(
-    actionButton("Atacar", "Atacar alvo selecionado", () => game.attack(unit.id, target?.id), disabled || !target || target.side === unit.side || unit.ap < 1),
+    actionButton("Atacar", "Atacar alvo selecionado", () => performAttack(unit, target), disabled || !target || target.side === unit.side || unit.ap < 1),
     actionButton("Recuar", "Mover para tras", () => game.move(unit.id, 1), disabled || unit.ap < 1),
     actionButton("Avancar", "Mover para frente", () => game.move(unit.id, -1), disabled || unit.ap < 1),
-    actionButton("Guarda", "Reduzir dano recebido", () => game.guard(unit.id), disabled || unit.ap < 1),
-    actionButton("Inspirar", "William fortalece coragem e iniciativa", () => game.inspire(unit.id, selectedAlly()?.id), disabled || unit.ap < 1 || !selectedAlly()),
-    actionButton("Fogo", "Preparar flecha de fogo", () => game.useAesArrow(unit.id), disabled || unit.weapon !== "bow" || unit.ap < 1),
+    actionButton("Guarda", "Reduzir dano recebido", () => {
+      audio.play("armor_hit", { volume: 0.35 });
+      return game.guard(unit.id);
+    }, disabled || unit.ap < 1),
+    actionButton("Inspirar", "William fortalece coragem e iniciativa", () => {
+      audio.play("mission_scene", { volume: 0.4 });
+      return game.inspire(unit.id, selectedAlly()?.id);
+    }, disabled || unit.ap < 1 || !selectedAlly()),
+    actionButton("Fogo", "Preparar flecha de fogo", () => {
+      audio.play("fire", { volume: 0.5 });
+      return game.useAesArrow(unit.id);
+    }, disabled || unit.weapon !== "bow" || unit.ap < 1),
     actionButton("Esperar", "Encerrar turno", () => game.endTurn(), disabled)
   );
   return bar;
+}
+
+function performAttack(unit, target) {
+  const result = game.attack(unit.id, target?.id);
+  audio.playAttack(unit, result);
+  if (result?.ok && game.state.battle?.outcome) {
+    audio.play(game.state.battle.outcome === "victory" ? "victory" : "defeat", { volume: 0.8 });
+  } else if (result?.ok && game.state.battle?.log?.[0]?.includes("medo")) {
+    audio.play("fear", { volume: 0.5 });
+  }
+  return result;
 }
 
 function renderUnitCard(unit, title) {
@@ -599,6 +658,7 @@ function renderHardwareSettings() {
   const detected = game.state.hardware;
   const info = detected?.info ?? {};
   const preset = game.state.graphics.preset;
+  const audioState = game.state.audio ?? { enabled: true, masterVolume: 0.7 };
   const wrap = el("section", "hardware-screen");
   const summary = el("article", "hardware-summary");
   summary.innerHTML = `
@@ -650,7 +710,38 @@ function renderHardwareSettings() {
 
   const notes = el("article", "hardware-notes");
   notes.innerHTML = `<h2>Notas</h2>${(detected?.notes ?? []).map((note) => `<p>${note}</p>`).join("")}`;
-  wrap.append(summary, specs, applied, notes);
+
+  const audioPanel = el("article", "audio-settings");
+  audioPanel.innerHTML = `
+    <h2>Audio</h2>
+    <div class="audio-controls">
+      <button class="audio-toggle ${audioState.enabled ? "active" : ""}" type="button">${audioState.enabled ? "Som ligado" : "Som desligado"}</button>
+      <label>Volume <input class="volume-slider" type="range" min="0" max="1" step="0.05" value="${audioState.masterVolume}"></label>
+    </div>
+    <h2>Mapa sonoro Pixabay</h2>
+    <div class="sound-map">
+      ${Object.entries(AUDIO_CATALOG).map(([key, item]) => `
+        <div class="audio-row">
+          <strong>${item.label}</strong>
+          <span>${item.files.join(", ")}</span>
+          <a href="${item.sources[0].url}" target="_blank" rel="noreferrer">${item.sources[0].title}</a>
+        </div>
+      `).join("")}
+    </div>
+  `;
+  audioPanel.querySelector(".audio-toggle").addEventListener("click", () => {
+    game.setAudioEnabled(!game.state.audio.enabled);
+    audio.configure(game.state.audio);
+    if (game.state.audio.enabled) audio.play("menu_open", { volume: 0.65 });
+    render();
+  });
+  audioPanel.querySelector(".volume-slider").addEventListener("input", (event) => {
+    game.setAudioVolume(event.currentTarget.value);
+    audio.configure(game.state.audio);
+    audio.play("ui_click", { volume: 0.45 });
+  });
+
+  wrap.append(summary, specs, applied, audioPanel, notes);
   return wrap;
 }
 
@@ -685,7 +776,8 @@ window.addEventListener("keydown", (event) => {
   if (game.state.mode !== "combat") return;
   const unit = active();
   if (!unit || unit.side !== "ally") return;
-  if (event.key === "1") game.attack(unit.id, selectedTarget()?.id);
+  void audio.unlock();
+  if (event.key === "1") performAttack(unit, selectedTarget());
   if (event.key === "2") game.guard(unit.id);
   if (event.key === "3") game.inspire(unit.id, selectedAlly()?.id);
   if (event.key === " ") game.endTurn();

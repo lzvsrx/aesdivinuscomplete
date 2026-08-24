@@ -21,7 +21,7 @@ Esta versao e uma implementacao jogavel web/desktop/mobile do documento de desig
 - **Criacao de personagem:** nome, tratamento, origem, corpo, rosto, cabelo, barba, paleta e arma inicial.
 - **Fluxo sequencial de telas:** conta, personagem, titulo, cenas, mesa de missoes, combate, arsenal, principado e codex.
 - **Cenas de missao:** cenas narrativas antes das missoes, com camera, escolha e efeito.
-- **Campanha em 38 entradas:** cinco atos e epilogo com conselho, investigacao, resgate, escolta, companheiros, defesa, politica, chefes, cerco, dungeon, escolhas criticas e final multifasico.
+- **Campanha em 47 entradas:** prologo jogavel na Floresta de Sangue, cinco atos e epilogo com conselho, investigacao, resgate, escolta, companheiros, defesa, politica, chefes, cerco, dungeon, escolhas criticas e final multifasico.
 - **Combate tatico por turnos:** unidades com 2 PA, iniciativa, fila de turno, movimento, ataque, guarda, inspiracao, flecha de fogo e espera.
 - **Sistema de posicoes:** seis posicoes por lado, linha de frente, retaguarda, altura, cobertura e alcance.
 - **Acerto e dano separados:** chance de acerto por agilidade, defesa, cobertura, distancia e estado; dano por arma, forca, armadura e mitigacao.
@@ -33,24 +33,26 @@ Esta versao e uma implementacao jogavel web/desktop/mobile do documento de desig
 - **Codex:** explicacao interna dos sistemas principais.
 - **Save completo:** todo progresso e salvo no IndexedDB.
 - **Deteccao de hardware:** o jogo identifica CPU logica, memoria aproximada, GPU/WebGL, tela, pixel ratio, touch e preferencia de movimento reduzido para aplicar qualidade automaticamente.
+- **Audio adaptativo:** mapa sonoro por tela/acao com alternativas pesquisadas no Pixabay, controle de volume salvo no banco e fallback Web Audio para nao quebrar quando os MP3s locais ainda nao existem.
 
 ## Telas implementadas
 
 1. **Conta** - login, cadastro e convidado.
 2. **Personagem** - criacao modular do protagonista.
 3. **Titulo** - menu principal com logo do jogo e marca da desenvolvedora.
-4. **Cena** - narrativa antes da missao.
+4. **Cena** - narrativa/cutscene antes da missao.
 5. **Mesa** - selecao de missoes e diario.
 6. **Combate** - arena tatica por turnos.
 7. **Arsenal** - armas, ferramentas e direcao visual.
 8. **Principado** - recursos, reputacao e politicas.
-9. **Hardware** - diagnostico do dispositivo e configuracao grafica.
+9. **Hardware/Audio** - diagnostico do dispositivo, configuracao grafica e mapa sonoro.
 10. **Codex** - sistemas e referencias do jogo.
 
 ## Campanha
 
 A campanha foi adequada para a estrutura completa solicitada:
 
+- Prologo - Floresta de Sangue: `Cena P0 - Abertura`, `Missao P1 - Pela Estrada Velha`, `Cena P2 - Sinais na Mata`, `Missao P3 - Emboscada`, `Cena P4 - Depois do Sangue`, `Missao P5 - O Sobrevivente`, `Cena P6 - A Transformacao`, `Missao P7 - A Real Batalha` e `Cena P8 - O Hubris`.
 - Ato I - O Peso da Coroa: `Conselho de Pedra` ate `Chefe - O Arauto da Mata`.
 - Ato II - Fronteiras em Chamas: `Ponte de Cinzas` ate `O General sem Rosto`.
 - Ato III - Vozes Sob a Terra: `Mosteiro Abandonado` ate `A Boca da Terra`.
@@ -58,7 +60,37 @@ A campanha foi adequada para a estrutura completa solicitada:
 - Ato V - Aes Divinus: `Marcha Final` ate `Aes Divinus`.
 - Epilogo: `Ultima Ordem`.
 
-Cada missao possui numero, ato, tipo, objetivo, impacto, objetivos opcionais, cenas previas, recompensas e comportamento de gestao ou combate. As missoes de chefe usam ameaca sobrenatural e medo; missoes de defesa usam reforcos e pressao por rodadas; cenas politicas e escolhas criticas modificam recursos e reputacao.
+Cada missao possui numero, ato, tipo, objetivo, impacto, objetivos opcionais, cenas previas, recompensas, progressao para a proxima entrada e comportamento de gestao ou combate. As missoes de chefe usam ameaca sobrenatural e medo; missoes de defesa usam reforcos e pressao por rodadas; cenas politicas e escolhas criticas modificam recursos e reputacao.
+
+## Audio e fontes Pixabay
+
+O sistema de audio fica em `src/audio.js` e usa slots locais em `assets/audio/`. A tela **Hardware/Audio** lista os sons por funcao e permite ligar/desligar som ou ajustar volume. Esses ajustes sao salvos no IndexedDB.
+
+Funcoes sonoras implementadas:
+
+- clique de interface e abertura de menu
+- ambiente de titulo e dark fantasy
+- cena narrativa
+- floresta/exploracao
+- inicio de combate
+- ataque de espada, impacto em armadura, arco/flecha e fogo
+- medo/sobrenatural
+- vitoria e derrota
+
+Fontes pesquisadas no Pixabay:
+
+- https://pixabay.com/sound-effects/search/ui%20click/
+- https://pixabay.com/sound-effects/search/fantasy%20menu/
+- https://pixabay.com/sound-effects/search/dark%20fantasy/
+- https://pixabay.com/sound-effects/search/fantasy%20forest/
+- https://pixabay.com/sound-effects/search/sword/
+- https://pixabay.com/sound-effects/search/bow%20arrow/
+- https://pixabay.com/sound-effects/search/fire/
+- https://pixabay.com/sound-effects/horror-horror-sting-25237/
+- https://pixabay.com/sound-effects/musical-medieval-fanfare-6826/
+- https://pixabay.com/sound-effects/search/defeat/
+
+O jogo evita hotlink externo: baixe os efeitos escolhidos do Pixabay e salve com os nomes indicados em `assets/audio/README.md`. Enquanto os arquivos nao existirem, o fallback sintetizado mantem a aplicacao funcionando sem erro. Consulte sempre a licenca oficial: https://pixabay.com/service/license-summary/.
 
 ## Configuracao automatica por hardware
 
@@ -155,7 +187,9 @@ Cobertura atual:
 - eventos no banco
 - cadastro/criacao de personagem
 - cenas entrando em combate
-- campanha completa com 38 missoes numeradas
+- campanha completa com 47 entradas numeradas
+- prologo da Floresta de Sangue antes dos cinco atos
+- catalogo de audio, fontes Pixabay e fallback sem quebra
 - deteccao de hardware e aplicacao de perfil grafico
 
 ## Build web

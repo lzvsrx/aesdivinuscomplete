@@ -100,13 +100,24 @@ test("mission scenes advance into combat", () => {
   assert.ok(game.state.battle);
 });
 
-test("campaign includes the requested 38 mission structure", () => {
-  assert.equal(MISSIONS.length, 38);
+test("campaign includes prologue plus the requested 38 mission structure", () => {
+  assert.equal(MISSIONS.length, 47);
   assert.deepEqual(
     MISSIONS.map((mission) => mission.order),
-    Array.from({ length: 38 }, (_, index) => index + 1)
+    Array.from({ length: 47 }, (_, index) => index + 1)
   );
-  assert.equal(MISSIONS[0].title, "Conselho de Pedra");
-  assert.equal(MISSIONS[37].title, "Ultima Ordem");
+  assert.equal(MISSIONS[0].title, "Cena P0 - Abertura");
+  assert.equal(MISSIONS[8].title, "Cena P8 - O Hubris");
+  assert.equal(MISSIONS[9].title, "Conselho de Pedra");
+  assert.equal(MISSIONS[46].title, "Ultima Ordem");
   assert.ok(MISSIONS.every((mission) => mission.objective && mission.impact && mission.type));
+});
+
+test("prologue entries progress into the original act one campaign", () => {
+  const game = new AesDivinusGame({ rng: new Rng(10), database: new MemoryGameDatabase() });
+  assert.equal(game.state.selectedMissionId, "prologue_opening");
+  game.startStoryScene("prologue_opening");
+  game.advanceScene();
+  game.advanceScene();
+  assert.equal(game.state.selectedMissionId, "old_road");
 });

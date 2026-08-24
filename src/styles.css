@@ -1049,6 +1049,7 @@ dd {
 .hardware-summary,
 .hardware-specs,
 .hardware-applied,
+.audio-settings,
 .hardware-notes {
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -1098,6 +1099,49 @@ dd {
 .quality-chip.active {
   border-color: rgba(208, 169, 81, .8);
   background: rgba(208, 169, 81, .18);
+}
+
+.audio-settings {
+  grid-column: span 2;
+}
+
+.audio-controls {
+  display: grid;
+  grid-template-columns: minmax(150px, 220px) 1fr;
+  gap: 12px;
+  align-items: end;
+  margin: 10px 0 16px;
+}
+
+.audio-toggle.active {
+  border-color: rgba(84, 124, 99, .8);
+  background: rgba(84, 124, 99, .2);
+}
+
+.sound-map {
+  display: grid;
+  gap: 8px;
+  max-height: 360px;
+  overflow: auto;
+}
+
+.audio-row {
+  display: grid;
+  grid-template-columns: minmax(140px, .8fr) minmax(220px, 1.4fr) minmax(160px, .8fr);
+  gap: 10px;
+  align-items: center;
+  padding: 8px 0;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+}
+
+.audio-row span,
+.audio-row a {
+  color: var(--muted);
+}
+
+.audio-row a {
+  text-decoration-color: rgba(208, 169, 81, .55);
 }
 
 .hardware-notes {
@@ -1151,6 +1195,15 @@ dd {
   .title-screen,
   .cinematic-screen,
   .hardware-screen {
+    grid-template-columns: 1fr;
+  }
+
+  .audio-settings {
+    grid-column: auto;
+  }
+
+  .audio-controls,
+  .audio-row {
     grid-template-columns: 1fr;
   }
 

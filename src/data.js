@@ -162,50 +162,64 @@ export const ENEMY_SETS = {
   ]
 };
 
-const MISSION_ROWS = [
-  [1, "Ato I - O Peso da Coroa", "stone_council", "Conselho de Pedra", "Cena de conselho", "Escolher prioridade: comida, defesa ou investigacao.", "Abre rotas e modifica recursos."],
-  [2, "Ato I - O Peso da Coroa", "empty_granaries", "Celeiros Vazios", "Investigacao/gestao", "Descobrir causa da falta de comida.", "Pode revelar roubo, corrupcao ou ataque."],
-  [3, "Ato I - O Peso da Coroa", "village_without_bells", "A Vila sem Sinos", "Exploracao + resgate", "Encontrar moradores e retirar sobreviventes.", "Primeiro mapa semiaberto."],
-  [4, "Ato I - O Peso da Coroa", "wolves_on_the_road", "Lobos na Estrada", "Escolta", "Levar carregamento ate o principado.", "Emboscadas e rotas alternativas."],
-  [5, "Ato I - O Peso da Coroa", "blood_debt", "Divida de Sangue", "Missao de companheiro", "Resolver conflito ligado a Donovan/Ethan/Albert.", "Lealdade individual."],
-  [6, "Ato I - O Peso da Coroa", "gate_at_dusk", "O Portao ao Anoitecer", "Defesa", "Defender entrada por varias rodadas.", "Barricadas, arqueiros e reforcos."],
-  [7, "Ato I - O Peso da Coroa", "prince_trial", "Julgamento do Principe", "Cena politica", "Julgar responsaveis e consequencias.", "Reputacao por faccao."],
-  [8, "Ato I - O Peso da Coroa", "herald_of_the_woods", "Chefe - O Arauto da Mata", "Cacada/chefe", "Eliminar ou capturar criatura/comandante.", "Chefe com medo e terreno."],
-  [9, "Ato II - Fronteiras em Chamas", "act_ii_burning_frontiers", "Ato II - Fronteiras em Chamas", "Ato", "Abrir o arco de guerra nas fronteiras.", "Novas rotas, pressoes militares e ameacas coordenadas."],
-  [10, "Ato II - Fronteiras em Chamas", "ash_bridge", "Ponte de Cinzas", "Defesa/controle", "Segurar ponte ou destrui-la.", "Muda rota estrategica."],
-  [11, "Ato II - Fronteiras em Chamas", "lost_caravan", "Caravana Perdida", "Busca/resgate", "Localizar caravana antes do tempo acabar.", "Recursos e sobreviventes."],
-  [12, "Ato II - Fronteiras em Chamas", "broken_fortress", "Fortaleza Partida", "Assalto", "Abrir portao por infiltracao, sabotagem ou ataque frontal.", "Tres rotas."],
-  [13, "Ato II - Fronteiras em Chamas", "field_of_the_dead", "Campo dos Mortos", "Investigacao", "Descobrir por que corpos desapareceram.", "Sobrenatural cresce."],
-  [14, "Ato II - Fronteiras em Chamas", "blood_between_banners", "Sangue entre Estandartes", "Diplomacia armada", "Evitar ou vencer conflito entre aliados.", "Reputacao politica."],
-  [15, "Ato II - Fronteiras em Chamas", "siege", "Cerco", "Grande batalha", "Defender setores, comandar tropas e escolher onde intervir.", "Perdas persistentes."],
-  [16, "Ato II - Fronteiras em Chamas", "faceless_general", "O General sem Rosto", "Chefe", "Quebrar comando inimigo e sobreviver as fases.", "Inimigos coordenados + medo."],
-  [17, "Ato III - Vozes Sob a Terra", "act_iii_voices_below", "Ato III - Vozes Sob a Terra", "Ato", "Iniciar a descida as ruinas e segredos proibidos.", "O horror e os traumas passam a alterar missoes."],
-  [18, "Ato III - Vozes Sob a Terra", "abandoned_monastery", "Mosteiro Abandonado", "Exploracao/horror", "Encontrar registros e sobreviver ao local.", "Puzzles leves e medo."],
-  [19, "Ato III - Vozes Sob a Terra", "under_the_crypt", "Sob a Cripta", "Dungeon tatica", "Abrir caminho por ruinas subterraneas.", "Luz, armadilhas e rotas."],
-  [20, "Ato III - Vozes Sob a Terra", "forbidden_name", "O Nome Proibido", "Investigacao", "Reconstruir ritual por documentos e testemunhos.", "Lore e decisao."],
-  [21, "Ato III - Vozes Sob a Terra", "echoes_of_fear", "Ecos de Medo", "Missao psicologica", "Enfrentar manifestacao ligada aos traumas do grupo.", "Traumas alteram encontros."],
-  [22, "Ato III - Vozes Sob a Terra", "artifact", "O Artefato", "Escolha critica", "Destruir, guardar ou usar objeto sobrenatural.", "Campanha ramifica."],
-  [23, "Ato III - Vozes Sob a Terra", "mouth_of_the_earth", "A Boca da Terra", "Chefe", "Impedir ritual e selar passagem.", "Objetivo por fases, nao apenas HP."],
-  [24, "Ato IV - Reino Dividido", "act_iv_divided_kingdom", "Ato IV - Reino Dividido", "Ato", "Abrir a crise politica do reino.", "Aliancas e reputacoes passam a definir rotas."],
-  [25, "Ato IV - Reino Dividido", "messengers", "Mensageiros", "Corrida estrategica", "Entregar ordens antes que regioes caiam.", "Mapa e tempo."],
-  [26, "Ato IV - Reino Dividido", "dukes_choice", "A Escolha dos Duques", "Politica", "Convencer faccoes com reputacao acumulada.", "Aliancas reais."],
-  [27, "Ato IV - Reino Dividido", "brothers_against_brothers", "Irmaos contra Irmaos", "Batalha moral", "Vencer sem massacrar aliados quando possivel.", "Captura/rendicao."],
-  [28, "Ato IV - Reino Dividido", "besieged_city", "A Cidade Cercada", "Mapa grande", "Gerenciar comida, setores e civis durante cerco.", "Principado + combate."],
-  [29, "Ato IV - Reino Dividido", "betrayal", "Traicao", "Cena/combate variavel", "Revelar traidor conforme relacoes e decisoes.", "Lealdade paga consequencia."],
-  [30, "Ato IV - Reino Dividido", "empty_throne", "O Trono Vazio", "Assalto politico", "Retomar ou proteger centro de poder.", "Varias rotas e objetivos."],
-  [31, "Ato V - Aes Divinus", "act_v_aes_divinus", "Ato V - Aes Divinus", "Ato", "Abrir a marcha final contra a fonte do poder.", "Todas as escolhas anteriores entram em jogo."],
-  [32, "Ato V - Aes Divinus", "final_march", "Marcha Final", "Preparacao", "Escolher tropas, companheiros e suprimentos.", "Tudo que foi administrado importa."],
-  [33, "Ato V - Aes Divinus", "corrupted_land", "Terra Corrompida", "Travessia", "Cruzar regiao alterada pelo sobrenatural.", "Recursos e Coragem."],
-  [34, "Ato V - Aes Divinus", "those_who_remained", "Os Que Ficaram", "Missao de consequencias", "Encontrar personagens/faccoes conforme escolhas anteriores.", "Campanha reativa."],
-  [35, "Ato V - Aes Divinus", "abyss_gates", "Portoes do Abismo", "Assalto", "Romper tres objetivos em ordem escolhida.", "Grande arena multiobjetivo."],
-  [36, "Ato V - Aes Divinus", "price_of_the_crown", "O Preco da Coroa", "Cena decisiva", "Escolha politica/pessoal antes do final.", "Define aliados e condicoes."],
-  [37, "Ato V - Aes Divinus", "aes_divinus_final", "Aes Divinus", "Chefe final multifasico", "Sobreviver, quebrar mecanismos/ritual e enfrentar entidade.", "Combate, medo, lideranca, terreno."],
-  [38, "Epilogo", "last_order", "Ultima Ordem", "Decisao final", "Escolher destino do poder/principado.", "Define epilogo."]
+const PROLOGUE_ROWS = [
+  ["Prologo - Floresta de Sangue", "prologue_opening", "Cena P0 - Abertura", "Cena cinematica", "Apresentar William, o grupo e a viagem pela Floresta de Sangue.", "Define tom, contexto e primeira leitura dos companheiros."],
+  ["Prologo - Floresta de Sangue", "old_road", "Missao P1 - Pela Estrada Velha", "Tutorial de exploracao", "Explorar a trilha, seguir rastros e encontrar suprimentos opcionais.", "Ensina movimento, interacao e Percepcao."],
+  ["Prologo - Floresta de Sangue", "forest_signs", "Cena P2 - Sinais na Mata", "Cena de tensao", "Ouvir os sons da floresta e perceber que algo acompanha o grupo.", "Aumenta tensao e prepara a emboscada."],
+  ["Prologo - Floresta de Sangue", "ambush", "Missao P3 - Emboscada", "Primeiro combate", "Vencer ou forcar retirada dos barbaros.", "Ensina turnos, PA, ataque, movimento e cobertura."],
+  ["Prologo - Floresta de Sangue", "after_blood", "Cena P4 - Depois do Sangue", "Cena de dialogo", "Escolher como os companheiros reagem a batalha.", "Altera lealdade, marca emocional e personalidade do grupo."],
+  ["Prologo - Floresta de Sangue", "survivor", "Missao P5 - O Sobrevivente", "Resgate/batalha", "Encontrar um sobrevivente ferido, ajuda-lo e eliminar inimigos.", "Combina interacao, resgate e combate."],
+  ["Prologo - Floresta de Sangue", "transformation", "Cena P6 - A Transformacao", "Cena sobrenatural", "Sobreviver ao primeiro sinal de transformacao de um inimigo.", "Introduz Medo e Coragem."],
+  ["Prologo - Floresta de Sangue", "real_battle", "Missao P7 - A Real Batalha", "Chefe tutorial", "Proteger companheiros e, opcionalmente, deixar a criatura com meia vida.", "Ensina medo, lideranca e retirada."],
+  ["Prologo - Floresta de Sangue", "hubris", "Cena P8 - O Hubris", "Cena politica", "Decidir como relatar o ocorrido ao retornar.", "Gera a primeira consequencia politica."]
 ];
 
-const MANAGEMENT_TYPES = ["Ato", "Cena de conselho", "Investigacao/gestao", "Cena politica", "Politica", "Escolha critica", "Preparacao", "Cena decisiva", "Decisao final"];
-const BOSS_TYPES = ["Cacada/chefe", "Chefe", "Chefe final multifasico"];
-const SUPERNATURAL_TYPES = ["Exploracao/horror", "Dungeon tatica", "Missao psicologica", "Travessia", "Chefe final multifasico"];
+const ACT_ROWS = [
+  ["Ato I - O Peso da Coroa", "stone_council", "Conselho de Pedra", "Cena de conselho", "Escolher prioridade: comida, defesa ou investigacao.", "Abre rotas e modifica recursos."],
+  ["Ato I - O Peso da Coroa", "empty_granaries", "Celeiros Vazios", "Investigacao/gestao", "Descobrir causa da falta de comida.", "Pode revelar roubo, corrupcao ou ataque."],
+  ["Ato I - O Peso da Coroa", "village_without_bells", "A Vila sem Sinos", "Exploracao + resgate", "Encontrar moradores e retirar sobreviventes.", "Primeiro mapa semiaberto."],
+  ["Ato I - O Peso da Coroa", "wolves_on_the_road", "Lobos na Estrada", "Escolta", "Levar carregamento ate o principado.", "Emboscadas e rotas alternativas."],
+  ["Ato I - O Peso da Coroa", "blood_debt", "Divida de Sangue", "Missao de companheiro", "Resolver conflito ligado a Donovan/Ethan/Albert.", "Lealdade individual."],
+  ["Ato I - O Peso da Coroa", "gate_at_dusk", "O Portao ao Anoitecer", "Defesa", "Defender entrada por varias rodadas.", "Barricadas, arqueiros e reforcos."],
+  ["Ato I - O Peso da Coroa", "prince_trial", "Julgamento do Principe", "Cena politica", "Julgar responsaveis e consequencias.", "Reputacao por faccao."],
+  ["Ato I - O Peso da Coroa", "herald_of_the_woods", "Chefe - O Arauto da Mata", "Cacada/chefe", "Eliminar ou capturar criatura/comandante.", "Chefe com medo e terreno."],
+  ["Ato II - Fronteiras em Chamas", "act_ii_burning_frontiers", "Ato II - Fronteiras em Chamas", "Ato", "Abrir o arco de guerra nas fronteiras.", "Novas rotas, pressoes militares e ameacas coordenadas."],
+  ["Ato II - Fronteiras em Chamas", "ash_bridge", "Ponte de Cinzas", "Defesa/controle", "Segurar ponte ou destrui-la.", "Muda rota estrategica."],
+  ["Ato II - Fronteiras em Chamas", "lost_caravan", "Caravana Perdida", "Busca/resgate", "Localizar caravana antes do tempo acabar.", "Recursos e sobreviventes."],
+  ["Ato II - Fronteiras em Chamas", "broken_fortress", "Fortaleza Partida", "Assalto", "Abrir portao por infiltracao, sabotagem ou ataque frontal.", "Tres rotas."],
+  ["Ato II - Fronteiras em Chamas", "field_of_the_dead", "Campo dos Mortos", "Investigacao", "Descobrir por que corpos desapareceram.", "Sobrenatural cresce."],
+  ["Ato II - Fronteiras em Chamas", "blood_between_banners", "Sangue entre Estandartes", "Diplomacia armada", "Evitar ou vencer conflito entre aliados.", "Reputacao politica."],
+  ["Ato II - Fronteiras em Chamas", "siege", "Cerco", "Grande batalha", "Defender setores, comandar tropas e escolher onde intervir.", "Perdas persistentes."],
+  ["Ato II - Fronteiras em Chamas", "faceless_general", "O General sem Rosto", "Chefe", "Quebrar comando inimigo e sobreviver as fases.", "Inimigos coordenados + medo."],
+  ["Ato III - Vozes Sob a Terra", "act_iii_voices_below", "Ato III - Vozes Sob a Terra", "Ato", "Iniciar a descida as ruinas e segredos proibidos.", "O horror e os traumas passam a alterar missoes."],
+  ["Ato III - Vozes Sob a Terra", "abandoned_monastery", "Mosteiro Abandonado", "Exploracao/horror", "Encontrar registros e sobreviver ao local.", "Puzzles leves e medo."],
+  ["Ato III - Vozes Sob a Terra", "under_the_crypt", "Sob a Cripta", "Dungeon tatica", "Abrir caminho por ruinas subterraneas.", "Luz, armadilhas e rotas."],
+  ["Ato III - Vozes Sob a Terra", "forbidden_name", "O Nome Proibido", "Investigacao", "Reconstruir ritual por documentos e testemunhos.", "Lore e decisao."],
+  ["Ato III - Vozes Sob a Terra", "echoes_of_fear", "Ecos de Medo", "Missao psicologica", "Enfrentar manifestacao ligada aos traumas do grupo.", "Traumas alteram encontros."],
+  ["Ato III - Vozes Sob a Terra", "artifact", "O Artefato", "Escolha critica", "Destruir, guardar ou usar objeto sobrenatural.", "Campanha ramifica."],
+  ["Ato III - Vozes Sob a Terra", "mouth_of_the_earth", "A Boca da Terra", "Chefe", "Impedir ritual e selar passagem.", "Objetivo por fases, nao apenas HP."],
+  ["Ato IV - Reino Dividido", "act_iv_divided_kingdom", "Ato IV - Reino Dividido", "Ato", "Abrir a crise politica do reino.", "Aliancas e reputacoes passam a definir rotas."],
+  ["Ato IV - Reino Dividido", "messengers", "Mensageiros", "Corrida estrategica", "Entregar ordens antes que regioes caiam.", "Mapa e tempo."],
+  ["Ato IV - Reino Dividido", "dukes_choice", "A Escolha dos Duques", "Politica", "Convencer faccoes com reputacao acumulada.", "Aliancas reais."],
+  ["Ato IV - Reino Dividido", "brothers_against_brothers", "Irmaos contra Irmaos", "Batalha moral", "Vencer sem massacrar aliados quando possivel.", "Captura/rendicao."],
+  ["Ato IV - Reino Dividido", "besieged_city", "A Cidade Cercada", "Mapa grande", "Gerenciar comida, setores e civis durante cerco.", "Principado + combate."],
+  ["Ato IV - Reino Dividido", "betrayal", "Traicao", "Cena/combate variavel", "Revelar traidor conforme relacoes e decisoes.", "Lealdade paga consequencia."],
+  ["Ato IV - Reino Dividido", "empty_throne", "O Trono Vazio", "Assalto politico", "Retomar ou proteger centro de poder.", "Varias rotas e objetivos."],
+  ["Ato V - Aes Divinus", "act_v_aes_divinus", "Ato V - Aes Divinus", "Ato", "Abrir a marcha final contra a fonte do poder.", "Todas as escolhas anteriores entram em jogo."],
+  ["Ato V - Aes Divinus", "final_march", "Marcha Final", "Preparacao", "Escolher tropas, companheiros e suprimentos.", "Tudo que foi administrado importa."],
+  ["Ato V - Aes Divinus", "corrupted_land", "Terra Corrompida", "Travessia", "Cruzar regiao alterada pelo sobrenatural.", "Recursos e Coragem."],
+  ["Ato V - Aes Divinus", "those_who_remained", "Os Que Ficaram", "Missao de consequencias", "Encontrar personagens/faccoes conforme escolhas anteriores.", "Campanha reativa."],
+  ["Ato V - Aes Divinus", "abyss_gates", "Portoes do Abismo", "Assalto", "Romper tres objetivos em ordem escolhida.", "Grande arena multiobjetivo."],
+  ["Ato V - Aes Divinus", "price_of_the_crown", "O Preco da Coroa", "Cena decisiva", "Escolha politica/pessoal antes do final.", "Define aliados e condicoes."],
+  ["Ato V - Aes Divinus", "aes_divinus_final", "Aes Divinus", "Chefe final multifasico", "Sobreviver, quebrar mecanismos/ritual e enfrentar entidade.", "Combate, medo, lideranca, terreno."],
+  ["Epilogo", "last_order", "Ultima Ordem", "Decisao final", "Escolher destino do poder/principado.", "Define epilogo."]
+];
+
+const MISSION_ROWS = [...PROLOGUE_ROWS, ...ACT_ROWS].map((row, index) => [index + 1, ...row]);
+
+const MANAGEMENT_TYPES = ["Ato", "Cena cinematica", "Cena de tensao", "Cena de dialogo", "Cena sobrenatural", "Cena de conselho", "Investigacao/gestao", "Cena politica", "Politica", "Escolha critica", "Preparacao", "Cena decisiva", "Decisao final"];
+const BOSS_TYPES = ["Cacada/chefe", "Chefe", "Chefe tutorial", "Chefe final multifasico"];
+const SUPERNATURAL_TYPES = ["Cena sobrenatural", "Exploracao/horror", "Dungeon tatica", "Missao psicologica", "Travessia", "Chefe tutorial", "Chefe final multifasico"];
 
 function missionEnemySet(type) {
   if (BOSS_TYPES.includes(type) || SUPERNATURAL_TYPES.includes(type)) return "manifestation";
@@ -285,6 +299,104 @@ export const MISSIONS = MISSION_ROWS.map(([order, act, id, title, type, objectiv
   };
 });
 
+const MISSION_SCENE_OVERRIDES = {
+  prologue_opening: [
+    {
+      title: "Cena P0 - Abertura",
+      camera: "Cinematica curta sobre estrada, brasoes gastos, fogueira baixa e a Floresta de Sangue fechando o horizonte.",
+      text: "William viaja com Ethan e Albert antes de entender o tamanho da coroa que o espera.",
+      choice: "Observar o grupo",
+      effect: "Apresenta William, companheiros, contexto e tom sem combate."
+    },
+    {
+      title: "A estrada aceita o grupo",
+      camera: "Plano lateral lento acompanha capas, lama e marcas antigas nas arvores.",
+      text: "O silencio da mata transforma uma viagem politica em pressagio.",
+      choice: "Seguir pela Estrada Velha",
+      effect: "Abre o tutorial de movimento, interacao e Percepcao."
+    }
+  ],
+  old_road: [
+    {
+      title: "Missao P1 - Pela Estrada Velha",
+      camera: "Camera baixa mostra rastros, galhos quebrados e suprimentos esquecidos.",
+      text: "Explore a trilha, leia rastros e encontre suprimentos opcionais antes que a luz acabe.",
+      choice: "Investigar a trilha",
+      effect: "Treina movimento, interacao e Percepcao."
+    },
+    {
+      title: "Suprimentos sob folhas",
+      camera: "A camera destaca pontos de interacao e cobertura natural.",
+      text: "Cada pista encontrada melhora a preparacao do grupo para o primeiro contato.",
+      choice: "Avancar",
+      effect: "Inicia encontro tatico leve."
+    }
+  ],
+  forest_signs: [
+    {
+      title: "Cena P2 - Sinais na Mata",
+      camera: "Folhas tremem sem vento; sons de floresta entram e desaparecem em cortes secos.",
+      text: "Ethan para de andar. Albert baixa a mao para a lanca. Algo esta perto demais.",
+      choice: "Manter formacao",
+      effect: "A tensao cresce e prepara a emboscada."
+    }
+  ],
+  ambush: [
+    {
+      title: "Missao P3 - Emboscada",
+      camera: "Camera tatica abre posicoes, cobertura e linha de frente.",
+      text: "Barbaros surgem entre troncos. Venca ou force a retirada inimiga; opcional: ninguem cair.",
+      choice: "Entrar em combate",
+      effect: "Ensina turnos, PA, ataque, movimento e cobertura."
+    }
+  ],
+  after_blood: [
+    {
+      title: "Cena P4 - Depois do Sangue",
+      camera: "Close nos companheiros, respiracao pesada e armas ainda erguidas.",
+      text: "A primeira batalha deixa marcas. William precisa escolher como falar com o grupo.",
+      choice: "Consolar, cobrar ou silenciar",
+      effect: "Altera lealdade, marca emocional e personalidade."
+    }
+  ],
+  survivor: [
+    {
+      title: "Missao P5 - O Sobrevivente",
+      camera: "Um corpo se mexe perto da estrada; inimigos retornam entre as arvores.",
+      text: "Encontre o sobrevivente ferido, ajude-o e elimine os inimigos que tentam apagar testemunhas.",
+      choice: "Proteger o ferido",
+      effect: "Combina interacao, resgate e batalha."
+    }
+  ],
+  transformation: [
+    {
+      title: "Cena P6 - A Transformacao",
+      camera: "Plano fechado em uma ferida escura que se abre como rachadura viva.",
+      text: "Um inimigo deixa de parecer humano. O medo agora tem regras.",
+      choice: "Resistir",
+      effect: "Introduz Medo e Coragem."
+    }
+  ],
+  real_battle: [
+    {
+      title: "Missao P7 - A Real Batalha",
+      camera: "A criatura ocupa a arena; a camera enfatiza escala, rotas de retirada e companheiros vulneraveis.",
+      text: "Proteja os companheiros e sobreviva. Opcional: reduzir a criatura a meia vida antes da retirada.",
+      choice: "Liderar sob medo",
+      effect: "Testa medo, lideranca e retirada."
+    }
+  ],
+  hubris: [
+    {
+      title: "Cena P8 - O Hubris",
+      camera: "O grupo retorna diferente; o mapa politico surge sobre a mesa.",
+      text: "William decide como relatar o ocorrido: verdade, omissao ou uso politico da historia.",
+      choice: "Definir relato",
+      effect: "Primeira consequencia politica registrada."
+    }
+  ]
+};
+
 export const SCREEN_FLOW = [
   { id: "auth", label: "Conta", template: "portal", purpose: "Entrar, cadastrar e criar um save local no banco." },
   { id: "character_create", label: "Personagem", template: "atelier", purpose: "Definir identidade, origem, corpo, rosto, cabelo, barba, equipamento inicial e estilo." },
@@ -318,7 +430,7 @@ export const CHARACTER_OPTIONS = {
 export const MISSION_SCENES = Object.fromEntries(
   MISSIONS.map((mission) => [
     mission.id,
-    [
+    MISSION_SCENE_OVERRIDES[mission.id] ?? [
       {
         title: `${mission.order}. ${mission.title}`,
         camera: mission.managementOnly ? "Mesa de guerra, rostos tensos e mapas marcados por velas." : "Plano de estabelecimento mostrando rotas, cobertura e objetivo principal.",
