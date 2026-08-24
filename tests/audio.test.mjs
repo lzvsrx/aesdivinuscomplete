@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { existsSync, statSync } from "node:fs";
 import test from "node:test";
 import { AUDIO_CATALOG, AudioSystem } from "../src/audio.js";
 import { AesDivinusGame } from "../src/game.js";
@@ -12,6 +13,15 @@ test("audio catalog maps every sound to local slots and Pixabay sources", () => 
     assert.ok(entry.fallback);
     assert.ok(entry.files.every((file) => file.startsWith("assets/audio/") && file.endsWith(".mp3")));
     assert.ok(entry.sources.every((source) => source.url.startsWith("https://pixabay.com/")));
+  }
+});
+
+test("all catalog audio slots have local mp3 assets", () => {
+  const files = Object.values(AUDIO_CATALOG).flatMap((entry) => entry.files);
+  assert.equal(files.length, 29);
+  for (const file of files) {
+    assert.equal(existsSync(file), true, `${file} is missing`);
+    assert.ok(statSync(file).size > 1024, `${file} is too small`);
   }
 });
 

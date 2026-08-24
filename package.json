@@ -1,6 +1,6 @@
 {
   "name": "aes-divinus",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "type": "module",
   "main": "electron/main.cjs",
@@ -9,6 +9,7 @@
   "scripts": {
     "start": "python -m http.server 5173",
     "test": "node --test tests/*.test.mjs",
+    "audio:generate": "node scripts/generate-local-audio-assets.mjs",
     "prepare:web": "node scripts/prepare-web.mjs",
     "desktop": "npm run prepare:web && electron .",
     "build:windows": "npm run prepare:web && electron-builder --win nsis --x64",
@@ -68,6 +69,7 @@
     "@capacitor/core": "^7.6.8",
     "@capacitor/ios": "^7.6.8",
     "electron": "^43.4.1",
-    "electron-builder": "^26.15.3"
+    "electron-builder": "^26.15.3",
+    "lamejs": "^1.2.1"
   }
 }

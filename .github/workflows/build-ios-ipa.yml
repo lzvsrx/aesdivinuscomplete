@@ -6,7 +6,7 @@ on:
       release_tag:
         description: GitHub Release tag to upload the IPA
         required: true
-        default: v0.1.1
+        default: v0.1.2
       upload_release:
         description: Upload IPA to the GitHub Release
         required: true

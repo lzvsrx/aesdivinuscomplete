@@ -66,7 +66,7 @@ Cada missao possui numero, ato, tipo, objetivo, impacto, objetivos opcionais, ce
 
 ## Audio e fontes Pixabay
 
-O sistema de audio fica em `src/audio.js` e usa slots locais em `assets/audio/`. A tela **Hardware/Audio** lista os sons por funcao e permite ligar/desligar som ou ajustar volume. Esses ajustes sao salvos no IndexedDB.
+O sistema de audio fica em `src/audio.js` e usa arquivos locais em `assets/audio/`. A tela **Config** lista os sons por funcao e permite ligar/desligar som ou ajustar volume. Esses ajustes sao salvos no IndexedDB.
 
 Funcoes sonoras implementadas:
 
@@ -92,7 +92,13 @@ Fontes pesquisadas no Pixabay:
 - https://pixabay.com/sound-effects/musical-medieval-fanfare-6826/
 - https://pixabay.com/sound-effects/search/defeat/
 
-O jogo evita hotlink externo: baixe os efeitos escolhidos do Pixabay e salve com os nomes indicados em `assets/audio/README.md`. Enquanto os arquivos nao existirem, o fallback sintetizado mantem a aplicacao funcionando sem erro. Consulte sempre a licenca oficial: https://pixabay.com/service/license-summary/.
+O jogo evita hotlink externo. Os 29 arquivos MP3 locais ja estao dentro de `assets/audio/` e podem ser regenerados com:
+
+```powershell
+npm run audio:generate
+```
+
+O download automatico direto do Pixabay foi bloqueado pela protecao do site durante a execucao local; por isso os slots foram preenchidos com MP3s gerados localmente e o manifesto preserva os links Pixabay para substituicao manual/licenciada quando desejado. Consulte sempre a licenca oficial: https://pixabay.com/service/license-summary/.
 
 ## Configuracoes do jogador
 
@@ -223,6 +229,7 @@ Cobertura atual:
 - campanha completa com 47 entradas numeradas
 - prologo da Floresta de Sangue antes dos cinco atos
 - catalogo de audio, fontes Pixabay e fallback sem quebra
+- 29 arquivos MP3 locais para os slots de audio do jogo
 - configuracoes de acessibilidade/interface persistentes
 - sanitizacao, criptografia local e hashes do banco
 - deteccao de hardware e aplicacao de perfil grafico
@@ -243,7 +250,7 @@ npm run build:windows
 
 Saidas:
 
-- `release/Aes Divinus Setup 0.1.1.exe`
+- `release/Aes Divinus Setup 0.1.2.exe`
 - `release/win-unpacked/`
 
 ## Build Linux
@@ -312,7 +319,7 @@ Sem secrets Apple, ele gera `Aes-Divinus-iOS-unsigned.ipa`, util para validacao 
 - `APPLE_TEAM_ID`: Team ID da Apple Developer.
 - `KEYCHAIN_PASSWORD`: senha temporaria para o keychain do runner.
 
-Depois rode manualmente **Actions > Build iOS IPA > Run workflow** usando `v0.1.1` como release tag.
+Depois rode manualmente **Actions > Build iOS IPA > Run workflow** usando `v0.1.2` como release tag.
 
 ## Scripts principais
 

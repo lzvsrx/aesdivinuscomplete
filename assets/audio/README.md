@@ -1,8 +1,8 @@
-# Audio Pixabay
+# Audio do jogo
 
-Esta pasta recebe os arquivos locais usados pelo mapa sonoro de `src/audio.js`.
+Esta pasta contem os arquivos locais usados pelo mapa sonoro de `src/audio.js`.
 
-O jogo nao depende dos MP3s para abrir: quando um arquivo ainda nao existe, o `AudioSystem` usa fallback sintetizado via Web Audio para evitar erro. Para trocar o fallback por audio real, baixe efeitos do Pixabay e salve com estes nomes:
+O catalogo foi pesquisado no Pixabay, mas o download automatico das paginas foi bloqueado pela protecao do site. Para manter o jogo funcionando offline em todas as plataformas, os arquivos abaixo foram gerados localmente com `scripts/generate-local-audio-assets.mjs` e salvos como MP3 nos mesmos slots do jogo. Eles podem ser substituidos depois por arquivos baixados manualmente do Pixabay com os mesmos nomes.
 
 - `ui-click-01.mp3`, `ui-click-02.mp3`, `ui-click-03.mp3`
 - `menu-open-01.mp3`, `menu-open-02.mp3`
@@ -31,4 +31,4 @@ Fontes pesquisadas:
 - https://pixabay.com/sound-effects/musical-medieval-fanfare-6826/
 - https://pixabay.com/sound-effects/search/defeat/
 
-Licenca: confira sempre a pagina de cada efeito e o resumo oficial em https://pixabay.com/service/license-summary/.
+Licenca: confira sempre a pagina de cada efeito do Pixabay e o resumo oficial em https://pixabay.com/service/license-summary/ antes de substituir qualquer arquivo.
