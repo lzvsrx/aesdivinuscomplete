@@ -6,7 +6,10 @@ var data: Dictionary = {}
 var state: Dictionary = {}
 var selected_mission_index := 0
 
-var root: HBoxContainer
+var root: GridContainer
+var left_column: VBoxContainer
+var center_column: VBoxContainer
+var right_column: VBoxContainer
 var mission_list: ItemList
 var detail_title: Label
 var detail_text: RichTextLabel
@@ -38,6 +41,11 @@ func _ready() -> void:
 	_build_ui()
 	_apply_hardware_profile()
 	_refresh_all()
+	_update_responsive_layout()
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_RESIZED:
+		_update_responsive_layout()
 
 func _load_data() -> Dictionary:
 	var file := FileAccess.open(DATA_PATH, FileAccess.READ)
@@ -101,12 +109,13 @@ func _default_state() -> Dictionary:
 
 func _build_ui() -> void:
 	var bg := ColorRect.new()
-	bg.color = Color(0.035, 0.04, 0.04)
+	bg.color = Color(0.025, 0.030, 0.030)
 	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
 	add_child(bg)
 
-	root = HBoxContainer.new()
+	root = GridContainer.new()
 	root.set_anchors_preset(Control.PRESET_FULL_RECT)
+	root.columns = 3
 	root.add_theme_constant_override("separation", 12)
 	root.offset_left = 14
 	root.offset_top = 14
@@ -114,18 +123,20 @@ func _build_ui() -> void:
 	root.offset_bottom = -14
 	add_child(root)
 
-	var left := _panel(320)
-	root.add_child(left)
+	var left := _panel("campaign", 300)
+	left_column = left
 	left.add_child(_title("Aes Divinus"))
 	left.add_child(_subtitle("Godot 3D single-player completo"))
 	var logo := TextureRect.new()
 	logo.texture = load("res://assets/aes-divinus-logo.png")
 	logo.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
 	logo.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	logo.custom_minimum_size = Vector2(280, 88)
+	logo.custom_minimum_size = Vector2(220, 76)
 	left.add_child(logo)
 	mission_list = ItemList.new()
+	mission_list.custom_minimum_size = Vector2(0, 360)
 	mission_list.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	mission_list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	mission_list.item_selected.connect(func(index: int) -> void:
 		selected_mission_index = index
 		_refresh_mission_detail()
@@ -133,23 +144,25 @@ func _build_ui() -> void:
 	)
 	left.add_child(mission_list)
 
-	var center := _panel(520)
-	root.add_child(center)
+	var center := _panel("content", 520)
+	center_column = center
 	detail_title = _title("")
 	center.add_child(detail_title)
 	detail_text = RichTextLabel.new()
 	detail_text.bbcode_enabled = true
 	detail_text.fit_content = true
+	detail_text.custom_minimum_size = Vector2(0, 300)
 	detail_text.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	detail_text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	center.add_child(detail_text)
-	var actions := HBoxContainer.new()
+	var actions := _button_grid(4)
 	actions.add_theme_constant_override("separation", 8)
 	center.add_child(actions)
 	actions.add_child(_button("Iniciar cena", _start_scene))
 	actions.add_child(_button("Resolver missao", _complete_mission))
 	actions.add_child(_button("Salvar", func() -> void: _autosave("Save manual.")))
 	actions.add_child(_button("Galeria 3D", func() -> void: get_tree().change_scene_to_file("res://scenes/model_gallery.tscn")))
-	var system_actions := HBoxContainer.new()
+	var system_actions := _button_grid(4)
 	system_actions.add_theme_constant_override("separation", 8)
 	center.add_child(system_actions)
 	system_actions.add_child(_button("Conta", _show_account))
@@ -167,35 +180,40 @@ func _build_ui() -> void:
 	resource_text = RichTextLabel.new()
 	resource_text.bbcode_enabled = true
 	resource_text.fit_content = true
+	resource_text.custom_minimum_size = Vector2(0, 86)
+	resource_text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	center.add_child(resource_text)
 
-	var right := _panel(360)
-	root.add_child(right)
+	var right := _panel("profile", 320)
+	right_column = right
 	right.add_child(_title("Conta"))
 	account_name = LineEdit.new()
 	account_name.placeholder_text = "Nome da conta"
+	account_name.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	account_name.text_changed.connect(func(value: String) -> void:
 		state["account"]["name"] = value
 		_autosave("Cadastro atualizado.")
 	)
-	right.add_child(account_name)
+	right.add_child(_field("Nome da conta", account_name))
 	account_email = LineEdit.new()
 	account_email.placeholder_text = "Email"
 	account_email.virtual_keyboard_type = LineEdit.KEYBOARD_TYPE_EMAIL_ADDRESS
+	account_email.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	account_email.text_changed.connect(func(value: String) -> void:
 		state["account"]["email"] = value
 		_autosave("Login lembrado no dispositivo.")
 	)
-	right.add_child(account_email)
+	right.add_child(_field("Email lembrado", account_email))
 	right.add_child(_title("Personagem"))
 	character_name = LineEdit.new()
 	character_name.placeholder_text = "Nome"
+	character_name.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	character_name.text_changed.connect(func(value: String) -> void:
 		state["player_character"]["name"] = value
 		_refresh_avatar()
 		_autosave("Nome do personagem atualizado.")
 	)
-	right.add_child(character_name)
+	right.add_child(_field("Nome", character_name))
 	pronoun = _option("Tratamento", ["Livre", "Ele", "Ela", "Neutro"], _character_option_changed)
 	origin = _option("Origem", _origin_labels(), _character_option_changed)
 	body_type = _option("Corpo", data.get("characterOptions", {}).get("bodies", []), _character_option_changed)
@@ -208,46 +226,105 @@ func _build_ui() -> void:
 	beard = _option("Barba", data.get("characterOptions", {}).get("beards", []), _character_option_changed)
 	palette = _option("Paleta", _palette_labels(), _character_option_changed)
 	weapon = _option("Arma", _weapon_ids(), _character_option_changed)
-	right.add_child(pronoun)
-	right.add_child(origin)
-	right.add_child(body_type)
-	right.add_child(body_shape)
-	right.add_child(face_shape)
-	right.add_child(eye_shape)
-	right.add_child(eye_color)
-	right.add_child(hair_style)
-	right.add_child(hair_color)
-	right.add_child(beard)
-	right.add_child(palette)
-	right.add_child(weapon)
+	right.add_child(_field("Tratamento", pronoun))
+	right.add_child(_field("Origem", origin))
+	right.add_child(_field("Corpo", body_type))
+	right.add_child(_field("Forma do corpo", body_shape))
+	right.add_child(_field("Rosto", face_shape))
+	right.add_child(_field("Formato dos olhos", eye_shape))
+	right.add_child(_field("Cor dos olhos", eye_color))
+	right.add_child(_field("Tipo de cabelo", hair_style))
+	right.add_child(_field("Cor do cabelo", hair_color))
+	right.add_child(_field("Barba", beard))
+	right.add_child(_field("Paleta", palette))
+	right.add_child(_field("Arma", weapon))
 	avatar = AvatarPreview.new()
 	avatar.custom_minimum_size = Vector2(320, 260)
+	avatar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	right.add_child(avatar)
 	log_text = RichTextLabel.new()
 	log_text.bbcode_enabled = true
 	log_text.fit_content = true
+	log_text.custom_minimum_size = Vector2(0, 180)
 	log_text.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	log_text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	right.add_child(log_text)
 
-func _panel(width: int) -> VBoxContainer:
+func _panel(name: String, width: int) -> VBoxContainer:
+	var shell := PanelContainer.new()
+	shell.name = "%s_panel" % name
+	shell.custom_minimum_size = Vector2(width, 0)
+	shell.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	shell.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	shell.add_theme_stylebox_override("panel", _panel_style())
+	root.add_child(shell)
+
+	var margin := MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", 12)
+	margin.add_theme_constant_override("margin_top", 12)
+	margin.add_theme_constant_override("margin_right", 12)
+	margin.add_theme_constant_override("margin_bottom", 12)
+	shell.add_child(margin)
+
+	var scroll := ScrollContainer.new()
+	scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	margin.add_child(scroll)
+
 	var panel := VBoxContainer.new()
-	panel.custom_minimum_size = Vector2(width, 0)
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	panel.add_theme_constant_override("separation", 10)
+	scroll.add_child(panel)
 	return panel
+
+func _panel_style() -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0.055, 0.060, 0.058, 0.92)
+	style.border_color = Color(0.82, 0.66, 0.32, 0.26)
+	style.set_border_width_all(1)
+	style.corner_radius_top_left = 8
+	style.corner_radius_top_right = 8
+	style.corner_radius_bottom_left = 8
+	style.corner_radius_bottom_right = 8
+	return style
 
 func _title(text: String) -> Label:
 	var label := Label.new()
 	label.text = text
-	label.add_theme_font_size_override("font_size", 28)
+	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	label.add_theme_font_size_override("font_size", 24)
 	label.add_theme_color_override("font_color", Color(0.82, 0.66, 0.32))
 	return label
 
 func _subtitle(text: String) -> Label:
 	var label := Label.new()
 	label.text = text
+	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	label.add_theme_color_override("font_color", Color(0.72, 0.72, 0.68))
 	return label
+
+func _field(label_text: String, control: Control) -> VBoxContainer:
+	var wrap := VBoxContainer.new()
+	wrap.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	wrap.add_theme_constant_override("separation", 4)
+	var label := Label.new()
+	label.text = label_text
+	label.add_theme_font_size_override("font_size", 12)
+	label.add_theme_color_override("font_color", Color(0.66, 0.66, 0.62))
+	control.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	wrap.add_child(label)
+	wrap.add_child(control)
+	return wrap
+
+func _button_grid(columns: int) -> GridContainer:
+	var grid := GridContainer.new()
+	grid.columns = columns
+	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	grid.add_theme_constant_override("h_separation", 8)
+	grid.add_theme_constant_override("v_separation", 8)
+	return grid
 
 func _origin_labels() -> Array[String]:
 	var result: Array[String] = []
@@ -271,16 +348,54 @@ func _weapon_ids() -> Array[String]:
 func _button(text: String, callback: Callable) -> Button:
 	var button := Button.new()
 	button.text = text
+	button.custom_minimum_size = Vector2(118, 38)
+	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	button.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	button.pressed.connect(callback)
 	return button
 
 func _option(label: String, values: Array, callback: Callable) -> OptionButton:
 	var option := OptionButton.new()
 	option.tooltip_text = label
+	option.custom_minimum_size = Vector2(0, 38)
+	option.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	option.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	for value in values:
 		option.add_item(str(value))
 	option.item_selected.connect(callback)
 	return option
+
+func _update_responsive_layout() -> void:
+	if root == null:
+		return
+	var viewport_width := get_viewport_rect().size.x
+	if viewport_width < 820:
+		root.columns = 1
+		_set_panel_widths(260, 260, 260)
+		_set_button_columns(2)
+	elif viewport_width < 1280:
+		root.columns = 2
+		_set_panel_widths(280, 420, 280)
+		_set_button_columns(3)
+	else:
+		root.columns = 3
+		_set_panel_widths(300, 520, 320)
+		_set_button_columns(4)
+
+func _set_panel_widths(left_width: int, center_width: int, right_width: int) -> void:
+	var widths := [left_width, center_width, right_width]
+	var index := 0
+	for child in root.get_children():
+		if child is Control and index < widths.size():
+			child.custom_minimum_size = Vector2(widths[index], 0)
+			index += 1
+	if avatar:
+		avatar.custom_minimum_size = Vector2(min(320, right_width - 24), 260)
+
+func _set_button_columns(columns: int) -> void:
+	for grid in center_column.get_children():
+		if grid is GridContainer:
+			grid.columns = columns
 
 func _refresh_all() -> void:
 	var missions: Array = data.get("missions", [])

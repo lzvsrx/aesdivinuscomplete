@@ -1,15 +1,15 @@
 # Releases Godot
 
-A partir da versao `v0.1.8`, os artefatos publicados no GitHub Releases sao baseados no projeto Godot em `godot/`. O GDD mestre V2 define a direcao oficial como RPG tatico 3D single-player por turnos, com exploracao em terceira pessoa e combate em arenas taticas 3D.
+A partir da versao `v0.1.9`, os artefatos publicados no GitHub Releases sao baseados no projeto Godot em `godot/`. O GDD mestre V2 define a direcao oficial como RPG tatico 3D single-player por turnos, com exploracao em terceira pessoa e combate em arenas taticas 3D.
 
 ## Artefatos por plataforma
 
-- Windows: `Aes-Divinus-Godot-Windows-x64-0.1.8.zip`
-- Linux: `Aes-Divinus-Godot-Linux-x64-0.1.8.zip`
+- Windows: `Aes-Divinus-Godot-Windows-x64-0.1.9.zip`
+- Linux: `Aes-Divinus-Godot-Linux-x64-0.1.9.zip`
 - Android: `Aes-Divinus-Godot-Android-debug.apk`
-- iOS/macOS de assinatura: `Aes-Divinus-Godot-Project-0.1.8.zip`
-- Executadores: `Aes-Divinus-Executadores-0.1.8.zip`
-- Verificacao: `SHA256SUMS-Godot-0.1.8.txt`
+- iOS/macOS de assinatura: `Aes-Divinus-Godot-Project-0.1.9.zip`
+- Executadores: `Aes-Divinus-Executadores-0.1.9.zip`
+- Verificacao: `SHA256SUMS-Godot-0.1.9.txt`
 
 ## Como gerar localmente
 
