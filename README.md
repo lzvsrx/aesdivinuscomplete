@@ -7,6 +7,8 @@ Esta versao e uma implementacao jogavel web/desktop/mobile do documento de desig
 ## Status
 
 - Jogo web funcional.
+- Projeto Godot 4.7 criado em `godot/`.
+- Estrutura C++/GDExtension preparada em `godot/native/`.
 - App desktop com Electron.
 - Windows installer NSIS gerado.
 - Linux portatil gerado.
@@ -14,6 +16,32 @@ Esta versao e uma implementacao jogavel web/desktop/mobile do documento de desig
 - Projeto iOS Capacitor criado e pronto para Xcode.
 - Banco local IndexedDB ativo.
 - Testes automatizados passando.
+
+## Plataforma Godot/C++
+
+A migracao para Godot foi iniciada sem apagar a versao web atual. A nova estrutura fica em `godot/` e usa Godot 4.7.1.
+
+O que ja foi adaptado:
+
+- projeto Godot com `project.godot` e cena principal;
+- interface jogavel inicial com lista de missoes, detalhes, diario, principado e criacao/preview de personagem;
+- leitura de `godot/data/aes_divinus_data.json`, gerado a partir de `src/data.js`;
+- campanha completa, cenas, armas, armaduras, medo/coragem, lojas, codex e opcoes de personagem exportadas para Godot;
+- save local em `user://aes_divinus_save.json`;
+- deteccao simples de hardware por CPU para qualidade inicial;
+- assets principais copiados para `godot/assets`;
+- nucleo C++ em `godot/native/src/aes_divinus_core.*` com regras de iniciativa, acerto, dano, medo e ataque;
+- arquivo de orientacao em `godot/native/README.md` para completar a ligacao GDExtension quando houver toolchain C++.
+
+Comandos:
+
+```powershell
+npm run godot:data
+npm run godot:check
+npm run godot:run
+```
+
+Observacao: este computador tem Godot instalado, mas nao tinha compilador C++, SCons ou CMake no PATH durante a migracao. Por isso a build Godot roda com scripts Godot lendo os dados exportados, enquanto o nucleo C++ fica preparado para compilar como GDExtension assim que o toolchain nativo for instalado.
 
 ## Principais sistemas do jogo
 

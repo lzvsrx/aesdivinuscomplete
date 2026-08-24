@@ -1,0 +1,3204 @@
+{
+  "generatedAt": "2026-08-24T20:17:42.212Z",
+  "game": "Aes Divinus",
+  "source": "src/data.js",
+  "fearStates": {
+    "steady": {
+      "label": "Firme",
+      "initiative": 0,
+      "accuracy": 0,
+      "defense": 0,
+      "skipChance": 0
+    },
+    "nervous": {
+      "label": "Nervoso",
+      "initiative": -1,
+      "accuracy": -4,
+      "defense": 0,
+      "skipChance": 0
+    },
+    "afraid": {
+      "label": "Assustado",
+      "initiative": -3,
+      "accuracy": -9,
+      "defense": -2,
+      "skipChance": 0
+    },
+    "terrified": {
+      "label": "Apavorado",
+      "initiative": -5,
+      "accuracy": -14,
+      "defense": -4,
+      "skipChance": 0.24
+    },
+    "paralyzed": {
+      "label": "Paralisado",
+      "initiative": -99,
+      "accuracy": -99,
+      "defense": -8,
+      "skipChance": 1
+    },
+    "desperate": {
+      "label": "Desesperado",
+      "initiative": -7,
+      "accuracy": -18,
+      "defense": -6,
+      "skipChance": 0.34
+    }
+  },
+  "weapons": {
+    "iron_sword": {
+      "id": "iron_sword",
+      "name": "Espada de ferro",
+      "min": 5,
+      "max": 10,
+      "type": "cut",
+      "accuracy": 5,
+      "range": 1,
+      "strengthScale": 0.55,
+      "stone": "Granito Jurado"
+    },
+    "iron_axe": {
+      "id": "iron_axe",
+      "name": "Machado de ferro",
+      "min": 6,
+      "max": 12,
+      "type": "cut",
+      "accuracy": 0,
+      "range": 1,
+      "strengthScale": 0.7,
+      "stone": "Basalto Rubro"
+    },
+    "spear": {
+      "id": "spear",
+      "name": "Lanca de ferro",
+      "min": 5,
+      "max": 10,
+      "type": "pierce",
+      "accuracy": 3,
+      "range": 2,
+      "strengthScale": 0.45,
+      "stone": "Quartzo de Vigia"
+    },
+    "bow": {
+      "id": "bow",
+      "name": "Arco",
+      "min": 3,
+      "max": 8,
+      "type": "pierce",
+      "accuracy": 2,
+      "range": 5,
+      "strengthScale": 0.25,
+      "ammo": "arrow",
+      "stone": "Olho de Cedro"
+    },
+    "fire_bow": {
+      "id": "fire_bow",
+      "name": "Flecha de fogo",
+      "min": 3,
+      "max": 8,
+      "type": "fire",
+      "accuracy": 0,
+      "range": 5,
+      "strengthScale": 0.2,
+      "burn": 2,
+      "stone": "Cinabrio Aceso"
+    },
+    "aes_spear": {
+      "id": "aes_spear",
+      "name": "Lanca Aes",
+      "min": 10,
+      "max": 15,
+      "type": "pierce",
+      "accuracy": 7,
+      "range": 2,
+      "strengthScale": 0.55,
+      "courageDamage": 6,
+      "stone": "Ametista Aes"
+    },
+    "claws": {
+      "id": "claws",
+      "name": "Garras",
+      "min": 5,
+      "max": 12,
+      "type": "cut",
+      "accuracy": 4,
+      "range": 1,
+      "strengthScale": 0.55,
+      "threat": 10
+    },
+    "dread": {
+      "id": "dread",
+      "name": "Uivo sobrenatural",
+      "min": 0,
+      "max": 2,
+      "type": "supernatural",
+      "accuracy": 10,
+      "range": 6,
+      "strengthScale": 0,
+      "courageDamage": 14,
+      "threat": 18
+    }
+  },
+  "armors": {
+    "cloth": {
+      "id": "cloth",
+      "name": "Roupa reforcada",
+      "mitigation": {
+        "cut": 1,
+        "pierce": 1,
+        "impact": 0,
+        "fire": 0,
+        "supernatural": 0
+      },
+      "defense": 1,
+      "initiative": 1,
+      "dodge": 4,
+      "strengthReq": 0,
+      "stone": "Argila Selada"
+    },
+    "light": {
+      "id": "light",
+      "name": "Couro leve",
+      "mitigation": {
+        "cut": 2,
+        "pierce": 1,
+        "impact": 1,
+        "fire": 0,
+        "supernatural": 0
+      },
+      "defense": 2,
+      "initiative": 1,
+      "dodge": 3,
+      "strengthReq": 0,
+      "stone": "Jaspe Verde"
+    },
+    "medium": {
+      "id": "medium",
+      "name": "Malha media",
+      "mitigation": {
+        "cut": 4,
+        "pierce": 3,
+        "impact": 2,
+        "fire": 0,
+        "supernatural": 0
+      },
+      "defense": 4,
+      "initiative": -1,
+      "dodge": 0,
+      "strengthReq": 8,
+      "stone": "Hematita"
+    },
+    "heavy": {
+      "id": "heavy",
+      "name": "Brigantina pesada",
+      "mitigation": {
+        "cut": 7,
+        "pierce": 5,
+        "impact": 3,
+        "fire": 1,
+        "supernatural": 0
+      },
+      "defense": 6,
+      "initiative": -3,
+      "dodge": -3,
+      "strengthReq": 12,
+      "stone": "Onix Real"
+    }
+  },
+  "gameCurrency": {
+    "id": "aes_crowns",
+    "name": "Coroas de Aes",
+    "shortName": "Coroas",
+    "symbol": "CA",
+    "description": "Moeda usada por aventureiros, ferreiros e mercados do principado."
+  },
+  "shopAreas": [
+    {
+      "id": "blacksmith",
+      "name": "Forja do Principado",
+      "specialty": "Armas e armaduras",
+      "faction": "infantry"
+    },
+    {
+      "id": "quartermaster",
+      "name": "Intendencia Real",
+      "specialty": "Ferramentas e suprimentos",
+      "faction": "peasants"
+    },
+    {
+      "id": "relicary",
+      "name": "Relicario Aes",
+      "specialty": "Itens ligados as pedras",
+      "faction": "kingdom"
+    }
+  ],
+  "itemCatalog": {
+    "iron_sword": {
+      "id": "iron_sword",
+      "type": "weapon",
+      "shop": "blacksmith",
+      "price": 26,
+      "sellPrice": 10,
+      "stone": "Granito Jurado",
+      "description": "Lamina confiavel para lideres de linha.",
+      "equipSlot": "weapon"
+    },
+    "iron_axe": {
+      "id": "iron_axe",
+      "type": "weapon",
+      "shop": "blacksmith",
+      "price": 31,
+      "sellPrice": 12,
+      "stone": "Basalto Rubro",
+      "description": "Arma pesada para quebrar defesa.",
+      "equipSlot": "weapon"
+    },
+    "spear": {
+      "id": "spear",
+      "type": "weapon",
+      "shop": "blacksmith",
+      "price": 29,
+      "sellPrice": 11,
+      "stone": "Quartzo de Vigia",
+      "description": "Alcance seguro para controlar corredores.",
+      "equipSlot": "weapon"
+    },
+    "bow": {
+      "id": "bow",
+      "type": "weapon",
+      "shop": "blacksmith",
+      "price": 24,
+      "sellPrice": 9,
+      "stone": "Olho de Cedro",
+      "description": "Arco de patrulha para retaguarda.",
+      "equipSlot": "weapon"
+    },
+    "aes_spear": {
+      "id": "aes_spear",
+      "type": "weapon",
+      "shop": "relicary",
+      "price": 90,
+      "sellPrice": 35,
+      "stone": "Ametista Aes",
+      "description": "Relicario perfurante que abala coragem.",
+      "equipSlot": "weapon"
+    },
+    "cloth": {
+      "id": "cloth",
+      "type": "armor",
+      "shop": "quartermaster",
+      "price": 14,
+      "sellPrice": 5,
+      "stone": "Argila Selada",
+      "description": "Roupa reforcada para exploracao.",
+      "equipSlot": "armor"
+    },
+    "light": {
+      "id": "light",
+      "type": "armor",
+      "shop": "quartermaster",
+      "price": 22,
+      "sellPrice": 8,
+      "stone": "Jaspe Verde",
+      "description": "Couro flexivel para batedores.",
+      "equipSlot": "armor"
+    },
+    "medium": {
+      "id": "medium",
+      "type": "armor",
+      "shop": "blacksmith",
+      "price": 38,
+      "sellPrice": 15,
+      "stone": "Hematita",
+      "description": "Malha equilibrada para combate longo.",
+      "equipSlot": "armor"
+    },
+    "heavy": {
+      "id": "heavy",
+      "type": "armor",
+      "shop": "blacksmith",
+      "price": 55,
+      "sellPrice": 22,
+      "stone": "Onix Real",
+      "description": "Brigantina de defesa alta.",
+      "equipSlot": "armor"
+    },
+    "field_kit": {
+      "id": "field_kit",
+      "name": "Kit de campo",
+      "type": "tool",
+      "shop": "quartermaster",
+      "price": 18,
+      "sellPrice": 7,
+      "stone": "Agata de Cura",
+      "description": "Kit para ferimentos, acampamento e resgate.",
+      "equipSlot": "tool"
+    },
+    "survey_tools": {
+      "id": "survey_tools",
+      "name": "Ferramentas de percepcao",
+      "type": "tool",
+      "shop": "quartermaster",
+      "price": 20,
+      "sellPrice": 8,
+      "stone": "Fluorita de Pista",
+      "description": "Lente, giz e marcadores para investigacao.",
+      "equipSlot": "tool"
+    },
+    "aes_compass": {
+      "id": "aes_compass",
+      "name": "Bussola Aes",
+      "type": "tool",
+      "shop": "relicary",
+      "price": 64,
+      "sellPrice": 24,
+      "stone": "Safira de Norte",
+      "description": "Aponta rotas escondidas quando a coragem falha.",
+      "equipSlot": "tool"
+    }
+  },
+  "positionTraits": [
+    {
+      "lane": "front",
+      "cover": 0,
+      "height": 0,
+      "label": "Frente alta"
+    },
+    {
+      "lane": "front",
+      "cover": 1,
+      "height": 0,
+      "label": "Frente cobertura"
+    },
+    {
+      "lane": "front",
+      "cover": 0,
+      "height": 1,
+      "label": "Frente elevada"
+    },
+    {
+      "lane": "back",
+      "cover": 2,
+      "height": 0,
+      "label": "Retaguarda coberta"
+    },
+    {
+      "lane": "back",
+      "cover": 1,
+      "height": 1,
+      "label": "Retaguarda elevada"
+    },
+    {
+      "lane": "back",
+      "cover": 0,
+      "height": 0,
+      "label": "Retaguarda aberta"
+    }
+  ],
+  "heroes": [
+    {
+      "id": "william",
+      "name": "William",
+      "side": "ally",
+      "role": "Lider",
+      "maxHp": 34,
+      "hp": 34,
+      "strength": 10,
+      "agility": 14,
+      "perception": 12,
+      "courage": 78,
+      "loyalty": 100,
+      "inspiration": 16,
+      "defense": 4,
+      "weapon": "iron_sword",
+      "armor": "medium",
+      "position": 1,
+      "personality": "Determinado",
+      "trauma": "Peso da coroa"
+    },
+    {
+      "id": "ethan",
+      "name": "Ethan",
+      "side": "ally",
+      "role": "Arqueiro",
+      "maxHp": 25,
+      "hp": 25,
+      "strength": 7,
+      "agility": 12,
+      "perception": 15,
+      "courage": 64,
+      "loyalty": 72,
+      "inspiration": 4,
+      "defense": 2,
+      "weapon": "bow",
+      "armor": "light",
+      "position": 4,
+      "personality": "Pragmatico",
+      "trauma": "Culpa antiga"
+    },
+    {
+      "id": "albert",
+      "name": "Albert",
+      "side": "ally",
+      "role": "Defensor",
+      "maxHp": 40,
+      "hp": 40,
+      "strength": 14,
+      "agility": 9,
+      "perception": 9,
+      "courage": 70,
+      "loyalty": 68,
+      "inspiration": 2,
+      "defense": 6,
+      "weapon": "spear",
+      "armor": "heavy",
+      "position": 0,
+      "personality": "Leal",
+      "trauma": "Ferida no ombro"
+    }
+  ],
+  "initialPrincipality": {
+    "food": 42,
+    "wood": 28,
+    "iron": 16,
+    "gold": 33,
+    "troops": 12,
+    "infrastructure": 1,
+    "population": 86,
+    "reputation": {
+      "companions": 50,
+      "infantry": 48,
+      "knights": 42,
+      "peasants": 44,
+      "nobles": 38,
+      "kingdom": 40
+    }
+  },
+  "missions": [
+    {
+      "order": 1,
+      "id": "prologue_opening",
+      "act": "Prologo - Floresta de Sangue",
+      "title": "Cena P0 - Abertura",
+      "type": "Cena cinematica",
+      "objective": "Apresentar William, o grupo e a viagem pela Floresta de Sangue.",
+      "impact": "Define tom, contexto e primeira leitura dos companheiros.",
+      "optional": [
+        "Investigar pista opcional",
+        "Preservar recursos",
+        "Define tom, contexto e primeira leitura dos companheiros."
+      ],
+      "managementOnly": true,
+      "clockLimit": 8,
+      "enemySet": null,
+      "eventRounds": {
+        "2": "O campo muda e novas rotas ficam evidentes.",
+        "3": "A pressao da missao aumenta.",
+        "4": "Um evento inesperado altera prioridades.",
+        "6": "O relogio de missao entra em fase critica."
+      },
+      "rewards": {
+        "food": 5,
+        "wood": 2,
+        "iron": 2,
+        "gold": 5,
+        "troops": 1,
+        "reputation": {
+          "companions": 2,
+          "infantry": 2,
+          "knights": 1,
+          "peasants": 2,
+          "nobles": 4,
+          "kingdom": 2
+        }
+      }
+    },
+    {
+      "order": 2,
+      "id": "old_road",
+      "act": "Prologo - Floresta de Sangue",
+      "title": "Missao P1 - Pela Estrada Velha",
+      "type": "Tutorial de exploracao",
+      "objective": "Explorar a trilha, seguir rastros e encontrar suprimentos opcionais.",
+      "impact": "Ensina movimento, interacao e Percepcao.",
+      "optional": [
+        "Investigar pista opcional",
+        "Preservar recursos",
+        "Ensina movimento, interacao e Percepcao."
+      ],
+      "managementOnly": false,
+      "clockLimit": 8,
+      "enemySet": "forest_first_contact",
+      "eventRounds": {
+        "2": "O campo muda e novas rotas ficam evidentes.",
+        "3": "A pressao da missao aumenta.",
+        "4": "Um evento inesperado altera prioridades.",
+        "6": "O relogio de missao entra em fase critica."
+      },
+      "rewards": {
+        "food": 3,
+        "wood": 2,
+        "iron": 2,
+        "gold": 5,
+        "troops": 1,
+        "reputation": {
+          "companions": 2,
+          "infantry": 2,
+          "knights": 1,
+          "peasants": 2,
+          "nobles": 1,
+          "kingdom": 2
+        }
+      }
+    },
+    {
+      "order": 3,
+      "id": "forest_signs",
+      "act": "Prologo - Floresta de Sangue",
+      "title": "Cena P2 - Sinais na Mata",
+      "type": "Cena de tensao",
+      "objective": "Ouvir os sons da floresta e perceber que algo acompanha o grupo.",
+      "impact": "Aumenta tensao e prepara a emboscada.",
+      "optional": [
+        "Investigar pista opcional",
+        "Preservar recursos",
+        "Aumenta tensao e prepara a emboscada."
+      ],
+      "managementOnly": true,
+      "clockLimit": 8,
+      "enemySet": null,
+      "eventRounds": {
+        "2": "O campo muda e novas rotas ficam evidentes.",
+        "3": "A pressao da missao aumenta.",
+        "4": "Um evento inesperado altera prioridades.",
+        "6": "O relogio de missao entra em fase critica."
+      },
+      "rewards": {
+        "food": 5,
+        "wood": 5,
+        "iron": 2,
+        "gold": 5,
+        "troops": 1,
+        "reputation": {
+          "companions": 2,
+          "infantry": 2,
+          "knights": 1,
+          "peasants": 2,
+          "nobles": 4,
+          "kingdom": 2
+        }
+      }
+    },
+    {
+      "order": 4,
+      "id": "ambush",
+      "act": "Prologo - Floresta de Sangue",
+      "title": "Missao P3 - Emboscada",
+      "type": "Primeiro combate",
+      "objective": "Vencer ou forcar retirada dos barbaros.",
+      "impact": "Ensina turnos, PA, ataque, movimento e cobertura.",
+      "optional": [
+        "Investigar pista opcional",
+        "Preservar recursos",
+        "Ensina turnos, PA, ataque, movimento e cobertura."
+      ],
+      "managementOnly": false,
+      "clockLimit": 8,
+      "enemySet": "forest_first_contact",
+      "eventRounds": {
+        "2": "O campo muda e novas rotas ficam evidentes.",
+        "3": "A pressao da missao aumenta.",
+        "4": "Um evento inesperado altera prioridades.",
+        "6": "O relogio de missao entra em fase critica."
+      },
+      "rewards": {
+        "food": 3,
+        "wood": 2,
+        "iron": 2,
+        "gold": 5,
+        "troops": 1,
+        "reputation": {
+          "companions": 2,
+          "infantry": 2,
+          "knights": 1,
+          "peasants": 2,
+          "nobles": 1,
+          "kingdom": 2
+        }
+      }
+    },
+    {
+      "order": 5,
+      "id": "after_blood",
+      "act": "Prologo - Floresta de Sangue",
+      "title": "Cena P4 - Depois do Sangue",
+      "type": "Cena de dialogo",
+      "objective": "Escolher como os companheiros reagem a batalha.",
+      "impact": "Altera lealdade, marca emocional e personalidade do grupo.",
+      "optional": [
+        "Investigar pista opcional",
+        "Preservar recursos",
+        "Altera lealdade, marca emocional e personalidade do grupo."
+      ],
+      "managementOnly": true,
+      "clockLimit": 8,
+      "enemySet": null,
+      "eventRounds": {
+        "2": "O campo muda e novas rotas ficam evidentes.",
+        "3": "A pressao da missao aumenta.",
+        "4": "Um evento inesperado altera prioridades.",
+        "6": "O relogio de missao entra em fase critica."
+      },
+      "rewards": {
+        "food": 5,
+        "wood": 2,
+        "iron": 2,
+        "gold": 5,
+        "troops": 1,
+        "reputation": {
+          "companions": 2,
+          "infantry": 2,
+          "knights": 1,
+          "peasants": 2,
+          "nobles": 4,
+          "kingdom": 2
+        }
+      }
+    },
+    {
+      "order": 6,
+      "id": "survivor",
+      "act": "Prologo - Floresta de Sangue",
+      "title": "Missao P5 - O Sobrevivente",
+      "type": "Resgate/batalha",
+      "objective": "Encontrar um sobrevivente ferido, ajuda-lo e eliminar inimigos.",
+      "impact": "Combina interacao, resgate e combate.",
+      "optional": [
+        "Investigar pista opcional",
+        "Preservar recursos",
+        "Combina interacao, resgate e combate."
+      ],
+      "managementOnly": false,
+      "clockLimit": 8,
+      "enemySet": "forest_first_contact",
+      "eventRounds": {
+        "2": "O campo muda e novas rotas ficam evidentes.",
+        "3": "A pressao da missao aumenta.",
+        "4": "Um evento inesperado altera prioridades.",
+        "6": "O relogio de missao entra em fase critica."
+      },
+      "rewards": {
+        "food": 3,
+        "wood": 5,
+        "iron": 2,
+        "gold": 5,
+        "troops": 2,
+        "reputation": {
+          "companions": 2,
+          "infantry": 5,
+          "knights": 1,
+          "peasants": 2,
+          "nobles": 1,
+          "kingdom": 2
+        }
+      }
+    },
+    {
+      "order": 7,
+      "id": "transformation",
+      "act": "Prologo - Floresta de Sangue",
+      "title": "Cena P6 - A Transformacao",
+      "type": "Cena sobrenatural",
+      "objective": "Sobreviver ao primeiro sinal de transformacao de um inimigo.",
+      "impact": "Introduz Medo e Coragem.",
+      "optional": [
+        "Investigar pista opcional",
+        "Preservar recursos",
+        "Introduz Medo e Coragem."
+      ],
+      "managementOnly": true,
+      "clockLimit": 8,
+      "enemySet": null,
+      "eventRounds": {
+        "2": "O campo muda e novas rotas ficam evidentes.",
+        "3": "A pressao da missao aumenta.",
+        "4": "Um evento inesperado altera prioridades.",
+        "6": "O relogio de missao entra em fase critica."
+      },
+      "rewards": {
+        "food": 5,
+        "wood": 2,
+        "iron": 2,
+        "gold": 5,
+        "troops": 1,
+        "reputation": {
+          "companions": 2,
+          "infantry": 2,
+          "knights": 1,
+          "peasants": 2,
+          "nobles": 4,
+          "kingdom": 2
+        }
+      }
+    },
+    {
+      "order": 8,
+      "id": "real_battle",
+      "act": "Prologo - Floresta de Sangue",
+      "title": "Missao P7 - A Real Batalha",
+      "type": "Chefe tutorial",
+      "objective": "Proteger companheiros e, opcionalmente, deixar a criatura com meia vida.",
+      "impact": "Ensina medo, lideranca e retirada.",
+      "optional": [
+        "Vencer sem William cair",
+        "Usar lideranca contra medo",
+        "Explorar terreno da arena"
+      ],
+      "managementOnly": false,
+      "clockLimit": 10,
+      "enemySet": "manifestation",
+      "eventRounds": {
+        "2": "O chefe muda de postura e pressiona a coragem do grupo.",
+        "3": "O terreno se torna mais perigoso.",
+        "5": "Uma fase nova comeca; o objetivo muda.",
+        "7": "A ameaca sobrenatural chega ao limite."
+      },
+      "rewards": {
+        "food": 3,
+        "wood": 2,
+        "iron": 6,
+        "gold": 5,
+        "troops": 1,
+        "reputation": {
+          "companions": 2,
+          "infantry": 2,
+          "knights": 1,
+          "peasants": 2,
+          "nobles": 1,
+          "kingdom": 5
+        }
+      }
+    },
+    {
+      "order": 9,
+      "id": "hubris",
+      "act": "Prologo - Floresta de Sangue",
+      "title": "Cena P8 - O Hubris",
+      "type": "Cena politica",
+      "objective": "Decidir como relatar o ocorrido ao retornar.",
+      "impact": "Gera a primeira consequencia politica.",
+      "optional": [
+        "Investigar pista opcional",
+        "Preservar recursos",
+        "Gera a primeira consequencia politica."
+      ],
+      "managementOnly": true,
+      "clockLimit": 8,
+      "enemySet": null,
+      "eventRounds": {
+        "2": "O campo muda e novas rotas ficam evidentes.",
+        "3": "A pressao da missao aumenta.",
+        "4": "Um evento inesperado altera prioridades.",
+        "6": "O relogio de missao entra em fase critica."
+      },
+      "rewards": {
+        "food": 5,
+        "wood": 5,
+        "iron": 2,
+        "gold": 6,
+        "troops": 1,
+        "reputation": {
+          "companions": 2,
+          "infantry": 2,
+          "knights": 1,
+          "peasants": 2,
+          "nobles": 4,
+          "kingdom": 2
+        }
+      }
+    },
+    {
+      "order": 10,
+      "id": "stone_council",
+      "act": "Ato I - O Peso da Coroa",
+      "title": "Conselho de Pedra",
+      "type": "Cena de conselho",
+      "objective": "Escolher prioridade: comida, defesa ou investigacao.",
+      "impact": "Abre rotas e modifica recursos.",
+      "optional": [
+        "Ouvir faccoes",
+        "Evitar ruptura",
+        "Abre rotas e modifica recursos."
+      ],
+      "managementOnly": true,
+      "clockLimit": 8,
+      "enemySet": null,
+      "eventRounds": {
+        "2": "O campo muda e novas rotas ficam evidentes.",
+        "3": "A pressao da missao aumenta.",
+        "4": "Um evento inesperado altera prioridades.",
+        "6": "O relogio de missao entra em fase critica."
+      },
+      "rewards": {
+        "food": 5,
+        "wood": 2,
+        "iron": 2,
+        "gold": 6,
+        "troops": 1,
+        "reputation": {
+          "companions": 2,
+          "infantry": 2,
+          "knights": 1,
+          "peasants": 2,
+          "nobles": 4,
+          "kingdom": 2
+        }
+      }
+    },
+    {
+      "order": 11,
+      "id": "empty_granaries",
+      "act": "Ato I - O Peso da Coroa",
+      "title": "Celeiros Vazios",
+      "type": "Investigacao/gestao",
+      "objective": "Descobrir causa da falta de comida.",
+      "impact": "Pode revelar roubo, corrupcao ou ataque.",
+      "optional": [
+        "Investigar pista opcional",
+        "Preservar recursos",
+        "Pode revelar roubo, corrupcao ou ataque."
+      ],
+      "managementOnly": true,
+      "clockLimit": 8,
+      "enemySet": null,
+      "eventRounds": {
+        "2": "O campo muda e novas rotas ficam evidentes.",
+        "3": "A pressao da missao aumenta.",
+        "4": "Um evento inesperado altera prioridades.",
+        "6": "O relogio de missao entra em fase critica."
+      },
+      "rewards": {
+        "food": 5,
+        "wood": 2,
+        "iron": 2,
+        "gold": 6,
+        "troops": 1,
+        "reputation": {
+          "companions": 2,
+          "infantry": 2,
+          "knights": 1,
+          "peasants": 2,
+          "nobles": 4,
+          "kingdom": 2
+        }
+      }
+    },
+    {
+      "order": 12,
+      "id": "village_without_bells",
+      "act": "Ato I - O Peso da Coroa",
+      "title": "A Vila sem Sinos",
+      "type": "Exploracao + resgate",
+      "objective": "Encontrar moradores e retirar sobreviventes.",
+      "impact": "Primeiro mapa semiaberto.",
+      "optional": [
+        "Salvar sobreviventes",
+        "Evitar baixas",
+        "Concluir antes do prazo"
+      ],
+      "managementOnly": false,
+      "clockLimit": 8,
+      "enemySet": "forest_first_contact",
+      "eventRounds": {
+        "2": "O campo muda e novas rotas ficam evidentes.",
+        "3": "A pressao da missao aumenta.",
+        "4": "Um evento inesperado altera prioridades.",
+        "6": "O relogio de missao entra em fase critica."
+      },
+      "rewards": {
+        "food": 3,
+        "wood": 5,
+        "iron": 2,
+        "gold": 6,
+        "troops": 1,
+        "reputation": {
+          "companions": 2,
+          "infantry": 2,
+          "knights": 1,
+          "peasants": 5,
+          "nobles": 1,
+          "kingdom": 2
+        }
+      }
+    },
+    {
+      "order": 13,
+      "id": "wolves_on_the_road",
+      "act": "Ato I - O Peso da Coroa",
+      "title": "Lobos na Estrada",
+      "type": "Escolta",
+      "objective": "Levar carregamento ate o principado.",
+      "impact": "Emboscadas e rotas alternativas.",
+      "optional": [
+        "Investigar pista opcional",
+        "Preservar recursos",
+        "Emboscadas e rotas alternativas."
+      ],
+      "managementOnly": false,
+      "clockLimit": 8,
+      "enemySet": "forest_first_contact",
+      "eventRounds": {
+        "2": "O campo muda e novas rotas ficam evidentes.",
+        "3": "A pressao da missao aumenta.",
+        "4": "Um evento inesperado altera prioridades.",
+        "6": "O relogio de missao entra em fase critica."
+      },
+      "rewards": {
+        "food": 3,
+        "wood": 2,
+        "iron": 2,
+        "gold": 6,
+        "troops": 1,
+        "reputation": {
+          "companions": 2,
+          "infantry": 2,
+          "knights": 1,
+          "peasants": 2,
+          "nobles": 1,
+          "kingdom": 2
+        }
+      }
+    },
+    {
+      "order": 14,
+      "id": "blood_debt",
+      "act": "Ato I - O Peso da Coroa",
+      "title": "Divida de Sangue",
+      "type": "Missao de companheiro",
+      "objective": "Resolver conflito ligado a Donovan/Ethan/Albert.",
+      "impact": "Lealdade individual.",
+      "optional": [
+        "Investigar pista opcional",
+        "Preservar recursos",
+        "Lealdade individual."
+      ],
+      "managementOnly": false,
+      "clockLimit": 8,
+      "enemySet": "forest_first_contact",
+      "eventRounds": {
+        "2": "O campo muda e novas rotas ficam evidentes.",
+        "3": "A pressao da missao aumenta.",
+        "4": "Um evento inesperado altera prioridades.",
+        "6": "O relogio de missao entra em fase critica."
+      },
+      "rewards": {
+        "food": 3,
+        "wood": 2,
+        "iron": 2,
+        "gold": 6,
+        "troops": 1,
+        "reputation": {
+          "companions": 5,
+          "infantry": 2,
+          "knights": 1,
+          "peasants": 2,
+          "nobles": 1,
+          "kingdom": 2
+        }
+      }
+    },
+    {
+      "order": 15,
+      "id": "gate_at_dusk",
+      "act": "Ato I - O Peso da Coroa",
+      "title": "O Portao ao Anoitecer",
+      "type": "Defesa",
+      "objective": "Defender entrada por varias rodadas.",
+      "impact": "Barricadas, arqueiros e reforcos.",
+      "optional": [
+        "Manter setor chave",
+        "Preservar tropas",
+        "Usar barricadas"
+      ],
+      "managementOnly": false,
+      "clockLimit": 8,
+      "enemySet": "forest_first_contact",
+      "eventRounds": {
+        "2": "Inimigos testam a linha de frente.",
+        "3": "Arqueiros buscam angulo alto.",
+        "4": "Reforcos se aproximam.",
+        "6": "O setor principal fica sob pressao."
+      },
+      "rewards": {
+        "food": 3,
+        "wood": 5,
+        "iron": 2,
+        "gold": 6,
+        "troops": 2,
+        "reputation": {
+          "companions": 2,
+          "infantry": 5,
+          "knights": 1,
+          "peasants": 2,
+          "nobles": 1,
+          "kingdom": 2
+        }
+      }
+    },
+    {
+      "order": 16,
+      "id": "prince_trial",
+      "act": "Ato I - O Peso da Coroa",
+      "title": "Julgamento do Principe",
+      "type": "Cena politica",
+      "objective": "Julgar responsaveis e consequencias.",
+      "impact": "Reputacao por faccao.",
+      "optional": [
+        "Investigar pista opcional",
+        "Preservar recursos",
+        "Reputacao por faccao."
+      ],
+      "managementOnly": true,
+      "clockLimit": 8,
+      "enemySet": null,
+      "eventRounds": {
+        "2": "O campo muda e novas rotas ficam evidentes.",
+        "3": "A pressao da missao aumenta.",
+        "4": "Um evento inesperado altera prioridades.",
+        "6": "O relogio de missao entra em fase critica."
+      },
+      "rewards": {
+        "food": 5,
+        "wood": 2,
+        "iron": 2,
+        "gold": 6,
+        "troops": 1,
+        "reputation": {
+          "companions": 2,
+          "infantry": 2,
+          "knights": 1,
+          "peasants": 2,
+          "nobles": 4,
+          "kingdom": 2
+        }
+      }
+    },
+    {
+      "order": 17,
+      "id": "herald_of_the_woods",
+      "act": "Ato I - O Peso da Coroa",
+      "title": "Chefe - O Arauto da Mata",
+      "type": "Cacada/chefe",
+      "objective": "Eliminar ou capturar criatura/comandante.",
+      "impact": "Chefe com medo e terreno.",
+      "optional": [
+        "Vencer sem William cair",
+        "Usar lideranca contra medo",
+        "Explorar terreno da arena"
+      ],
+      "managementOnly": false,
+      "clockLimit": 10,
+      "enemySet": "manifestation",
+      "eventRounds": {
+        "2": "O chefe muda de postura e pressiona a coragem do grupo.",
+        "3": "O terreno se torna mais perigoso.",
+        "5": "Uma fase nova comeca; o objetivo muda.",
+        "7": "A ameaca sobrenatural chega ao limite."
+      },
+      "rewards": {
+        "food": 3,
+        "wood": 2,
+        "iron": 6,
+        "gold": 7,
+        "troops": 1,
+        "reputation": {
+          "companions": 2,
+          "infantry": 2,
+          "knights": 1,
+          "peasants": 2,
+          "nobles": 1,
+          "kingdom": 5
+        }
+      }
+    },
+    {
+      "order": 18,
+      "id": "act_ii_burning_frontiers",
+      "act": "Ato II - Fronteiras em Chamas",
+      "title": "Ato II - Fronteiras em Chamas",
+      "type": "Ato",
+      "objective": "Abrir o arco de guerra nas fronteiras.",
+      "impact": "Novas rotas, pressoes militares e ameacas coordenadas.",
+      "optional": [
+        "Revisar diario",
+        "Preparar recursos",
+        "Consultar reputacoes"
+      ],
+      "managementOnly": true,
+      "clockLimit": 8,
+      "enemySet": null,
+      "eventRounds": {
+        "2": "O campo muda e novas rotas ficam evidentes.",
+        "3": "A pressao da missao aumenta.",
+        "4": "Um evento inesperado altera prioridades.",
+        "6": "O relogio de missao entra em fase critica."
+      },
+      "rewards": {
+        "food": 5,
+        "wood": 5,
+        "iron": 2,
+        "gold": 7,
+        "troops": 1,
+        "reputation": {
+          "companions": 2,
+          "infantry": 2,
+          "knights": 1,
+          "peasants": 2,
+          "nobles": 4,
+          "kingdom": 2
+        }
+      }
+    },
+    {
+      "order": 19,
+      "id": "ash_bridge",
+      "act": "Ato II - Fronteiras em Chamas",
+      "title": "Ponte de Cinzas",
+      "type": "Defesa/controle",
+      "objective": "Segurar ponte ou destrui-la.",
+      "impact": "Muda rota estrategica.",
+      "optional": [
+        "Manter setor chave",
+        "Preservar tropas",
+        "Usar barricadas"
+      ],
+      "managementOnly": false,
+      "clockLimit": 8,
+      "enemySet": "forest_first_contact",
+      "eventRounds": {
+        "2": "Inimigos testam a linha de frente.",
+        "3": "Arqueiros buscam angulo alto.",
+        "4": "Reforcos se aproximam.",
+        "6": "O setor principal fica sob pressao."
+      },
+      "rewards": {
+        "food": 3,
+        "wood": 2,
+        "iron": 2,
+        "gold": 7,
+        "troops": 2,
+        "reputation": {
+          "companions": 2,
+          "infantry": 5,
+          "knights": 1,
+          "peasants": 2,
+          "nobles": 1,
+          "kingdom": 2
+        }
+      }
+    },
+    {
+      "order": 20,
+      "id": "lost_caravan",
+      "act": "Ato II - Fronteiras em Chamas",
+      "title": "Caravana Perdida",
+      "type": "Busca/resgate",
+      "objective": "Localizar caravana antes do tempo acabar.",
+      "impact": "Recursos e sobreviventes.",
+      "optional": [
+        "Salvar sobreviventes",
+        "Evitar baixas",
+        "Concluir antes do prazo"
+      ],
+      "managementOnly": false,
+      "clockLimit": 6,
+      "enemySet": "forest_first_contact",
+      "eventRounds": {
+        "2": "O campo muda e novas rotas ficam evidentes.",
+        "3": "A pressao da missao aumenta.",
+        "4": "Um evento inesperado altera prioridades.",
+        "6": "O relogio de missao entra em fase critica."
+      },
+      "rewards": {
+        "food": 3,
+        "wood": 2,
+        "iron": 2,
+        "gold": 7,
+        "troops": 1,
+        "reputation": {
+          "companions": 2,
+          "infantry": 2,
+          "knights": 1,
+          "peasants": 5,
+          "nobles": 1,
+          "kingdom": 2
+        }
+      }
+    },
+    {
+      "order": 21,
+      "id": "broken_fortress",
+      "act": "Ato II - Fronteiras em Chamas",
+      "title": "Fortaleza Partida",
+      "type": "Assalto",
+      "objective": "Abrir portao por infiltracao, sabotagem ou ataque frontal.",
+      "impact": "Tres rotas.",
+      "optional": [
+        "Investigar pista opcional",
+        "Preservar recursos",
+        "Tres rotas."
+      ],
+      "managementOnly": false,
+      "clockLimit": 8,
+      "enemySet": "forest_first_contact",
+      "eventRounds": {
+        "2": "O campo muda e novas rotas ficam evidentes.",
+        "3": "A pressao da missao aumenta.",
+        "4": "Um evento inesperado altera prioridades.",
+        "6": "O relogio de missao entra em fase critica."
+      },
+      "rewards": {
+        "food": 3,
+        "wood": 5,
+        "iron": 2,
+        "gold": 7,
+        "troops": 2,
+        "reputation": {
+          "companions": 2,
+          "infantry": 5,
+          "knights": 1,
+          "peasants": 2,
+          "nobles": 1,
+          "kingdom": 2
+        }
+      }
+    },
+    {
+      "order": 22,
+      "id": "field_of_the_dead",
+      "act": "Ato II - Fronteiras em Chamas",
+      "title": "Campo dos Mortos",
+      "type": "Investigacao",
+      "objective": "Descobrir por que corpos desapareceram.",
+      "impact": "Sobrenatural cresce.",
+      "optional": [
+        "Investigar pista opcional",
+        "Preservar recursos",
+        "Sobrenatural cresce."
+      ],
+      "managementOnly": false,
+      "clockLimit": 8,
+      "enemySet": "forest_first_contact",
+      "eventRounds": {
+        "2": "O campo muda e novas rotas ficam evidentes.",
+        "3": "A pressao da missao aumenta.",
+        "4": "Um evento inesperado altera prioridades.",
+        "6": "O relogio de missao entra em fase critica."
+      },
+      "rewards": {
+        "food": 3,
+        "wood": 2,
+        "iron": 2,
+        "gold": 7,
+        "troops": 1,
+        "reputation": {
+          "companions": 2,
+          "infantry": 2,
+          "knights": 1,
+          "peasants": 2,
+          "nobles": 1,
+          "kingdom": 2
+        }
+      }
+    },
+    {
+      "order": 23,
+      "id": "blood_between_banners",
+      "act": "Ato II - Fronteiras em Chamas",
+      "title": "Sangue entre Estandartes",
+      "type": "Diplomacia armada",
+      "objective": "Evitar ou vencer conflito entre aliados.",
+      "impact": "Reputacao politica.",
+      "optional": [
+        "Investigar pista opcional",
+        "Preservar recursos",
+        "Reputacao politica."
+      ],
+      "managementOnly": false,
+      "clockLimit": 8,
+      "enemySet": "forest_first_contact",
+      "eventRounds": {
+        "2": "O campo muda e novas rotas ficam evidentes.",
+        "3": "A pressao da missao aumenta.",
+        "4": "Um evento inesperado altera prioridades.",
+        "6": "O relogio de missao entra em fase critica."
+      },
+      "rewards": {
+        "food": 3,
+        "wood": 2,
+        "iron": 2,
+        "gold": 7,
+        "troops": 1,
+        "reputation": {
+          "companions": 2,
+          "infantry": 2,
+          "knights": 1,
+          "peasants": 2,
+          "nobles": 1,
+          "kingdom": 2
+        }
+      }
+    },
+    {
+      "order": 24,
+      "id": "siege",
+      "act": "Ato II - Fronteiras em Chamas",
+      "title": "Cerco",
+      "type": "Grande batalha",
+      "objective": "Defender setores, comandar tropas e escolher onde intervir.",
+      "impact": "Perdas persistentes.",
+      "optional": [
+        "Investigar pista opcional",
+        "Preservar recursos",
+        "Perdas persistentes."
+      ],
+      "managementOnly": false,
+      "clockLimit": 8,
+      "enemySet": "forest_first_contact",
+      "eventRounds": {
+        "2": "O campo muda e novas rotas ficam evidentes.",
+        "3": "A pressao da missao aumenta.",
+        "4": "Um evento inesperado altera prioridades.",
+        "6": "O relogio de missao entra em fase critica."
+      },
+      "rewards": {
+        "food": 3,
+        "wood": 5,
+        "iron": 2,
+        "gold": 7,
+        "troops": 2,
+        "reputation": {
+          "companions": 2,
+          "infantry": 5,
+          "knights": 1,
+          "peasants": 2,
+          "nobles": 1,
+          "kingdom": 2
+        }
+      }
+    },
+    {
+      "order": 25,
+      "id": "faceless_general",
+      "act": "Ato II - Fronteiras em Chamas",
+      "title": "O General sem Rosto",
+      "type": "Chefe",
+      "objective": "Quebrar comando inimigo e sobreviver as fases.",
+      "impact": "Inimigos coordenados + medo.",
+      "optional": [
+        "Vencer sem William cair",
+        "Usar lideranca contra medo",
+        "Explorar terreno da arena"
+      ],
+      "managementOnly": false,
+      "clockLimit": 10,
+      "enemySet": "manifestation",
+      "eventRounds": {
+        "2": "O chefe muda de postura e pressiona a coragem do grupo.",
+        "3": "O terreno se torna mais perigoso.",
+        "5": "Uma fase nova comeca; o objetivo muda.",
+        "7": "A ameaca sobrenatural chega ao limite."
+      },
+      "rewards": {
+        "food": 3,
+        "wood": 2,
+        "iron": 6,
+        "gold": 8,
+        "troops": 1,
+        "reputation": {
+          "companions": 2,
+          "infantry": 2,
+          "knights": 1,
+          "peasants": 2,
+          "nobles": 1,
+          "kingdom": 5
+        }
+      }
+    },
+    {
+      "order": 26,
+      "id": "act_iii_voices_below",
+      "act": "Ato III - Vozes Sob a Terra",
+      "title": "Ato III - Vozes Sob a Terra",
+      "type": "Ato",
+      "objective": "Iniciar a descida as ruinas e segredos proibidos.",
+      "impact": "O horror e os traumas passam a alterar missoes.",
+      "optional": [
+        "Revisar diario",
+        "Preparar recursos",
+        "Consultar reputacoes"
+      ],
+      "managementOnly": true,
+      "clockLimit": 8,
+      "enemySet": null,
+      "eventRounds": {
+        "2": "O campo muda e novas rotas ficam evidentes.",
+        "3": "A pressao da missao aumenta.",
+        "4": "Um evento inesperado altera prioridades.",
+        "6": "O relogio de missao entra em fase critica."
+      },
+      "rewards": {
+        "food": 5,
+        "wood": 2,
+        "iron": 2,
+        "gold": 8,
+        "troops": 1,
+        "reputation": {
+          "companions": 2,
+          "infantry": 2,
+          "knights": 1,
+          "peasants": 2,
+          "nobles": 4,
+          "kingdom": 2
+        }
+      }
+    },
+    {
+      "order": 27,
+      "id": "abandoned_monastery",
+      "act": "Ato III - Vozes Sob a Terra",
+      "title": "Mosteiro Abandonado",
+      "type": "Exploracao/horror",
+      "objective": "Encontrar registros e sobreviver ao local.",
+      "impact": "Puzzles leves e medo.",
+      "optional": [
+        "Investigar pista opcional",
+        "Preservar recursos",
+        "Puzzles leves e medo."
+      ],
+      "managementOnly": false,
+      "clockLimit": 8,
+      "enemySet": "manifestation",
+      "eventRounds": {
+        "2": "O campo muda e novas rotas ficam evidentes.",
+        "3": "A pressao da missao aumenta.",
+        "4": "Um evento inesperado altera prioridades.",
+        "6": "O relogio de missao entra em fase critica."
+      },
+      "rewards": {
+        "food": 3,
+        "wood": 5,
+        "iron": 2,
+        "gold": 8,
+        "troops": 1,
+        "reputation": {
+          "companions": 2,
+          "infantry": 2,
+          "knights": 1,
+          "peasants": 2,
+          "nobles": 1,
+          "kingdom": 2
+        }
+      }
+    },
+    {
+      "order": 28,
+      "id": "under_the_crypt",
+      "act": "Ato III - Vozes Sob a Terra",
+      "title": "Sob a Cripta",
+      "type": "Dungeon tatica",
+      "objective": "Abrir caminho por ruinas subterraneas.",
+      "impact": "Luz, armadilhas e rotas.",
+      "optional": [
+        "Investigar pista opcional",
+        "Preservar recursos",
+        "Luz, armadilhas e rotas."
+      ],
+      "managementOnly": false,
+      "clockLimit": 8,
+      "enemySet": "manifestation",
+      "eventRounds": {
+        "2": "O campo muda e novas rotas ficam evidentes.",
+        "3": "A pressao da missao aumenta.",
+        "4": "Um evento inesperado altera prioridades.",
+        "6": "O relogio de missao entra em fase critica."
+      },
+      "rewards": {
+        "food": 3,
+        "wood": 2,
+        "iron": 2,
+        "gold": 8,
+        "troops": 1,
+        "reputation": {
+          "companions": 2,
+          "infantry": 2,
+          "knights": 1,
+          "peasants": 2,
+          "nobles": 1,
+          "kingdom": 2
+        }
+      }
+    },
+    {
+      "order": 29,
+      "id": "forbidden_name",
+      "act": "Ato III - Vozes Sob a Terra",
+      "title": "O Nome Proibido",
+      "type": "Investigacao",
+      "objective": "Reconstruir ritual por documentos e testemunhos.",
+      "impact": "Lore e decisao.",
+      "optional": [
+        "Investigar pista opcional",
+        "Preservar recursos",
+        "Lore e decisao."
+      ],
+      "managementOnly": false,
+      "clockLimit": 8,
+      "enemySet": "forest_first_contact",
+      "eventRounds": {
+        "2": "O campo muda e novas rotas ficam evidentes.",
+        "3": "A pressao da missao aumenta.",
+        "4": "Um evento inesperado altera prioridades.",
+        "6": "O relogio de missao entra em fase critica."
+      },
+      "rewards": {
+        "food": 3,
+        "wood": 2,
+        "iron": 2,
+        "gold": 8,
+        "troops": 1,
+        "reputation": {
+          "companions": 2,
+          "infantry": 2,
+          "knights": 1,
+          "peasants": 2,
+          "nobles": 1,
+          "kingdom": 2
+        }
+      }
+    },
+    {
+      "order": 30,
+      "id": "echoes_of_fear",
+      "act": "Ato III - Vozes Sob a Terra",
+      "title": "Ecos de Medo",
+      "type": "Missao psicologica",
+      "objective": "Enfrentar manifestacao ligada aos traumas do grupo.",
+      "impact": "Traumas alteram encontros.",
+      "optional": [
+        "Investigar pista opcional",
+        "Preservar recursos",
+        "Traumas alteram encontros."
+      ],
+      "managementOnly": false,
+      "clockLimit": 8,
+      "enemySet": "manifestation",
+      "eventRounds": {
+        "2": "O campo muda e novas rotas ficam evidentes.",
+        "3": "A pressao da missao aumenta.",
+        "4": "Um evento inesperado altera prioridades.",
+        "6": "O relogio de missao entra em fase critica."
+      },
+      "rewards": {
+        "food": 3,
+        "wood": 5,
+        "iron": 2,
+        "gold": 8,
+        "troops": 1,
+        "reputation": {
+          "companions": 5,
+          "infantry": 2,
+          "knights": 1,
+          "peasants": 2,
+          "nobles": 1,
+          "kingdom": 5
+        }
+      }
+    },
+    {
+      "order": 31,
+      "id": "artifact",
+      "act": "Ato III - Vozes Sob a Terra",
+      "title": "O Artefato",
+      "type": "Escolha critica",
+      "objective": "Destruir, guardar ou usar objeto sobrenatural.",
+      "impact": "Campanha ramifica.",
+      "optional": [
+        "Investigar pista opcional",
+        "Preservar recursos",
+        "Campanha ramifica."
+      ],
+      "managementOnly": true,
+      "clockLimit": 8,
+      "enemySet": null,
+      "eventRounds": {
+        "2": "O campo muda e novas rotas ficam evidentes.",
+        "3": "A pressao da missao aumenta.",
+        "4": "Um evento inesperado altera prioridades.",
+        "6": "O relogio de missao entra em fase critica."
+      },
+      "rewards": {
+        "food": 5,
+        "wood": 2,
+        "iron": 2,
+        "gold": 8,
+        "troops": 1,
+        "reputation": {
+          "companions": 2,
+          "infantry": 2,
+          "knights": 1,
+          "peasants": 2,
+          "nobles": 4,
+          "kingdom": 5
+        }
+      }
+    },
+    {
+      "order": 32,
+      "id": "mouth_of_the_earth",
+      "act": "Ato III - Vozes Sob a Terra",
+      "title": "A Boca da Terra",
+      "type": "Chefe",
+      "objective": "Impedir ritual e selar passagem.",
+      "impact": "Objetivo por fases, nao apenas HP.",
+      "optional": [
+        "Vencer sem William cair",
+        "Usar lideranca contra medo",
+        "Explorar terreno da arena"
+      ],
+      "managementOnly": false,
+      "clockLimit": 10,
+      "enemySet": "manifestation",
+      "eventRounds": {
+        "2": "O chefe muda de postura e pressiona a coragem do grupo.",
+        "3": "O terreno se torna mais perigoso.",
+        "5": "Uma fase nova comeca; o objetivo muda.",
+        "7": "A ameaca sobrenatural chega ao limite."
+      },
+      "rewards": {
+        "food": 3,
+        "wood": 2,
+        "iron": 6,
+        "gold": 8,
+        "troops": 1,
+        "reputation": {
+          "companions": 2,
+          "infantry": 2,
+          "knights": 1,
+          "peasants": 2,
+          "nobles": 1,
+          "kingdom": 5
+        }
+      }
+    },
+    {
+      "order": 33,
+      "id": "act_iv_divided_kingdom",
+      "act": "Ato IV - Reino Dividido",
+      "title": "Ato IV - Reino Dividido",
+      "type": "Ato",
+      "objective": "Abrir a crise politica do reino.",
+      "impact": "Aliancas e reputacoes passam a definir rotas.",
+      "optional": [
+        "Revisar diario",
+        "Preparar recursos",
+        "Consultar reputacoes"
+      ],
+      "managementOnly": true,
+      "clockLimit": 8,
+      "enemySet": null,
+      "eventRounds": {
+        "2": "O campo muda e novas rotas ficam evidentes.",
+        "3": "A pressao da missao aumenta.",
+        "4": "Um evento inesperado altera prioridades.",
+        "6": "O relogio de missao entra em fase critica."
+      },
+      "rewards": {
+        "food": 5,
+        "wood": 5,
+        "iron": 2,
+        "gold": 9,
+        "troops": 1,
+        "reputation": {
+          "companions": 2,
+          "infantry": 2,
+          "knights": 1,
+          "peasants": 2,
+          "nobles": 4,
+          "kingdom": 5
+        }
+      }
+    },
+    {
+      "order": 34,
+      "id": "messengers",
+      "act": "Ato IV - Reino Dividido",
+      "title": "Mensageiros",
+      "type": "Corrida estrategica",
+      "objective": "Entregar ordens antes que regioes caiam.",
+      "impact": "Mapa e tempo.",
+      "optional": [
+        "Investigar pista opcional",
+        "Preservar recursos",
+        "Mapa e tempo."
+      ],
+      "managementOnly": false,
+      "clockLimit": 6,
+      "enemySet": "forest_first_contact",
+      "eventRounds": {
+        "2": "O campo muda e novas rotas ficam evidentes.",
+        "3": "A pressao da missao aumenta.",
+        "4": "Um evento inesperado altera prioridades.",
+        "6": "O relogio de missao entra em fase critica."
+      },
+      "rewards": {
+        "food": 3,
+        "wood": 2,
+        "iron": 2,
+        "gold": 9,
+        "troops": 1,
+        "reputation": {
+          "companions": 2,
+          "infantry": 2,
+          "knights": 1,
+          "peasants": 2,
+          "nobles": 1,
+          "kingdom": 5
+        }
+      }
+    },
+    {
+      "order": 35,
+      "id": "dukes_choice",
+      "act": "Ato IV - Reino Dividido",
+      "title": "A Escolha dos Duques",
+      "type": "Politica",
+      "objective": "Convencer faccoes com reputacao acumulada.",
+      "impact": "Aliancas reais.",
+      "optional": [
+        "Ouvir faccoes",
+        "Evitar ruptura",
+        "Aliancas reais."
+      ],
+      "managementOnly": true,
+      "clockLimit": 8,
+      "enemySet": null,
+      "eventRounds": {
+        "2": "O campo muda e novas rotas ficam evidentes.",
+        "3": "A pressao da missao aumenta.",
+        "4": "Um evento inesperado altera prioridades.",
+        "6": "O relogio de missao entra em fase critica."
+      },
+      "rewards": {
+        "food": 5,
+        "wood": 2,
+        "iron": 2,
+        "gold": 9,
+        "troops": 1,
+        "reputation": {
+          "companions": 2,
+          "infantry": 2,
+          "knights": 5,
+          "peasants": 2,
+          "nobles": 4,
+          "kingdom": 5
+        }
+      }
+    },
+    {
+      "order": 36,
+      "id": "brothers_against_brothers",
+      "act": "Ato IV - Reino Dividido",
+      "title": "Irmaos contra Irmaos",
+      "type": "Batalha moral",
+      "objective": "Vencer sem massacrar aliados quando possivel.",
+      "impact": "Captura/rendicao.",
+      "optional": [
+        "Investigar pista opcional",
+        "Preservar recursos",
+        "Captura/rendicao."
+      ],
+      "managementOnly": false,
+      "clockLimit": 8,
+      "enemySet": "forest_first_contact",
+      "eventRounds": {
+        "2": "O campo muda e novas rotas ficam evidentes.",
+        "3": "A pressao da missao aumenta.",
+        "4": "Um evento inesperado altera prioridades.",
+        "6": "O relogio de missao entra em fase critica."
+      },
+      "rewards": {
+        "food": 3,
+        "wood": 5,
+        "iron": 2,
+        "gold": 9,
+        "troops": 1,
+        "reputation": {
+          "companions": 2,
+          "infantry": 2,
+          "knights": 1,
+          "peasants": 2,
+          "nobles": 1,
+          "kingdom": 5
+        }
+      }
+    },
+    {
+      "order": 37,
+      "id": "besieged_city",
+      "act": "Ato IV - Reino Dividido",
+      "title": "A Cidade Cercada",
+      "type": "Mapa grande",
+      "objective": "Gerenciar comida, setores e civis durante cerco.",
+      "impact": "Principado + combate.",
+      "optional": [
+        "Investigar pista opcional",
+        "Preservar recursos",
+        "Principado + combate."
+      ],
+      "managementOnly": false,
+      "clockLimit": 8,
+      "enemySet": "forest_first_contact",
+      "eventRounds": {
+        "2": "O campo muda e novas rotas ficam evidentes.",
+        "3": "A pressao da missao aumenta.",
+        "4": "Um evento inesperado altera prioridades.",
+        "6": "O relogio de missao entra em fase critica."
+      },
+      "rewards": {
+        "food": 3,
+        "wood": 2,
+        "iron": 2,
+        "gold": 9,
+        "troops": 1,
+        "reputation": {
+          "companions": 2,
+          "infantry": 2,
+          "knights": 1,
+          "peasants": 2,
+          "nobles": 1,
+          "kingdom": 5
+        }
+      }
+    },
+    {
+      "order": 38,
+      "id": "betrayal",
+      "act": "Ato IV - Reino Dividido",
+      "title": "Traicao",
+      "type": "Cena/combate variavel",
+      "objective": "Revelar traidor conforme relacoes e decisoes.",
+      "impact": "Lealdade paga consequencia.",
+      "optional": [
+        "Investigar pista opcional",
+        "Preservar recursos",
+        "Lealdade paga consequencia."
+      ],
+      "managementOnly": false,
+      "clockLimit": 8,
+      "enemySet": "forest_first_contact",
+      "eventRounds": {
+        "2": "O campo muda e novas rotas ficam evidentes.",
+        "3": "A pressao da missao aumenta.",
+        "4": "Um evento inesperado altera prioridades.",
+        "6": "O relogio de missao entra em fase critica."
+      },
+      "rewards": {
+        "food": 3,
+        "wood": 2,
+        "iron": 2,
+        "gold": 9,
+        "troops": 1,
+        "reputation": {
+          "companions": 2,
+          "infantry": 2,
+          "knights": 1,
+          "peasants": 2,
+          "nobles": 1,
+          "kingdom": 5
+        }
+      }
+    },
+    {
+      "order": 39,
+      "id": "empty_throne",
+      "act": "Ato IV - Reino Dividido",
+      "title": "O Trono Vazio",
+      "type": "Assalto politico",
+      "objective": "Retomar ou proteger centro de poder.",
+      "impact": "Varias rotas e objetivos.",
+      "optional": [
+        "Investigar pista opcional",
+        "Preservar recursos",
+        "Varias rotas e objetivos."
+      ],
+      "managementOnly": false,
+      "clockLimit": 8,
+      "enemySet": "forest_first_contact",
+      "eventRounds": {
+        "2": "O campo muda e novas rotas ficam evidentes.",
+        "3": "A pressao da missao aumenta.",
+        "4": "Um evento inesperado altera prioridades.",
+        "6": "O relogio de missao entra em fase critica."
+      },
+      "rewards": {
+        "food": 3,
+        "wood": 5,
+        "iron": 2,
+        "gold": 9,
+        "troops": 2,
+        "reputation": {
+          "companions": 2,
+          "infantry": 5,
+          "knights": 1,
+          "peasants": 2,
+          "nobles": 1,
+          "kingdom": 5
+        }
+      }
+    },
+    {
+      "order": 40,
+      "id": "act_v_aes_divinus",
+      "act": "Ato V - Aes Divinus",
+      "title": "Ato V - Aes Divinus",
+      "type": "Ato",
+      "objective": "Abrir a marcha final contra a fonte do poder.",
+      "impact": "Todas as escolhas anteriores entram em jogo.",
+      "optional": [
+        "Revisar diario",
+        "Preparar recursos",
+        "Consultar reputacoes"
+      ],
+      "managementOnly": true,
+      "clockLimit": 8,
+      "enemySet": null,
+      "eventRounds": {
+        "2": "O campo muda e novas rotas ficam evidentes.",
+        "3": "A pressao da missao aumenta.",
+        "4": "Um evento inesperado altera prioridades.",
+        "6": "O relogio de missao entra em fase critica."
+      },
+      "rewards": {
+        "food": 5,
+        "wood": 2,
+        "iron": 2,
+        "gold": 9,
+        "troops": 1,
+        "reputation": {
+          "companions": 2,
+          "infantry": 2,
+          "knights": 1,
+          "peasants": 2,
+          "nobles": 4,
+          "kingdom": 5
+        }
+      }
+    },
+    {
+      "order": 41,
+      "id": "final_march",
+      "act": "Ato V - Aes Divinus",
+      "title": "Marcha Final",
+      "type": "Preparacao",
+      "objective": "Escolher tropas, companheiros e suprimentos.",
+      "impact": "Tudo que foi administrado importa.",
+      "optional": [
+        "Investigar pista opcional",
+        "Preservar recursos",
+        "Tudo que foi administrado importa."
+      ],
+      "managementOnly": true,
+      "clockLimit": 8,
+      "enemySet": null,
+      "eventRounds": {
+        "2": "O campo muda e novas rotas ficam evidentes.",
+        "3": "A pressao da missao aumenta.",
+        "4": "Um evento inesperado altera prioridades.",
+        "6": "O relogio de missao entra em fase critica."
+      },
+      "rewards": {
+        "food": 5,
+        "wood": 2,
+        "iron": 2,
+        "gold": 10,
+        "troops": 1,
+        "reputation": {
+          "companions": 2,
+          "infantry": 2,
+          "knights": 1,
+          "peasants": 2,
+          "nobles": 4,
+          "kingdom": 5
+        }
+      }
+    },
+    {
+      "order": 42,
+      "id": "corrupted_land",
+      "act": "Ato V - Aes Divinus",
+      "title": "Terra Corrompida",
+      "type": "Travessia",
+      "objective": "Cruzar regiao alterada pelo sobrenatural.",
+      "impact": "Recursos e Coragem.",
+      "optional": [
+        "Investigar pista opcional",
+        "Preservar recursos",
+        "Recursos e Coragem."
+      ],
+      "managementOnly": false,
+      "clockLimit": 8,
+      "enemySet": "manifestation",
+      "eventRounds": {
+        "2": "O campo muda e novas rotas ficam evidentes.",
+        "3": "A pressao da missao aumenta.",
+        "4": "Um evento inesperado altera prioridades.",
+        "6": "O relogio de missao entra em fase critica."
+      },
+      "rewards": {
+        "food": 3,
+        "wood": 5,
+        "iron": 2,
+        "gold": 10,
+        "troops": 1,
+        "reputation": {
+          "companions": 2,
+          "infantry": 2,
+          "knights": 1,
+          "peasants": 2,
+          "nobles": 1,
+          "kingdom": 5
+        }
+      }
+    },
+    {
+      "order": 43,
+      "id": "those_who_remained",
+      "act": "Ato V - Aes Divinus",
+      "title": "Os Que Ficaram",
+      "type": "Missao de consequencias",
+      "objective": "Encontrar personagens/faccoes conforme escolhas anteriores.",
+      "impact": "Campanha reativa.",
+      "optional": [
+        "Investigar pista opcional",
+        "Preservar recursos",
+        "Campanha reativa."
+      ],
+      "managementOnly": false,
+      "clockLimit": 8,
+      "enemySet": "forest_first_contact",
+      "eventRounds": {
+        "2": "O campo muda e novas rotas ficam evidentes.",
+        "3": "A pressao da missao aumenta.",
+        "4": "Um evento inesperado altera prioridades.",
+        "6": "O relogio de missao entra em fase critica."
+      },
+      "rewards": {
+        "food": 3,
+        "wood": 2,
+        "iron": 2,
+        "gold": 10,
+        "troops": 1,
+        "reputation": {
+          "companions": 2,
+          "infantry": 2,
+          "knights": 1,
+          "peasants": 2,
+          "nobles": 1,
+          "kingdom": 5
+        }
+      }
+    },
+    {
+      "order": 44,
+      "id": "abyss_gates",
+      "act": "Ato V - Aes Divinus",
+      "title": "Portoes do Abismo",
+      "type": "Assalto",
+      "objective": "Romper tres objetivos em ordem escolhida.",
+      "impact": "Grande arena multiobjetivo.",
+      "optional": [
+        "Investigar pista opcional",
+        "Preservar recursos",
+        "Grande arena multiobjetivo."
+      ],
+      "managementOnly": false,
+      "clockLimit": 8,
+      "enemySet": "forest_first_contact",
+      "eventRounds": {
+        "2": "O campo muda e novas rotas ficam evidentes.",
+        "3": "A pressao da missao aumenta.",
+        "4": "Um evento inesperado altera prioridades.",
+        "6": "O relogio de missao entra em fase critica."
+      },
+      "rewards": {
+        "food": 3,
+        "wood": 2,
+        "iron": 2,
+        "gold": 10,
+        "troops": 2,
+        "reputation": {
+          "companions": 2,
+          "infantry": 5,
+          "knights": 1,
+          "peasants": 2,
+          "nobles": 1,
+          "kingdom": 5
+        }
+      }
+    },
+    {
+      "order": 45,
+      "id": "price_of_the_crown",
+      "act": "Ato V - Aes Divinus",
+      "title": "O Preco da Coroa",
+      "type": "Cena decisiva",
+      "objective": "Escolha politica/pessoal antes do final.",
+      "impact": "Define aliados e condicoes.",
+      "optional": [
+        "Investigar pista opcional",
+        "Preservar recursos",
+        "Define aliados e condicoes."
+      ],
+      "managementOnly": true,
+      "clockLimit": 8,
+      "enemySet": null,
+      "eventRounds": {
+        "2": "O campo muda e novas rotas ficam evidentes.",
+        "3": "A pressao da missao aumenta.",
+        "4": "Um evento inesperado altera prioridades.",
+        "6": "O relogio de missao entra em fase critica."
+      },
+      "rewards": {
+        "food": 5,
+        "wood": 5,
+        "iron": 2,
+        "gold": 10,
+        "troops": 1,
+        "reputation": {
+          "companions": 2,
+          "infantry": 2,
+          "knights": 1,
+          "peasants": 2,
+          "nobles": 4,
+          "kingdom": 5
+        }
+      }
+    },
+    {
+      "order": 46,
+      "id": "aes_divinus_final",
+      "act": "Ato V - Aes Divinus",
+      "title": "Aes Divinus",
+      "type": "Chefe final multifasico",
+      "objective": "Sobreviver, quebrar mecanismos/ritual e enfrentar entidade.",
+      "impact": "Combate, medo, lideranca, terreno.",
+      "optional": [
+        "Vencer sem William cair",
+        "Usar lideranca contra medo",
+        "Explorar terreno da arena"
+      ],
+      "managementOnly": false,
+      "clockLimit": 10,
+      "enemySet": "manifestation",
+      "eventRounds": {
+        "2": "O chefe muda de postura e pressiona a coragem do grupo.",
+        "3": "O terreno se torna mais perigoso.",
+        "5": "Uma fase nova comeca; o objetivo muda.",
+        "7": "A ameaca sobrenatural chega ao limite."
+      },
+      "rewards": {
+        "food": 3,
+        "wood": 2,
+        "iron": 6,
+        "gold": 10,
+        "troops": 1,
+        "reputation": {
+          "companions": 2,
+          "infantry": 2,
+          "knights": 1,
+          "peasants": 2,
+          "nobles": 1,
+          "kingdom": 5
+        }
+      }
+    },
+    {
+      "order": 47,
+      "id": "last_order",
+      "act": "Epilogo",
+      "title": "Ultima Ordem",
+      "type": "Decisao final",
+      "objective": "Escolher destino do poder/principado.",
+      "impact": "Define epilogo.",
+      "optional": [
+        "Investigar pista opcional",
+        "Preservar recursos",
+        "Define epilogo."
+      ],
+      "managementOnly": true,
+      "clockLimit": 8,
+      "enemySet": null,
+      "eventRounds": {
+        "2": "O campo muda e novas rotas ficam evidentes.",
+        "3": "A pressao da missao aumenta.",
+        "4": "Um evento inesperado altera prioridades.",
+        "6": "O relogio de missao entra em fase critica."
+      },
+      "rewards": {
+        "food": 5,
+        "wood": 2,
+        "iron": 2,
+        "gold": 10,
+        "troops": 1,
+        "reputation": {
+          "companions": 2,
+          "infantry": 2,
+          "knights": 1,
+          "peasants": 2,
+          "nobles": 4,
+          "kingdom": 5
+        }
+      }
+    }
+  ],
+  "missionScenes": {
+    "prologue_opening": [
+      {
+        "title": "Cena P0 - Abertura",
+        "camera": "Cinematica curta sobre estrada, brasoes gastos, fogueira baixa e a Floresta de Sangue fechando o horizonte.",
+        "text": "William viaja com Ethan e Albert antes de entender o tamanho da coroa que o espera.",
+        "choice": "Observar o grupo",
+        "effect": "Apresenta William, companheiros, contexto e tom sem combate."
+      },
+      {
+        "title": "A estrada aceita o grupo",
+        "camera": "Plano lateral lento acompanha capas, lama e marcas antigas nas arvores.",
+        "text": "O silencio da mata transforma uma viagem politica em pressagio.",
+        "choice": "Seguir pela Estrada Velha",
+        "effect": "Abre o tutorial de movimento, interacao e Percepcao."
+      }
+    ],
+    "old_road": [
+      {
+        "title": "Missao P1 - Pela Estrada Velha",
+        "camera": "Camera baixa mostra rastros, galhos quebrados e suprimentos esquecidos.",
+        "text": "Explore a trilha, leia rastros e encontre suprimentos opcionais antes que a luz acabe.",
+        "choice": "Investigar a trilha",
+        "effect": "Treina movimento, interacao e Percepcao."
+      },
+      {
+        "title": "Suprimentos sob folhas",
+        "camera": "A camera destaca pontos de interacao e cobertura natural.",
+        "text": "Cada pista encontrada melhora a preparacao do grupo para o primeiro contato.",
+        "choice": "Avancar",
+        "effect": "Inicia encontro tatico leve."
+      }
+    ],
+    "forest_signs": [
+      {
+        "title": "Cena P2 - Sinais na Mata",
+        "camera": "Folhas tremem sem vento; sons de floresta entram e desaparecem em cortes secos.",
+        "text": "Ethan para de andar. Albert baixa a mao para a lanca. Algo esta perto demais.",
+        "choice": "Manter formacao",
+        "effect": "A tensao cresce e prepara a emboscada."
+      }
+    ],
+    "ambush": [
+      {
+        "title": "Missao P3 - Emboscada",
+        "camera": "Camera tatica abre posicoes, cobertura e linha de frente.",
+        "text": "Barbaros surgem entre troncos. Venca ou force a retirada inimiga; opcional: ninguem cair.",
+        "choice": "Entrar em combate",
+        "effect": "Ensina turnos, PA, ataque, movimento e cobertura."
+      }
+    ],
+    "after_blood": [
+      {
+        "title": "Cena P4 - Depois do Sangue",
+        "camera": "Close nos companheiros, respiracao pesada e armas ainda erguidas.",
+        "text": "A primeira batalha deixa marcas. William precisa escolher como falar com o grupo.",
+        "choice": "Consolar, cobrar ou silenciar",
+        "effect": "Altera lealdade, marca emocional e personalidade."
+      }
+    ],
+    "survivor": [
+      {
+        "title": "Missao P5 - O Sobrevivente",
+        "camera": "Um corpo se mexe perto da estrada; inimigos retornam entre as arvores.",
+        "text": "Encontre o sobrevivente ferido, ajude-o e elimine os inimigos que tentam apagar testemunhas.",
+        "choice": "Proteger o ferido",
+        "effect": "Combina interacao, resgate e batalha."
+      }
+    ],
+    "transformation": [
+      {
+        "title": "Cena P6 - A Transformacao",
+        "camera": "Plano fechado em uma ferida escura que se abre como rachadura viva.",
+        "text": "Um inimigo deixa de parecer humano. O medo agora tem regras.",
+        "choice": "Resistir",
+        "effect": "Introduz Medo e Coragem."
+      }
+    ],
+    "real_battle": [
+      {
+        "title": "Missao P7 - A Real Batalha",
+        "camera": "A criatura ocupa a arena; a camera enfatiza escala, rotas de retirada e companheiros vulneraveis.",
+        "text": "Proteja os companheiros e sobreviva. Opcional: reduzir a criatura a meia vida antes da retirada.",
+        "choice": "Liderar sob medo",
+        "effect": "Testa medo, lideranca e retirada."
+      }
+    ],
+    "hubris": [
+      {
+        "title": "Cena P8 - O Hubris",
+        "camera": "O grupo retorna diferente; o mapa politico surge sobre a mesa.",
+        "text": "William decide como relatar o ocorrido: verdade, omissao ou uso politico da historia.",
+        "choice": "Definir relato",
+        "effect": "Primeira consequencia politica registrada."
+      }
+    ],
+    "stone_council": [
+      {
+        "title": "10. Conselho de Pedra",
+        "camera": "Mesa de guerra, rostos tensos e mapas marcados por velas.",
+        "text": "Ato I - O Peso da Coroa. Escolher prioridade: comida, defesa ou investigacao.",
+        "choice": "Tomar decisao",
+        "effect": "Abre rotas e modifica recursos."
+      },
+      {
+        "title": "Complicacao",
+        "camera": "Camera tatica abre o espaco da missao.",
+        "text": "As faccoes cobram uma resposta. A decisao altera recursos, reputacao e proximas rotas.",
+        "choice": "Registrar consequencia",
+        "effect": "Resolve como cena/gestao e volta a mesa."
+      }
+    ],
+    "empty_granaries": [
+      {
+        "title": "11. Celeiros Vazios",
+        "camera": "Mesa de guerra, rostos tensos e mapas marcados por velas.",
+        "text": "Ato I - O Peso da Coroa. Descobrir causa da falta de comida.",
+        "choice": "Tomar decisao",
+        "effect": "Pode revelar roubo, corrupcao ou ataque."
+      },
+      {
+        "title": "Complicacao",
+        "camera": "Camera tatica abre o espaco da missao.",
+        "text": "As faccoes cobram uma resposta. A decisao altera recursos, reputacao e proximas rotas.",
+        "choice": "Registrar consequencia",
+        "effect": "Resolve como cena/gestao e volta a mesa."
+      }
+    ],
+    "village_without_bells": [
+      {
+        "title": "12. A Vila sem Sinos",
+        "camera": "Plano de estabelecimento mostrando rotas, cobertura e objetivo principal.",
+        "text": "Ato I - O Peso da Coroa. Encontrar moradores e retirar sobreviventes.",
+        "choice": "Preparar formacao",
+        "effect": "Primeiro mapa semiaberto."
+      },
+      {
+        "title": "Complicacao",
+        "camera": "Camera tatica abre o espaco da missao.",
+        "text": "O grupo identifica riscos, posicoes e consequencias antes do contato.",
+        "choice": "Entrar na missao",
+        "effect": "Inicia combate ou encontro tatico."
+      }
+    ],
+    "wolves_on_the_road": [
+      {
+        "title": "13. Lobos na Estrada",
+        "camera": "Plano de estabelecimento mostrando rotas, cobertura e objetivo principal.",
+        "text": "Ato I - O Peso da Coroa. Levar carregamento ate o principado.",
+        "choice": "Preparar formacao",
+        "effect": "Emboscadas e rotas alternativas."
+      },
+      {
+        "title": "Complicacao",
+        "camera": "Camera tatica abre o espaco da missao.",
+        "text": "O grupo identifica riscos, posicoes e consequencias antes do contato.",
+        "choice": "Entrar na missao",
+        "effect": "Inicia combate ou encontro tatico."
+      }
+    ],
+    "blood_debt": [
+      {
+        "title": "14. Divida de Sangue",
+        "camera": "Plano de estabelecimento mostrando rotas, cobertura e objetivo principal.",
+        "text": "Ato I - O Peso da Coroa. Resolver conflito ligado a Donovan/Ethan/Albert.",
+        "choice": "Preparar formacao",
+        "effect": "Lealdade individual."
+      },
+      {
+        "title": "Complicacao",
+        "camera": "Camera tatica abre o espaco da missao.",
+        "text": "O grupo identifica riscos, posicoes e consequencias antes do contato.",
+        "choice": "Entrar na missao",
+        "effect": "Inicia combate ou encontro tatico."
+      }
+    ],
+    "gate_at_dusk": [
+      {
+        "title": "15. O Portao ao Anoitecer",
+        "camera": "Plano de estabelecimento mostrando rotas, cobertura e objetivo principal.",
+        "text": "Ato I - O Peso da Coroa. Defender entrada por varias rodadas.",
+        "choice": "Preparar formacao",
+        "effect": "Barricadas, arqueiros e reforcos."
+      },
+      {
+        "title": "Complicacao",
+        "camera": "Camera tatica abre o espaco da missao.",
+        "text": "O grupo identifica riscos, posicoes e consequencias antes do contato.",
+        "choice": "Entrar na missao",
+        "effect": "Inicia combate ou encontro tatico."
+      }
+    ],
+    "prince_trial": [
+      {
+        "title": "16. Julgamento do Principe",
+        "camera": "Mesa de guerra, rostos tensos e mapas marcados por velas.",
+        "text": "Ato I - O Peso da Coroa. Julgar responsaveis e consequencias.",
+        "choice": "Tomar decisao",
+        "effect": "Reputacao por faccao."
+      },
+      {
+        "title": "Complicacao",
+        "camera": "Camera tatica abre o espaco da missao.",
+        "text": "As faccoes cobram uma resposta. A decisao altera recursos, reputacao e proximas rotas.",
+        "choice": "Registrar consequencia",
+        "effect": "Resolve como cena/gestao e volta a mesa."
+      }
+    ],
+    "herald_of_the_woods": [
+      {
+        "title": "17. Chefe - O Arauto da Mata",
+        "camera": "Plano de estabelecimento mostrando rotas, cobertura e objetivo principal.",
+        "text": "Ato I - O Peso da Coroa. Eliminar ou capturar criatura/comandante.",
+        "choice": "Preparar formacao",
+        "effect": "Chefe com medo e terreno."
+      },
+      {
+        "title": "Complicacao",
+        "camera": "Camera baixa para comunicar escala e ameaca.",
+        "text": "O grupo identifica riscos, posicoes e consequencias antes do contato.",
+        "choice": "Entrar na missao",
+        "effect": "Inicia combate ou encontro tatico."
+      }
+    ],
+    "act_ii_burning_frontiers": [
+      {
+        "title": "18. Ato II - Fronteiras em Chamas",
+        "camera": "Mesa de guerra, rostos tensos e mapas marcados por velas.",
+        "text": "Ato II - Fronteiras em Chamas. Abrir o arco de guerra nas fronteiras.",
+        "choice": "Tomar decisao",
+        "effect": "Novas rotas, pressoes militares e ameacas coordenadas."
+      },
+      {
+        "title": "Complicacao",
+        "camera": "Camera tatica abre o espaco da missao.",
+        "text": "As faccoes cobram uma resposta. A decisao altera recursos, reputacao e proximas rotas.",
+        "choice": "Registrar consequencia",
+        "effect": "Resolve como cena/gestao e volta a mesa."
+      }
+    ],
+    "ash_bridge": [
+      {
+        "title": "19. Ponte de Cinzas",
+        "camera": "Plano de estabelecimento mostrando rotas, cobertura e objetivo principal.",
+        "text": "Ato II - Fronteiras em Chamas. Segurar ponte ou destrui-la.",
+        "choice": "Preparar formacao",
+        "effect": "Muda rota estrategica."
+      },
+      {
+        "title": "Complicacao",
+        "camera": "Camera tatica abre o espaco da missao.",
+        "text": "O grupo identifica riscos, posicoes e consequencias antes do contato.",
+        "choice": "Entrar na missao",
+        "effect": "Inicia combate ou encontro tatico."
+      }
+    ],
+    "lost_caravan": [
+      {
+        "title": "20. Caravana Perdida",
+        "camera": "Plano de estabelecimento mostrando rotas, cobertura e objetivo principal.",
+        "text": "Ato II - Fronteiras em Chamas. Localizar caravana antes do tempo acabar.",
+        "choice": "Preparar formacao",
+        "effect": "Recursos e sobreviventes."
+      },
+      {
+        "title": "Complicacao",
+        "camera": "Camera tatica abre o espaco da missao.",
+        "text": "O grupo identifica riscos, posicoes e consequencias antes do contato.",
+        "choice": "Entrar na missao",
+        "effect": "Inicia combate ou encontro tatico."
+      }
+    ],
+    "broken_fortress": [
+      {
+        "title": "21. Fortaleza Partida",
+        "camera": "Plano de estabelecimento mostrando rotas, cobertura e objetivo principal.",
+        "text": "Ato II - Fronteiras em Chamas. Abrir portao por infiltracao, sabotagem ou ataque frontal.",
+        "choice": "Preparar formacao",
+        "effect": "Tres rotas."
+      },
+      {
+        "title": "Complicacao",
+        "camera": "Camera tatica abre o espaco da missao.",
+        "text": "O grupo identifica riscos, posicoes e consequencias antes do contato.",
+        "choice": "Entrar na missao",
+        "effect": "Inicia combate ou encontro tatico."
+      }
+    ],
+    "field_of_the_dead": [
+      {
+        "title": "22. Campo dos Mortos",
+        "camera": "Plano de estabelecimento mostrando rotas, cobertura e objetivo principal.",
+        "text": "Ato II - Fronteiras em Chamas. Descobrir por que corpos desapareceram.",
+        "choice": "Preparar formacao",
+        "effect": "Sobrenatural cresce."
+      },
+      {
+        "title": "Complicacao",
+        "camera": "Camera tatica abre o espaco da missao.",
+        "text": "O grupo identifica riscos, posicoes e consequencias antes do contato.",
+        "choice": "Entrar na missao",
+        "effect": "Inicia combate ou encontro tatico."
+      }
+    ],
+    "blood_between_banners": [
+      {
+        "title": "23. Sangue entre Estandartes",
+        "camera": "Plano de estabelecimento mostrando rotas, cobertura e objetivo principal.",
+        "text": "Ato II - Fronteiras em Chamas. Evitar ou vencer conflito entre aliados.",
+        "choice": "Preparar formacao",
+        "effect": "Reputacao politica."
+      },
+      {
+        "title": "Complicacao",
+        "camera": "Camera tatica abre o espaco da missao.",
+        "text": "O grupo identifica riscos, posicoes e consequencias antes do contato.",
+        "choice": "Entrar na missao",
+        "effect": "Inicia combate ou encontro tatico."
+      }
+    ],
+    "siege": [
+      {
+        "title": "24. Cerco",
+        "camera": "Plano de estabelecimento mostrando rotas, cobertura e objetivo principal.",
+        "text": "Ato II - Fronteiras em Chamas. Defender setores, comandar tropas e escolher onde intervir.",
+        "choice": "Preparar formacao",
+        "effect": "Perdas persistentes."
+      },
+      {
+        "title": "Complicacao",
+        "camera": "Camera tatica abre o espaco da missao.",
+        "text": "O grupo identifica riscos, posicoes e consequencias antes do contato.",
+        "choice": "Entrar na missao",
+        "effect": "Inicia combate ou encontro tatico."
+      }
+    ],
+    "faceless_general": [
+      {
+        "title": "25. O General sem Rosto",
+        "camera": "Plano de estabelecimento mostrando rotas, cobertura e objetivo principal.",
+        "text": "Ato II - Fronteiras em Chamas. Quebrar comando inimigo e sobreviver as fases.",
+        "choice": "Preparar formacao",
+        "effect": "Inimigos coordenados + medo."
+      },
+      {
+        "title": "Complicacao",
+        "camera": "Camera baixa para comunicar escala e ameaca.",
+        "text": "O grupo identifica riscos, posicoes e consequencias antes do contato.",
+        "choice": "Entrar na missao",
+        "effect": "Inicia combate ou encontro tatico."
+      }
+    ],
+    "act_iii_voices_below": [
+      {
+        "title": "26. Ato III - Vozes Sob a Terra",
+        "camera": "Mesa de guerra, rostos tensos e mapas marcados por velas.",
+        "text": "Ato III - Vozes Sob a Terra. Iniciar a descida as ruinas e segredos proibidos.",
+        "choice": "Tomar decisao",
+        "effect": "O horror e os traumas passam a alterar missoes."
+      },
+      {
+        "title": "Complicacao",
+        "camera": "Camera tatica abre o espaco da missao.",
+        "text": "As faccoes cobram uma resposta. A decisao altera recursos, reputacao e proximas rotas.",
+        "choice": "Registrar consequencia",
+        "effect": "Resolve como cena/gestao e volta a mesa."
+      }
+    ],
+    "abandoned_monastery": [
+      {
+        "title": "27. Mosteiro Abandonado",
+        "camera": "Plano de estabelecimento mostrando rotas, cobertura e objetivo principal.",
+        "text": "Ato III - Vozes Sob a Terra. Encontrar registros e sobreviver ao local.",
+        "choice": "Preparar formacao",
+        "effect": "Puzzles leves e medo."
+      },
+      {
+        "title": "Complicacao",
+        "camera": "Camera tatica abre o espaco da missao.",
+        "text": "O grupo identifica riscos, posicoes e consequencias antes do contato.",
+        "choice": "Entrar na missao",
+        "effect": "Inicia combate ou encontro tatico."
+      }
+    ],
+    "under_the_crypt": [
+      {
+        "title": "28. Sob a Cripta",
+        "camera": "Plano de estabelecimento mostrando rotas, cobertura e objetivo principal.",
+        "text": "Ato III - Vozes Sob a Terra. Abrir caminho por ruinas subterraneas.",
+        "choice": "Preparar formacao",
+        "effect": "Luz, armadilhas e rotas."
+      },
+      {
+        "title": "Complicacao",
+        "camera": "Camera tatica abre o espaco da missao.",
+        "text": "O grupo identifica riscos, posicoes e consequencias antes do contato.",
+        "choice": "Entrar na missao",
+        "effect": "Inicia combate ou encontro tatico."
+      }
+    ],
+    "forbidden_name": [
+      {
+        "title": "29. O Nome Proibido",
+        "camera": "Plano de estabelecimento mostrando rotas, cobertura e objetivo principal.",
+        "text": "Ato III - Vozes Sob a Terra. Reconstruir ritual por documentos e testemunhos.",
+        "choice": "Preparar formacao",
+        "effect": "Lore e decisao."
+      },
+      {
+        "title": "Complicacao",
+        "camera": "Camera tatica abre o espaco da missao.",
+        "text": "O grupo identifica riscos, posicoes e consequencias antes do contato.",
+        "choice": "Entrar na missao",
+        "effect": "Inicia combate ou encontro tatico."
+      }
+    ],
+    "echoes_of_fear": [
+      {
+        "title": "30. Ecos de Medo",
+        "camera": "Plano de estabelecimento mostrando rotas, cobertura e objetivo principal.",
+        "text": "Ato III - Vozes Sob a Terra. Enfrentar manifestacao ligada aos traumas do grupo.",
+        "choice": "Preparar formacao",
+        "effect": "Traumas alteram encontros."
+      },
+      {
+        "title": "Complicacao",
+        "camera": "Camera tatica abre o espaco da missao.",
+        "text": "O grupo identifica riscos, posicoes e consequencias antes do contato.",
+        "choice": "Entrar na missao",
+        "effect": "Inicia combate ou encontro tatico."
+      }
+    ],
+    "artifact": [
+      {
+        "title": "31. O Artefato",
+        "camera": "Mesa de guerra, rostos tensos e mapas marcados por velas.",
+        "text": "Ato III - Vozes Sob a Terra. Destruir, guardar ou usar objeto sobrenatural.",
+        "choice": "Tomar decisao",
+        "effect": "Campanha ramifica."
+      },
+      {
+        "title": "Complicacao",
+        "camera": "Camera tatica abre o espaco da missao.",
+        "text": "As faccoes cobram uma resposta. A decisao altera recursos, reputacao e proximas rotas.",
+        "choice": "Registrar consequencia",
+        "effect": "Resolve como cena/gestao e volta a mesa."
+      }
+    ],
+    "mouth_of_the_earth": [
+      {
+        "title": "32. A Boca da Terra",
+        "camera": "Plano de estabelecimento mostrando rotas, cobertura e objetivo principal.",
+        "text": "Ato III - Vozes Sob a Terra. Impedir ritual e selar passagem.",
+        "choice": "Preparar formacao",
+        "effect": "Objetivo por fases, nao apenas HP."
+      },
+      {
+        "title": "Complicacao",
+        "camera": "Camera baixa para comunicar escala e ameaca.",
+        "text": "O grupo identifica riscos, posicoes e consequencias antes do contato.",
+        "choice": "Entrar na missao",
+        "effect": "Inicia combate ou encontro tatico."
+      }
+    ],
+    "act_iv_divided_kingdom": [
+      {
+        "title": "33. Ato IV - Reino Dividido",
+        "camera": "Mesa de guerra, rostos tensos e mapas marcados por velas.",
+        "text": "Ato IV - Reino Dividido. Abrir a crise politica do reino.",
+        "choice": "Tomar decisao",
+        "effect": "Aliancas e reputacoes passam a definir rotas."
+      },
+      {
+        "title": "Complicacao",
+        "camera": "Camera tatica abre o espaco da missao.",
+        "text": "As faccoes cobram uma resposta. A decisao altera recursos, reputacao e proximas rotas.",
+        "choice": "Registrar consequencia",
+        "effect": "Resolve como cena/gestao e volta a mesa."
+      }
+    ],
+    "messengers": [
+      {
+        "title": "34. Mensageiros",
+        "camera": "Plano de estabelecimento mostrando rotas, cobertura e objetivo principal.",
+        "text": "Ato IV - Reino Dividido. Entregar ordens antes que regioes caiam.",
+        "choice": "Preparar formacao",
+        "effect": "Mapa e tempo."
+      },
+      {
+        "title": "Complicacao",
+        "camera": "Camera tatica abre o espaco da missao.",
+        "text": "O grupo identifica riscos, posicoes e consequencias antes do contato.",
+        "choice": "Entrar na missao",
+        "effect": "Inicia combate ou encontro tatico."
+      }
+    ],
+    "dukes_choice": [
+      {
+        "title": "35. A Escolha dos Duques",
+        "camera": "Mesa de guerra, rostos tensos e mapas marcados por velas.",
+        "text": "Ato IV - Reino Dividido. Convencer faccoes com reputacao acumulada.",
+        "choice": "Tomar decisao",
+        "effect": "Aliancas reais."
+      },
+      {
+        "title": "Complicacao",
+        "camera": "Camera tatica abre o espaco da missao.",
+        "text": "As faccoes cobram uma resposta. A decisao altera recursos, reputacao e proximas rotas.",
+        "choice": "Registrar consequencia",
+        "effect": "Resolve como cena/gestao e volta a mesa."
+      }
+    ],
+    "brothers_against_brothers": [
+      {
+        "title": "36. Irmaos contra Irmaos",
+        "camera": "Plano de estabelecimento mostrando rotas, cobertura e objetivo principal.",
+        "text": "Ato IV - Reino Dividido. Vencer sem massacrar aliados quando possivel.",
+        "choice": "Preparar formacao",
+        "effect": "Captura/rendicao."
+      },
+      {
+        "title": "Complicacao",
+        "camera": "Camera tatica abre o espaco da missao.",
+        "text": "O grupo identifica riscos, posicoes e consequencias antes do contato.",
+        "choice": "Entrar na missao",
+        "effect": "Inicia combate ou encontro tatico."
+      }
+    ],
+    "besieged_city": [
+      {
+        "title": "37. A Cidade Cercada",
+        "camera": "Plano de estabelecimento mostrando rotas, cobertura e objetivo principal.",
+        "text": "Ato IV - Reino Dividido. Gerenciar comida, setores e civis durante cerco.",
+        "choice": "Preparar formacao",
+        "effect": "Principado + combate."
+      },
+      {
+        "title": "Complicacao",
+        "camera": "Camera tatica abre o espaco da missao.",
+        "text": "O grupo identifica riscos, posicoes e consequencias antes do contato.",
+        "choice": "Entrar na missao",
+        "effect": "Inicia combate ou encontro tatico."
+      }
+    ],
+    "betrayal": [
+      {
+        "title": "38. Traicao",
+        "camera": "Plano de estabelecimento mostrando rotas, cobertura e objetivo principal.",
+        "text": "Ato IV - Reino Dividido. Revelar traidor conforme relacoes e decisoes.",
+        "choice": "Preparar formacao",
+        "effect": "Lealdade paga consequencia."
+      },
+      {
+        "title": "Complicacao",
+        "camera": "Camera tatica abre o espaco da missao.",
+        "text": "O grupo identifica riscos, posicoes e consequencias antes do contato.",
+        "choice": "Entrar na missao",
+        "effect": "Inicia combate ou encontro tatico."
+      }
+    ],
+    "empty_throne": [
+      {
+        "title": "39. O Trono Vazio",
+        "camera": "Plano de estabelecimento mostrando rotas, cobertura e objetivo principal.",
+        "text": "Ato IV - Reino Dividido. Retomar ou proteger centro de poder.",
+        "choice": "Preparar formacao",
+        "effect": "Varias rotas e objetivos."
+      },
+      {
+        "title": "Complicacao",
+        "camera": "Camera tatica abre o espaco da missao.",
+        "text": "O grupo identifica riscos, posicoes e consequencias antes do contato.",
+        "choice": "Entrar na missao",
+        "effect": "Inicia combate ou encontro tatico."
+      }
+    ],
+    "act_v_aes_divinus": [
+      {
+        "title": "40. Ato V - Aes Divinus",
+        "camera": "Mesa de guerra, rostos tensos e mapas marcados por velas.",
+        "text": "Ato V - Aes Divinus. Abrir a marcha final contra a fonte do poder.",
+        "choice": "Tomar decisao",
+        "effect": "Todas as escolhas anteriores entram em jogo."
+      },
+      {
+        "title": "Complicacao",
+        "camera": "Camera tatica abre o espaco da missao.",
+        "text": "As faccoes cobram uma resposta. A decisao altera recursos, reputacao e proximas rotas.",
+        "choice": "Registrar consequencia",
+        "effect": "Resolve como cena/gestao e volta a mesa."
+      }
+    ],
+    "final_march": [
+      {
+        "title": "41. Marcha Final",
+        "camera": "Mesa de guerra, rostos tensos e mapas marcados por velas.",
+        "text": "Ato V - Aes Divinus. Escolher tropas, companheiros e suprimentos.",
+        "choice": "Tomar decisao",
+        "effect": "Tudo que foi administrado importa."
+      },
+      {
+        "title": "Complicacao",
+        "camera": "Camera tatica abre o espaco da missao.",
+        "text": "As faccoes cobram uma resposta. A decisao altera recursos, reputacao e proximas rotas.",
+        "choice": "Registrar consequencia",
+        "effect": "Resolve como cena/gestao e volta a mesa."
+      }
+    ],
+    "corrupted_land": [
+      {
+        "title": "42. Terra Corrompida",
+        "camera": "Plano de estabelecimento mostrando rotas, cobertura e objetivo principal.",
+        "text": "Ato V - Aes Divinus. Cruzar regiao alterada pelo sobrenatural.",
+        "choice": "Preparar formacao",
+        "effect": "Recursos e Coragem."
+      },
+      {
+        "title": "Complicacao",
+        "camera": "Camera tatica abre o espaco da missao.",
+        "text": "O grupo identifica riscos, posicoes e consequencias antes do contato.",
+        "choice": "Entrar na missao",
+        "effect": "Inicia combate ou encontro tatico."
+      }
+    ],
+    "those_who_remained": [
+      {
+        "title": "43. Os Que Ficaram",
+        "camera": "Plano de estabelecimento mostrando rotas, cobertura e objetivo principal.",
+        "text": "Ato V - Aes Divinus. Encontrar personagens/faccoes conforme escolhas anteriores.",
+        "choice": "Preparar formacao",
+        "effect": "Campanha reativa."
+      },
+      {
+        "title": "Complicacao",
+        "camera": "Camera tatica abre o espaco da missao.",
+        "text": "O grupo identifica riscos, posicoes e consequencias antes do contato.",
+        "choice": "Entrar na missao",
+        "effect": "Inicia combate ou encontro tatico."
+      }
+    ],
+    "abyss_gates": [
+      {
+        "title": "44. Portoes do Abismo",
+        "camera": "Plano de estabelecimento mostrando rotas, cobertura e objetivo principal.",
+        "text": "Ato V - Aes Divinus. Romper tres objetivos em ordem escolhida.",
+        "choice": "Preparar formacao",
+        "effect": "Grande arena multiobjetivo."
+      },
+      {
+        "title": "Complicacao",
+        "camera": "Camera tatica abre o espaco da missao.",
+        "text": "O grupo identifica riscos, posicoes e consequencias antes do contato.",
+        "choice": "Entrar na missao",
+        "effect": "Inicia combate ou encontro tatico."
+      }
+    ],
+    "price_of_the_crown": [
+      {
+        "title": "45. O Preco da Coroa",
+        "camera": "Mesa de guerra, rostos tensos e mapas marcados por velas.",
+        "text": "Ato V - Aes Divinus. Escolha politica/pessoal antes do final.",
+        "choice": "Tomar decisao",
+        "effect": "Define aliados e condicoes."
+      },
+      {
+        "title": "Complicacao",
+        "camera": "Camera tatica abre o espaco da missao.",
+        "text": "As faccoes cobram uma resposta. A decisao altera recursos, reputacao e proximas rotas.",
+        "choice": "Registrar consequencia",
+        "effect": "Resolve como cena/gestao e volta a mesa."
+      }
+    ],
+    "aes_divinus_final": [
+      {
+        "title": "46. Aes Divinus",
+        "camera": "Plano de estabelecimento mostrando rotas, cobertura e objetivo principal.",
+        "text": "Ato V - Aes Divinus. Sobreviver, quebrar mecanismos/ritual e enfrentar entidade.",
+        "choice": "Preparar formacao",
+        "effect": "Combate, medo, lideranca, terreno."
+      },
+      {
+        "title": "Complicacao",
+        "camera": "Camera baixa para comunicar escala e ameaca.",
+        "text": "O grupo identifica riscos, posicoes e consequencias antes do contato.",
+        "choice": "Entrar na missao",
+        "effect": "Inicia combate ou encontro tatico."
+      }
+    ],
+    "last_order": [
+      {
+        "title": "47. Ultima Ordem",
+        "camera": "Mesa de guerra, rostos tensos e mapas marcados por velas.",
+        "text": "Epilogo. Escolher destino do poder/principado.",
+        "choice": "Tomar decisao",
+        "effect": "Define epilogo."
+      },
+      {
+        "title": "Complicacao",
+        "camera": "Camera tatica abre o espaco da missao.",
+        "text": "As faccoes cobram uma resposta. A decisao altera recursos, reputacao e proximas rotas.",
+        "choice": "Registrar consequencia",
+        "effect": "Resolve como cena/gestao e volta a mesa."
+      }
+    ]
+  },
+  "characterOptions": {
+    "origins": [
+      {
+        "id": "abakorum",
+        "label": "Abakorum",
+        "bonus": "Lealdade +5",
+        "description": "Criado perto da coroa e acostumado a peso politico."
+      },
+      {
+        "id": "frontier",
+        "label": "Fronteira",
+        "bonus": "Coragem +5",
+        "description": "Sobreviveu a estradas, emboscadas e inverno duro."
+      },
+      {
+        "id": "monastery",
+        "label": "Mosteiro",
+        "bonus": "Percepcao +2",
+        "description": "Educado entre textos proibidos e pressagios."
+      }
+    ],
+    "bodies": [
+      "Magro",
+      "Definido",
+      "Fit",
+      "Atletico",
+      "Musculoso",
+      "Forte",
+      "Corpulento",
+      "Gordinho"
+    ],
+    "bodyShapes": [
+      "Retangular",
+      "Triangular",
+      "Trapezio",
+      "Oval",
+      "Triangulo invertido"
+    ],
+    "faces": [
+      "Oval",
+      "Hexagonal",
+      "Triangular",
+      "Longo",
+      "Redondo",
+      "Diamante",
+      "Coracao",
+      "Quadrado"
+    ],
+    "eyeShapes": [
+      "Redondos",
+      "Redondos amendoados",
+      "Amendoados",
+      "Amendoados finos",
+      "Caidos",
+      "Caidos escondidos",
+      "Escondidos",
+      "Orientais",
+      "Orientais arredondados"
+    ],
+    "eyeColors": [
+      "Castanho",
+      "Azul",
+      "Verde",
+      "Azul esverdeado",
+      "Verde amarelado",
+      "Ambar",
+      "Avela",
+      "Azul profundo",
+      "Verde escuro",
+      "Avela sardento",
+      "Azul acinzentado",
+      "Verde floresta",
+      "Avela escuro",
+      "Cinza",
+      "Verde primavera",
+      "Azul safira",
+      "Azul gelo",
+      "Onix",
+      "Chocolate",
+      "Violeta ametista"
+    ],
+    "hair": [
+      "Liso 1A",
+      "Liso 1B",
+      "Liso 1C",
+      "Ondulado 2A",
+      "Ondulado 2B",
+      "Ondulado 2C",
+      "Cacheado 3A",
+      "Cacheado 3B",
+      "Cacheado 3C",
+      "Crespo 4A",
+      "Crespo 4B",
+      "Crespo 4C",
+      "Raspado"
+    ],
+    "hairColors": [
+      "Preto profundo",
+      "Preto natural",
+      "Castanho escuro",
+      "Castanho medio",
+      "Castanho claro",
+      "Loiro escuro",
+      "Loiro medio",
+      "Loiro claro",
+      "Loiro muito claro",
+      "Loiro clarissimo",
+      "Acinzentado",
+      "Violeta",
+      "Dourado",
+      "Cobre",
+      "Acaju",
+      "Vermelho",
+      "Marrom"
+    ],
+    "beards": [
+      "Sem barba",
+      "Barba curta",
+      "Cavanhaque",
+      "Barba cheia",
+      "Bigode nobre"
+    ],
+    "palettes": [
+      {
+        "id": "iron_gold",
+        "label": "Ferro e ouro",
+        "primary": "#d0a951",
+        "secondary": "#313536"
+      },
+      {
+        "id": "blood_oath",
+        "label": "Juramento rubro",
+        "primary": "#b84b42",
+        "secondary": "#2a1918"
+      },
+      {
+        "id": "ash_blue",
+        "label": "Cinza azulado",
+        "primary": "#6e8fa4",
+        "secondary": "#232a2d"
+      }
+    ]
+  },
+  "equipmentDesigns": [
+    {
+      "id": "iron_sword_design",
+      "kind": "Arma",
+      "name": "Espada de ferro",
+      "role": "Corpo a corpo equilibrado",
+      "silhouette": "Lamina reta, guarda curta em cruz e pomo circular gasto.",
+      "material": "Ferro escurecido, fio polido e couro marrom no cabo.",
+      "gameplay": "5-10 corte, bom acerto, escala moderada com Forca.",
+      "icon": "sword",
+      "color": "#d0a951"
+    },
+    {
+      "id": "aes_spear_design",
+      "kind": "Arma Aes",
+      "name": "Lanca Aes",
+      "role": "Alcance e perfuracao rara",
+      "silhouette": "Ponta longa em folha, runa vertical e haste reforcada.",
+      "material": "Metal claro com brilho interno violeta e anilhas douradas.",
+      "gameplay": "10-15 perfuracao, reduz Coragem, rara e poderosa.",
+      "icon": "spear",
+      "color": "#8e65c9"
+    },
+    {
+      "id": "war_hammer_design",
+      "kind": "Arma",
+      "name": "Martelo de guerra",
+      "role": "Impacto contra armadura",
+      "silhouette": "Cabeca quadrada pesada com bico curto no verso.",
+      "material": "Aco marcado, madeira escura e rebites largos.",
+      "gameplay": "6-12 impacto, melhor contra protecao rigida.",
+      "icon": "hammer",
+      "color": "#b9b09b"
+    },
+    {
+      "id": "hunter_bow_design",
+      "kind": "Arma",
+      "name": "Arco de batedor",
+      "role": "Distancia, cobertura e altura",
+      "silhouette": "Arco recurvo simples, corda clara e pequenas fitas de identificacao.",
+      "material": "Madeira oleada, couro nas empunhaduras e flechas com penas escuras.",
+      "gameplay": "3-8 perfuracao, alcance alto, usa linha de visao.",
+      "icon": "bow",
+      "color": "#6e8fa4"
+    },
+    {
+      "id": "field_kit_design",
+      "kind": "Ferramenta",
+      "name": "Kit de campo",
+      "role": "Tratamento e acampamento",
+      "silhouette": "Bolsa dobravel com tesoura, agulha, ervas e bandagens.",
+      "material": "Couro encerado, linho cru e frascos pequenos.",
+      "gameplay": "Ajuda a recuperar ferimentos e reduzir penalidades leves.",
+      "icon": "kit",
+      "color": "#547c63"
+    },
+    {
+      "id": "survey_tools_design",
+      "kind": "Ferramenta",
+      "name": "Ferramentas de percepcao",
+      "role": "Investigacao e armadilhas",
+      "silhouette": "Lente, giz, estilete, corda fina e marcador de trilha.",
+      "material": "Bronze fosco, vidro esverdeado e tecido preto.",
+      "gameplay": "Aumenta leitura de pistas, rotas e ameacas ocultas.",
+      "icon": "tools",
+      "color": "#d0a951"
+    }
+  ],
+  "codex": [
+    {
+      "title": "Combate por turnos",
+      "text": "Cada combatente usa 2 PA por turno. Movimento, ataque, postura, item, inspiracao e espera competem pelo mesmo recurso."
+    },
+    {
+      "title": "Posicoes",
+      "text": "Aliados ocupam seis posicoes a esquerda e inimigos seis a direita. Frente protege e aproxima; retaguarda favorece arco, suporte, altura e cobertura."
+    },
+    {
+      "title": "Medo e coragem",
+      "text": "Ameacas, mortes e efeitos sobrenaturais testam Coragem. Estados de medo reduzem iniciativa, acerto, defesa e podem bloquear a acao."
+    },
+    {
+      "title": "Lideranca",
+      "text": "William pode inspirar, manter formacao, reagrupar e impedir recuos. Lealdade decide se ordens perigosas sao aceitas."
+    },
+    {
+      "title": "Principado",
+      "text": "Comida, madeira, ferro, ouro, tropas, infraestrutura e reputacao conectam campanha, missoes e consequencias."
+    }
+  ]
+}
