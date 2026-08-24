@@ -280,11 +280,93 @@ func _show_world() -> void:
 	detail_text.text = "\n".join(lines)
 
 func _show_movement() -> void:
-	detail_title.text = "Exploracao 2D e movimentos"
+	detail_title.text = "Exploracao 3D e sistemas Godot"
 	var structure: Dictionary = data.get("godotGameStructure", {})
 	var lines: Array[String] = [
 		"[b]Estilo Godot[/b]",
 		structure.get("targetStyle", ""),
+		structure.get("note", ""),
+		"",
+		"[b]Loop principal[/b]",
+		" -> ".join(_string_array(data.get("coreGameLoop", []))),
+		"",
+		"[b]Pilares[/b]"
+	]
+	for pillar in data.get("designPillars", []):
+		lines.append("- " + str(pillar))
+	lines.append("")
+	lines.append("[b]Exploracao 3D[/b]")
+	for system in data.get("exploration3DSystems", []):
+		lines.append("- %s: %s" % [system.get("name", ""), system.get("function", "")])
+	lines.append("")
+	lines.append("[b]Combate tatico 3D[/b]")
+	for system in data.get("tactical3DSystems", []):
+		lines.append("- %s: %s" % [system.get("name", ""), system.get("rule", "")])
+	lines.append("")
+	lines.append("[b]Camera 3D[/b]")
+	for profile in data.get("camera3DProfiles", []):
+		lines.append("- %s: %s" % [profile.get("context", ""), profile.get("camera", "")])
+	lines.append("")
+	lines.append("[b]Estados do jogador[/b]")
+	for action in data.get("sideScrollerActions", []):
+		lines.append("- %s / %s / %s: %s" % [
+			action.get("state", ""),
+			action.get("animation", ""),
+			action.get("input", ""),
+			action.get("gameplay", "")
+		])
+	lines.append("")
+	lines.append("[b]Comandos de lideranca[/b]")
+	for command in data.get("leadershipCommands", []):
+		lines.append("- %s: %s" % [command.get("name", ""), command.get("effect", "")])
+	lines.append("")
+	lines.append("[b]IA[/b]")
+	for archetype in data.get("aiArchetypes", []):
+		lines.append("- %s: %s" % [archetype.get("name", ""), archetype.get("behavior", "")])
+	lines.append("")
+	lines.append("[b]HUD[/b]")
+	for hud in data.get("hudSpecs", []):
+		lines.append("- %s: %s" % [hud.get("context", ""), hud.get("layout", "")])
+	lines.append("")
+	lines.append("[b]Arquitetura Godot[/b]")
+	for tech in data.get("godotTechnicalArchitecture", []):
+		lines.append("- %s: %s" % [tech.get("system", ""), tech.get("responsibility", "")])
+	lines.append("")
+	lines.append("[b]Performance e modo seguro[/b]")
+	for profile in data.get("performanceProfiles3D", []):
+		lines.append("- %s: %s" % [profile.get("target", ""), profile.get("graphics", "")])
+	for item in data.get("safeModeRecovery", []):
+		lines.append("- " + str(item))
+	lines.append("")
+	lines.append("[b]Rotas de William[/b]")
+	for route in data.get("williamRoutes", []):
+		lines.append("- %s: %s | Defeitos: %s | Marcas: %s" % [
+			route.get("name", ""),
+			route.get("personality", ""),
+			route.get("flaws", ""),
+			", ".join(_string_array(route.get("markBias", [])))
+		])
+	lines.append("")
+	lines.append("[b]Decisoes de conversao[/b]")
+	for decision in structure.get("conversionDecisions", []):
+		lines.append("- " + str(decision))
+	lines.append("")
+	lines.append("[b]Pastas/cenas planejadas[/b]")
+	for scene_path in structure.get("sceneFolders", []):
+		lines.append("- " + str(scene_path))
+	detail_text.text = "\n".join(lines)
+
+func _string_array(values: Array) -> Array[String]:
+	var result: Array[String] = []
+	for value in values:
+		result.append(str(value))
+	return result
+
+func _show_legacy_movement() -> void:
+	detail_title.text = "Movimentos legados"
+	var structure: Dictionary = data.get("godotGameStructure", {})
+	var lines: Array[String] = [
+		"[b]Referencia anterior convertida[/b]",
 		structure.get("note", ""),
 		"",
 		"[b]Estados do jogador[/b]"
@@ -303,7 +385,7 @@ func _show_movement() -> void:
 			route.get("name", ""),
 			route.get("personality", ""),
 			route.get("flaws", ""),
-			", ".join(route.get("markBias", []))
+			", ".join(_string_array(route.get("markBias", [])))
 		])
 	lines.append("")
 	lines.append("[b]Pastas/cenas planejadas[/b]")

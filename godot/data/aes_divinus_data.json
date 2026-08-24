@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-24T20:41:47.843Z",
+  "generatedAt": "2026-08-24T20:48:47.963Z",
   "game": "Aes Divinus",
   "source": "src/data.js",
   "fearStates": {
@@ -2969,8 +2969,8 @@
     ]
   },
   "godotGameStructure": {
-    "targetStyle": "Action RPG 2D Pixel Art / Side-Scroller integrado ao RPG tatico por turnos ja existente.",
-    "note": "Os documentos anexos sao usados como material de design e lore. A implementacao Godot mantem a campanha tatica e adiciona base para exploracao 2D lateral.",
+    "targetStyle": "RPG tatico 3D single-player por turnos com exploracao em terceira pessoa.",
+    "note": "O GDD mestre V2 define a versao Godot como 3D. A ideia side-scroller anterior fica como decisao convertida: exploracao lateral vira terceira pessoa 3D, combate vira arena tatica 3D.",
     "sceneFolders": [
       "scenes/core/main.tscn",
       "scenes/core/game_manager.tscn",
@@ -3021,16 +3021,25 @@
       "abrir menus"
     ],
     "playerNodePlan": [
-      "AnimatedSprite2D",
-      "CollisionShape2D",
-      "HurtBox",
-      "AttackArea",
-      "InteractionArea",
-      "Camera2D",
-      "Marker2D",
-      "AudioStreamPlayer2D",
+      "CharacterBody3D",
+      "Skeleton3D",
+      "AnimationTree",
+      "CollisionShape3D",
+      "HurtBox3D",
+      "AttackArea3D",
+      "InteractionArea3D",
+      "SpringArm3D",
+      "Camera3D",
+      "AudioStreamPlayer3D",
       "PlayerStats",
-      "AnimationPlayer"
+      "Marker3D"
+    ],
+    "conversionDecisions": [
+      "Side-scroller lateral -> exploracao 3D em terceira pessoa.",
+      "Linhas dianteira/traseira -> posicionamento 3D com zona de controle, cobertura e formacao.",
+      "Rodada longa fixa -> turno abstrato com relogio de missao separado.",
+      "Aparencia fixa -> sistema modular 3D de corpo, rosto, cabelo, barba, roupa, armadura e ferimentos.",
+      "Mapa simples -> mapa regional + mapas locais 3D."
     ]
   },
   "sideScrollerActions": [
@@ -3039,49 +3048,49 @@
       "state": "IDLE",
       "animation": "idle",
       "input": "sem direcao",
-      "gameplay": "Respirar, mover roupa/cabelo e manter arma preparada."
+      "gameplay": "Respirar, mover roupa/cabelo e manter arma preparada em ambiente 3D."
     },
     {
       "id": "walk",
       "state": "WALK",
       "animation": "walk",
-      "input": "A/D",
-      "gameplay": "Movimento moderado e preciso para exploracao."
+      "input": "WASD/analogico",
+      "gameplay": "Movimento preciso para exploracao em terceira pessoa."
     },
     {
       "id": "run",
       "state": "RUN",
       "animation": "run",
-      "input": "Shift + A/D",
-      "gameplay": "Maior velocidade, possivel consumo de stamina e transicao rapida para esquiva/ataque."
+      "input": "Shift/analogico pressionado",
+      "gameplay": "Maior velocidade, possivel consumo de stamina, mais ruido e fadiga."
     },
     {
-      "id": "jump",
-      "state": "JUMP",
-      "animation": "jump",
-      "input": "Espaco",
-      "gameplay": "Inicio do arco de salto, antes de subida/quebra para queda."
+      "id": "sprint",
+      "state": "SPRINT",
+      "animation": "sprint",
+      "input": "corrida longa",
+      "gameplay": "Travessia rapida fora do combate com custo alto de stamina/ruido."
     },
     {
-      "id": "fall",
-      "state": "FALL",
-      "animation": "fall",
-      "input": "gravidade",
-      "gameplay": "Estado quando a velocidade vertical fica positiva fora do chao."
+      "id": "crouch",
+      "state": "CROUCH",
+      "animation": "crouch",
+      "input": "agachar",
+      "gameplay": "Stealth leve, menor ruido e melhor aproximacao por cobertura."
     },
     {
-      "id": "land",
-      "state": "LAND",
-      "animation": "land",
-      "input": "tocar chao",
-      "gameplay": "Recuperacao curta antes de voltar a idle, andar ou atacar."
+      "id": "turn",
+      "state": "TURN",
+      "animation": "turn",
+      "input": "camera/direcao",
+      "gameplay": "Ajuste de orientacao para leitura de linha de visao e flanqueamento."
     },
     {
       "id": "attack",
       "state": "ATTACK",
       "animation": "attack",
       "input": "ataque leve",
-      "gameplay": "Ataque rapido de curta janela."
+      "gameplay": "Ataque rapido ligado a previsao tatica e alvo valido."
     },
     {
       "id": "heavy_attack",
@@ -3101,15 +3110,15 @@
       "id": "parry",
       "state": "PARRY",
       "animation": "parry",
-      "input": "defesa no tempo certo",
-      "gameplay": "Janela curta para quebrar postura inimiga."
+      "input": "reacao defensiva",
+      "gameplay": "Janela tecnica de reacao que pode anular golpe e abrir contra-ataque."
     },
     {
       "id": "dodge",
       "state": "DODGE",
       "animation": "dodge",
       "input": "esquiva",
-      "gameplay": "Reposicionamento rapido com invulnerabilidade curta."
+      "gameplay": "Reposicionamento curto, chance/condicao clara e custo de recurso."
     },
     {
       "id": "hurt",
@@ -3146,6 +3155,305 @@
       "input": "HP zero",
       "gameplay": "Fim da unidade/cena de derrota."
     }
+  ],
+  "designPillars": [
+    "Combate tatico legivel com turno, posicao, alcance, iniciativa, formacao, dano e estados.",
+    "Consequencias persistentes em ferimentos, traumas, lealdade e reputacao.",
+    "Lideranca como mecanica: William influencia coragem, formacao, moral e decisoes.",
+    "Gestao conectada a guerra: recursos do principado afetam missoes e populacao.",
+    "Personagens individualizados por atributos, psicologia, aparencia 3D, equipamento e relacoes.",
+    "Narrativa sistemica emergindo de combate, medo, recursos e escolhas."
+  ],
+  "coreGameLoop": [
+    "Explorar",
+    "Identificar ameaca",
+    "Preparar formacao",
+    "Combater",
+    "Sofrer consequencias",
+    "Administrar recursos",
+    "Decidir",
+    "Proxima missao"
+  ],
+  "exploration3DSystems": [
+    {
+      "id": "perception",
+      "name": "Percepcao",
+      "function": "Revela pistas, inimigos ocultos, armadilhas, rotas e objetos interativos."
+    },
+    {
+      "id": "formation",
+      "name": "Formacao",
+      "function": "Escolhe ordem e espacamento do grupo antes do contato."
+    },
+    {
+      "id": "light_stealth",
+      "name": "Stealth leve",
+      "function": "Linha de visao e ruido podem evitar combate ou iniciar encontro em vantagem."
+    },
+    {
+      "id": "interaction",
+      "name": "Interacao",
+      "function": "Portas, alavancas, baus, rastros, corpos, NPCs, recursos e elementos de cenario."
+    },
+    {
+      "id": "camp",
+      "name": "Acampamento",
+      "function": "Recuperacao limitada, conversa, troca de equipamento e tratamento de traumas."
+    },
+    {
+      "id": "maps",
+      "name": "Mapa regional/local",
+      "function": "Deslocamento estrategico e leitura de mapas 3D de exploracao."
+    }
+  ],
+  "tactical3DSystems": [
+    {
+      "id": "turn",
+      "name": "Turno",
+      "rule": "Unidade abstrata de acao; nao representa literalmente 15 minutos."
+    },
+    {
+      "id": "mission_clock",
+      "name": "Relogio da missao",
+      "rule": "Avanca separado dos turnos e pode disparar reforcos, fuga, morte de civis ou fracasso."
+    },
+    {
+      "id": "actions",
+      "name": "Acoes",
+      "rule": "Movimento, ataque, habilidade, item, postura, interacao, inspiracao e espera."
+    },
+    {
+      "id": "action_points",
+      "name": "Pontos de Acao",
+      "rule": "Base 2 PA por turno; habilidades podem consumir 1 ou 2."
+    },
+    {
+      "id": "reaction",
+      "name": "Reacao",
+      "rule": "Parry, ataque de oportunidade, guarda ou habilidade especifica."
+    },
+    {
+      "id": "height",
+      "name": "Altura",
+      "rule": "Terreno elevado melhora visao e pode beneficiar ataques a distancia."
+    },
+    {
+      "id": "cover",
+      "name": "Cobertura",
+      "rule": "Reduz chance de acerto de projeteis; pode ser parcial ou total."
+    },
+    {
+      "id": "flanking",
+      "name": "Flanqueamento",
+      "rule": "Ataques laterais/traseiros recebem bonus e podem reduzir defesa."
+    },
+    {
+      "id": "zone_control",
+      "name": "Zona de controle",
+      "rule": "Presenca de unidades limita rotas e pune movimentacao descuidada."
+    }
+  ],
+  "camera3DProfiles": [
+    {
+      "context": "Exploracao",
+      "camera": "Terceira pessoa atras de William com ajuste de distancia."
+    },
+    {
+      "context": "Combate",
+      "camera": "Camera tatica 3D orbitavel com foco automatico no personagem ativo."
+    },
+    {
+      "context": "Ataque especial",
+      "camera": "Zoom curto cinematografico sem esconder informacoes essenciais."
+    },
+    {
+      "context": "Chefe",
+      "camera": "Enquadramento mais aberto para comunicar escala."
+    },
+    {
+      "context": "Dialogo",
+      "camera": "Planos medios/close-ups com camera dirigida."
+    },
+    {
+      "context": "Gestao",
+      "camera": "Mapa, mesa estrategica ou interface dedicada."
+    }
+  ],
+  "leadershipCommands": [
+    {
+      "id": "attack_leader",
+      "name": "Lider de Ataque",
+      "effect": "Aumenta temporariamente Coragem, iniciativa e dano."
+    },
+    {
+      "id": "hold_formation",
+      "name": "Mantenham a Formacao",
+      "effect": "Reduz chance de fuga e melhora defesa coletiva."
+    },
+    {
+      "id": "no_retreat",
+      "name": "Nao Recuem",
+      "effect": "Impede retirada involuntaria por alguns turnos."
+    },
+    {
+      "id": "regroup",
+      "name": "Reagrupar",
+      "effect": "Remove parte das penalidades de medo e aproxima aliados."
+    },
+    {
+      "id": "protect_wounded",
+      "name": "Protejam os Feridos",
+      "effect": "Altera prioridade de IA e concede bonus defensivo."
+    }
+  ],
+  "traumaSystem": [
+    {
+      "type": "Fisico",
+      "examples": [
+        "Perna ferida",
+        "Braco ferido",
+        "Olho ferido",
+        "Cicatriz"
+      ],
+      "consequence": "Penalidades, animacoes e aparencia persistentes."
+    },
+    {
+      "type": "Psicologico",
+      "examples": [
+        "Medo de monstros",
+        "Medo de fogo",
+        "Pesadelos",
+        "Perda de confianca"
+      ],
+      "consequence": "Testes adicionais e dialogos especificos."
+    },
+    {
+      "type": "Social",
+      "examples": [
+        "Humilhacao",
+        "Desobediencia",
+        "Ressentimento"
+      ],
+      "consequence": "Altera lealdade e relacoes."
+    }
+  ],
+  "aiArchetypes": [
+    {
+      "id": "aggressor",
+      "name": "Agressor",
+      "behavior": "Busca alvo vulneravel, flanqueia e pressiona HP/coragem."
+    },
+    {
+      "id": "archer",
+      "name": "Atirador",
+      "behavior": "Procura linha de visao, altura e cobertura antes de atacar."
+    },
+    {
+      "id": "defender",
+      "name": "Defensor",
+      "behavior": "Protege objetivo, feridos ou unidade chave e mantem zona de controle."
+    },
+    {
+      "id": "creature",
+      "name": "Criatura",
+      "behavior": "Usa medo, investida, terreno e ataques imprevisiveis."
+    },
+    {
+      "id": "boss",
+      "name": "Chefe",
+      "behavior": "Altera regras, objetivos, terreno e fases em vez de apenas ter HP alto."
+    },
+    {
+      "id": "ally",
+      "name": "Aliado",
+      "behavior": "Obedece ordens conforme lealdade, coragem, relacao e risco percebido."
+    }
+  ],
+  "hudSpecs": [
+    {
+      "context": "Exploracao",
+      "layout": "HUD discreto com vida, estado, objetivo e interacoes."
+    },
+    {
+      "context": "Combate",
+      "layout": "Topo com iniciativa e relogio; canto esquerdo com retratos; base com PA, acoes, previsao de dano, movimento, cobertura, estados e log."
+    },
+    {
+      "context": "Personagem",
+      "layout": "Atributos, equipamento, traumas, coragem, lealdade e relacoes."
+    },
+    {
+      "context": "Acessibilidade",
+      "layout": "Icones com texto, escala de UI, contraste, remapeamento e codificacao que nao depende so de cor."
+    }
+  ],
+  "godotTechnicalArchitecture": [
+    {
+      "system": "GameState",
+      "responsibility": "Estado global da campanha, flags, progresso e versao de save."
+    },
+    {
+      "system": "TurnManager",
+      "responsibility": "Fila de iniciativa, PA, turnos, reacoes e encerramento de rodada."
+    },
+    {
+      "system": "CombatSystem",
+      "responsibility": "Acerto, dano, tipos de dano, cobertura, altura, flanqueamento e objetivos."
+    },
+    {
+      "system": "FearSystem",
+      "responsibility": "Medo, coragem, colapso psicologico, bravura e recuperacao."
+    },
+    {
+      "system": "CompanionSystem",
+      "responsibility": "Lealdade, relacoes, traumas, conflitos e obediencia."
+    },
+    {
+      "system": "ReputationSystem",
+      "responsibility": "Valores por faccao e gatilhos narrativos."
+    },
+    {
+      "system": "PrincipalitySystem",
+      "responsibility": "Recursos, producao, consumo e infraestrutura."
+    },
+    {
+      "system": "MissionSystem",
+      "responsibility": "Objetivos, relogio, falhas, reforcos e recompensas."
+    },
+    {
+      "system": "SaveSystem",
+      "responsibility": "Persistencia local, backups, migradores e recuperacao."
+    },
+    {
+      "system": "EquipmentSystem",
+      "responsibility": "Inventario, equipamento, peso, resistencias e representacao 3D."
+    }
+  ],
+  "performanceProfiles3D": [
+    {
+      "target": "Desktop alto",
+      "graphics": "Sombras e materiais completos, maior distancia de visao, LOD alto e particulas completas."
+    },
+    {
+      "target": "Desktop medio",
+      "graphics": "Sombras moderadas, LOD medio, particulas limitadas e culling agressivo."
+    },
+    {
+      "target": "Mobile",
+      "graphics": "Texturas menores, LODs baixos, efeitos reduzidos, UI touch e 30 FPS opcional."
+    },
+    {
+      "target": "Modo seguro",
+      "graphics": "Qualidade minima, sem efeitos pesados, foco em save/load e leitura de UI."
+    }
+  ],
+  "safeModeRecovery": [
+    "Logs de erros essenciais para cena, combate, IA, save, audio e plataforma.",
+    "Backup antes de sobrescrever save.",
+    "Migradores por versao de schema.",
+    "Fallback de IA quando navmesh, alvo ou caminho falhar.",
+    "Separar logica autoritativa de animacoes para evitar desync visual/logico.",
+    "Opcoes de reduzir sombras, particulas, draw calls e distancia em caso de baixo desempenho."
   ],
   "williamRoutes": [
     {
@@ -4463,8 +4771,14 @@
       "rotas de origem/personalidade de William",
       "campanha com prologo e 38 missoes principais",
       "cenas narrativas de missao",
-      "estrutura de exploracao 2D side-scroller para Godot",
-      "estados de movimento e acao do jogador",
+      "estrutura de exploracao 3D em terceira pessoa para Godot",
+      "estados de movimento e acao do jogador em 3D",
+      "combate tatico 3D por turnos",
+      "camera 3D por contexto",
+      "IA de inimigos e aliados por arquetipo",
+      "HUD de exploracao, combate, personagem e acessibilidade",
+      "arquitetura tecnica Godot orientada a sistemas",
+      "perfis de performance 3D e modo seguro",
       "combate tatico por turnos",
       "posicoes, PA, acerto, dano, cobertura e alcance",
       "medo, coragem e lideranca",

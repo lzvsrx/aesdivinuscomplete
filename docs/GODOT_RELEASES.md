@@ -1,6 +1,6 @@
 # Releases Godot
 
-A partir da versao `v0.1.6`, os artefatos publicados no GitHub Releases sao baseados no projeto Godot em `godot/`.
+A partir da versao `v0.1.6`, os artefatos publicados no GitHub Releases sao baseados no projeto Godot em `godot/`. O GDD mestre V2 define a direcao oficial como RPG tatico 3D single-player por turnos, com exploracao em terceira pessoa e combate em arenas taticas 3D.
 
 ## Artefatos por plataforma
 

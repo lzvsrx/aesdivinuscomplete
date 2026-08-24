@@ -41,7 +41,7 @@ O que ja foi adaptado:
 - campanha completa, cenas, armas, armaduras, medo/coragem, lojas, codex e opcoes de personagem exportadas para Godot;
 - manifesto de paridade em `godot/data/aes_divinus_data.json` para garantir que nada feito na versao web/desktop/mobile fique fora da versao Godot;
 - paineis internos no Godot para Arsenal, Audio, Seguranca, Builds, Codex e Completo;
-- paineis internos no Godot para Mundo e Movimento, integrando os PDFs/textos de design, lore, personagens, ducados, marcas, bestiario e base 2D side-scroller;
+- paineis internos no Godot para Mundo e Movimento, integrando os PDFs/textos de design, lore, personagens, ducados, marcas, bestiario e a direcao 3D do GDD mestre;
 - catalogo de audio exportado para Godot e arquivos `.mp3` copiados para `godot/assets/audio`;
 - save local em `user://aes_divinus_save.json`;
 - deteccao simples de hardware por CPU para qualidade inicial;
@@ -110,7 +110,7 @@ Observacao: este computador tem Godot instalado, mas nao tinha compilador C++, S
 - **Pedras dos itens:** armas, armaduras e ferramentas possuem pedra associada para lore, gameplay e direcao de modelagem.
 - **Codex:** explicacao interna dos sistemas principais.
 - **Mundo/lore dos anexos:** William/Hilda, Ethan, Donovan, Albert, Elric, Bezalel, personagens civis, ducados Legrand/Michael/Armand/Roberts, Aes Divinus, anjos, marcas e bestiario foram integrados aos dados exportados para Godot.
-- **Exploracao 2D Godot:** estrutura Action RPG 2D Pixel Art / Side-Scroller com estados `IDLE`, `WALK`, `RUN`, `JUMP`, `FALL`, `LAND`, `ATTACK`, `HEAVY_ATTACK`, `BLOCK`, `PARRY`, `DODGE`, `HURT`, `STUN`, `INTERACT`, `SPECIAL` e `DEAD`.
+- **Exploracao 3D Godot:** RPG tatico 3D single-player por turnos com terceira pessoa na exploracao, camera tatica/cinematografica no combate, formacao, stealth leve, acampamento, mapas locais/regionais e estados `IDLE`, `WALK`, `RUN`, `SPRINT`, `CROUCH`, `TURN`, `ATTACK`, `HEAVY_ATTACK`, `BLOCK`, `PARRY`, `DODGE`, `HURT`, `STUN`, `INTERACT`, `SPECIAL` e `DEAD`.
 - **Save completo:** todo progresso e salvo no IndexedDB com autosave.
 - **Autosave GitHub obrigatorio no fluxo:** criar conta, logar, criar personagem e salvar progresso disparam envio para o repositorio configurado, usando token pessoal fornecido pelo dono do jogo.
 - **Deteccao de hardware:** o jogo identifica CPU logica, memoria aproximada, GPU/WebGL, tela, pixel ratio, touch e preferencia de movimento reduzido para aplicar qualidade automaticamente.
