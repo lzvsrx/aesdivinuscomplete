@@ -12,10 +12,20 @@ var detail_title: Label
 var detail_text: RichTextLabel
 var resource_text: RichTextLabel
 var log_text: RichTextLabel
+var account_name: LineEdit
+var account_email: LineEdit
 var character_name: LineEdit
+var pronoun: OptionButton
+var origin: OptionButton
 var eye_color: OptionButton
+var eye_shape: OptionButton
+var face_shape: OptionButton
+var hair_style: OptionButton
 var hair_color: OptionButton
+var beard: OptionButton
 var body_type: OptionButton
+var body_shape: OptionButton
+var palette: OptionButton
 var weapon: OptionButton
 var avatar: Control
 
@@ -39,18 +49,54 @@ func _load_data() -> Dictionary:
 
 func _default_state() -> Dictionary:
 	return {
-		"account": {"name": "Jogador", "email": "local@aesdivinus", "guest": true},
+		"mode": "auth",
+		"account": {"name": "Jogador", "email": "local@aesdivinus", "guest": true, "remember": true},
+		"compliance": {"termsAccepted": true, "privacyAccepted": true, "ageConfirmed": true, "policyVersion": "2026-08-24"},
 		"player_character": {
 			"name": "William",
+			"pronoun": "Livre",
+			"origin": "abakorum",
+			"originLabel": "Abakorum",
+			"face": "Oval",
+			"eyeShape": "Amendoados",
 			"eyeColor": "Castanho",
+			"hair": "Ondulado 2B",
 			"hairColor": "Preto natural",
+			"beard": "Barba curta",
 			"body": "Atletico",
-			"weapon": "iron_sword"
+			"bodyShape": "Trapezio",
+			"palette": "iron_gold",
+			"weapon": "iron_sword",
+			"createdAt": Time.get_datetime_string_from_system(true)
 		},
 		"campaign": {"day": 1, "completed": [], "journal": ["Campanha Godot iniciada."]},
 		"principality": data.get("initialPrincipality", {}),
-		"inventory": {"owned": ["iron_sword", "bow", "spear", "cloth", "light", "medium"], "gold": 72},
-		"settings": {"quality": "medium", "autosave": true}
+		"economy": {"currency": data.get("gameCurrency", {}).get("id", "aes_crowns"), "balance": 72, "transactions": []},
+		"inventory": {
+			"owned": ["iron_sword", "bow", "spear", "cloth", "light", "medium", "heavy", "field_kit", "survey_tools"],
+			"equipped": {
+				"william": {"weapon": "iron_sword", "armor": "medium", "tool": "field_kit"},
+				"ethan": {"weapon": "bow", "armor": "light", "tool": "survey_tools"},
+				"albert": {"weapon": "spear", "armor": "heavy", "tool": "field_kit"}
+			}
+		},
+		"audio": {"enabled": true, "masterVolume": 0.7},
+		"githubSync": {"enabled": false, "owner": "lzvsrx", "repo": "aesdivinuscomplete", "branch": "main", "path": "saves/aes-divinus-save.json", "systemPath": "saves/systems"},
+		"settings": {
+			"quality": "medium",
+			"autosave": true,
+			"fontScale": 1.0,
+			"interfaceScale": 1.0,
+			"screenWidth": "auto",
+			"layoutDensity": "normal",
+			"contrast": "normal",
+			"colorBlindMode": "off",
+			"motion": "auto",
+			"textSpacing": "normal",
+			"combatSpeed": 1.0,
+			"targetSize": "auto",
+			"privacyMode": false
+		}
 	}
 
 func _build_ui() -> void:
@@ -71,7 +117,13 @@ func _build_ui() -> void:
 	var left := _panel(320)
 	root.add_child(left)
 	left.add_child(_title("Aes Divinus"))
-	left.add_child(_subtitle("Godot/C++ migration build"))
+	left.add_child(_subtitle("Godot 3D single-player completo"))
+	var logo := TextureRect.new()
+	logo.texture = load("res://assets/aes-divinus-logo.png")
+	logo.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
+	logo.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	logo.custom_minimum_size = Vector2(280, 88)
+	left.add_child(logo)
 	mission_list = ItemList.new()
 	mission_list.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	mission_list.item_selected.connect(func(index: int) -> void:
@@ -100,10 +152,14 @@ func _build_ui() -> void:
 	var system_actions := HBoxContainer.new()
 	system_actions.add_theme_constant_override("separation", 8)
 	center.add_child(system_actions)
+	system_actions.add_child(_button("Conta", _show_account))
+	system_actions.add_child(_button("Titulo", _show_title))
+	system_actions.add_child(_button("Telas", _show_screens))
 	system_actions.add_child(_button("Arsenal", _show_inventory))
 	system_actions.add_child(_button("Audio", _show_audio))
 	system_actions.add_child(_button("Mundo", _show_world))
 	system_actions.add_child(_button("Movimento", _show_movement))
+	system_actions.add_child(_button("Config", _show_settings))
 	system_actions.add_child(_button("Seguranca", _show_security))
 	system_actions.add_child(_button("Builds", _show_builds))
 	system_actions.add_child(_button("Codex", _show_codex))
@@ -115,6 +171,22 @@ func _build_ui() -> void:
 
 	var right := _panel(360)
 	root.add_child(right)
+	right.add_child(_title("Conta"))
+	account_name = LineEdit.new()
+	account_name.placeholder_text = "Nome da conta"
+	account_name.text_changed.connect(func(value: String) -> void:
+		state["account"]["name"] = value
+		_autosave("Cadastro atualizado.")
+	)
+	right.add_child(account_name)
+	account_email = LineEdit.new()
+	account_email.placeholder_text = "Email"
+	account_email.virtual_keyboard_type = LineEdit.KEYBOARD_TYPE_EMAIL_ADDRESS
+	account_email.text_changed.connect(func(value: String) -> void:
+		state["account"]["email"] = value
+		_autosave("Login lembrado no dispositivo.")
+	)
+	right.add_child(account_email)
 	right.add_child(_title("Personagem"))
 	character_name = LineEdit.new()
 	character_name.placeholder_text = "Nome"
@@ -124,13 +196,29 @@ func _build_ui() -> void:
 		_autosave("Nome do personagem atualizado.")
 	)
 	right.add_child(character_name)
-	eye_color = _option("Olhos", data.get("characterOptions", {}).get("eyeColors", []), _character_option_changed)
-	hair_color = _option("Cabelo", data.get("characterOptions", {}).get("hairColors", []), _character_option_changed)
+	pronoun = _option("Tratamento", ["Livre", "Ele", "Ela", "Neutro"], _character_option_changed)
+	origin = _option("Origem", _origin_labels(), _character_option_changed)
 	body_type = _option("Corpo", data.get("characterOptions", {}).get("bodies", []), _character_option_changed)
-	weapon = _option("Arma", ["iron_sword", "spear", "bow"], _character_option_changed)
-	right.add_child(eye_color)
-	right.add_child(hair_color)
+	body_shape = _option("Forma do corpo", data.get("characterOptions", {}).get("bodyShapes", []), _character_option_changed)
+	face_shape = _option("Rosto", data.get("characterOptions", {}).get("faces", []), _character_option_changed)
+	eye_shape = _option("Formato dos olhos", data.get("characterOptions", {}).get("eyeShapes", []), _character_option_changed)
+	eye_color = _option("Olhos", data.get("characterOptions", {}).get("eyeColors", []), _character_option_changed)
+	hair_style = _option("Cabelo", data.get("characterOptions", {}).get("hair", []), _character_option_changed)
+	hair_color = _option("Cabelo", data.get("characterOptions", {}).get("hairColors", []), _character_option_changed)
+	beard = _option("Barba", data.get("characterOptions", {}).get("beards", []), _character_option_changed)
+	palette = _option("Paleta", _palette_labels(), _character_option_changed)
+	weapon = _option("Arma", _weapon_ids(), _character_option_changed)
+	right.add_child(pronoun)
+	right.add_child(origin)
 	right.add_child(body_type)
+	right.add_child(body_shape)
+	right.add_child(face_shape)
+	right.add_child(eye_shape)
+	right.add_child(eye_color)
+	right.add_child(hair_style)
+	right.add_child(hair_color)
+	right.add_child(beard)
+	right.add_child(palette)
 	right.add_child(weapon)
 	avatar = AvatarPreview.new()
 	avatar.custom_minimum_size = Vector2(320, 260)
@@ -161,6 +249,25 @@ func _subtitle(text: String) -> Label:
 	label.add_theme_color_override("font_color", Color(0.72, 0.72, 0.68))
 	return label
 
+func _origin_labels() -> Array[String]:
+	var result: Array[String] = []
+	for item in data.get("characterOptions", {}).get("origins", []):
+		result.append("%s - %s" % [item.get("label", ""), item.get("bonus", "")])
+	return result
+
+func _palette_labels() -> Array[String]:
+	var result: Array[String] = []
+	for item in data.get("characterOptions", {}).get("palettes", []):
+		result.append(str(item.get("label", item.get("id", ""))))
+	return result
+
+func _weapon_ids() -> Array[String]:
+	var result: Array[String] = []
+	for item_id in data.get("itemCatalog", {}).keys():
+		if data["itemCatalog"][item_id].get("type", "") == "weapon":
+			result.append(str(item_id))
+	return result
+
 func _button(text: String, callback: Callable) -> Button:
 	var button := Button.new()
 	button.text = text
@@ -182,18 +289,32 @@ func _refresh_all() -> void:
 		mission_list.add_item("%s. %s" % [mission.get("order", 0), mission.get("title", "")])
 	if missions.size() > 0:
 		mission_list.select(clamp(selected_mission_index, 0, missions.size() - 1))
+	_refresh_account_controls()
 	_refresh_character_controls()
 	_refresh_mission_detail()
 	_refresh_resources()
 	_refresh_log()
 	_refresh_avatar()
 
+func _refresh_account_controls() -> void:
+	var account: Dictionary = state.get("account", {})
+	account_name.text = account.get("name", "Jogador")
+	account_email.text = account.get("email", "local@aesdivinus")
+
 func _refresh_character_controls() -> void:
 	var pc: Dictionary = state.get("player_character", {})
 	character_name.text = pc.get("name", "William")
-	_select_option_text(eye_color, pc.get("eyeColor", "Castanho"))
-	_select_option_text(hair_color, pc.get("hairColor", "Preto natural"))
+	_select_option_text(pronoun, pc.get("pronoun", "Livre"))
+	_select_option_prefix(origin, pc.get("originLabel", "Abakorum"))
 	_select_option_text(body_type, pc.get("body", "Atletico"))
+	_select_option_text(body_shape, pc.get("bodyShape", "Trapezio"))
+	_select_option_text(face_shape, pc.get("face", "Oval"))
+	_select_option_text(eye_shape, pc.get("eyeShape", "Amendoados"))
+	_select_option_text(eye_color, pc.get("eyeColor", "Castanho"))
+	_select_option_text(hair_style, pc.get("hair", "Ondulado 2B"))
+	_select_option_text(hair_color, pc.get("hairColor", "Preto natural"))
+	_select_option_text(beard, pc.get("beard", "Barba curta"))
+	_select_option_prefix(palette, _palette_label_from_id(pc.get("palette", "iron_gold")))
 	_select_option_text(weapon, pc.get("weapon", "iron_sword"))
 
 func _select_option_text(option: OptionButton, value: String) -> void:
@@ -201,6 +322,18 @@ func _select_option_text(option: OptionButton, value: String) -> void:
 		if option.get_item_text(index) == value:
 			option.select(index)
 			return
+
+func _select_option_prefix(option: OptionButton, value: String) -> void:
+	for index in option.item_count:
+		if option.get_item_text(index).begins_with(value):
+			option.select(index)
+			return
+
+func _palette_label_from_id(id: String) -> String:
+	for item in data.get("characterOptions", {}).get("palettes", []):
+		if item.get("id", "") == id:
+			return str(item.get("label", id))
+	return id
 
 func _refresh_mission_detail() -> void:
 	var mission := _selected_mission()
@@ -216,8 +349,10 @@ func _refresh_mission_detail() -> void:
 func _show_inventory() -> void:
 	detail_title.text = "Arsenal, lojas e economia"
 	var currency: Dictionary = data.get("gameCurrency", {})
+	var economy: Dictionary = state.get("economy", {})
 	var lines: Array[String] = [
 		"[b]%s (%s)[/b]" % [currency.get("name", "Coroas de Aes"), currency.get("symbol", "CA")],
+		"Saldo atual: %s %s" % [economy.get("balance", 0), currency.get("symbol", "CA")],
 		"Moeda interna singleplayer para compra, venda e progressao.",
 		"",
 		"[b]Lojas[/b]"
@@ -235,6 +370,88 @@ func _show_inventory() -> void:
 			item.get("price", 0),
 			item.get("sellPrice", 0)
 		])
+	lines.append("")
+	lines.append("[b]Inventario salvo[/b]")
+	for item_id in state.get("inventory", {}).get("owned", []):
+		var item: Dictionary = data.get("itemCatalog", {}).get(item_id, {})
+		lines.append("- %s / %s / Pedra: %s" % [item.get("name", item_id), item.get("type", ""), item.get("stone", "")])
+	detail_text.text = "\n".join(lines)
+
+func _show_account() -> void:
+	detail_title.text = "Conta, login lembrado e autosave"
+	var account: Dictionary = state.get("account", {})
+	var sync: Dictionary = state.get("githubSync", {})
+	detail_text.text = "\n".join([
+		"[b]Perfil local[/b]",
+		"Nome: %s" % account.get("name", "Jogador"),
+		"Email: %s" % account.get("email", "local@aesdivinus"),
+		"Lembrar neste dispositivo: %s" % ("sim" if account.get("remember", true) else "nao"),
+		"",
+		"[b]Autosave obrigatorio[/b]",
+		"- conta, login e personagem chamam autosave automaticamente",
+		"- estado fica em user://aes_divinus_save.json",
+		"- senha nao e salva no estado do Godot",
+		"",
+		"[b]GitHub preparado[/b]",
+		"Repositorio: %s/%s" % [sync.get("owner", ""), sync.get("repo", "")],
+		"Branch: %s" % sync.get("branch", "main"),
+		"Caminho: %s" % sync.get("path", "saves/aes-divinus-save.json"),
+		"Status: configuracao local sem token embutido"
+	])
+
+func _show_title() -> void:
+	detail_title.text = "Tela de titulo"
+	var pc: Dictionary = state.get("player_character", {})
+	var lines: Array[String] = [
+		"[b]Aes Divinus[/b]",
+		"%s carrega a coroa antes de merecer o reino." % pc.get("name", "William"),
+		"",
+		"[b]Menu principal migrado[/b]",
+		"- Continuar campanha",
+		"- Iniciar prologo na Floresta de Sangue",
+		"- Abrir codex",
+		"- Ajustar configuracoes",
+		"- Conferir build e plataformas"
+	]
+	detail_text.text = "\n".join(lines)
+
+func _show_screens() -> void:
+	detail_title.text = "Telas e fluxo sequencial"
+	var lines: Array[String] = ["[b]Cada tela tem template proprio e ordem de fluxo[/b]"]
+	var index := 1
+	for screen in data.get("screenFlow", []):
+		lines.append("%02d. %s / %s: %s" % [
+			index,
+			screen.get("label", ""),
+			screen.get("template", ""),
+			screen.get("purpose", "")
+		])
+		index += 1
+	detail_text.text = "\n".join(lines)
+
+func _show_settings() -> void:
+	detail_title.text = "Configuracoes e hardware"
+	var settings: Dictionary = state.get("settings", {})
+	var quality: Dictionary = data.get("qualityPresets", {}).get(settings.get("quality", "medium"), {})
+	var lines: Array[String] = [
+		"[b]Perfil aplicado automaticamente[/b]",
+		"Qualidade: %s" % quality.get("label", settings.get("quality", "medium")),
+		"FPS alvo: %s" % quality.get("fps", 60),
+		"Escala de render: %s" % quality.get("renderScale", 1.0),
+		"Textura: %s" % quality.get("texture", "alta"),
+		"Sombras: %s" % ("ativas" if quality.get("shadows", false) else "reduzidas"),
+		"",
+		"[b]Acessibilidade e tela[/b]",
+		"Fonte: %s | Interface: %s" % [settings.get("fontScale", 1.0), settings.get("interfaceScale", 1.0)],
+		"Tamanho de tela: %s | Densidade: %s" % [settings.get("screenWidth", "auto"), settings.get("layoutDensity", "normal")],
+		"Contraste: %s | Cores: %s" % [settings.get("contrast", "normal"), settings.get("colorBlindMode", "off")],
+		"Movimento: %s | Botoes: %s" % [settings.get("motion", "auto"), settings.get("targetSize", "auto")],
+		"",
+		"[b]Perfis disponiveis[/b]"
+	]
+	for key in data.get("qualityPresets", {}).keys():
+		var preset_data: Dictionary = data["qualityPresets"][key]
+		lines.append("- %s: %s FPS, textura %s" % [preset_data.get("label", key), preset_data.get("fps", 60), preset_data.get("texture", "")])
 	detail_text.text = "\n".join(lines)
 
 func _show_audio() -> void:
@@ -480,12 +697,34 @@ func _refresh_avatar() -> void:
 	avatar.queue_redraw()
 
 func _character_option_changed(_index: int) -> void:
-	state["player_character"]["eyeColor"] = eye_color.get_item_text(eye_color.selected)
-	state["player_character"]["hairColor"] = hair_color.get_item_text(hair_color.selected)
+	state["player_character"]["pronoun"] = pronoun.get_item_text(pronoun.selected)
+	var origin_text := origin.get_item_text(origin.selected)
+	state["player_character"]["originLabel"] = origin_text.split(" - ")[0]
+	state["player_character"]["origin"] = _origin_id_from_label(state["player_character"]["originLabel"])
 	state["player_character"]["body"] = body_type.get_item_text(body_type.selected)
+	state["player_character"]["bodyShape"] = body_shape.get_item_text(body_shape.selected)
+	state["player_character"]["face"] = face_shape.get_item_text(face_shape.selected)
+	state["player_character"]["eyeShape"] = eye_shape.get_item_text(eye_shape.selected)
+	state["player_character"]["eyeColor"] = eye_color.get_item_text(eye_color.selected)
+	state["player_character"]["hair"] = hair_style.get_item_text(hair_style.selected)
+	state["player_character"]["hairColor"] = hair_color.get_item_text(hair_color.selected)
+	state["player_character"]["beard"] = beard.get_item_text(beard.selected)
+	state["player_character"]["palette"] = _palette_id_from_label(palette.get_item_text(palette.selected))
 	state["player_character"]["weapon"] = weapon.get_item_text(weapon.selected)
 	_refresh_avatar()
 	_autosave("Personagem atualizado.")
+
+func _origin_id_from_label(label: String) -> String:
+	for item in data.get("characterOptions", {}).get("origins", []):
+		if item.get("label", "") == label:
+			return str(item.get("id", label))
+	return label
+
+func _palette_id_from_label(label: String) -> String:
+	for item in data.get("characterOptions", {}).get("palettes", []):
+		if item.get("label", "") == label:
+			return str(item.get("id", label))
+	return label
 
 func _selected_mission() -> Dictionary:
 	var missions: Array = data.get("missions", [])
@@ -566,23 +805,29 @@ class AvatarPreview:
 		draw_rect(rect.grow(-1), Color(0.82, 0.66, 0.32, 0.25), false, 1.0)
 		var center := Vector2(size.x * 0.5, size.y * 0.58)
 		var body_width := _body_width(character_data.get("body", "Atletico"))
+		var body_shape := str(character_data.get("bodyShape", "Trapezio"))
+		var face := str(character_data.get("face", "Oval"))
+		var eye_shape := str(character_data.get("eyeShape", "Amendoados"))
+		var hair_style := str(character_data.get("hair", "Ondulado 2B"))
+		var beard := str(character_data.get("beard", "Barba curta"))
+		var palette := _palette(character_data.get("palette", "iron_gold"))
 		var hair := _hair_color(character_data.get("hairColor", "Preto natural"))
 		var eye := _eye_color(character_data.get("eyeColor", "Castanho"))
 		var weapon: String = str(character_data.get("weapon", "iron_sword"))
 
 		draw_ellipse(Vector2(center.x, center.y + 93), 80, 11, Color(0, 0, 0, 0.35))
-		draw_polygon([Vector2(center.x - 76, 86), Vector2(center.x + 76, 86), Vector2(center.x + 92, 230), Vector2(center.x - 92, 230)], [Color(0.05, 0.055, 0.055), Color(0.12, 0.12, 0.13), Color(0.02, 0.02, 0.02), Color(0.08, 0.08, 0.09)])
-		draw_rounded_rect(Rect2(center.x - body_width * 0.5, 104, body_width, 118), 28, Color(0.24, 0.25, 0.24))
-		draw_rounded_rect(Rect2(center.x - body_width * 0.36, 116, body_width * 0.72, 88), 12, Color(0.72, 0.61, 0.34))
+		draw_polygon([Vector2(center.x - 86, 86), Vector2(center.x + 86, 86), Vector2(center.x + 104, 230), Vector2(center.x - 104, 230)], [palette.secondary.darkened(0.35), palette.secondary, Color(0.02, 0.02, 0.02), palette.secondary.darkened(0.15)])
+		_draw_body(center, body_width, body_shape, palette)
 		draw_rect(Rect2(center.x - body_width * 0.34, 176, body_width * 0.68, 9), Color(0.10, 0.08, 0.06))
-		draw_circle(Vector2(center.x, 151), 10, eye)
+		draw_circle(Vector2(center.x, 151), 11, palette.primary)
 		draw_rounded_rect(Rect2(center.x - 76, 112, 28, 102), 14, Color(0.18, 0.18, 0.18))
 		draw_rounded_rect(Rect2(center.x + 48, 112, 28, 102), 14, Color(0.18, 0.18, 0.18))
-		draw_rounded_rect(Rect2(center.x - 36, 40, 72, 78), 36, Color(0.72, 0.53, 0.38))
-		draw_arc(Vector2(center.x, 76), 39, PI, TAU, 24, hair, 14)
-		draw_circle(Vector2(center.x - 14, 78), 5, eye)
-		draw_circle(Vector2(center.x + 14, 78), 5, eye)
+		_draw_head(center, face)
+		_draw_hair(center, hair, hair_style)
+		_draw_eye(Vector2(center.x - 14, 78), eye, eye_shape, -1)
+		_draw_eye(Vector2(center.x + 14, 78), eye, eye_shape, 1)
 		draw_line(Vector2(center.x - 12, 102), Vector2(center.x + 12, 102), Color(0.18, 0.08, 0.06), 2)
+		_draw_beard(center, hair, beard)
 		if weapon == "bow":
 			draw_arc(Vector2(center.x + 88, 150), 58, -PI / 2, PI / 2, 28, Color(0.48, 0.28, 0.12), 5)
 			draw_line(Vector2(center.x + 88, 92), Vector2(center.x + 88, 208), Color(0.88, 0.82, 0.62), 2)
@@ -593,6 +838,87 @@ class AvatarPreview:
 			draw_line(Vector2(center.x + 88, 72), Vector2(center.x + 88, 226), Color(0.45, 0.27, 0.16), 8)
 			draw_polygon([Vector2(center.x + 88, 24), Vector2(center.x + 103, 88), Vector2(center.x + 88, 126), Vector2(center.x + 73, 88)], [Color(0.9, 0.9, 0.84), Color(0.58, 0.62, 0.62), Color(0.25, 0.28, 0.28), Color(0.78, 0.78, 0.72)])
 		draw_string(ThemeDB.fallback_font, Vector2(18, size.y - 18), character_data.get("name", "William"), HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(0.82, 0.66, 0.32))
+
+	func _draw_body(center: Vector2, body_width: float, body_shape: String, palette: Dictionary) -> void:
+		var shoulder := body_width * 0.5
+		var waist := body_width * 0.42
+		if body_shape == "Triangular":
+			shoulder = body_width * 0.34
+			waist = body_width * 0.55
+		elif body_shape == "Oval":
+			shoulder = body_width * 0.48
+			waist = body_width * 0.55
+		elif body_shape == "Retangular":
+			shoulder = body_width * 0.45
+			waist = body_width * 0.45
+		elif body_shape == "Triangulo invertido":
+			shoulder = body_width * 0.58
+			waist = body_width * 0.32
+		draw_polygon([
+			Vector2(center.x - shoulder, 104),
+			Vector2(center.x + shoulder, 104),
+			Vector2(center.x + waist, 222),
+			Vector2(center.x - waist, 222)
+		], [Color(0.22, 0.23, 0.23), Color(0.30, 0.31, 0.31), Color(0.12, 0.12, 0.12), Color(0.18, 0.19, 0.19)])
+		draw_polygon([
+			Vector2(center.x - shoulder * 0.68, 118),
+			Vector2(center.x + shoulder * 0.68, 118),
+			Vector2(center.x + waist * 0.55, 204),
+			Vector2(center.x - waist * 0.55, 204)
+		], [palette.primary.lightened(0.08), palette.primary, palette.primary.darkened(0.32), palette.primary.darkened(0.12)])
+
+	func _draw_head(center: Vector2, face: String) -> void:
+		var head_rect := Rect2(center.x - 36, 40, 72, 78)
+		if face == "Longo":
+			head_rect = Rect2(center.x - 32, 34, 64, 88)
+		elif face == "Redondo":
+			head_rect = Rect2(center.x - 39, 43, 78, 74)
+		elif face in ["Quadrado", "Hexagonal"]:
+			head_rect = Rect2(center.x - 38, 43, 76, 74)
+		draw_rounded_rect(head_rect, 34, Color(0.72, 0.53, 0.38))
+		if face in ["Triangular", "Coracao", "Diamante"]:
+			draw_polygon([Vector2(center.x - 35, 72), Vector2(center.x + 35, 72), Vector2(center.x, 121)], [Color(0.72, 0.53, 0.38), Color(0.64, 0.45, 0.32), Color(0.58, 0.39, 0.28)])
+
+	func _draw_hair(center: Vector2, hair: Color, hair_style: String) -> void:
+		if hair_style == "Raspado":
+			draw_arc(Vector2(center.x, 69), 36, PI, TAU, 24, hair, 7)
+			return
+		var thickness := 14
+		if hair_style.contains("Cacheado") or hair_style.contains("Crespo"):
+			thickness = 24
+		elif hair_style.contains("Liso"):
+			thickness = 18
+		draw_arc(Vector2(center.x, 76), 39, PI, TAU, 24, hair, thickness)
+		if hair_style.contains("Cacheado") or hair_style.contains("Crespo"):
+			for offset in [-25, -10, 8, 23]:
+				draw_circle(Vector2(center.x + offset, 51 + abs(offset) * 0.18), 9, hair.lightened(0.05))
+
+	func _draw_eye(pos: Vector2, eye: Color, eye_shape: String, side: int) -> void:
+		var width := 13.0
+		var height := 6.0
+		if eye_shape.contains("Redondos"):
+			height = 9.0
+		if eye_shape.contains("finos") or eye_shape.contains("Orientais"):
+			height = 4.0
+			width = 15.0
+		var tilt := 0.0
+		if eye_shape.contains("Caidos"):
+			tilt = side * 3.0
+		draw_line(Vector2(pos.x - width * 0.5, pos.y + tilt), Vector2(pos.x + width * 0.5, pos.y - tilt), Color(0.03, 0.03, 0.03), 3)
+		draw_circle(pos, height * 0.65, eye)
+		draw_circle(pos, height * 0.25, Color(0.02, 0.02, 0.02))
+
+	func _draw_beard(center: Vector2, hair: Color, beard: String) -> void:
+		if beard == "Sem barba":
+			return
+		if beard == "Bigode nobre":
+			draw_line(Vector2(center.x - 17, 95), Vector2(center.x + 17, 95), hair, 5)
+		elif beard == "Cavanhaque":
+			draw_rect(Rect2(center.x - 10, 104, 20, 16), hair, true)
+		elif beard == "Barba cheia":
+			draw_arc(Vector2(center.x, 91), 30, 0.1, PI - 0.1, 24, hair, 13)
+		else:
+			draw_arc(Vector2(center.x, 94), 24, 0.2, PI - 0.2, 18, hair, 7)
 
 	func _body_width(body: String) -> float:
 		if body == "Magro":
@@ -634,6 +960,13 @@ class AvatarPreview:
 		if key.contains("castanho") or key.contains("marrom"):
 			return Color(0.31, 0.18, 0.10)
 		return Color(0.03, 0.03, 0.03)
+
+	func _palette(id: String) -> Dictionary:
+		if id == "blood_oath":
+			return {"primary": Color(0.72, 0.30, 0.26), "secondary": Color(0.16, 0.10, 0.09)}
+		if id == "ash_blue":
+			return {"primary": Color(0.43, 0.56, 0.64), "secondary": Color(0.14, 0.17, 0.18)}
+		return {"primary": Color(0.82, 0.66, 0.32), "secondary": Color(0.19, 0.21, 0.21)}
 
 	func draw_rounded_rect(r: Rect2, radius: float, color: Color) -> void:
 		draw_rect(r, color, true)

@@ -9,6 +9,12 @@
     "forwardAxis": "-Z",
     "upAxis": "Y"
   },
+  "modularCharacterSystem": {
+    "runtimeSlots": ["body", "body_shape", "face", "eye_shape", "eye_color", "hair_style", "hair_color", "beard", "palette", "armor", "weapon", "tool", "divine_stone"],
+    "godotPreview": "godot/scripts/main.gd AvatarPreview draws every character creation field used by the web version.",
+    "modelLibrary": "godot/scripts/model_library.gd creates proxy 3D bodies, eyes, hair, beard/face cues, armor trim, stones, weapons, tools and creature silhouettes.",
+    "finalPipeline": "Replace proxy MeshInstance3D parts with signed-off .glb files that keep the same socket and slot names."
+  },
   "palette": {
     "iron": "#313536",
     "gold": "#d0a951",
@@ -28,6 +34,14 @@
       "body": "Atletico",
       "armor": "medium",
       "weapon": "iron_sword",
+      "face": "Oval",
+      "eyeShape": "Amendoados",
+      "eyeColor": "Dourado",
+      "hair": "Ondulado 2B",
+      "hairColor": "Preto natural",
+      "beard": "Barba curta",
+      "bodyShape": "Trapezio",
+      "palette": "iron_gold",
       "silhouette": "ombros firmes, capa curta, armadura de malha media e postura de comando",
       "materials": ["mail_dark_iron", "royal_gold_trim", "worn_leather", "hematite_stone"],
       "animationRig": "humanoid_modular"
@@ -40,6 +54,14 @@
       "body": "Definido",
       "armor": "light",
       "weapon": "bow",
+      "face": "Longo",
+      "eyeShape": "Amendoados finos",
+      "eyeColor": "Azul acinzentado",
+      "hair": "Liso 1C",
+      "hairColor": "Castanho escuro",
+      "beard": "Sem barba",
+      "bodyShape": "Retangular",
+      "palette": "ash_blue",
       "silhouette": "perfil leve, ombro estreito, arco recurvo e capa dividida para movimento",
       "materials": ["light_leather", "ash_blue_cloth", "cedar_eye_stone"],
       "animationRig": "humanoid_modular"
@@ -52,6 +74,14 @@
       "body": "Forte",
       "armor": "heavy",
       "weapon": "spear",
+      "face": "Quadrado",
+      "eyeShape": "Redondos amendoados",
+      "eyeColor": "Verde escuro",
+      "hair": "Raspado",
+      "hairColor": "Preto profundo",
+      "beard": "Barba cheia",
+      "bodyShape": "Triangulo invertido",
+      "palette": "iron_gold",
       "silhouette": "tronco largo, brigantina pesada, lanca longa e base defensiva",
       "materials": ["heavy_brigandine", "black_onyx_stone", "dark_leather"],
       "animationRig": "humanoid_modular"

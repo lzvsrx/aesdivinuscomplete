@@ -31,6 +31,7 @@ import {
   POSITION_TRAITS,
   SAFE_MODE_RECOVERY,
   SIDE_SCROLLER_ACTIONS,
+  SCREEN_FLOW,
   SHOP_AREAS,
   TACTICAL_3D_SYSTEMS,
   TRAUMA_SYSTEM,
@@ -39,6 +40,7 @@ import {
   WORLD_LORE
 } from "../src/data.js";
 import { AUDIO_CATALOG } from "../src/audio.js";
+import { QUALITY_PRESETS } from "../src/hardware.js";
 
 const root = process.cwd();
 const outDir = path.join(root, "godot", "data");
@@ -86,6 +88,8 @@ await fs.writeFile(
       historicalTimeline: HISTORICAL_TIMELINE,
       characterOptions: CHARACTER_OPTIONS,
       equipmentDesigns: EQUIPMENT_DESIGNS,
+      screenFlow: SCREEN_FLOW,
+      qualityPresets: QUALITY_PRESETS,
       audioCatalog: AUDIO_CATALOG,
       codex: CODEX,
       parityManifest: {

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-24T20:52:33.717Z",
+  "generatedAt": "2026-08-24T21:07:50.435Z",
   "game": "Aes Divinus",
   "source": "src/data.js",
   "fearStates": {
@@ -4413,6 +4413,120 @@
       "color": "#d0a951"
     }
   ],
+  "screenFlow": [
+    {
+      "id": "auth",
+      "label": "Conta",
+      "template": "portal",
+      "purpose": "Entrar, cadastrar e criar um save local no banco."
+    },
+    {
+      "id": "character_create",
+      "label": "Personagem",
+      "template": "atelier",
+      "purpose": "Definir identidade, origem, corpo, rosto, cabelo, barba, equipamento inicial e estilo."
+    },
+    {
+      "id": "title",
+      "label": "Titulo",
+      "template": "main-menu",
+      "purpose": "Continuar campanha, iniciar prologo, revisar codex e opcoes."
+    },
+    {
+      "id": "mission_scene",
+      "label": "Cena",
+      "template": "cinematic",
+      "purpose": "Apresentar contexto, objetivo, escolhas e consequencias antes da missao."
+    },
+    {
+      "id": "briefing",
+      "label": "Mesa",
+      "template": "war-table",
+      "purpose": "Escolher missoes, preparar grupo e administrar o principado."
+    },
+    {
+      "id": "combat",
+      "label": "Combate",
+      "template": "tactical",
+      "purpose": "Resolver encontros por turnos, posicoes, PA, medo e lideranca."
+    },
+    {
+      "id": "inventory",
+      "label": "Inventario",
+      "template": "forge",
+      "purpose": "Inspecionar armas, ferramentas, armaduras e seus papeis no jogo."
+    },
+    {
+      "id": "settings",
+      "label": "Hardware",
+      "template": "diagnostic",
+      "purpose": "Detectar dispositivo, escolher qualidade e adaptar UI/desempenho."
+    },
+    {
+      "id": "principality",
+      "label": "Principado",
+      "template": "domain",
+      "purpose": "Gerenciar recursos, reputacoes, obras e tropas."
+    },
+    {
+      "id": "codex",
+      "label": "Codex",
+      "template": "archive",
+      "purpose": "Consultar sistemas, faccoes, criaturas, dano, defesa e status."
+    }
+  ],
+  "qualityPresets": {
+    "very_low": {
+      "label": "Muito baixo",
+      "fps": 30,
+      "renderScale": 0.72,
+      "particles": false,
+      "shadows": false,
+      "animation": "reduzida",
+      "texture": "baixa",
+      "uiEffects": false
+    },
+    "low": {
+      "label": "Baixo",
+      "fps": 30,
+      "renderScale": 0.85,
+      "particles": false,
+      "shadows": false,
+      "animation": "normal",
+      "texture": "media",
+      "uiEffects": false
+    },
+    "medium": {
+      "label": "Medio",
+      "fps": 60,
+      "renderScale": 1,
+      "particles": true,
+      "shadows": false,
+      "animation": "normal",
+      "texture": "alta",
+      "uiEffects": true
+    },
+    "high": {
+      "label": "Alto",
+      "fps": 60,
+      "renderScale": 1,
+      "particles": true,
+      "shadows": true,
+      "animation": "alta",
+      "texture": "alta",
+      "uiEffects": true
+    },
+    "ultra": {
+      "label": "Ultra",
+      "fps": 60,
+      "renderScale": 1,
+      "particles": true,
+      "shadows": true,
+      "animation": "alta",
+      "texture": "ultra",
+      "uiEffects": true
+    }
+  },
   "audioCatalog": {
     "ui_click": {
       "label": "Clique de interface",
