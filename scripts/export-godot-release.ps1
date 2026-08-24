@@ -1,5 +1,5 @@
 param(
-  [string] $Version = "0.1.6"
+  [string] $Version = "0.1.7"
 )
 
 $ErrorActionPreference = "Stop"
@@ -28,7 +28,7 @@ function Export-Godot {
   if ($LASTEXITCODE -ne 0) {
     throw "Falha ao exportar $Preset"
   }
-  for ($i = 0; $i -lt 20 -and -not (Test-Path $fullOutput); $i++) {
+  for ($i = 0; $i -lt 120 -and -not (Test-Path $fullOutput); $i++) {
     Start-Sleep -Milliseconds 500
   }
   if (-not (Test-Path $fullOutput)) {
