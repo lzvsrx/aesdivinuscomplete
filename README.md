@@ -21,6 +21,7 @@ Esta versao e uma implementacao jogavel web/desktop/mobile do documento de desig
 - **Criacao de personagem:** nome, tratamento, origem, corpo, rosto, cabelo, barba, paleta e arma inicial.
 - **Fluxo sequencial de telas:** conta, personagem, titulo, cenas, mesa de missoes, combate, arsenal, principado e codex.
 - **Cenas de missao:** cenas narrativas antes das missoes, com camera, escolha e efeito.
+- **Campanha em 38 entradas:** cinco atos e epilogo com conselho, investigacao, resgate, escolta, companheiros, defesa, politica, chefes, cerco, dungeon, escolhas criticas e final multifasico.
 - **Combate tatico por turnos:** unidades com 2 PA, iniciativa, fila de turno, movimento, ataque, guarda, inspiracao, flecha de fogo e espera.
 - **Sistema de posicoes:** seis posicoes por lado, linha de frente, retaguarda, altura, cobertura e alcance.
 - **Acerto e dano separados:** chance de acerto por agilidade, defesa, cobertura, distancia e estado; dano por arma, forca, armadura e mitigacao.
@@ -45,6 +46,19 @@ Esta versao e uma implementacao jogavel web/desktop/mobile do documento de desig
 8. **Principado** - recursos, reputacao e politicas.
 9. **Hardware** - diagnostico do dispositivo e configuracao grafica.
 10. **Codex** - sistemas e referencias do jogo.
+
+## Campanha
+
+A campanha foi adequada para a estrutura completa solicitada:
+
+- Ato I - O Peso da Coroa: `Conselho de Pedra` ate `Chefe - O Arauto da Mata`.
+- Ato II - Fronteiras em Chamas: `Ponte de Cinzas` ate `O General sem Rosto`.
+- Ato III - Vozes Sob a Terra: `Mosteiro Abandonado` ate `A Boca da Terra`.
+- Ato IV - Reino Dividido: `Mensageiros` ate `O Trono Vazio`.
+- Ato V - Aes Divinus: `Marcha Final` ate `Aes Divinus`.
+- Epilogo: `Ultima Ordem`.
+
+Cada missao possui numero, ato, tipo, objetivo, impacto, objetivos opcionais, cenas previas, recompensas e comportamento de gestao ou combate. As missoes de chefe usam ameaca sobrenatural e medo; missoes de defesa usam reforcos e pressao por rodadas; cenas politicas e escolhas criticas modificam recursos e reputacao.
 
 ## Configuracao automatica por hardware
 
@@ -141,6 +155,7 @@ Cobertura atual:
 - eventos no banco
 - cadastro/criacao de personagem
 - cenas entrando em combate
+- campanha completa com 38 missoes numeradas
 - deteccao de hardware e aplicacao de perfil grafico
 
 ## Build web

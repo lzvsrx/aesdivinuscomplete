@@ -1,10 +1,11 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { AesDivinusGame, Rng } from "../src/game.js";
+import { AesDivinusGame, MISSIONS, Rng } from "../src/game.js";
 import { MemoryGameDatabase } from "../src/database.js";
 
 test("starts a tactical battle with initiative and 2 AP", () => {
   const game = new AesDivinusGame({ rng: new Rng(1), database: new MemoryGameDatabase() });
+  game.state.selectedMissionId = "gate_at_dusk";
   game.startSelectedMission();
   const battle = game.state.battle;
   assert.equal(game.state.mode, "combat");
@@ -15,6 +16,7 @@ test("starts a tactical battle with initiative and 2 AP", () => {
 
 test("attack separates hit chance from damage and spends AP", () => {
   const game = new AesDivinusGame({ rng: new Rng(2), database: new MemoryGameDatabase() });
+  game.state.selectedMissionId = "gate_at_dusk";
   game.startSelectedMission();
   const william = game.unit("william");
   game.state.battle.activeId = "william";
@@ -30,6 +32,7 @@ test("attack separates hit chance from damage and spends AP", () => {
 
 test("fear tests can apply a psychological state", () => {
   const game = new AesDivinusGame({ rng: new Rng(3), database: new MemoryGameDatabase() });
+  game.state.selectedMissionId = "herald_of_the_woods";
   game.startSelectedMission();
   const ethan = game.unit("ethan");
   const state = game.testFear(ethan, 35, "ameaca sobrenatural");
@@ -59,6 +62,7 @@ test("save and load preserve campaign state", async () => {
 test("database records gameplay events", async () => {
   const database = new MemoryGameDatabase();
   const game = new AesDivinusGame({ rng: new Rng(7), database });
+  game.state.selectedMissionId = "gate_at_dusk";
   game.startSelectedMission();
   await game.save();
   assert.ok(await database.countEvents() >= 2);
@@ -88,11 +92,21 @@ test("account and character creation move through the screen flow", () => {
 
 test("mission scenes advance into combat", () => {
   const game = new AesDivinusGame({ rng: new Rng(9), database: new MemoryGameDatabase() });
-  game.startStoryScene("blood_forest");
+  game.startStoryScene("gate_at_dusk");
   assert.equal(game.state.mode, "mission_scene");
-  game.advanceScene();
   game.advanceScene();
   game.advanceScene();
   assert.equal(game.state.mode, "combat");
   assert.ok(game.state.battle);
+});
+
+test("campaign includes the requested 38 mission structure", () => {
+  assert.equal(MISSIONS.length, 38);
+  assert.deepEqual(
+    MISSIONS.map((mission) => mission.order),
+    Array.from({ length: 38 }, (_, index) => index + 1)
+  );
+  assert.equal(MISSIONS[0].title, "Conselho de Pedra");
+  assert.equal(MISSIONS[37].title, "Ultima Ordem");
+  assert.ok(MISSIONS.every((mission) => mission.objective && mission.impact && mission.type));
 });

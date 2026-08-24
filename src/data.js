@@ -162,35 +162,128 @@ export const ENEMY_SETS = {
   ]
 };
 
-export const MISSIONS = [
-  {
-    id: "blood_forest",
-    act: "Prologo",
-    title: "Floresta de Sangue",
-    type: "Exploracao + combate",
-    objective: "Sobreviva ao contato, mantenha William vivo e elimine a ameaca humana.",
-    optional: ["Vencer antes da rodada 6", "Nenhum aliado cair", "Usar inspiracao em um aliado abalado"],
-    clockLimit: 8,
-    enemySet: "forest_first_contact",
-    eventRounds: {
-      2: "Os inimigos reorganizam a linha e procuram cobertura.",
-      3: "Um uivo distante testa a coragem do grupo.",
-      4: "Reforcos barbaros se aproximam pela estrada.",
-      6: "A pressao psicologica aumenta; a retirada fica mais dificil."
-    },
-    rewards: { food: 12, wood: 6, iron: 4, gold: 9, troops: 2, reputation: { companions: 5, infantry: 4, peasants: 2 } }
-  },
-  {
-    id: "empty_granaries",
-    act: "Ato I",
-    title: "Celeiros Vazios",
-    type: "Investigacao/gestao",
-    objective: "Escolha uma prioridade do principado e prepare a proxima expedicao.",
-    optional: ["Preservar comida", "Evitar queda de reputacao camponesa"],
-    managementOnly: true,
-    rewards: { food: 8, wood: 2, iron: 0, gold: 6, troops: 1, reputation: { peasants: 5, kingdom: 1 } }
-  }
+const MISSION_ROWS = [
+  [1, "Ato I - O Peso da Coroa", "stone_council", "Conselho de Pedra", "Cena de conselho", "Escolher prioridade: comida, defesa ou investigacao.", "Abre rotas e modifica recursos."],
+  [2, "Ato I - O Peso da Coroa", "empty_granaries", "Celeiros Vazios", "Investigacao/gestao", "Descobrir causa da falta de comida.", "Pode revelar roubo, corrupcao ou ataque."],
+  [3, "Ato I - O Peso da Coroa", "village_without_bells", "A Vila sem Sinos", "Exploracao + resgate", "Encontrar moradores e retirar sobreviventes.", "Primeiro mapa semiaberto."],
+  [4, "Ato I - O Peso da Coroa", "wolves_on_the_road", "Lobos na Estrada", "Escolta", "Levar carregamento ate o principado.", "Emboscadas e rotas alternativas."],
+  [5, "Ato I - O Peso da Coroa", "blood_debt", "Divida de Sangue", "Missao de companheiro", "Resolver conflito ligado a Donovan/Ethan/Albert.", "Lealdade individual."],
+  [6, "Ato I - O Peso da Coroa", "gate_at_dusk", "O Portao ao Anoitecer", "Defesa", "Defender entrada por varias rodadas.", "Barricadas, arqueiros e reforcos."],
+  [7, "Ato I - O Peso da Coroa", "prince_trial", "Julgamento do Principe", "Cena politica", "Julgar responsaveis e consequencias.", "Reputacao por faccao."],
+  [8, "Ato I - O Peso da Coroa", "herald_of_the_woods", "Chefe - O Arauto da Mata", "Cacada/chefe", "Eliminar ou capturar criatura/comandante.", "Chefe com medo e terreno."],
+  [9, "Ato II - Fronteiras em Chamas", "act_ii_burning_frontiers", "Ato II - Fronteiras em Chamas", "Ato", "Abrir o arco de guerra nas fronteiras.", "Novas rotas, pressoes militares e ameacas coordenadas."],
+  [10, "Ato II - Fronteiras em Chamas", "ash_bridge", "Ponte de Cinzas", "Defesa/controle", "Segurar ponte ou destrui-la.", "Muda rota estrategica."],
+  [11, "Ato II - Fronteiras em Chamas", "lost_caravan", "Caravana Perdida", "Busca/resgate", "Localizar caravana antes do tempo acabar.", "Recursos e sobreviventes."],
+  [12, "Ato II - Fronteiras em Chamas", "broken_fortress", "Fortaleza Partida", "Assalto", "Abrir portao por infiltracao, sabotagem ou ataque frontal.", "Tres rotas."],
+  [13, "Ato II - Fronteiras em Chamas", "field_of_the_dead", "Campo dos Mortos", "Investigacao", "Descobrir por que corpos desapareceram.", "Sobrenatural cresce."],
+  [14, "Ato II - Fronteiras em Chamas", "blood_between_banners", "Sangue entre Estandartes", "Diplomacia armada", "Evitar ou vencer conflito entre aliados.", "Reputacao politica."],
+  [15, "Ato II - Fronteiras em Chamas", "siege", "Cerco", "Grande batalha", "Defender setores, comandar tropas e escolher onde intervir.", "Perdas persistentes."],
+  [16, "Ato II - Fronteiras em Chamas", "faceless_general", "O General sem Rosto", "Chefe", "Quebrar comando inimigo e sobreviver as fases.", "Inimigos coordenados + medo."],
+  [17, "Ato III - Vozes Sob a Terra", "act_iii_voices_below", "Ato III - Vozes Sob a Terra", "Ato", "Iniciar a descida as ruinas e segredos proibidos.", "O horror e os traumas passam a alterar missoes."],
+  [18, "Ato III - Vozes Sob a Terra", "abandoned_monastery", "Mosteiro Abandonado", "Exploracao/horror", "Encontrar registros e sobreviver ao local.", "Puzzles leves e medo."],
+  [19, "Ato III - Vozes Sob a Terra", "under_the_crypt", "Sob a Cripta", "Dungeon tatica", "Abrir caminho por ruinas subterraneas.", "Luz, armadilhas e rotas."],
+  [20, "Ato III - Vozes Sob a Terra", "forbidden_name", "O Nome Proibido", "Investigacao", "Reconstruir ritual por documentos e testemunhos.", "Lore e decisao."],
+  [21, "Ato III - Vozes Sob a Terra", "echoes_of_fear", "Ecos de Medo", "Missao psicologica", "Enfrentar manifestacao ligada aos traumas do grupo.", "Traumas alteram encontros."],
+  [22, "Ato III - Vozes Sob a Terra", "artifact", "O Artefato", "Escolha critica", "Destruir, guardar ou usar objeto sobrenatural.", "Campanha ramifica."],
+  [23, "Ato III - Vozes Sob a Terra", "mouth_of_the_earth", "A Boca da Terra", "Chefe", "Impedir ritual e selar passagem.", "Objetivo por fases, nao apenas HP."],
+  [24, "Ato IV - Reino Dividido", "act_iv_divided_kingdom", "Ato IV - Reino Dividido", "Ato", "Abrir a crise politica do reino.", "Aliancas e reputacoes passam a definir rotas."],
+  [25, "Ato IV - Reino Dividido", "messengers", "Mensageiros", "Corrida estrategica", "Entregar ordens antes que regioes caiam.", "Mapa e tempo."],
+  [26, "Ato IV - Reino Dividido", "dukes_choice", "A Escolha dos Duques", "Politica", "Convencer faccoes com reputacao acumulada.", "Aliancas reais."],
+  [27, "Ato IV - Reino Dividido", "brothers_against_brothers", "Irmaos contra Irmaos", "Batalha moral", "Vencer sem massacrar aliados quando possivel.", "Captura/rendicao."],
+  [28, "Ato IV - Reino Dividido", "besieged_city", "A Cidade Cercada", "Mapa grande", "Gerenciar comida, setores e civis durante cerco.", "Principado + combate."],
+  [29, "Ato IV - Reino Dividido", "betrayal", "Traicao", "Cena/combate variavel", "Revelar traidor conforme relacoes e decisoes.", "Lealdade paga consequencia."],
+  [30, "Ato IV - Reino Dividido", "empty_throne", "O Trono Vazio", "Assalto politico", "Retomar ou proteger centro de poder.", "Varias rotas e objetivos."],
+  [31, "Ato V - Aes Divinus", "act_v_aes_divinus", "Ato V - Aes Divinus", "Ato", "Abrir a marcha final contra a fonte do poder.", "Todas as escolhas anteriores entram em jogo."],
+  [32, "Ato V - Aes Divinus", "final_march", "Marcha Final", "Preparacao", "Escolher tropas, companheiros e suprimentos.", "Tudo que foi administrado importa."],
+  [33, "Ato V - Aes Divinus", "corrupted_land", "Terra Corrompida", "Travessia", "Cruzar regiao alterada pelo sobrenatural.", "Recursos e Coragem."],
+  [34, "Ato V - Aes Divinus", "those_who_remained", "Os Que Ficaram", "Missao de consequencias", "Encontrar personagens/faccoes conforme escolhas anteriores.", "Campanha reativa."],
+  [35, "Ato V - Aes Divinus", "abyss_gates", "Portoes do Abismo", "Assalto", "Romper tres objetivos em ordem escolhida.", "Grande arena multiobjetivo."],
+  [36, "Ato V - Aes Divinus", "price_of_the_crown", "O Preco da Coroa", "Cena decisiva", "Escolha politica/pessoal antes do final.", "Define aliados e condicoes."],
+  [37, "Ato V - Aes Divinus", "aes_divinus_final", "Aes Divinus", "Chefe final multifasico", "Sobreviver, quebrar mecanismos/ritual e enfrentar entidade.", "Combate, medo, lideranca, terreno."],
+  [38, "Epilogo", "last_order", "Ultima Ordem", "Decisao final", "Escolher destino do poder/principado.", "Define epilogo."]
 ];
+
+const MANAGEMENT_TYPES = ["Ato", "Cena de conselho", "Investigacao/gestao", "Cena politica", "Politica", "Escolha critica", "Preparacao", "Cena decisiva", "Decisao final"];
+const BOSS_TYPES = ["Cacada/chefe", "Chefe", "Chefe final multifasico"];
+const SUPERNATURAL_TYPES = ["Exploracao/horror", "Dungeon tatica", "Missao psicologica", "Travessia", "Chefe final multifasico"];
+
+function missionEnemySet(type) {
+  if (BOSS_TYPES.includes(type) || SUPERNATURAL_TYPES.includes(type)) return "manifestation";
+  return "forest_first_contact";
+}
+
+function missionRewards(order, type) {
+  const boss = BOSS_TYPES.includes(type);
+  const political = MANAGEMENT_TYPES.includes(type);
+  return {
+    food: political ? 5 : 3,
+    wood: order % 3 === 0 ? 5 : 2,
+    iron: boss ? 6 : 2,
+    gold: 4 + Math.ceil(order / 8),
+    troops: type.includes("Defesa") || type.includes("batalha") || type.includes("Assalto") ? 2 : 1,
+    reputation: {
+      companions: type.includes("companheiro") || type.includes("psicologica") ? 5 : 2,
+      infantry: type.includes("Defesa") || type.includes("batalha") || type.includes("Assalto") ? 5 : 2,
+      knights: type.includes("Politica") || type.includes("Duques") ? 5 : 1,
+      peasants: type.includes("resgate") || type.includes("Celeiros") || type.includes("Cidade") ? 5 : 2,
+      nobles: political ? 4 : 1,
+      kingdom: boss || order >= 30 ? 5 : 2
+    }
+  };
+}
+
+function missionOptionals(type, impact) {
+  if (type === "Ato") return ["Revisar diario", "Preparar recursos", "Consultar reputacoes"];
+  if (BOSS_TYPES.includes(type)) return ["Vencer sem William cair", "Usar lideranca contra medo", "Explorar terreno da arena"];
+  if (type.includes("resgate")) return ["Salvar sobreviventes", "Evitar baixas", "Concluir antes do prazo"];
+  if (type.includes("Defesa") || type.includes("Cerco")) return ["Manter setor chave", "Preservar tropas", "Usar barricadas"];
+  if (type.includes("Politica") || type.includes("conselho")) return ["Ouvir faccoes", "Evitar ruptura", impact];
+  return ["Investigar pista opcional", "Preservar recursos", impact];
+}
+
+function missionEvents(type) {
+  if (BOSS_TYPES.includes(type)) {
+    return {
+      2: "O chefe muda de postura e pressiona a coragem do grupo.",
+      3: "O terreno se torna mais perigoso.",
+      5: "Uma fase nova comeca; o objetivo muda.",
+      7: "A ameaca sobrenatural chega ao limite."
+    };
+  }
+  if (type.includes("Defesa") || type.includes("Cerco")) {
+    return {
+      2: "Inimigos testam a linha de frente.",
+      3: "Arqueiros buscam angulo alto.",
+      4: "Reforcos se aproximam.",
+      6: "O setor principal fica sob pressao."
+    };
+  }
+  return {
+    2: "O campo muda e novas rotas ficam evidentes.",
+    3: "A pressao da missao aumenta.",
+    4: "Um evento inesperado altera prioridades.",
+    6: "O relogio de missao entra em fase critica."
+  };
+}
+
+export const MISSIONS = MISSION_ROWS.map(([order, act, id, title, type, objective, impact]) => {
+  const managementOnly = MANAGEMENT_TYPES.includes(type);
+  return {
+    order,
+    id,
+    act,
+    title,
+    type,
+    objective,
+    impact,
+    optional: missionOptionals(type, impact),
+    managementOnly,
+    clockLimit: BOSS_TYPES.includes(type) ? 10 : type.includes("Corrida") || type.includes("Busca") ? 6 : 8,
+    enemySet: managementOnly ? null : missionEnemySet(type),
+    eventRounds: missionEvents(type),
+    rewards: missionRewards(order, type)
+  };
+});
 
 export const SCREEN_FLOW = [
   { id: "auth", label: "Conta", template: "portal", purpose: "Entrar, cadastrar e criar um save local no banco." },
@@ -222,40 +315,27 @@ export const CHARACTER_OPTIONS = {
   ]
 };
 
-export const MISSION_SCENES = {
-  blood_forest: [
-    {
-      title: "P0 - Abertura",
-      camera: "Plano baixo na estrada, copa das arvores fechando a luz.",
-      text: "William atravessa a Floresta de Sangue com Ethan e Albert. A estrada sumiu sob lama, marcas de carroca e silencio demais.",
-      choice: "Avancar em formacao cautelosa",
-      effect: "O grupo comeca com foco defensivo e o jogador aprende objetivo, medo e posicoes."
-    },
-    {
-      title: "P1 - Rastros",
-      camera: "Close em pegadas, cinzas frias e tecido rasgado preso a um galho.",
-      text: "A Percepcao revela que os atacantes nao estavam fugindo. Eles esperavam por alguem.",
-      choice: "Investigar antes do contato",
-      effect: "O combate inicia com previsao de cobertura e alvos visiveis."
-    },
-    {
-      title: "P2 - Primeiro Contato",
-      camera: "Corte rapido para a clareira, inimigos a direita e grupo em seis posicoes a esquerda.",
-      text: "Saqueadores saem da linha das arvores. William precisa vencer sem deixar o medo quebrar a formacao.",
-      choice: "Entrar em combate",
-      effect: "Inicia a arena tatica da Floresta de Sangue."
-    }
-  ],
-  empty_granaries: [
-    {
-      title: "Conselho de Pedra",
-      camera: "Mesa de guerra com paes duros, moedas contadas e mapas do principado.",
-      text: "Os celeiros estao baixos. Uma decisao de governo pode salvar pessoas agora ou fortalecer a defesa para depois.",
-      choice: "Abrir a mesa do principado",
-      effect: "Libera decisoes de comida, defesa e infraestrutura."
-    }
-  ]
-};
+export const MISSION_SCENES = Object.fromEntries(
+  MISSIONS.map((mission) => [
+    mission.id,
+    [
+      {
+        title: `${mission.order}. ${mission.title}`,
+        camera: mission.managementOnly ? "Mesa de guerra, rostos tensos e mapas marcados por velas." : "Plano de estabelecimento mostrando rotas, cobertura e objetivo principal.",
+        text: `${mission.act}. ${mission.objective}`,
+        choice: mission.managementOnly ? "Tomar decisao" : "Preparar formacao",
+        effect: mission.impact
+      },
+      {
+        title: "Complicacao",
+        camera: BOSS_TYPES.includes(mission.type) ? "Camera baixa para comunicar escala e ameaca." : "Camera tatica abre o espaco da missao.",
+        text: mission.managementOnly ? "As faccoes cobram uma resposta. A decisao altera recursos, reputacao e proximas rotas." : "O grupo identifica riscos, posicoes e consequencias antes do contato.",
+        choice: mission.managementOnly ? "Registrar consequencia" : "Entrar na missao",
+        effect: mission.managementOnly ? "Resolve como cena/gestao e volta a mesa." : "Inicia combate ou encontro tatico."
+      }
+    ]
+  ])
+);
 
 export const EQUIPMENT_DESIGNS = [
   {

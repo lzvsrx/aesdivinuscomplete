@@ -52,7 +52,7 @@ export class AesDivinusGame {
   createNewState() {
     return {
       mode: "auth",
-      selectedMissionId: "blood_forest",
+      selectedMissionId: "stone_council",
       activeTab: "mission",
       authMode: "login",
       account: null,

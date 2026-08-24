@@ -223,7 +223,7 @@ function renderTitleScreen() {
   const menu = el("div", "title-menu");
   menu.append(
     actionButton("Continuar", "Ir para a mesa de missoes", () => game.goToMode("briefing")),
-    actionButton("Iniciar prologo", "Comecar a primeira cena da Floresta de Sangue", () => game.startStoryScene("blood_forest")),
+    actionButton("Iniciar campanha", "Comecar a primeira cena do Conselho de Pedra", () => game.startStoryScene("stone_council")),
     actionButton("Arsenal", "Ver armas e ferramentas", () => game.goToMode("inventory")),
     actionButton("Personagem", "Editar/criar personagem", () => game.goToMode("character_create")),
     actionButton("Salvar", "Salvar banco local", () => game.save())
@@ -269,7 +269,7 @@ function renderMissionPanel() {
   MISSIONS.forEach((mission) => {
     const item = el("button", `mission-item ${game.state.selectedMissionId === mission.id ? "selected" : ""}`);
     item.type = "button";
-    item.innerHTML = `<strong>${mission.title}</strong><span>${mission.act} / ${mission.type}</span>`;
+    item.innerHTML = `<strong>${mission.order}. ${mission.title}</strong><span>${mission.act} / ${mission.type}</span>`;
     item.addEventListener("click", () => {
       game.state.selectedMissionId = mission.id;
       game.queueSave("mission_select", `Missao selecionada: ${mission.title}.`, { missionId: mission.id });
@@ -282,8 +282,9 @@ function renderMissionPanel() {
   const detail = el("article", "mission-detail");
   detail.innerHTML = `
     <p class="eyebrow">${mission.act}</p>
-    <h1>${mission.title}</h1>
+    <h1>${mission.order}. ${mission.title}</h1>
     <p>${mission.objective}</p>
+    <p class="mission-impact"><strong>Impacto:</strong> ${mission.impact}</p>
     <div class="objective-list">${mission.optional.map((item) => `<span>${item}</span>`).join("")}</div>
   `;
   detail.append(actionButton(mission.managementOnly ? "Abrir cena de conselho" : "Abrir cenas da missao", "Comecar fluxo narrativo da missao", () => game.startStoryScene(mission.id)));
