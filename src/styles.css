@@ -303,6 +303,27 @@ select:focus {
   margin-top: 4px;
 }
 
+.remembered-list {
+  display: grid;
+  gap: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px;
+  background: rgba(255, 255, 255, .04);
+}
+
+.remembered-list button {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  text-align: left;
+}
+
+.remembered-list span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
 .form-error {
   min-height: 20px;
   color: #ff9b8e !important;
@@ -400,6 +421,42 @@ select:focus {
   border-radius: 999px;
   background: linear-gradient(#f1e0a2, #8b8b83, #b84b42);
   box-shadow: 0 0 0 3px #151515;
+}
+
+.avatar-forge em {
+  position: absolute;
+  left: 50%;
+  top: 270px;
+  width: 150px;
+  height: 22px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: rgba(0, 0, 0, .36);
+  filter: blur(2px);
+}
+
+.avatar-forge[data-body="Magro"] i {
+  width: 92px;
+}
+
+.avatar-forge[data-body="Definido"] i,
+.avatar-forge[data-body="Fit"] i {
+  width: 112px;
+}
+
+.avatar-forge[data-body="Atletico"] i,
+.avatar-forge[data-body="Musculoso"] i {
+  width: 132px;
+}
+
+.avatar-forge[data-body="Forte"] i {
+  width: 148px;
+}
+
+.avatar-forge[data-body="Corpulento"] i,
+.avatar-forge[data-body="Gordinho"] i {
+  width: 164px;
+  border-radius: 54px 54px 24px 24px;
 }
 
 .title-content {
@@ -971,6 +1028,76 @@ dd {
   gap: 12px;
 }
 
+.currency-pill {
+  display: inline-flex;
+  width: fit-content;
+  border: 1px solid rgba(208, 169, 81, .7);
+  border-radius: 999px;
+  padding: 8px 12px;
+  color: var(--gold);
+  background: rgba(208, 169, 81, .12);
+}
+
+.shop-market {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 12px;
+}
+
+.shop-area,
+.owned-inventory {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 14px;
+  background: rgba(15, 17, 18, .88);
+}
+
+.shop-area h2,
+.owned-inventory h2 {
+  margin: 0 0 6px;
+}
+
+.shop-area > p {
+  margin: 0 0 10px;
+  color: var(--muted);
+}
+
+.shop-item,
+.owned-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 10px;
+  align-items: center;
+  padding: 10px 0;
+  border-top: 1px solid var(--line);
+}
+
+.owned-item {
+  grid-template-columns: minmax(0, 1fr) minmax(120px, 180px) auto auto;
+}
+
+.shop-item span,
+.owned-item span,
+.shop-price small {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.shop-item p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+.shop-price {
+  text-align: right;
+}
+
+.shop-item.owned {
+  opacity: .72;
+}
+
 .equipment-card,
 .screen-card {
   border: 1px solid var(--line);
@@ -1148,6 +1275,7 @@ dd {
 .hardware-applied,
 .audio-settings,
 .user-settings,
+.github-sync-panel,
 .security-panel,
 .hardware-notes {
   border: 1px solid var(--line);
@@ -1205,6 +1333,7 @@ dd {
 }
 
 .user-settings,
+.github-sync-panel,
 .security-panel {
   grid-column: 1 / -1;
 }
@@ -1348,7 +1477,9 @@ dd {
   }
 
   .audio-controls,
-  .audio-row {
+  .audio-row,
+  .shop-item,
+  .owned-item {
     grid-template-columns: 1fr;
   }
 

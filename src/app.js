@@ -1,4 +1,4 @@
-import { AesDivinusGame, CHARACTER_OPTIONS, EQUIPMENT_DESIGNS, FEAR_STATES, MISSIONS, POSITION_TRAITS, QUALITY_PRESETS, SCREEN_FLOW, WEAPONS } from "./game.js";
+import { AesDivinusGame, CHARACTER_OPTIONS, EQUIPMENT_DESIGNS, FEAR_STATES, GAME_CURRENCY, ITEM_CATALOG, MISSIONS, POSITION_TRAITS, QUALITY_PRESETS, SCREEN_FLOW, SHOP_AREAS } from "./game.js";
 import { AUDIO_CATALOG, AudioSystem } from "./audio.js";
 import { escapeHtml } from "./security.js";
 
@@ -186,11 +186,25 @@ function renderAuthScreen() {
     <p class="eyebrow">Banco local / campanha persistente</p>
     <h1>Aes Divinus</h1>
     <p>Entre para carregar sua campanha local ou cadastre um perfil minimo para salvar personagem, missoes, escolhas e eventos.</p>
-    <label>Nome <input name="name" autocomplete="name" placeholder="William" value="${escapeHtml(game.state.account?.name ?? "")}"></label>
-    <label>Email <input name="email" type="email" autocomplete="email" placeholder="voce@email.com" value="${escapeHtml(game.state.account?.email ?? "")}"></label>
-    <label>Senha <input name="password" type="password" autocomplete="current-password" minlength="6" placeholder="minimo 6 caracteres"></label>
+    <label>Nome <input name="name" autocomplete="name" inputmode="text" autocapitalize="words" enterkeyhint="next" placeholder="William" value="${escapeHtml(game.state.account?.name ?? game.state.rememberedProfiles?.[0]?.name ?? "")}"></label>
+    <label>Email <input name="email" type="email" autocomplete="email" inputmode="email" autocapitalize="none" enterkeyhint="next" placeholder="voce@email.com" value="${escapeHtml(game.state.account?.email ?? game.state.rememberedProfiles?.[0]?.email ?? "")}"></label>
+    <label>Senha <input name="password" type="password" autocomplete="current-password" minlength="6" enterkeyhint="done" placeholder="minimo 6 caracteres"></label>
+    <label class="toggle-setting"><input name="remember" type="checkbox" ${game.state.session?.rememberLogin !== false ? "checked" : ""}> Lembrar cadastro e login neste dispositivo</label>
     <p class="form-error" aria-live="polite"></p>
   `;
+  const remembered = game.state.rememberedProfiles ?? [];
+  if (remembered.length) {
+    const list = el("div", "remembered-list");
+    list.innerHTML = `<strong>Perfis lembrados</strong>${remembered.map((profile) => `<button type="button" data-email="${escapeHtml(profile.email)}">${escapeHtml(profile.name)} <span>${escapeHtml(profile.email)}</span></button>`).join("")}`;
+    list.querySelectorAll("button").forEach((button) => {
+      button.addEventListener("click", () => {
+        panel.elements.email.value = button.dataset.email;
+        panel.elements.name.value = remembered.find((profile) => profile.email === button.dataset.email)?.name ?? "";
+        panel.elements.password.focus();
+      });
+    });
+    panel.append(list);
+  }
   const actions = el("div", "auth-actions");
   actions.append(
     actionButton("Entrar", "Entrar com perfil local", () => submitAuth(panel, "login")),
@@ -205,6 +219,7 @@ function renderAuthScreen() {
 function submitAuth(panel, mode) {
   const form = new FormData(panel);
   const data = Object.fromEntries(form.entries());
+  data.remember = panel.elements.remember?.checked ?? true;
   const result = mode === "register" ? game.registerAccount(data) : game.loginAccount(data);
   if (!result.ok) {
     panel.querySelector(".form-error").textContent = result.reason;
@@ -221,12 +236,16 @@ function renderCharacterCreator() {
     <h1>Forje seu herdeiro</h1>
     <p>O personagem criado assume o papel de William na campanha e altera atributos iniciais conforme origem e equipamento.</p>
     <div class="creator-grid">
-      <label>Nome <input name="name" placeholder="William" value="${escapeHtml(current.name ?? "William")}"></label>
+      <label>Nome <input name="name" autocomplete="nickname" inputmode="text" autocapitalize="words" enterkeyhint="next" placeholder="William" value="${escapeHtml(current.name ?? "William")}"></label>
       <label>Tratamento <select name="pronoun">${options(["Livre", "Ele", "Ela", "Neutro"], current.pronoun)}</select></label>
       <label>Origem <select name="origin">${CHARACTER_OPTIONS.origins.map((item) => `<option value="${item.id}" ${current.origin === item.id ? "selected" : ""}>${item.label} - ${item.bonus}</option>`).join("")}</select></label>
       <label>Corpo <select name="body">${options(CHARACTER_OPTIONS.bodies, current.body)}</select></label>
+      <label>Forma do corpo <select name="bodyShape">${options(CHARACTER_OPTIONS.bodyShapes, current.bodyShape)}</select></label>
       <label>Rosto <select name="face">${options(CHARACTER_OPTIONS.faces, current.face)}</select></label>
+      <label>Formato dos olhos <select name="eyeShape">${options(CHARACTER_OPTIONS.eyeShapes, current.eyeShape)}</select></label>
+      <label>Cor dos olhos <select name="eyeColor">${options(CHARACTER_OPTIONS.eyeColors, current.eyeColor)}</select></label>
       <label>Cabelo <select name="hair">${options(CHARACTER_OPTIONS.hair, current.hair)}</select></label>
+      <label>Cor do cabelo <select name="hairColor">${options(CHARACTER_OPTIONS.hairColors, current.hairColor)}</select></label>
       <label>Barba <select name="beard">${options(CHARACTER_OPTIONS.beards, current.beard)}</select></label>
       <label>Paleta <select name="palette">${CHARACTER_OPTIONS.palettes.map((item) => `<option value="${item.id}" ${current.palette === item.id ? "selected" : ""}>${item.label}</option>`).join("")}</select></label>
       <label>Arma inicial <select name="weapon">
@@ -239,10 +258,16 @@ function renderCharacterCreator() {
   `;
   const preview = el("aside", "character-preview");
   preview.innerHTML = `
-    <div class="avatar-forge"><span></span><i></i><b></b></div>
-    <h2>Identidade visual</h2>
-    <p>Template de modelagem modular: corpo, rosto, cabelo, barba, pele, roupa base, armadura, capa, arma e acessorios separados para troca em runtime.</p>
+    <div class="avatar-forge" data-body="${escapeHtml(current.body ?? "Atletico")}"><span></span><i></i><b></b><em></em></div>
+    <h2>Modelo 3D base</h2>
+    <p>Especificacao modular: esqueleto humanoide, corpo, rosto, olhos, cabelo, barba, roupa, armadura, arma, ferramenta e pedra vinculada em pecas separadas para troca em runtime.</p>
+    <dl>
+      <dt>Olhos</dt><dd>${escapeHtml(current.eyeColor ?? "Castanho")}</dd>
+      <dt>Cabelo</dt><dd>${escapeHtml(current.hairColor ?? "Preto natural")}</dd>
+      <dt>Corpo</dt><dd>${escapeHtml(current.bodyShape ?? "Trapezio")}</dd>
+    </dl>
   `;
+  form.addEventListener("input", () => updateCharacterPreview(form, preview));
   const actions = el("div", "auth-actions");
   actions.append(actionButton("Criar personagem", "Salvar personagem no banco", () => submitCharacter(form)));
   form.append(actions);
@@ -254,6 +279,17 @@ function submitCharacter(form) {
   const data = Object.fromEntries(new FormData(form).entries());
   const result = game.createCharacter(data);
   if (!result.ok) form.querySelector(".form-error").textContent = result.reason;
+}
+
+function updateCharacterPreview(form, preview) {
+  const data = Object.fromEntries(new FormData(form).entries());
+  const avatar = preview.querySelector(".avatar-forge");
+  avatar.dataset.body = data.body ?? "Atletico";
+  preview.querySelector("dl").innerHTML = `
+    <dt>Olhos</dt><dd>${escapeHtml(data.eyeColor ?? "Castanho")}</dd>
+    <dt>Cabelo</dt><dd>${escapeHtml(data.hairColor ?? "Preto natural")}</dd>
+    <dt>Corpo</dt><dd>${escapeHtml(data.bodyShape ?? "Trapezio")}</dd>
+  `;
 }
 
 function renderTitleScreen() {
@@ -638,7 +674,9 @@ function renderCodex() {
 function renderInventory() {
   const wrap = el("section", "inventory-screen");
   const intro = el("div", "inventory-intro");
-  intro.innerHTML = `<h1>Arsenal e ferramentas</h1><p>Designs prontos para orientar modelagem 3D, icones, balanceamento e fabricacao dentro do principado.</p>`;
+  intro.innerHTML = `<h1>Arsenal, lojas e ${GAME_CURRENCY.shortName}</h1><p>Compra, venda, equipamento e vinculo de cada item com a pedra especifica do sistema Aes.</p><strong class="currency-pill">${game.state.economy.balance} ${GAME_CURRENCY.symbol}</strong>`;
+  wrap.append(intro, renderShopMarket(), renderOwnedInventory());
+
   const grid = el("div", "equipment-grid");
   EQUIPMENT_DESIGNS.forEach((item) => {
     const card = el("article", "equipment-card");
@@ -656,8 +694,62 @@ function renderInventory() {
     `;
     grid.append(card);
   });
-  wrap.append(intro, grid);
+  wrap.append(grid);
   return wrap;
+}
+
+function renderShopMarket() {
+  const market = el("section", "shop-market");
+  SHOP_AREAS.forEach((shop) => {
+    const area = el("article", "shop-area");
+    area.innerHTML = `<h2>${escapeHtml(shop.name)}</h2><p>${escapeHtml(shop.specialty)}</p>`;
+    Object.values(ITEM_CATALOG).filter((item) => item.shop === shop.id).forEach((item) => area.append(renderShopItem(item)));
+    market.append(area);
+  });
+  return market;
+}
+
+function renderShopItem(item) {
+  const owned = game.state.inventory.owned.includes(item.id);
+  const definition = game.itemDefinition(item.id);
+  const row = el("div", `shop-item ${owned ? "owned" : ""}`);
+  row.innerHTML = `
+    <div>
+      <strong>${escapeHtml(definition?.name ?? item.id)}</strong>
+      <span>${escapeHtml(item.type)} / Pedra: ${escapeHtml(item.stone)}</span>
+      <p>${escapeHtml(item.description)}</p>
+    </div>
+    <div class="shop-price"><b>${item.price} ${GAME_CURRENCY.symbol}</b><small>venda ${item.sellPrice}</small></div>
+  `;
+  row.append(actionButton(owned ? "Comprado" : "Comprar", "Comprar item com Coroas de Aes", () => game.buyItem(item.id), owned || game.state.economy.balance < item.price));
+  return row;
+}
+
+function renderOwnedInventory() {
+  const owned = el("section", "owned-inventory");
+  owned.innerHTML = `<h2>Itens do jogador</h2>`;
+  game.state.inventory.owned.forEach((itemId) => {
+    const item = game.itemDefinition(itemId);
+    if (!item) return;
+    const isEquipped = Object.values(game.state.inventory.equipped ?? {}).some((slots) => Object.values(slots ?? {}).includes(item.id));
+    const row = el("div", "owned-item");
+    row.innerHTML = `<strong>${escapeHtml(item.name)}</strong><span>${escapeHtml(item.type)} / ${escapeHtml(item.stone)}</span>`;
+    const heroSelect = document.createElement("select");
+    heroSelect.title = "Personagem";
+    game.state.heroes.forEach((hero) => {
+      const option = document.createElement("option");
+      option.value = hero.id;
+      option.textContent = hero.name;
+      heroSelect.append(option);
+    });
+    row.append(
+      heroSelect,
+      actionButton("Equipar", "Equipar no personagem selecionado", () => game.equipItem(heroSelect.value, item.id)),
+      actionButton("Vender", "Vender item nao equipado", () => game.sellItem(item.id), isEquipped)
+    );
+    owned.append(row);
+  });
+  return owned;
 }
 
 function renderScreensCatalog() {
@@ -760,8 +852,39 @@ function renderHardwareSettings() {
     audio.play("ui_click", { volume: 0.45 });
   });
 
-  wrap.append(summary, specs, applied, renderUserSettings(), audioPanel, renderSecurityPanel(), notes);
+  wrap.append(summary, specs, applied, renderUserSettings(), audioPanel, renderGithubSyncPanel(), renderSecurityPanel(), notes);
   return wrap;
+}
+
+function renderGithubSyncPanel() {
+  const sync = game.state.githubSync ?? {};
+  const panel = el("article", "github-sync-panel");
+  panel.innerHTML = `
+    <h2>Autosave no GitHub</h2>
+    <p>Opcional para singleplayer: use um token pessoal do GitHub com permissao somente neste repositorio. O jogo nao traz token embutido.</p>
+    <div class="settings-grid">
+      <label>Ativar <select name="enabled"><option value="false" ${!sync.enabled ? "selected" : ""}>Desligado</option><option value="true" ${sync.enabled ? "selected" : ""}>Ligado</option></select></label>
+      <label>Usuario/organizacao <input name="owner" autocomplete="username" inputmode="text" autocapitalize="none" value="${escapeHtml(sync.owner ?? "")}" placeholder="lzvsrx"></label>
+      <label>Repositorio <input name="repo" inputmode="text" autocapitalize="none" value="${escapeHtml(sync.repo ?? "")}" placeholder="aesdivinuscomplete"></label>
+      <label>Branch <input name="branch" inputmode="text" autocapitalize="none" value="${escapeHtml(sync.branch ?? "main")}" placeholder="main"></label>
+      <label>Caminho do save <input name="path" inputmode="text" autocapitalize="none" value="${escapeHtml(sync.path ?? "saves/aes-divinus-save.json")}" placeholder="saves/aes-divinus-save.json"></label>
+      <label>Token pessoal <input name="token" type="password" autocomplete="new-password" value="${escapeHtml(sync.token ?? "")}" placeholder="ghp_..."></label>
+    </div>
+    <dl>
+      <dt>Ultimo envio</dt><dd>${escapeHtml(sync.lastSyncAt ?? "Nunca")}</dd>
+      <dt>Status</dt><dd>${escapeHtml(sync.lastError ?? game.lastGithubSync?.reason ?? "Pronto")}</dd>
+    </dl>
+  `;
+  const fields = panel.querySelectorAll("input, select");
+  fields.forEach((field) => {
+    field.addEventListener("change", () => {
+      const data = Object.fromEntries([...fields].map((item) => [item.name, item.value]));
+      game.configureGithubSync({ ...data, enabled: data.enabled === "true" });
+      render();
+    });
+  });
+  panel.append(actionButton("Enviar save agora", "Sincronizar save atual com GitHub", () => game.save()));
+  return panel;
 }
 
 function renderUserSettings() {

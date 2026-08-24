@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { AesDivinusGame } from "../src/game.js";
 import { MemoryGameDatabase } from "../src/database.js";
+import { pushSaveToGithub } from "../src/githubSync.js";
 import { createSecureEnvelope, escapeHtml, openSecureEnvelope, sanitizePayload, sanitizeText } from "../src/security.js";
 
 function memoryStorage() {
@@ -42,4 +43,24 @@ test("secure envelope can encrypt and reopen a local save snapshot", async () =>
   assert.equal(envelope.algorithm, "AES-GCM");
   assert.ok(!envelope.data.includes("lz@example.com"));
   assert.deepEqual(await openSecureEnvelope(envelope, { cryptoApi: crypto, storage }), state);
+});
+
+test("github sync sends a save with user supplied repository settings", async () => {
+  const calls = [];
+  const fetchApi = async (url, init = {}) => {
+    calls.push({ url, init });
+    if (!init.method) return { ok: false, status: 404 };
+    return { ok: true, json: async () => ({ commit: { sha: "abc123" } }) };
+  };
+  const result = await pushSaveToGithub(
+    { campaign: { day: 2 }, githubSync: { token: "secret" } },
+    { enabled: true, owner: "lzvsrx", repo: "aesdivinuscomplete", branch: "main", path: "saves/test.json", token: "token" },
+    { fetchApi }
+  );
+
+  assert.equal(result.ok, true);
+  assert.equal(result.commitSha, "abc123");
+  assert.equal(calls.length, 2);
+  assert.equal(JSON.parse(calls[1].init.body).message, "Autosave Aes Divinus");
+  assert.match(calls[1].init.headers.Authorization, /^Bearer /);
 });

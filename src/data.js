@@ -8,21 +8,50 @@ export const FEAR_STATES = {
 };
 
 export const WEAPONS = {
-  iron_sword: { id: "iron_sword", name: "Espada de ferro", min: 5, max: 10, type: "cut", accuracy: 5, range: 1, strengthScale: 0.55 },
-  iron_axe: { id: "iron_axe", name: "Machado de ferro", min: 6, max: 12, type: "cut", accuracy: 0, range: 1, strengthScale: 0.7 },
-  spear: { id: "spear", name: "Lanca de ferro", min: 5, max: 10, type: "pierce", accuracy: 3, range: 2, strengthScale: 0.45 },
-  bow: { id: "bow", name: "Arco", min: 3, max: 8, type: "pierce", accuracy: 2, range: 5, strengthScale: 0.25, ammo: "arrow" },
-  fire_bow: { id: "fire_bow", name: "Flecha de fogo", min: 3, max: 8, type: "fire", accuracy: 0, range: 5, strengthScale: 0.2, burn: 2 },
-  aes_spear: { id: "aes_spear", name: "Lanca Aes", min: 10, max: 15, type: "pierce", accuracy: 7, range: 2, strengthScale: 0.55, courageDamage: 6 },
+  iron_sword: { id: "iron_sword", name: "Espada de ferro", min: 5, max: 10, type: "cut", accuracy: 5, range: 1, strengthScale: 0.55, stone: "Granito Jurado" },
+  iron_axe: { id: "iron_axe", name: "Machado de ferro", min: 6, max: 12, type: "cut", accuracy: 0, range: 1, strengthScale: 0.7, stone: "Basalto Rubro" },
+  spear: { id: "spear", name: "Lanca de ferro", min: 5, max: 10, type: "pierce", accuracy: 3, range: 2, strengthScale: 0.45, stone: "Quartzo de Vigia" },
+  bow: { id: "bow", name: "Arco", min: 3, max: 8, type: "pierce", accuracy: 2, range: 5, strengthScale: 0.25, ammo: "arrow", stone: "Olho de Cedro" },
+  fire_bow: { id: "fire_bow", name: "Flecha de fogo", min: 3, max: 8, type: "fire", accuracy: 0, range: 5, strengthScale: 0.2, burn: 2, stone: "Cinabrio Aceso" },
+  aes_spear: { id: "aes_spear", name: "Lanca Aes", min: 10, max: 15, type: "pierce", accuracy: 7, range: 2, strengthScale: 0.55, courageDamage: 6, stone: "Ametista Aes" },
   claws: { id: "claws", name: "Garras", min: 5, max: 12, type: "cut", accuracy: 4, range: 1, strengthScale: 0.55, threat: 10 },
   dread: { id: "dread", name: "Uivo sobrenatural", min: 0, max: 2, type: "supernatural", accuracy: 10, range: 6, strengthScale: 0, courageDamage: 14, threat: 18 }
 };
 
 export const ARMORS = {
-  cloth: { id: "cloth", name: "Roupa reforcada", mitigation: { cut: 1, pierce: 1, impact: 0, fire: 0, supernatural: 0 }, defense: 1, initiative: 1, dodge: 4, strengthReq: 0 },
-  light: { id: "light", name: "Couro leve", mitigation: { cut: 2, pierce: 1, impact: 1, fire: 0, supernatural: 0 }, defense: 2, initiative: 1, dodge: 3, strengthReq: 0 },
-  medium: { id: "medium", name: "Malha media", mitigation: { cut: 4, pierce: 3, impact: 2, fire: 0, supernatural: 0 }, defense: 4, initiative: -1, dodge: 0, strengthReq: 8 },
-  heavy: { id: "heavy", name: "Brigantina pesada", mitigation: { cut: 7, pierce: 5, impact: 3, fire: 1, supernatural: 0 }, defense: 6, initiative: -3, dodge: -3, strengthReq: 12 }
+  cloth: { id: "cloth", name: "Roupa reforcada", mitigation: { cut: 1, pierce: 1, impact: 0, fire: 0, supernatural: 0 }, defense: 1, initiative: 1, dodge: 4, strengthReq: 0, stone: "Argila Selada" },
+  light: { id: "light", name: "Couro leve", mitigation: { cut: 2, pierce: 1, impact: 1, fire: 0, supernatural: 0 }, defense: 2, initiative: 1, dodge: 3, strengthReq: 0, stone: "Jaspe Verde" },
+  medium: { id: "medium", name: "Malha media", mitigation: { cut: 4, pierce: 3, impact: 2, fire: 0, supernatural: 0 }, defense: 4, initiative: -1, dodge: 0, strengthReq: 8, stone: "Hematita" },
+  heavy: { id: "heavy", name: "Brigantina pesada", mitigation: { cut: 7, pierce: 5, impact: 3, fire: 1, supernatural: 0 }, defense: 6, initiative: -3, dodge: -3, strengthReq: 12, stone: "Onix Real" }
+};
+
+export const GAME_CURRENCY = {
+  id: "aes_crowns",
+  name: "Coroas de Aes",
+  shortName: "Coroas",
+  symbol: "CA",
+  description: "Moeda usada por aventureiros, ferreiros e mercados do principado."
+};
+
+export const SHOP_AREAS = [
+  { id: "blacksmith", name: "Forja do Principado", specialty: "Armas e armaduras", faction: "infantry" },
+  { id: "quartermaster", name: "Intendencia Real", specialty: "Ferramentas e suprimentos", faction: "peasants" },
+  { id: "relicary", name: "Relicario Aes", specialty: "Itens ligados as pedras", faction: "kingdom" }
+];
+
+export const ITEM_CATALOG = {
+  iron_sword: { id: "iron_sword", type: "weapon", shop: "blacksmith", price: 26, sellPrice: 10, stone: "Granito Jurado", description: "Lamina confiavel para lideres de linha.", equipSlot: "weapon" },
+  iron_axe: { id: "iron_axe", type: "weapon", shop: "blacksmith", price: 31, sellPrice: 12, stone: "Basalto Rubro", description: "Arma pesada para quebrar defesa.", equipSlot: "weapon" },
+  spear: { id: "spear", type: "weapon", shop: "blacksmith", price: 29, sellPrice: 11, stone: "Quartzo de Vigia", description: "Alcance seguro para controlar corredores.", equipSlot: "weapon" },
+  bow: { id: "bow", type: "weapon", shop: "blacksmith", price: 24, sellPrice: 9, stone: "Olho de Cedro", description: "Arco de patrulha para retaguarda.", equipSlot: "weapon" },
+  aes_spear: { id: "aes_spear", type: "weapon", shop: "relicary", price: 90, sellPrice: 35, stone: "Ametista Aes", description: "Relicario perfurante que abala coragem.", equipSlot: "weapon" },
+  cloth: { id: "cloth", type: "armor", shop: "quartermaster", price: 14, sellPrice: 5, stone: "Argila Selada", description: "Roupa reforcada para exploracao.", equipSlot: "armor" },
+  light: { id: "light", type: "armor", shop: "quartermaster", price: 22, sellPrice: 8, stone: "Jaspe Verde", description: "Couro flexivel para batedores.", equipSlot: "armor" },
+  medium: { id: "medium", type: "armor", shop: "blacksmith", price: 38, sellPrice: 15, stone: "Hematita", description: "Malha equilibrada para combate longo.", equipSlot: "armor" },
+  heavy: { id: "heavy", type: "armor", shop: "blacksmith", price: 55, sellPrice: 22, stone: "Onix Real", description: "Brigantina de defesa alta.", equipSlot: "armor" },
+  field_kit: { id: "field_kit", name: "Kit de campo", type: "tool", shop: "quartermaster", price: 18, sellPrice: 7, stone: "Agata de Cura", description: "Kit para ferimentos, acampamento e resgate.", equipSlot: "tool" },
+  survey_tools: { id: "survey_tools", name: "Ferramentas de percepcao", type: "tool", shop: "quartermaster", price: 20, sellPrice: 8, stone: "Fluorita de Pista", description: "Lente, giz e marcadores para investigacao.", equipSlot: "tool" },
+  aes_compass: { id: "aes_compass", name: "Bussola Aes", type: "tool", shop: "relicary", price: 64, sellPrice: 24, stone: "Safira de Norte", description: "Aponta rotas escondidas quando a coragem falha.", equipSlot: "tool" }
 };
 
 export const POSITION_TRAITS = [
@@ -416,9 +445,13 @@ export const CHARACTER_OPTIONS = {
     { id: "frontier", label: "Fronteira", bonus: "Coragem +5", description: "Sobreviveu a estradas, emboscadas e inverno duro." },
     { id: "monastery", label: "Mosteiro", bonus: "Percepcao +2", description: "Educado entre textos proibidos e pressagios." }
   ],
-  bodies: ["Magro", "Definido", "Atletico", "Forte", "Corpulento"],
-  faces: ["Oval", "Quadrado", "Diamante", "Alongado", "Triangular"],
-  hair: ["Preto liso", "Castanho ondulado", "Loiro curto", "Grisalho preso", "Raspado"],
+  bodies: ["Magro", "Definido", "Fit", "Atletico", "Musculoso", "Forte", "Corpulento", "Gordinho"],
+  bodyShapes: ["Retangular", "Triangular", "Trapezio", "Oval", "Triangulo invertido"],
+  faces: ["Oval", "Hexagonal", "Triangular", "Longo", "Redondo", "Diamante", "Coracao", "Quadrado"],
+  eyeShapes: ["Redondos", "Redondos amendoados", "Amendoados", "Amendoados finos", "Caidos", "Caidos escondidos", "Escondidos", "Orientais", "Orientais arredondados"],
+  eyeColors: ["Castanho", "Azul", "Verde", "Azul esverdeado", "Verde amarelado", "Ambar", "Avela", "Azul profundo", "Verde escuro", "Avela sardento", "Azul acinzentado", "Verde floresta", "Avela escuro", "Cinza", "Verde primavera", "Azul safira", "Azul gelo", "Onix", "Chocolate", "Violeta ametista"],
+  hair: ["Liso 1A", "Liso 1B", "Liso 1C", "Ondulado 2A", "Ondulado 2B", "Ondulado 2C", "Cacheado 3A", "Cacheado 3B", "Cacheado 3C", "Crespo 4A", "Crespo 4B", "Crespo 4C", "Raspado"],
+  hairColors: ["Preto profundo", "Preto natural", "Castanho escuro", "Castanho medio", "Castanho claro", "Loiro escuro", "Loiro medio", "Loiro claro", "Loiro muito claro", "Loiro clarissimo", "Acinzentado", "Violeta", "Dourado", "Cobre", "Acaju", "Vermelho", "Marrom"],
   beards: ["Sem barba", "Barba curta", "Cavanhaque", "Barba cheia", "Bigode nobre"],
   palettes: [
     { id: "iron_gold", label: "Ferro e ouro", primary: "#d0a951", secondary: "#313536" },

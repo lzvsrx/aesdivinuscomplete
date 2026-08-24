@@ -70,16 +70,21 @@ test("database records gameplay events", async () => {
 
 test("account and character creation move through the screen flow", () => {
   const game = new AesDivinusGame({ rng: new Rng(8), database: new MemoryGameDatabase() });
-  const account = game.registerAccount({ name: "LZ", email: "lz@example.com", password: "segredo1" });
+  const account = game.registerAccount({ name: "LZ", email: "lz@example.com", password: "segredo1", remember: true });
   assert.equal(account.ok, true);
   assert.equal(game.state.mode, "character_create");
+  assert.equal(game.state.rememberedProfiles[0].email, "lz@example.com");
 
   const character = game.createCharacter({
     name: "Aurel",
     origin: "frontier",
     body: "Atletico",
+    bodyShape: "Trapezio",
     face: "Oval",
-    hair: "Preto liso",
+    eyeShape: "Amendoados",
+    eyeColor: "Azul safira",
+    hair: "Ondulado 2B",
+    hairColor: "Castanho medio",
     beard: "Barba curta",
     palette: "iron_gold",
     weapon: "spear"
@@ -87,7 +92,22 @@ test("account and character creation move through the screen flow", () => {
   assert.equal(character.ok, true);
   assert.equal(game.state.mode, "title");
   assert.equal(game.state.playerCharacter.name, "Aurel");
+  assert.equal(game.state.playerCharacter.eyeColor, "Azul safira");
   assert.equal(game.state.heroes.find((hero) => hero.id === "william").weapon, "spear");
+});
+
+test("shop economy buys, equips and blocks equipped sales", () => {
+  const game = new AesDivinusGame({ rng: new Rng(11), database: new MemoryGameDatabase() });
+  const before = game.state.economy.balance;
+  const bought = game.buyItem("aes_compass");
+  assert.equal(bought.ok, true);
+  assert.equal(game.state.economy.balance, before - 64);
+  assert.ok(game.state.inventory.owned.includes("aes_compass"));
+
+  const equipped = game.equipItem("william", "aes_compass");
+  assert.equal(equipped.ok, true);
+  assert.equal(game.state.inventory.equipped.william.tool, "aes_compass");
+  assert.equal(game.sellItem("aes_compass").ok, false);
 });
 
 test("mission scenes advance into combat", () => {

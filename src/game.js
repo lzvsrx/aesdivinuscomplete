@@ -5,15 +5,19 @@ import {
   ENEMY_SETS,
   EQUIPMENT_DESIGNS,
   FEAR_STATES,
+  GAME_CURRENCY,
   HEROES,
   INITIAL_PRINCIPALITY,
+  ITEM_CATALOG,
   MISSIONS,
   MISSION_SCENES,
   POSITION_TRAITS,
   SCREEN_FLOW,
+  SHOP_AREAS,
   WEAPONS
 } from "./data.js";
 import { IndexedDbGameDatabase, LEGACY_SAVE_KEY } from "./database.js";
+import { defaultGithubSyncSettings, normalizeGithubSyncSettings, pushSaveToGithub } from "./githubSync.js";
 import { detectHardware, QUALITY_PRESETS } from "./hardware.js";
 import { clampNumber, sanitizeEmail, sanitizeText } from "./security.js";
 
@@ -43,11 +47,13 @@ export class Rng {
 }
 
 export class AesDivinusGame {
-  constructor({ rng = new Rng(), database = null, storage = globalThis.localStorage } = {}) {
+  constructor({ rng = new Rng(), database = null, storage = globalThis.localStorage, fetchApi = globalThis.fetch } = {}) {
     this.rng = rng;
     this.database = database ?? new IndexedDbGameDatabase({ legacyStorage: storage });
+    this.fetchApi = fetchApi;
     this.state = this.createNewState();
     this.lastSaveError = null;
+    this.lastGithubSync = null;
   }
 
   createNewState() {
@@ -57,6 +63,12 @@ export class AesDivinusGame {
       activeTab: "mission",
       authMode: "login",
       account: null,
+      rememberedProfiles: [],
+      session: {
+        rememberLogin: true,
+        deviceId: this.getDeviceId(),
+        lastLoginAt: null
+      },
       playerCharacter: null,
       hardware: null,
       graphics: {
@@ -70,6 +82,20 @@ export class AesDivinusGame {
         currentAmbience: null
       },
       settings: this.defaultSettings(),
+      githubSync: defaultGithubSyncSettings(),
+      economy: {
+        currency: GAME_CURRENCY.id,
+        balance: 72,
+        transactions: []
+      },
+      inventory: {
+        owned: ["iron_sword", "bow", "spear", "cloth", "light", "medium", "heavy", "field_kit", "survey_tools"],
+        equipped: {
+          william: { weapon: "iron_sword", armor: "medium", tool: "field_kit" },
+          ethan: { weapon: "bow", armor: "light", tool: "survey_tools" },
+          albert: { weapon: "spear", armor: "heavy", tool: "field_kit" }
+        }
+      },
       currentSceneIndex: 0,
       battle: null,
       heroes: clone(HEROES),
@@ -83,6 +109,10 @@ export class AesDivinusGame {
       },
       codex: clone(CODEX)
     };
+  }
+
+  getDeviceId() {
+    return `device-${Math.random().toString(36).slice(2)}-${Date.now().toString(36)}`;
   }
 
   defaultSettings() {
@@ -185,6 +215,44 @@ export class AesDivinusGame {
     const numericVolume = Number(this.state.audio.masterVolume);
     this.state.audio.masterVolume = Number.isFinite(numericVolume) ? Math.max(0, Math.min(1, numericVolume)) : 0.7;
     this.state.settings = { ...this.defaultSettings(), ...(this.state.settings ?? {}) };
+    this.state.githubSync = normalizeGithubSyncSettings(this.state.githubSync ?? {});
+    this.state.rememberedProfiles = Array.isArray(this.state.rememberedProfiles) ? this.state.rememberedProfiles : [];
+    this.state.session = {
+      rememberLogin: true,
+      deviceId: this.state.session?.deviceId ?? this.getDeviceId(),
+      lastLoginAt: this.state.session?.lastLoginAt ?? null,
+      ...(this.state.session ?? {})
+    };
+    this.state.economy ??= {
+      currency: GAME_CURRENCY.id,
+      balance: 72,
+      transactions: []
+    };
+    this.state.inventory ??= {
+      owned: ["iron_sword", "cloth", "field_kit"],
+      equipped: {
+        william: { weapon: "iron_sword", armor: "medium", tool: "field_kit" },
+        ethan: { weapon: "bow", armor: "light", tool: "survey_tools" },
+        albert: { weapon: "spear", armor: "heavy", tool: "field_kit" }
+      }
+    };
+    this.state.inventory.equipped ??= {};
+    const equippedIds = Object.values(this.state.inventory.equipped).flatMap((slots) => Object.values(slots ?? {}));
+    this.state.inventory.owned = [...new Set([...(this.state.inventory.owned ?? []), ...equippedIds])];
+    if (this.state.account && this.state.mode === "auth") this.state.mode = this.state.playerCharacter ? "title" : "character_create";
+  }
+
+  rememberAccount(account) {
+    if (!this.state.session?.rememberLogin || !account || account.guest) return;
+    const remembered = {
+      id: account.id,
+      name: account.name,
+      email: account.email,
+      lastLoginAt: new Date().toISOString(),
+      deviceId: this.state.session.deviceId
+    };
+    this.state.rememberedProfiles = [remembered, ...(this.state.rememberedProfiles ?? []).filter((item) => item.email !== account.email)].slice(0, 5);
+    this.state.session.lastLoginAt = remembered.lastLoginAt;
   }
 
   enterAsGuest() {
@@ -199,7 +267,7 @@ export class AesDivinusGame {
     this.queueSave("guest_login", "Entrada como convidado.", { accountId: "guest" });
   }
 
-  registerAccount({ name, email, password }) {
+  registerAccount({ name, email, password, remember }) {
     const cleanName = sanitizeText(name, 80);
     const cleanEmail = sanitizeEmail(email);
     const cleanPassword = String(password ?? "");
@@ -213,12 +281,14 @@ export class AesDivinusGame {
       createdAt: new Date().toISOString(),
       guest: false
     };
+    this.state.session.rememberLogin = remember !== "off" && remember !== false;
+    this.rememberAccount(this.state.account);
     this.state.mode = this.state.playerCharacter ? "title" : "character_create";
     this.queueSave("account_register", "Conta local cadastrada.", { email: cleanEmail });
     return { ok: true };
   }
 
-  loginAccount({ email, name }) {
+  loginAccount({ email, name, remember }) {
     const cleanEmail = sanitizeEmail(email);
     if (this.state.account?.email === cleanEmail || cleanEmail.includes("@")) {
       this.state.account = {
@@ -228,6 +298,8 @@ export class AesDivinusGame {
         createdAt: this.state.account?.createdAt ?? new Date().toISOString(),
         guest: false
       };
+      this.state.session.rememberLogin = remember !== "off" && remember !== false;
+      this.rememberAccount(this.state.account);
       this.state.mode = this.state.playerCharacter ? "title" : "character_create";
       this.queueSave("account_login", "Conta local acessada.", { email: cleanEmail });
       return { ok: true };
@@ -247,7 +319,11 @@ export class AesDivinusGame {
       originLabel: origin.label,
       body: sanitizeText(options.body ?? CHARACTER_OPTIONS.bodies[2], 40),
       face: sanitizeText(options.face ?? CHARACTER_OPTIONS.faces[0], 40),
+      bodyShape: sanitizeText(options.bodyShape ?? CHARACTER_OPTIONS.bodyShapes[0], 40),
+      eyeShape: sanitizeText(options.eyeShape ?? CHARACTER_OPTIONS.eyeShapes[0], 60),
+      eyeColor: sanitizeText(options.eyeColor ?? CHARACTER_OPTIONS.eyeColors[0], 60),
       hair: sanitizeText(options.hair ?? CHARACTER_OPTIONS.hair[0], 40),
+      hairColor: sanitizeText(options.hairColor ?? CHARACTER_OPTIONS.hairColors[0], 60),
       beard: sanitizeText(options.beard ?? CHARACTER_OPTIONS.beards[0], 40),
       palette: options.palette ?? CHARACTER_OPTIONS.palettes[0].id,
       weapon: options.weapon ?? "iron_sword",
@@ -260,6 +336,12 @@ export class AesDivinusGame {
       if (origin.id === "abakorum") william.loyalty = Math.min(100, william.loyalty + 5);
       if (origin.id === "monastery") william.perception += 2;
       william.weapon = this.state.playerCharacter.weapon;
+      this.state.inventory.equipped.william = {
+        ...(this.state.inventory.equipped.william ?? {}),
+        weapon: this.state.playerCharacter.weapon,
+        armor: william.armor,
+        tool: this.state.inventory.equipped.william?.tool ?? "field_kit"
+      };
     }
     this.state.mode = "title";
     this.queueSave("character_create", "Personagem criado.", { character: this.state.playerCharacter });
@@ -326,6 +408,12 @@ export class AesDivinusGame {
       } else {
         await this.database.save(this.state, { type, message, payload });
       }
+      if (this.state.githubSync?.enabled) {
+        const sync = await pushSaveToGithub(this.publicSyncState(), this.state.githubSync, { fetchApi: this.fetchApi });
+        this.lastGithubSync = sync;
+        this.state.githubSync.lastSyncAt = sync.ok ? new Date().toISOString() : this.state.githubSync.lastSyncAt;
+        this.state.githubSync.lastError = sync.ok ? null : sync.reason;
+      }
       this.lastSaveError = null;
       return true;
     } catch (error) {
@@ -333,6 +421,80 @@ export class AesDivinusGame {
       console.error("Falha ao salvar o jogo:", error);
       return false;
     }
+  }
+
+  publicSyncState() {
+    const snapshot = clone(this.state);
+    if (snapshot.githubSync) snapshot.githubSync.token = "";
+    return snapshot;
+  }
+
+  configureGithubSync(config = {}) {
+    this.state.githubSync = normalizeGithubSyncSettings({ ...(this.state.githubSync ?? {}), ...config });
+    this.queueSave("github_sync_settings", "Configuracao de sincronizacao GitHub atualizada.", {
+      enabled: this.state.githubSync.enabled,
+      owner: this.state.githubSync.owner,
+      repo: this.state.githubSync.repo,
+      path: this.state.githubSync.path
+    });
+    return { ok: true };
+  }
+
+  itemDefinition(itemId) {
+    const item = ITEM_CATALOG[itemId];
+    if (!item) return null;
+    const base = item.type === "weapon" ? WEAPONS[itemId] : item.type === "armor" ? ARMORS[itemId] : null;
+    return { ...item, name: base?.name ?? item.name ?? item.id, stats: base };
+  }
+
+  buyItem(itemId) {
+    const item = this.itemDefinition(itemId);
+    if (!item) return { ok: false, reason: "Item inexistente." };
+    if (this.state.inventory.owned.includes(itemId)) return { ok: false, reason: "Item ja comprado." };
+    if (this.state.economy.balance < item.price) return { ok: false, reason: "Coroas insuficientes." };
+    this.state.economy.balance -= item.price;
+    this.state.inventory.owned.push(itemId);
+    this.recordTransaction("buy", itemId, -item.price);
+    this.queueSave("shop_buy", `Compra realizada: ${item.name}.`, { itemId, price: item.price });
+    return { ok: true };
+  }
+
+  sellItem(itemId) {
+    const item = this.itemDefinition(itemId);
+    if (!item) return { ok: false, reason: "Item inexistente." };
+    if (!this.state.inventory.owned.includes(itemId)) return { ok: false, reason: "Item nao pertence ao jogador." };
+    const equipped = Object.values(this.state.inventory.equipped ?? {}).some((slots) => Object.values(slots ?? {}).includes(itemId));
+    if (equipped) return { ok: false, reason: "Nao venda item equipado." };
+    this.state.inventory.owned = this.state.inventory.owned.filter((id) => id !== itemId);
+    this.state.economy.balance += item.sellPrice;
+    this.recordTransaction("sell", itemId, item.sellPrice);
+    this.queueSave("shop_sell", `Venda realizada: ${item.name}.`, { itemId, value: item.sellPrice });
+    return { ok: true };
+  }
+
+  equipItem(heroId, itemId) {
+    const hero = this.state.heroes.find((candidate) => candidate.id === heroId);
+    const item = this.itemDefinition(itemId);
+    if (!hero || !item) return { ok: false, reason: "Equipamento invalido." };
+    if (!this.state.inventory.owned.includes(itemId)) return { ok: false, reason: "Compre o item antes de equipar." };
+    const slot = item.equipSlot;
+    this.state.inventory.equipped[heroId] ??= {};
+    this.state.inventory.equipped[heroId][slot] = itemId;
+    if (slot === "weapon") hero.weapon = itemId;
+    if (slot === "armor") hero.armor = itemId;
+    this.queueSave("item_equip", `${hero.name} equipou ${item.name}.`, { heroId, itemId, slot });
+    return { ok: true };
+  }
+
+  recordTransaction(type, itemId, amount) {
+    this.state.economy.transactions.unshift({
+      id: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
+      type,
+      itemId,
+      amount,
+      createdAt: new Date().toISOString()
+    });
+    this.state.economy.transactions = this.state.economy.transactions.slice(0, 30);
   }
 
   queueSave(type, message, payload = {}) {
@@ -831,4 +993,4 @@ export class AesDivinusGame {
   }
 }
 
-export { ARMORS, CHARACTER_OPTIONS, CODEX, EQUIPMENT_DESIGNS, FEAR_STATES, MISSIONS, MISSION_SCENES, POSITION_TRAITS, QUALITY_PRESETS, SAVE_KEY, SCREEN_FLOW, WEAPONS };
+export { ARMORS, CHARACTER_OPTIONS, CODEX, EQUIPMENT_DESIGNS, FEAR_STATES, GAME_CURRENCY, ITEM_CATALOG, MISSIONS, MISSION_SCENES, POSITION_TRAITS, QUALITY_PRESETS, SAVE_KEY, SCREEN_FLOW, SHOP_AREAS, WEAPONS };
