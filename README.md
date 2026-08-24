@@ -11,7 +11,7 @@ Esta versao e uma implementacao jogavel web/desktop/mobile do documento de desig
 - Estrutura C++/GDExtension preparada em `godot/native/`.
 - App desktop com Electron.
 - Windows installer NSIS gerado.
-- Linux portatil gerado.
+- Linux Godot x64 gerado com pacotes Universal, Debian/Ubuntu/Mint, Fedora/RHEL/openSUSE, Arch/Manjaro e Steam Deck.
 - Android APK debug gerado.
 - Projeto iOS Capacitor criado e pronto para Xcode.
 - Banco local IndexedDB ativo.
@@ -405,21 +405,31 @@ Saidas:
 
 ## Build Linux
 
-No Windows, o comando abaixo gera uma pasta Linux portatil:
+O build principal Linux agora vem do Godot e gera pacotes por familia de distro:
 
 ```powershell
-npm run build:linux
+npm run godot:export
 ```
 
-Saida:
+Saidas em `release/godot/vX.Y.Z/`:
 
-- `release/linux-unpacked/`
+- `Aes-Divinus-Godot-Linux-x64-X.Y.Z.zip`: pacote minimo.
+- `Aes-Divinus-Godot-Linux-Universal-x64-X.Y.Z.zip` e `.tar.gz`.
+- `Aes-Divinus-Godot-Linux-Debian-Ubuntu-Mint-x64-X.Y.Z.zip` e `.tar.gz`.
+- `Aes-Divinus-Godot-Linux-Fedora-RHEL-openSUSE-x64-X.Y.Z.zip` e `.tar.gz`.
+- `Aes-Divinus-Godot-Linux-Arch-Manjaro-x64-X.Y.Z.zip` e `.tar.gz`.
+- `Aes-Divinus-Godot-Linux-SteamDeck-x64-X.Y.Z.zip` e `.tar.gz`.
+- `Aes-Divinus-Godot-Linux-Distros-X.Y.Z.txt`.
 
-Para gerar AppImage e `.deb`, rode em Linux ou WSL:
+Cada pacote por distro inclui launcher Bash, icone, instalador local de atalho `.desktop`, comandos de dependencias e opcoes de compatibilidade:
 
 ```bash
-npm run build:linux:installer
+bash run-aes-divinus.sh
+AES_DIVINUS_RENDERER=opengl3 bash run-aes-divinus.sh
+AES_DIVINUS_LOW_POWER=1 bash run-aes-divinus.sh
 ```
+
+Detalhes: `docs/LINUX_DISTROS_GODOT.md`.
 
 ## Build Android
 
@@ -512,7 +522,7 @@ release/                builds geradas localmente, nao versionadas
 Os binarios grandes devem ficar no GitHub Releases, nao no historico Git:
 
 - Windows: `.exe`
-- Linux: `.zip` portatil ou AppImage/deb quando gerado em Linux
+- Linux: `.zip`/`.tar.gz` Godot portatil por familia de distro
 - Android: `.apk`
 - iOS: `.ipa` assinado em macOS/Xcode
 
@@ -520,7 +530,7 @@ Os binarios grandes devem ficar no GitHub Releases, nao no historico Git:
 
 - O login/cadastro e singleplayer/local, com memoria por dispositivo e GitHub Sync opcional. Login online real entre contas exige servidor, API e autenticacao segura.
 - O iOS precisa de macOS, Xcode, CocoaPods e certificado Apple para gerar IPA.
-- AppImage/deb completos devem ser gerados em Linux ou WSL; no Windows foi gerada versao Linux portatil.
+- AppImage, `.deb`, `.rpm` e Flatpak finais devem ser gerados/testados em Linux ou CI Linux; a release Godot publica pacotes portateis x64 por familia de distro.
 
 ## Desenvolvedora
 

@@ -1,5 +1,5 @@
 param(
-  [string] $Version = "0.1.12"
+  [string] $Version = "0.1.13"
 )
 
 $ErrorActionPreference = "Stop"
@@ -55,6 +55,8 @@ Compress-Archive -Path @(
   (Join-Path $OutDir "Aes-Divinus-Godot-Linux-x64.x86_64"),
   (Join-Path $OutDir "Aes-Divinus-Godot-Linux-x64.pck")
 ) -DestinationPath (Join-Path $OutDir "Aes-Divinus-Godot-Linux-x64-$Version.zip") -Force
+
+powershell -NoProfile -ExecutionPolicy Bypass -File (Join-Path $Root "scripts\package-godot-linux.ps1") -Version $Version -OutDir $OutDir -Root $Root
 
 $godotProjectFiles = Get-ChildItem (Join-Path $Root "godot") -Recurse -File |
   Where-Object { $_.FullName -notmatch "\\godot\\.godot\\" }
