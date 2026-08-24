@@ -27,6 +27,9 @@ O que ja foi adaptado:
 - interface jogavel inicial com lista de missoes, detalhes, diario, principado e criacao/preview de personagem;
 - leitura de `godot/data/aes_divinus_data.json`, gerado a partir de `src/data.js`;
 - campanha completa, cenas, armas, armaduras, medo/coragem, lojas, codex e opcoes de personagem exportadas para Godot;
+- manifesto de paridade em `godot/data/aes_divinus_data.json` para garantir que nada feito na versao web/desktop/mobile fique fora da versao Godot;
+- paineis internos no Godot para Arsenal, Audio, Seguranca, Builds, Codex e Completo;
+- catalogo de audio exportado para Godot e arquivos `.mp3` copiados para `godot/assets/audio`;
 - save local em `user://aes_divinus_save.json`;
 - deteccao simples de hardware por CPU para qualidade inicial;
 - assets principais copiados para `godot/assets`;

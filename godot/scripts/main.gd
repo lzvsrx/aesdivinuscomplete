@@ -97,6 +97,15 @@ func _build_ui() -> void:
 	actions.add_child(_button("Resolver missao", _complete_mission))
 	actions.add_child(_button("Salvar", func() -> void: _autosave("Save manual.")))
 	actions.add_child(_button("Galeria 3D", func() -> void: get_tree().change_scene_to_file("res://scenes/model_gallery.tscn")))
+	var system_actions := HBoxContainer.new()
+	system_actions.add_theme_constant_override("separation", 8)
+	center.add_child(system_actions)
+	system_actions.add_child(_button("Arsenal", _show_inventory))
+	system_actions.add_child(_button("Audio", _show_audio))
+	system_actions.add_child(_button("Seguranca", _show_security))
+	system_actions.add_child(_button("Builds", _show_builds))
+	system_actions.add_child(_button("Codex", _show_codex))
+	system_actions.add_child(_button("Completo", _show_parity))
 	resource_text = RichTextLabel.new()
 	resource_text.bbcode_enabled = true
 	resource_text.fit_content = true
@@ -201,6 +210,110 @@ func _refresh_mission_detail() -> void:
 		mission.get("impact", ""),
 		"\n- ".join(mission.get("optional", []))
 	]
+
+func _show_inventory() -> void:
+	detail_title.text = "Arsenal, lojas e economia"
+	var currency: Dictionary = data.get("gameCurrency", {})
+	var lines: Array[String] = [
+		"[b]%s (%s)[/b]" % [currency.get("name", "Coroas de Aes"), currency.get("symbol", "CA")],
+		"Moeda interna singleplayer para compra, venda e progressao.",
+		"",
+		"[b]Lojas[/b]"
+	]
+	for shop in data.get("shopAreas", []):
+		lines.append("- %s: %s" % [shop.get("name", ""), shop.get("specialty", "")])
+	lines.append("")
+	lines.append("[b]Itens com pedra vinculada[/b]")
+	for item_id in data.get("itemCatalog", {}).keys():
+		var item: Dictionary = data["itemCatalog"][item_id]
+		lines.append("- %s / %s / Pedra: %s / Compra %s / Venda %s" % [
+			item.get("name", item_id),
+			item.get("type", ""),
+			item.get("stone", ""),
+			item.get("price", 0),
+			item.get("sellPrice", 0)
+		])
+	detail_text.text = "\n".join(lines)
+
+func _show_audio() -> void:
+	detail_title.text = "Audio e sons por contexto"
+	var lines: Array[String] = ["[b]Catalogo de audio importado da versao anterior[/b]"]
+	for key in data.get("audioCatalog", {}).keys():
+		var item: Dictionary = data["audioCatalog"][key]
+		var file_names: Array[String] = []
+		for file in item.get("files", []):
+			file_names.append(str(file))
+		lines.append("- %s: %s | arquivos: %s" % [key, item.get("label", ""), ", ".join(file_names)])
+	lines.append("")
+	lines.append("Os MP3 locais ficam em godot/assets/audio e podem ser ligados a AudioStreamPlayer no Godot.")
+	detail_text.text = "\n".join(lines)
+
+func _show_security() -> void:
+	detail_title.text = "Seguranca, privacidade e leis"
+	detail_text.text = "\n".join([
+		"[b]Protecoes obrigatorias mantidas na migracao[/b]",
+		"- save local no Godot em user://aes_divinus_save.json",
+		"- senha nao entra no estado do jogo",
+		"- dados remotos devem redigir email bruto, token e identificador do dispositivo",
+		"- sincronizacao GitHub fica preparada, mas sem token embutido",
+		"- comunicacoes oficiais exigem avaliacao humana, juridica e tecnica",
+		"- incidentes seguem plano de resposta e preservacao de evidencias",
+		"",
+		"[b]Documentos incluidos[/b]",
+		"- Politica de Privacidade",
+		"- Termos de Uso",
+		"- Checklist Legal e de Plataforma",
+		"- Plano de Resposta a Incidentes Ciberneticos",
+		"- Contatos Globais de Autoridades",
+		"- Direitos/Publicacao Steam/Regras",
+		"- Pipeline de Modelagem Godot/Blender"
+	])
+
+func _show_builds() -> void:
+	detail_title.text = "Plataformas e builds"
+	detail_text.text = "\n".join([
+		"[b]Alvos preservados[/b]",
+		"- Windows",
+		"- Linux",
+		"- Android",
+		"- iOS",
+		"- Steam",
+		"",
+		"[b]Godot[/b]",
+		"- projeto base em godot/project.godot",
+		"- C++ preparado em godot/native",
+		"- GDExtension depende de compilador C++, SCons/CMake e godot-cpp",
+		"- export presets finais devem ser configurados quando certificados/SDKs oficiais estiverem prontos"
+	])
+
+func _show_codex() -> void:
+	detail_title.text = "Codex e sistemas"
+	var lines: Array[String] = []
+	for entry in data.get("codex", []):
+		lines.append("[b]%s[/b]\n%s\n" % [entry.get("title", ""), entry.get("text", "")])
+	lines.append("[b]Modelagem[/b]\nGaleria 3D, specs JSON e pipeline Blender/glTF estao dentro do projeto Godot.")
+	detail_text.text = "\n".join(lines)
+
+func _show_parity() -> void:
+	detail_title.text = "Nada pode faltar"
+	var manifest: Dictionary = data.get("parityManifest", {})
+	var lines: Array[String] = [
+		"[b]Regra[/b]",
+		manifest.get("requiredStatus", ""),
+		"",
+		"[b]Sistemas obrigatorios representados[/b]"
+	]
+	for item in manifest.get("gameplaySystems", []):
+		lines.append("- " + str(item))
+	lines.append("")
+	lines.append("[b]Documentos obrigatorios[/b]")
+	for doc in manifest.get("documents", []):
+		lines.append("- " + str(doc))
+	lines.append("")
+	lines.append("[b]Plataformas[/b]")
+	for target in manifest.get("buildTargets", []):
+		lines.append("- " + str(target))
+	detail_text.text = "\n".join(lines)
 
 func _refresh_resources() -> void:
 	var p: Dictionary = state.get("principality", {})

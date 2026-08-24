@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-24T20:22:38.983Z",
+  "generatedAt": "2026-08-24T20:25:44.981Z",
   "game": "Aes Divinus",
   "source": "src/data.js",
   "fearStates": {
@@ -3179,6 +3179,314 @@
       "color": "#d0a951"
     }
   ],
+  "audioCatalog": {
+    "ui_click": {
+      "label": "Clique de interface",
+      "fallback": "click",
+      "sources": [
+        {
+          "title": "Magic Button Click",
+          "creator": "Pixabay creator",
+          "url": "https://pixabay.com/sound-effects/magic-button-click-453255/"
+        },
+        {
+          "title": "Free UI Click Sound Effects",
+          "creator": "Pixabay search",
+          "url": "https://pixabay.com/sound-effects/search/ui%20click/"
+        },
+        {
+          "title": "Free Button Click Sound Effects",
+          "creator": "Pixabay search",
+          "url": "https://pixabay.com/sound-effects/search/button-click/"
+        }
+      ],
+      "files": [
+        "assets/audio/ui-click-01.mp3",
+        "assets/audio/ui-click-02.mp3",
+        "assets/audio/ui-click-03.mp3"
+      ]
+    },
+    "menu_open": {
+      "label": "Menu / inventario",
+      "fallback": "chime",
+      "sources": [
+        {
+          "title": "Free Fantasy Menu Sound Effects",
+          "creator": "Pixabay search",
+          "url": "https://pixabay.com/sound-effects/search/fantasy%20menu/"
+        },
+        {
+          "title": "Free Fantasy Item Sound Effects",
+          "creator": "Pixabay search",
+          "url": "https://pixabay.com/sound-effects/search/fantasy%20item/"
+        }
+      ],
+      "files": [
+        "assets/audio/menu-open-01.mp3",
+        "assets/audio/menu-open-02.mp3"
+      ]
+    },
+    "title_ambience": {
+      "label": "Tela titulo / dark fantasy",
+      "fallback": "drone",
+      "loop": true,
+      "sources": [
+        {
+          "title": "Free Dark Fantasy Sound Effects",
+          "creator": "Pixabay search",
+          "url": "https://pixabay.com/sound-effects/search/dark%20fantasy/"
+        },
+        {
+          "title": "Free Dark Fantasy Atmosphere Sound Effects",
+          "creator": "Pixabay search",
+          "url": "https://pixabay.com/sound-effects/search/dark%20fantasy%20atmosphere/"
+        },
+        {
+          "title": "Free Dark Ambience Sound Effects",
+          "creator": "Pixabay search",
+          "url": "https://pixabay.com/sound-effects/search/dark%20ambience/"
+        }
+      ],
+      "files": [
+        "assets/audio/title-ambience-01.mp3",
+        "assets/audio/title-ambience-02.mp3"
+      ]
+    },
+    "mission_scene": {
+      "label": "Cena narrativa",
+      "fallback": "lowPulse",
+      "sources": [
+        {
+          "title": "Free Medieval Sound Effects",
+          "creator": "Pixabay search",
+          "url": "https://pixabay.com/sound-effects/search/medieval/"
+        },
+        {
+          "title": "Free Music Sting Sound Effects",
+          "creator": "Pixabay search",
+          "url": "https://pixabay.com/sound-effects/search/music-sting/"
+        }
+      ],
+      "files": [
+        "assets/audio/mission-scene-01.mp3",
+        "assets/audio/mission-scene-02.mp3"
+      ]
+    },
+    "forest_ambience": {
+      "label": "Floresta / exploracao",
+      "fallback": "wind",
+      "loop": true,
+      "sources": [
+        {
+          "title": "Free Fantasy Forest Sound Effects",
+          "creator": "Pixabay search",
+          "url": "https://pixabay.com/sound-effects/search/fantasy%20forest/"
+        },
+        {
+          "title": "Free Dark Forest Sound Effects",
+          "creator": "Pixabay search",
+          "url": "https://pixabay.com/sound-effects/search/dark%20forest/"
+        }
+      ],
+      "files": [
+        "assets/audio/forest-ambience-01.mp3",
+        "assets/audio/forest-ambience-02.mp3"
+      ]
+    },
+    "combat_start": {
+      "label": "Inicio de combate",
+      "fallback": "hit",
+      "sources": [
+        {
+          "title": "Free Fantasy Sound Effects",
+          "creator": "Pixabay search",
+          "url": "https://pixabay.com/sound-effects/search/fantasy/"
+        },
+        {
+          "title": "Free Medieval Sound Effects",
+          "creator": "Pixabay search",
+          "url": "https://pixabay.com/sound-effects/search/medieval/"
+        }
+      ],
+      "files": [
+        "assets/audio/combat-start-01.mp3",
+        "assets/audio/combat-start-02.mp3"
+      ]
+    },
+    "sword_attack": {
+      "label": "Ataque de espada / lanca / machado",
+      "fallback": "slash",
+      "sources": [
+        {
+          "title": "Free Sword Sound Effects",
+          "creator": "Pixabay search",
+          "url": "https://pixabay.com/sound-effects/search/sword/"
+        },
+        {
+          "title": "Free Sword Hit Sound Effects",
+          "creator": "Pixabay search",
+          "url": "https://pixabay.com/sound-effects/search/sword%20hit/"
+        },
+        {
+          "title": "Free Sword Clash Sound Effects",
+          "creator": "Pixabay search",
+          "url": "https://pixabay.com/sound-effects/search/sword%20clash/"
+        }
+      ],
+      "files": [
+        "assets/audio/sword-attack-01.mp3",
+        "assets/audio/sword-attack-02.mp3",
+        "assets/audio/sword-attack-03.mp3"
+      ]
+    },
+    "armor_hit": {
+      "label": "Impacto em armadura",
+      "fallback": "metal",
+      "sources": [
+        {
+          "title": "Free Sword Metal Sound Effects",
+          "creator": "Pixabay search",
+          "url": "https://pixabay.com/sound-effects/search/sword-metal/"
+        },
+        {
+          "title": "Free Sword On Armor Sound Effects",
+          "creator": "Pixabay search",
+          "url": "https://pixabay.com/sound-effects/search/sword%20on%20armor/"
+        }
+      ],
+      "files": [
+        "assets/audio/armor-hit-01.mp3",
+        "assets/audio/armor-hit-02.mp3"
+      ]
+    },
+    "bow_attack": {
+      "label": "Arco / flecha",
+      "fallback": "whoosh",
+      "sources": [
+        {
+          "title": "Free Bow Arrow Sound Effects",
+          "creator": "Pixabay search",
+          "url": "https://pixabay.com/sound-effects/search/bow%20arrow/"
+        },
+        {
+          "title": "Free Arrow Sound Effects",
+          "creator": "Pixabay search",
+          "url": "https://pixabay.com/sound-effects/search/arrow/"
+        },
+        {
+          "title": "Free Arrow Hit Sound Effects",
+          "creator": "Pixabay search",
+          "url": "https://pixabay.com/sound-effects/search/arrow%20hit/"
+        }
+      ],
+      "files": [
+        "assets/audio/bow-attack-01.mp3",
+        "assets/audio/arrow-hit-01.mp3"
+      ]
+    },
+    "fire": {
+      "label": "Fogo / flecha incendiaria",
+      "fallback": "fire",
+      "loop": true,
+      "sources": [
+        {
+          "title": "Free Fire Sound Effects",
+          "creator": "Pixabay search",
+          "url": "https://pixabay.com/sound-effects/search/fire/"
+        },
+        {
+          "title": "Free Burning Sound Effects",
+          "creator": "Pixabay search",
+          "url": "https://pixabay.com/sound-effects/search/burning/"
+        },
+        {
+          "title": "Free Crackling Fire Sound Effects",
+          "creator": "Pixabay search",
+          "url": "https://pixabay.com/sound-effects/search/crackling-fire/"
+        }
+      ],
+      "files": [
+        "assets/audio/fire-01.mp3",
+        "assets/audio/fire-02.mp3"
+      ]
+    },
+    "fear": {
+      "label": "Medo / sobrenatural",
+      "fallback": "fear",
+      "sources": [
+        {
+          "title": "Horror Sting",
+          "creator": "freesound_community",
+          "url": "https://pixabay.com/sound-effects/horror-horror-sting-25237/"
+        },
+        {
+          "title": "Free Horror Sting Sound Effects",
+          "creator": "Pixabay search",
+          "url": "https://pixabay.com/sound-effects/search/horror%20sting/"
+        },
+        {
+          "title": "Free Horror Tension Sound Effects",
+          "creator": "Pixabay search",
+          "url": "https://pixabay.com/sound-effects/search/horror%20tension/"
+        }
+      ],
+      "files": [
+        "assets/audio/fear-01.mp3",
+        "assets/audio/fear-02.mp3",
+        "assets/audio/horror-sting-01.mp3"
+      ]
+    },
+    "victory": {
+      "label": "Vitoria",
+      "fallback": "victory",
+      "sources": [
+        {
+          "title": "Medieval Fanfare",
+          "creator": "freesound_community",
+          "url": "https://pixabay.com/sound-effects/musical-medieval-fanfare-6826/"
+        },
+        {
+          "title": "Free Victory Fanfare Sound Effects",
+          "creator": "Pixabay search",
+          "url": "https://pixabay.com/sound-effects/search/victory%20fanfare/"
+        },
+        {
+          "title": "Free Victory Sound Effects",
+          "creator": "Pixabay search",
+          "url": "https://pixabay.com/sound-effects/search/victory/"
+        }
+      ],
+      "files": [
+        "assets/audio/victory-01.mp3",
+        "assets/audio/victory-02.mp3"
+      ]
+    },
+    "defeat": {
+      "label": "Derrota",
+      "fallback": "defeat",
+      "sources": [
+        {
+          "title": "Free Defeat Sound Effects",
+          "creator": "Pixabay search",
+          "url": "https://pixabay.com/sound-effects/search/defeat/"
+        },
+        {
+          "title": "Game Over Sound Effects",
+          "creator": "Pixabay search",
+          "url": "https://pixabay.com/sound-effects/search/game-over/"
+        },
+        {
+          "title": "Free Game Loss Sound Effects",
+          "creator": "Pixabay search",
+          "url": "https://pixabay.com/sound-effects/search/game%20loss/"
+        }
+      ],
+      "files": [
+        "assets/audio/defeat-01.mp3",
+        "assets/audio/game-over-01.mp3"
+      ]
+    }
+  },
   "codex": [
     {
       "title": "Combate por turnos",
@@ -3200,5 +3508,46 @@
       "title": "Principado",
       "text": "Comida, madeira, ferro, ouro, tropas, infraestrutura e reputacao conectam campanha, missoes e consequencias."
     }
-  ]
+  ],
+  "parityManifest": {
+    "requiredStatus": "Everything built from the web/Electron version must remain represented in the Godot version.",
+    "gameplaySystems": [
+      "login/cadastro local lembrado",
+      "criacao de personagem completa",
+      "campanha com prologo e 38 missoes principais",
+      "cenas narrativas de missao",
+      "combate tatico por turnos",
+      "posicoes, PA, acerto, dano, cobertura e alcance",
+      "medo, coragem e lideranca",
+      "principado, recursos e reputacao",
+      "arsenal, lojas, compra, venda, equipamentos e Coroas de Aes",
+      "pedras vinculadas a itens",
+      "codex",
+      "audio por contexto",
+      "configuracoes/acessibilidade",
+      "deteccao de hardware",
+      "autosave local",
+      "sincronizacao GitHub preparada",
+      "seguranca, privacidade, termos e resposta a incidentes",
+      "modelagem 3D Godot e pipeline Blender/glTF",
+      "nucleo C++ preparado para GDExtension"
+    ],
+    "documents": [
+      "README.md",
+      "PRIVACY_POLICY.md",
+      "TERMS_OF_USE.md",
+      "COMPLIANCE_RELEASE_CHECKLIST.md",
+      "docs/PLANO_RESPOSTA_INCIDENTES_CIBERNETICOS.md",
+      "docs/CONTATOS_AUTORIDADES_CIBERNETICAS_GLOBAIS.md",
+      "docs/DIREITOS_PUBLICACAO_STEAM_REGRAS.md",
+      "docs/MODELAGEM_GODOT_BLENDER_PIPELINE.md"
+    ],
+    "buildTargets": [
+      "Windows",
+      "Linux",
+      "Android",
+      "iOS",
+      "Steam-ready documentation"
+    ]
+  }
 }
