@@ -190,6 +190,12 @@ function renderAuthScreen() {
     <label>Email <input name="email" type="email" autocomplete="email" inputmode="email" autocapitalize="none" enterkeyhint="next" placeholder="voce@email.com" value="${escapeHtml(game.state.account?.email ?? game.state.rememberedProfiles?.[0]?.email ?? "")}"></label>
     <label>Senha <input name="password" type="password" autocomplete="current-password" minlength="6" enterkeyhint="done" placeholder="minimo 6 caracteres"></label>
     <label class="toggle-setting"><input name="remember" type="checkbox" ${game.state.session?.rememberLogin !== false ? "checked" : ""}> Lembrar cadastro e login neste dispositivo</label>
+    <div class="legal-consent">
+      <label class="toggle-setting"><input name="termsAccepted" type="checkbox" ${game.state.compliance?.termsAccepted ? "checked" : ""}> Aceito os Termos de Uso e as regras das plataformas.</label>
+      <label class="toggle-setting"><input name="privacyAccepted" type="checkbox" ${game.state.compliance?.privacyAccepted ? "checked" : ""}> Li a Politica de Privacidade e entendo o autosave local/GitHub.</label>
+      <label class="toggle-setting"><input name="ageConfirmed" type="checkbox" ${game.state.compliance?.ageConfirmed ? "checked" : ""}> Tenho idade permitida para o jogo no meu pais.</label>
+      <label class="toggle-setting"><input name="parentalConsent" type="checkbox" ${game.state.compliance?.parentalConsent ? "checked" : ""}> Tenho autorizacao de responsavel, se exigida.</label>
+    </div>
     <p class="form-error" aria-live="polite"></p>
   `;
   const remembered = game.state.rememberedProfiles ?? [];
@@ -220,6 +226,10 @@ function submitAuth(panel, mode) {
   const form = new FormData(panel);
   const data = Object.fromEntries(form.entries());
   data.remember = panel.elements.remember?.checked ?? true;
+  data.termsAccepted = panel.elements.termsAccepted?.checked ?? false;
+  data.privacyAccepted = panel.elements.privacyAccepted?.checked ?? false;
+  data.ageConfirmed = panel.elements.ageConfirmed?.checked ?? false;
+  data.parentalConsent = panel.elements.parentalConsent?.checked ?? false;
   const result = mode === "register" ? game.registerAccount(data) : game.loginAccount(data);
   if (!result.ok) {
     panel.querySelector(".form-error").textContent = result.reason;

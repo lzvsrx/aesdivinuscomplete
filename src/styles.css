@@ -303,6 +303,20 @@ select:focus {
   margin-top: 4px;
 }
 
+.legal-consent {
+  display: grid;
+  gap: 8px;
+  border: 1px solid rgba(208, 169, 81, .28);
+  border-radius: 8px;
+  padding: 10px;
+  background: rgba(208, 169, 81, .07);
+}
+
+.legal-consent .toggle-setting {
+  border-radius: 6px;
+  line-height: 1.35;
+}
+
 .remembered-list {
   display: grid;
   gap: 8px;

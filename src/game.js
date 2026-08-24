@@ -19,7 +19,7 @@ import {
 import { IndexedDbGameDatabase, LEGACY_SAVE_KEY } from "./database.js";
 import { defaultGithubSyncSettings, normalizeGithubSyncSettings, pushSaveToGithub } from "./githubSync.js";
 import { detectHardware, QUALITY_PRESETS } from "./hardware.js";
-import { clampNumber, sanitizeEmail, sanitizeText } from "./security.js";
+import { clampNumber, redactRemoteState, sanitizeEmail, sanitizeText } from "./security.js";
 
 const SAVE_KEY = LEGACY_SAVE_KEY;
 
@@ -68,6 +68,14 @@ export class AesDivinusGame {
         rememberLogin: true,
         deviceId: this.getDeviceId(),
         lastLoginAt: null
+      },
+      compliance: {
+        termsAccepted: false,
+        privacyAccepted: false,
+        ageConfirmed: false,
+        parentalConsent: false,
+        acceptedAt: null,
+        policyVersion: "2026-08-24"
       },
       playerCharacter: null,
       hardware: null,
@@ -223,6 +231,15 @@ export class AesDivinusGame {
       lastLoginAt: this.state.session?.lastLoginAt ?? null,
       ...(this.state.session ?? {})
     };
+    this.state.compliance = {
+      termsAccepted: false,
+      privacyAccepted: false,
+      ageConfirmed: false,
+      parentalConsent: false,
+      acceptedAt: null,
+      policyVersion: "2026-08-24",
+      ...(this.state.compliance ?? {})
+    };
     this.state.economy ??= {
       currency: GAME_CURRENCY.id,
       balance: 72,
@@ -267,7 +284,31 @@ export class AesDivinusGame {
     this.queueSave("guest_login", "Entrada como convidado.", { accountId: "guest" });
   }
 
-  registerAccount({ name, email, password, remember }) {
+  acceptCompliance({ termsAccepted, privacyAccepted, ageConfirmed, parentalConsent = false } = {}) {
+    this.state.compliance = {
+      termsAccepted: Boolean(termsAccepted),
+      privacyAccepted: Boolean(privacyAccepted),
+      ageConfirmed: Boolean(ageConfirmed),
+      parentalConsent: Boolean(parentalConsent),
+      acceptedAt: new Date().toISOString(),
+      policyVersion: "2026-08-24"
+    };
+    this.queueSave("legal_acceptance", "Termos, privacidade e idade confirmados.", {
+      termsAccepted: this.state.compliance.termsAccepted,
+      privacyAccepted: this.state.compliance.privacyAccepted,
+      ageConfirmed: this.state.compliance.ageConfirmed,
+      parentalConsent: this.state.compliance.parentalConsent,
+      policyVersion: this.state.compliance.policyVersion
+    });
+  }
+
+  hasRequiredCompliance() {
+    return Boolean(this.state.compliance?.termsAccepted && this.state.compliance?.privacyAccepted && (this.state.compliance?.ageConfirmed || this.state.compliance?.parentalConsent));
+  }
+
+  registerAccount({ name, email, password, remember, termsAccepted, privacyAccepted, ageConfirmed, parentalConsent }) {
+    this.acceptCompliance({ termsAccepted, privacyAccepted, ageConfirmed, parentalConsent });
+    if (!this.hasRequiredCompliance()) return { ok: false, reason: "Aceite os termos, a politica de privacidade e confirme idade/responsavel." };
     const cleanName = sanitizeText(name, 80);
     const cleanEmail = sanitizeEmail(email);
     const cleanPassword = String(password ?? "");
@@ -288,7 +329,9 @@ export class AesDivinusGame {
     return { ok: true };
   }
 
-  loginAccount({ email, name, remember }) {
+  loginAccount({ email, name, remember, termsAccepted, privacyAccepted, ageConfirmed, parentalConsent }) {
+    this.acceptCompliance({ termsAccepted, privacyAccepted, ageConfirmed, parentalConsent });
+    if (!this.hasRequiredCompliance()) return { ok: false, reason: "Aceite os termos, a politica de privacidade e confirme idade/responsavel." };
     const cleanEmail = sanitizeEmail(email);
     if (this.state.account?.email === cleanEmail || cleanEmail.includes("@")) {
       this.state.account = {
@@ -308,6 +351,7 @@ export class AesDivinusGame {
   }
 
   createCharacter(options) {
+    if (!this.hasRequiredCompliance()) return { ok: false, reason: "Confirme termos, privacidade e idade antes de criar personagem." };
     const name = sanitizeText(options.name, 80);
     if (name.length < 2) return { ok: false, reason: "Escolha um nome para o personagem." };
     const origin = CHARACTER_OPTIONS.origins.find((item) => item.id === options.origin) ?? CHARACTER_OPTIONS.origins[0];
@@ -424,9 +468,7 @@ export class AesDivinusGame {
   }
 
   publicSyncState() {
-    const snapshot = clone(this.state);
-    if (snapshot.githubSync) snapshot.githubSync.token = "";
-    return snapshot;
+    return redactRemoteState(this.state);
   }
 
   configureGithubSync(config = {}) {

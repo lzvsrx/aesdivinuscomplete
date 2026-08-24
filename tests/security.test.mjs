@@ -85,3 +85,16 @@ test("github structured save files cover the main game systems", () => {
     ]
   );
 });
+
+test("remote sync state redacts personal email, device id and github token", () => {
+  const game = new AesDivinusGame({ database: new MemoryGameDatabase() });
+  game.state.account = { id: "local-lz@example.com", name: "LZ", email: "lz@example.com", guest: false };
+  game.state.rememberedProfiles = [{ id: "local-lz@example.com", name: "LZ", email: "lz@example.com", deviceId: "device-secret" }];
+  game.state.githubSync.token = "ghp_secret";
+  const remote = JSON.stringify(game.publicSyncState());
+  assert.ok(!remote.includes("lz@example.com"));
+  assert.ok(!remote.includes("local-lz@example.com"));
+  assert.ok(!remote.includes("device-secret"));
+  assert.ok(!remote.includes("ghp_secret"));
+  assert.ok(remote.includes("lz***@example.com"));
+});

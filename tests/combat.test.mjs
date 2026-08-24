@@ -70,7 +70,15 @@ test("database records gameplay events", async () => {
 
 test("account and character creation move through the screen flow", () => {
   const game = new AesDivinusGame({ rng: new Rng(8), database: new MemoryGameDatabase() });
-  const account = game.registerAccount({ name: "LZ", email: "lz@example.com", password: "segredo1", remember: true });
+  const account = game.registerAccount({
+    name: "LZ",
+    email: "lz@example.com",
+    password: "segredo1",
+    remember: true,
+    termsAccepted: true,
+    privacyAccepted: true,
+    ageConfirmed: true
+  });
   assert.equal(account.ok, true);
   assert.equal(game.state.mode, "character_create");
   assert.equal(game.state.rememberedProfiles[0].email, "lz@example.com");

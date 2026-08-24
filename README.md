@@ -38,6 +38,7 @@ Esta versao e uma implementacao jogavel web/desktop/mobile do documento de desig
 - **Audio adaptativo:** mapa sonoro por tela/acao com alternativas pesquisadas no Pixabay, controle de volume salvo no banco e fallback Web Audio para nao quebrar quando os MP3s locais ainda nao existem.
 - **Configuracoes completas de jogador:** fonte, escala da interface, tamanho de tela, densidade, contraste, modos de daltonismo, movimento reduzido, velocidade de combate, botoes maiores, privacidade e confirmacao de reset.
 - **Seguranca do save:** sanitizacao de entradas/textos, payloads sensiveis redigidos, envelope AES-GCM no IndexedDB quando WebCrypto esta disponivel e hash de integridade por snapshot/evento.
+- **Conformidade legal:** aceite de termos/privacidade/idade antes de cadastro, politica de privacidade, termos de uso, checklist de lancamento e minimizacao de dados no save remoto.
 
 ## Telas implementadas
 
@@ -226,6 +227,17 @@ Medidas de seguranca implementadas:
 - cada snapshot e evento recebe hash de integridade.
 - saves antigos em texto puro continuam carregando e sao migrados no proximo save.
 - o token do GitHub nao e enviado dentro do arquivo de save remoto.
+- email bruto, token e identificador do dispositivo sao redigidos no save remoto estruturado.
+
+## Documentos legais e conformidade
+
+Arquivos incluidos no projeto:
+
+- `PRIVACY_POLICY.md`
+- `TERMS_OF_USE.md`
+- `COMPLIANCE_RELEASE_CHECKLIST.md`
+
+Esses documentos ajudam a preparar lancamento, revisao de loja e auditoria interna, mas devem ser revisados por advogado antes de venda publica ou publicacao mundial.
 
 ## Como rodar em desenvolvimento
 
@@ -277,6 +289,7 @@ Cobertura atual:
 - 29 arquivos MP3 locais para os slots de audio do jogo
 - configuracoes de acessibilidade/interface persistentes
 - sanitizacao, criptografia local e hashes do banco
+- aceite legal/idade e redacao de dados sensiveis no save remoto
 - deteccao de hardware e aplicacao de perfil grafico
 
 ## Build web
@@ -295,7 +308,7 @@ npm run build:windows
 
 Saidas:
 
-- `release/Aes Divinus Setup 0.1.4.exe`
+- `release/Aes Divinus Setup 0.1.5.exe`
 - `release/win-unpacked/`
 
 ## Build Linux
@@ -364,7 +377,7 @@ Sem secrets Apple, ele gera `Aes-Divinus-iOS-unsigned.ipa`, util para validacao 
 - `APPLE_TEAM_ID`: Team ID da Apple Developer.
 - `KEYCHAIN_PASSWORD`: senha temporaria para o keychain do runner.
 
-Depois rode manualmente **Actions > Build iOS IPA > Run workflow** usando `v0.1.4` como release tag.
+Depois rode manualmente **Actions > Build iOS IPA > Run workflow** usando `v0.1.5` como release tag.
 
 ## Scripts principais
 

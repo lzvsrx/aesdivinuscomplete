@@ -28,6 +28,14 @@ export function sanitizeEmail(value) {
   return sanitizeText(value, 160).toLowerCase();
 }
 
+export function maskEmail(value) {
+  const email = sanitizeEmail(value);
+  const [name = "", domain = ""] = email.split("@");
+  if (!name || !domain) return "";
+  const visible = name.slice(0, 2);
+  return `${visible}${"*".repeat(Math.max(3, name.length - visible.length))}@${domain}`;
+}
+
 export function sanitizePayload(payload) {
   if (payload == null || typeof payload !== "object") return payload;
   if (Array.isArray(payload)) return payload.slice(0, 40).map(sanitizePayload);
@@ -46,6 +54,26 @@ export function redactSensitiveState(state) {
   if (copy.account) copy.account = sanitizePayload(copy.account);
   if (copy.playerCharacter) copy.playerCharacter = sanitizePayload(copy.playerCharacter);
   return copy;
+}
+
+export function redactRemoteState(state) {
+  const copy = structuredClone(state);
+  if (copy.githubSync) copy.githubSync.token = "";
+  if (copy.account?.email) {
+    copy.account.emailMasked = maskEmail(copy.account.email);
+    copy.account.email = "[redacted]";
+    copy.account.id = copy.account.guest ? "guest" : "local-redacted";
+  }
+  if (Array.isArray(copy.rememberedProfiles)) {
+    copy.rememberedProfiles = copy.rememberedProfiles.map((profile) => ({
+      id: "remembered-redacted",
+      name: sanitizeText(profile.name, 80),
+      emailMasked: maskEmail(profile.email),
+      lastLoginAt: profile.lastLoginAt ?? null
+    }));
+  }
+  if (copy.session?.deviceId) copy.session.deviceId = "[redacted]";
+  return sanitizePayload(copy);
 }
 
 export async function createSecureEnvelope(data, { cryptoApi = globalThis.crypto, storage = globalThis.localStorage } = {}) {
