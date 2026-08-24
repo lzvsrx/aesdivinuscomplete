@@ -14,6 +14,7 @@ import {
   WEAPONS
 } from "./data.js";
 import { IndexedDbGameDatabase, LEGACY_SAVE_KEY } from "./database.js";
+import { detectHardware, QUALITY_PRESETS } from "./hardware.js";
 
 const SAVE_KEY = LEGACY_SAVE_KEY;
 
@@ -56,6 +57,12 @@ export class AesDivinusGame {
       authMode: "login",
       account: null,
       playerCharacter: null,
+      hardware: null,
+      graphics: {
+        auto: true,
+        quality: "medium",
+        preset: QUALITY_PRESETS.medium
+      },
       currentSceneIndex: 0,
       battle: null,
       heroes: clone(HEROES),
@@ -69,6 +76,30 @@ export class AesDivinusGame {
       },
       codex: clone(CODEX)
     };
+  }
+
+  detectAndApplyHardware(env = globalThis) {
+    const detected = detectHardware(env);
+    this.state.hardware = detected;
+    if (this.state.graphics.auto) {
+      this.state.graphics.quality = detected.presetId;
+      this.state.graphics.preset = detected.preset;
+    }
+    this.queueSave("hardware_detect", "Hardware detectado e configuracao aplicada.", {
+      score: detected.score,
+      presetId: detected.presetId
+    });
+    return detected;
+  }
+
+  setGraphicsQuality(quality, auto = false) {
+    const preset = QUALITY_PRESETS[quality] ?? QUALITY_PRESETS.medium;
+    this.state.graphics = {
+      auto,
+      quality: QUALITY_PRESETS[quality] ? quality : "medium",
+      preset
+    };
+    this.queueSave("graphics_quality", `Qualidade grafica definida: ${preset.label}.`, { quality, auto });
   }
 
   enterAsGuest() {
@@ -151,7 +182,7 @@ export class AesDivinusGame {
   }
 
   goToMode(mode) {
-    if (["mission", "principality", "characters", "inventory", "flow", "codex"].includes(mode)) {
+    if (["mission", "principality", "characters", "inventory", "settings", "flow", "codex"].includes(mode)) {
       this.state.activeTab = mode;
       this.state.mode = "briefing";
     } else {
@@ -705,4 +736,4 @@ export class AesDivinusGame {
   }
 }
 
-export { ARMORS, CHARACTER_OPTIONS, CODEX, EQUIPMENT_DESIGNS, FEAR_STATES, MISSIONS, MISSION_SCENES, POSITION_TRAITS, SAVE_KEY, SCREEN_FLOW, WEAPONS };
+export { ARMORS, CHARACTER_OPTIONS, CODEX, EQUIPMENT_DESIGNS, FEAR_STATES, MISSIONS, MISSION_SCENES, POSITION_TRAITS, QUALITY_PRESETS, SAVE_KEY, SCREEN_FLOW, WEAPONS };

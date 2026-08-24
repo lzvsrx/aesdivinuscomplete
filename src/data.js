@@ -200,6 +200,7 @@ export const SCREEN_FLOW = [
   { id: "briefing", label: "Mesa", template: "war-table", purpose: "Escolher missoes, preparar grupo e administrar o principado." },
   { id: "combat", label: "Combate", template: "tactical", purpose: "Resolver encontros por turnos, posicoes, PA, medo e lideranca." },
   { id: "inventory", label: "Inventario", template: "forge", purpose: "Inspecionar armas, ferramentas, armaduras e seus papeis no jogo." },
+  { id: "settings", label: "Hardware", template: "diagnostic", purpose: "Detectar dispositivo, escolher qualidade e adaptar UI/desempenho." },
   { id: "principality", label: "Principado", template: "domain", purpose: "Gerenciar recursos, reputacoes, obras e tropas." },
   { id: "codex", label: "Codex", template: "archive", purpose: "Consultar sistemas, faccoes, criaturas, dano, defesa e status." }
 ];

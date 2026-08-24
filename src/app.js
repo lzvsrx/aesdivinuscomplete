@@ -1,15 +1,17 @@
-import { AesDivinusGame, CHARACTER_OPTIONS, EQUIPMENT_DESIGNS, FEAR_STATES, MISSIONS, POSITION_TRAITS, SCREEN_FLOW, WEAPONS } from "./game.js";
+import { AesDivinusGame, CHARACTER_OPTIONS, EQUIPMENT_DESIGNS, FEAR_STATES, MISSIONS, POSITION_TRAITS, QUALITY_PRESETS, SCREEN_FLOW, WEAPONS } from "./game.js";
 
 const app = document.querySelector("#app");
 const game = new AesDivinusGame();
 let saveStatus = "Banco pronto";
 await game.load();
+game.detectAndApplyHardware();
 
 const tabs = [
   ["mission", "Missao"],
   ["principality", "Principado"],
   ["characters", "Personagens"],
   ["inventory", "Arsenal"],
+  ["settings", "Hardware"],
   ["flow", "Telas"],
   ["codex", "Codex"]
 ];
@@ -71,6 +73,8 @@ function actionButton(label, title, handler, disabled = false) {
 
 function render() {
   app.innerHTML = "";
+  app.dataset.quality = game.state.graphics.quality;
+  app.dataset.touch = game.state.hardware?.info?.touch ? "true" : "false";
   app.append(renderShell());
 }
 
@@ -253,6 +257,7 @@ function renderCamp() {
   if (game.state.activeTab === "principality") wrap.append(renderPrincipality());
   if (game.state.activeTab === "characters") wrap.append(renderCharacters());
   if (game.state.activeTab === "inventory") wrap.append(renderInventory());
+  if (game.state.activeTab === "settings") wrap.append(renderHardwareSettings());
   if (game.state.activeTab === "flow") wrap.append(renderScreensCatalog());
   if (game.state.activeTab === "codex") wrap.append(renderCodex());
   return wrap;
@@ -586,6 +591,65 @@ function renderScreensCatalog() {
     grid.append(card);
   });
   wrap.append(grid);
+  return wrap;
+}
+
+function renderHardwareSettings() {
+  const detected = game.state.hardware;
+  const info = detected?.info ?? {};
+  const preset = game.state.graphics.preset;
+  const wrap = el("section", "hardware-screen");
+  const summary = el("article", "hardware-summary");
+  summary.innerHTML = `
+    <p class="eyebrow">Diagnostico do dispositivo</p>
+    <h1>${preset.label}</h1>
+    <p>O jogo avalia o hardware do dispositivo e ajusta escala, FPS, efeitos, sombras, animacao e alvos touch automaticamente.</p>
+    <div class="hardware-score"><strong>${detected?.score ?? 0}</strong><span>pontuacao</span></div>
+    <div class="quality-list">${Object.entries(QUALITY_PRESETS).map(([id, item]) => `<button class="quality-chip ${game.state.graphics.quality === id ? "active" : ""}" data-quality="${id}" type="button">${item.label}</button>`).join("")}</div>
+  `;
+  summary.querySelectorAll(".quality-chip").forEach((button) => {
+    button.addEventListener("click", () => {
+      game.setGraphicsQuality(button.dataset.quality, false);
+      render();
+    });
+  });
+  summary.append(actionButton("Auto detectar", "Reavaliar hardware e aplicar qualidade automatica", () => game.detectAndApplyHardware()));
+
+  const specs = el("article", "hardware-specs");
+  specs.innerHTML = `
+    <h2>Sistema detectado</h2>
+    <dl>
+      <dt>Plataforma</dt><dd>${info.platform ?? "-"}</dd>
+      <dt>CPU logica</dt><dd>${info.cpuCores ?? "-"}</dd>
+      <dt>Memoria</dt><dd>${info.deviceMemoryGb ? `${info.deviceMemoryGb} GB` : "Nao informada pelo navegador"}</dd>
+      <dt>GPU</dt><dd>${info.gpuRenderer ?? "-"}</dd>
+      <dt>WebGL</dt><dd>${info.webglVersion ?? "-"}</dd>
+      <dt>Tela</dt><dd>${info.screenWidth ?? 0} x ${info.screenHeight ?? 0}</dd>
+      <dt>Viewport</dt><dd>${info.viewportWidth ?? 0} x ${info.viewportHeight ?? 0}</dd>
+      <dt>Pixel ratio</dt><dd>${info.pixelRatio ?? 1}</dd>
+      <dt>Touch</dt><dd>${info.touch ? "Sim" : "Nao"}</dd>
+      <dt>Movimento reduzido</dt><dd>${info.reducedMotion ? "Sim" : "Nao"}</dd>
+    </dl>
+  `;
+
+  const applied = el("article", "hardware-applied");
+  applied.innerHTML = `
+    <h2>Configuracao aplicada</h2>
+    <dl>
+      <dt>FPS alvo</dt><dd>${preset.fps}</dd>
+      <dt>Escala</dt><dd>${Math.round(preset.renderScale * 100)}%</dd>
+      <dt>Textura</dt><dd>${preset.texture}</dd>
+      <dt>Animacao</dt><dd>${preset.animation}</dd>
+      <dt>Sombras</dt><dd>${preset.shadows ? "Ativas" : "Reduzidas"}</dd>
+      <dt>Particulas</dt><dd>${preset.particles ? "Ativas" : "Reduzidas"}</dd>
+      <dt>Efeitos UI</dt><dd>${preset.uiEffects ? "Ativos" : "Reduzidos"}</dd>
+      <dt>Modo</dt><dd>${game.state.graphics.auto ? "Automatico" : "Manual"}</dd>
+    </dl>
+  `;
+
+  const notes = el("article", "hardware-notes");
+  notes.innerHTML = `<h2>Notas</h2>${(detected?.notes ?? []).map((note) => `<p>${note}</p>`).join("")}`;
+  wrap.append(summary, specs, applied, notes);
   return wrap;
 }
 

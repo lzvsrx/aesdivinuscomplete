@@ -31,6 +31,7 @@ Esta versao e uma implementacao jogavel web/desktop/mobile do documento de desig
 - **Arsenal e ferramentas:** fichas visuais de modelagem e gameplay para armas e ferramentas.
 - **Codex:** explicacao interna dos sistemas principais.
 - **Save completo:** todo progresso e salvo no IndexedDB.
+- **Deteccao de hardware:** o jogo identifica CPU logica, memoria aproximada, GPU/WebGL, tela, pixel ratio, touch e preferencia de movimento reduzido para aplicar qualidade automaticamente.
 
 ## Telas implementadas
 
@@ -42,7 +43,31 @@ Esta versao e uma implementacao jogavel web/desktop/mobile do documento de desig
 6. **Combate** - arena tatica por turnos.
 7. **Arsenal** - armas, ferramentas e direcao visual.
 8. **Principado** - recursos, reputacao e politicas.
-9. **Codex** - sistemas e referencias do jogo.
+9. **Hardware** - diagnostico do dispositivo e configuracao grafica.
+10. **Codex** - sistemas e referencias do jogo.
+
+## Configuracao automatica por hardware
+
+Ao iniciar, o jogo avalia o dispositivo e escolhe um perfil:
+
+- Muito baixo
+- Baixo
+- Medio
+- Alto
+- Ultra
+
+O perfil ajusta:
+
+- FPS alvo
+- escala de renderizacao
+- texturas
+- animacoes
+- sombras
+- particulas
+- efeitos de UI
+- tamanho de botoes em dispositivos touch
+
+A tela **Hardware** permite reavaliar o dispositivo ou trocar a qualidade manualmente. O resultado e salvo no IndexedDB junto com o resto do progresso.
 
 ## Armas e ferramentas
 
@@ -116,6 +141,7 @@ Cobertura atual:
 - eventos no banco
 - cadastro/criacao de personagem
 - cenas entrando em combate
+- deteccao de hardware e aplicacao de perfil grafico
 
 ## Build web
 
@@ -248,4 +274,3 @@ LZASANTOSWORLDSGAMES
 ## Licenca
 
 Todos os direitos reservados a LZASANTOSWORLDSGAMES, salvo definicao posterior de licenca.
-
