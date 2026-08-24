@@ -265,6 +265,20 @@ ios/App/App.xcworkspace
 
 Depois instale CocoaPods, configure assinatura Apple no Xcode, rode Archive e exporte o `.ipa`.
 
+## Build IPA pelo GitHub
+
+O workflow `.github/workflows/build-ios-ipa.yml` gera o IPA em runner macOS do GitHub Actions e envia o arquivo para a release informada.
+
+Sem secrets Apple, ele gera `Aes-Divinus-iOS-unsigned.ipa`, util para validacao e empacotamento, mas nao instalavel em iPhone comum. Para gerar IPA assinado e instalavel, configure estes secrets no GitHub:
+
+- `APPLE_CERTIFICATE_BASE64`: certificado `.p12` em base64.
+- `APPLE_CERTIFICATE_PASSWORD`: senha do `.p12`.
+- `APPLE_PROVISIONING_PROFILE_BASE64`: perfil `.mobileprovision` em base64.
+- `APPLE_TEAM_ID`: Team ID da Apple Developer.
+- `KEYCHAIN_PASSWORD`: senha temporaria para o keychain do runner.
+
+Depois rode manualmente **Actions > Build iOS IPA > Run workflow** usando `v0.1.0` como release tag.
+
 ## Scripts principais
 
 ```json

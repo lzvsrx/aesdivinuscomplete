@@ -1,0 +1,164 @@
+name: Build iOS IPA
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: GitHub Release tag to upload the IPA
+        required: true
+        default: v0.1.0
+      upload_release:
+        description: Upload IPA to the GitHub Release
+        required: true
+        default: "true"
+
+permissions:
+  contents: write
+
+jobs:
+  build-ios-ipa:
+    runs-on: macos-15
+    env:
+      APPLE_CERTIFICATE_BASE64: ${{ secrets.APPLE_CERTIFICATE_BASE64 }}
+      APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+      APPLE_PROVISIONING_PROFILE_BASE64: ${{ secrets.APPLE_PROVISIONING_PROFILE_BASE64 }}
+      APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+      KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 25
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Sync Capacitor iOS
+        run: npm run ios:sync
+
+      - name: Install CocoaPods
+        working-directory: ios/App
+        run: pod install --repo-update
+
+      - name: Build IPA
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          mkdir -p build/ios release
+
+          has_signing=false
+          if [[ -n "${APPLE_CERTIFICATE_BASE64}" && -n "${APPLE_CERTIFICATE_PASSWORD}" && -n "${APPLE_PROVISIONING_PROFILE_BASE64}" && -n "${APPLE_TEAM_ID}" ]]; then
+            has_signing=true
+          fi
+
+          if [[ "${has_signing}" == "true" ]]; then
+            echo "Building signed IPA with Apple certificate and provisioning profile."
+            keychain_password="${KEYCHAIN_PASSWORD:-temporary-ci-keychain}"
+            keychain_path="$RUNNER_TEMP/aes-divinus-signing.keychain-db"
+            cert_path="$RUNNER_TEMP/apple-signing.p12"
+            profile_path="$RUNNER_TEMP/profile.mobileprovision"
+            profile_plist="$RUNNER_TEMP/profile.plist"
+
+            echo "${APPLE_CERTIFICATE_BASE64}" | base64 --decode > "${cert_path}"
+            echo "${APPLE_PROVISIONING_PROFILE_BASE64}" | base64 --decode > "${profile_path}"
+            security cms -D -i "${profile_path}" > "${profile_plist}"
+            profile_uuid=$(/usr/libexec/PlistBuddy -c "Print UUID" "${profile_plist}")
+            profile_name=$(/usr/libexec/PlistBuddy -c "Print Name" "${profile_plist}")
+
+            security create-keychain -p "${keychain_password}" "${keychain_path}"
+            security set-keychain-settings -lut 21600 "${keychain_path}"
+            security unlock-keychain -p "${keychain_password}" "${keychain_path}"
+            security import "${cert_path}" -P "${APPLE_CERTIFICATE_PASSWORD}" -A -t cert -f pkcs12 -k "${keychain_path}"
+            security list-keychain -d user -s "${keychain_path}"
+            security set-key-partition-list -S apple-tool:,apple: -s -k "${keychain_password}" "${keychain_path}"
+
+            mkdir -p "$HOME/Library/MobileDevice/Provisioning Profiles"
+            cp "${profile_path}" "$HOME/Library/MobileDevice/Provisioning Profiles/${profile_uuid}.mobileprovision"
+
+            xcodebuild \
+              -workspace ios/App/App.xcworkspace \
+              -scheme App \
+              -configuration Release \
+              -sdk iphoneos \
+              -archivePath build/ios/AesDivinus.xcarchive \
+              DEVELOPMENT_TEAM="${APPLE_TEAM_ID}" \
+              CODE_SIGN_STYLE=Manual \
+              PROVISIONING_PROFILE_SPECIFIER="${profile_name}" \
+              archive
+
+            cat > build/ios/exportOptions.plist <<EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>method</key>
+            <string>ad-hoc</string>
+            <key>teamID</key>
+            <string>${APPLE_TEAM_ID}</string>
+            <key>signingStyle</key>
+            <string>manual</string>
+            <key>provisioningProfiles</key>
+            <dict>
+              <key>com.lzasantosworldsgames.aesdivinus</key>
+              <string>${profile_name}</string>
+            </dict>
+          </dict>
+          </plist>
+          EOF
+
+            xcodebuild \
+              -exportArchive \
+              -archivePath build/ios/AesDivinus.xcarchive \
+              -exportOptionsPlist build/ios/exportOptions.plist \
+              -exportPath build/ios/export
+
+            cp build/ios/export/*.ipa release/Aes-Divinus-iOS.ipa
+          else
+            echo "Apple signing secrets are not configured. Building unsigned IPA."
+            xcodebuild \
+              -workspace ios/App/App.xcworkspace \
+              -scheme App \
+              -configuration Release \
+              -sdk iphoneos \
+              -derivedDataPath build/ios/DerivedData \
+              CODE_SIGNING_ALLOWED=NO \
+              CODE_SIGNING_REQUIRED=NO \
+              CODE_SIGN_IDENTITY="" \
+              build
+
+            app_path=$(find build/ios/DerivedData/Build/Products/Release-iphoneos -maxdepth 2 -name "*.app" -type d | head -n 1)
+            if [[ -z "${app_path}" ]]; then
+              echo "No .app bundle was produced."
+              exit 1
+            fi
+            mkdir -p build/ios/Payload
+            cp -R "${app_path}" build/ios/Payload/
+            (cd build/ios && zip -qry ../../release/Aes-Divinus-iOS-unsigned.ipa Payload)
+          fi
+
+      - name: Generate checksum
+        shell: bash
+        run: |
+          set -euo pipefail
+          shasum -a 256 release/*.ipa > release/SHA256SUMS-iOS-IPA.txt
+          cat release/SHA256SUMS-iOS-IPA.txt
+
+      - name: Upload workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: aes-divinus-ios-ipa
+          path: |
+            release/*.ipa
+            release/SHA256SUMS-iOS-IPA.txt
+
+      - name: Upload IPA to GitHub Release
+        if: ${{ inputs.upload_release == 'true' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload "${{ inputs.release_tag }}" release/*.ipa release/SHA256SUMS-iOS-IPA.txt --clobber
