@@ -1442,6 +1442,23 @@ dd {
   line-height: 1.45;
 }
 
+.security-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.security-links a {
+  border: 1px solid rgba(208, 169, 81, .45);
+  border-radius: 8px;
+  padding: 8px 10px;
+  background: rgba(208, 169, 81, .08);
+  color: var(--gold);
+  font-size: 13px;
+  text-decoration: none;
+}
+
 .app-shell[data-quality="high"] .equipment-card:hover,
 .app-shell[data-quality="ultra"] .equipment-card:hover,
 .app-shell[data-quality="high"] .screen-card:hover,

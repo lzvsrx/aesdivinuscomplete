@@ -18,7 +18,10 @@ async function copyDir(src, dest) {
 await fs.rm(out, { recursive: true, force: true });
 await fs.mkdir(out, { recursive: true });
 await fs.copyFile(path.join(root, "index.html"), path.join(out, "index.html"));
+await fs.copyFile(path.join(root, "PRIVACY_POLICY.md"), path.join(out, "PRIVACY_POLICY.md"));
+await fs.copyFile(path.join(root, "TERMS_OF_USE.md"), path.join(out, "TERMS_OF_USE.md"));
 await copyDir(path.join(root, "src"), path.join(out, "src"));
 await copyDir(path.join(root, "assets"), path.join(out, "assets"));
+await copyDir(path.join(root, "docs"), path.join(out, "docs"));
 
 console.log("dist-web pronto.");

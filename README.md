@@ -228,6 +228,14 @@ Medidas de seguranca implementadas:
 - saves antigos em texto puro continuam carregando e sao migrados no proximo save.
 - o token do GitHub nao e enviado dentro do arquivo de save remoto.
 - email bruto, token e identificador do dispositivo sao redigidos no save remoto estruturado.
+- caminhos do GitHub Sync sao normalizados para evitar escrita fora das pastas esperadas.
+- saves entram em fila para evitar gravacoes simultaneas e corrupcao por acoes rapidas.
+- historico de eventos do banco e limitado para reduzir exposicao e crescimento indefinido.
+- falhas de rede no GitHub Sync possuem nova tentativa para reduzir perda de autosave remoto.
+- a tela Config > Seguranca mostra plano de incidentes, contatos oficiais, politica de privacidade e termos.
+- o projeto inclui resposta a incidentes com preservacao de evidencias, contencao, avaliacao juridica/tecnica e comunicacao a ANPD, titulares afetados, Policia Federal, CERT.br, SaferNet, autoridades internacionais ou plataformas quando exigido.
+- a lista global de contatos cobre Brasil, EUA, Europa/Reino Unido, Canada, Australia, Nova Zelandia, diretorios GPA/EDPB/FIRST/Europol/INTERPOL e canais de GitHub, Steam, Apple e Google Play.
+- denuncias/notificacoes oficiais nao sao enviadas automaticamente pelo jogo; precisam de avaliacao humana para evitar comunicacao incorreta, vazamento adicional ou conflito com leis locais.
 
 ## Documentos legais e conformidade
 

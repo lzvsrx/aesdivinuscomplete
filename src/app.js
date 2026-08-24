@@ -942,7 +942,17 @@ function renderSecurityPanel() {
       <dt>Criptografia local</dt><dd>${globalThis.crypto?.subtle ? "AES-GCM disponivel" : "Fallback sem WebCrypto"}</dd>
       <dt>Integridade</dt><dd>Hash SHA-256 por snapshot e evento</dd>
       <dt>Privacidade</dt><dd>${game.state.settings?.privacyMode ? "Ativa" : "Normal"}</dd>
+      <dt>Dados remotos</dt><dd>Email bruto, token GitHub e identificador do dispositivo sao redigidos antes do envio.</dd>
+      <dt>Incidentes</dt><dd>Falhas devem preservar evidencias, conter o risco e seguir o plano de resposta cibernetica.</dd>
+      <dt>Autoridades</dt><dd>ANPD, Policia Federal, CERT.br, SaferNet, EDPB/GPA, FIRST, Europol/INTERPOL e plataformas conforme pais e caso.</dd>
+      <dt>Comunicacao oficial</dt><dd>Denuncias e notificacoes exigem avaliacao humana, juridica e tecnica antes do envio.</dd>
     </dl>
+    <div class="security-links">
+      <a href="./docs/PLANO_RESPOSTA_INCIDENTES_CIBERNETICOS.md" target="_blank" rel="noreferrer">Plano de incidentes</a>
+      <a href="./docs/CONTATOS_AUTORIDADES_CIBERNETICAS_GLOBAIS.md" target="_blank" rel="noreferrer">Contatos oficiais</a>
+      <a href="./PRIVACY_POLICY.md" target="_blank" rel="noreferrer">Privacidade</a>
+      <a href="./TERMS_OF_USE.md" target="_blank" rel="noreferrer">Termos</a>
+    </div>
   `;
   return panel;
 }
