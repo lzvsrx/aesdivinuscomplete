@@ -236,6 +236,7 @@ Arquivos incluidos no projeto:
 - `PRIVACY_POLICY.md`
 - `TERMS_OF_USE.md`
 - `COMPLIANCE_RELEASE_CHECKLIST.md`
+- `docs/DIREITOS_PUBLICACAO_STEAM_REGRAS.md`
 
 Esses documentos ajudam a preparar lancamento, revisao de loja e auditoria interna, mas devem ser revisados por advogado antes de venda publica ou publicacao mundial.
 
