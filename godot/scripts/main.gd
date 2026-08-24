@@ -948,6 +948,7 @@ func _show_playable_mission_flow(mission: Dictionary, scenes: Array) -> void:
 	var enemies := _mission_enemies(mission)
 	var presentation := _mission_presentation(mission)
 	var background: Dictionary = presentation.get("background", {})
+	var gameplay: Dictionary = presentation.get("gameplay", {})
 	var mission_actions: Array = presentation.get("actions", [])
 	var rewards: Dictionary = mission.get("rewards", {})
 	var lines: Array[String] = [
@@ -969,6 +970,19 @@ func _show_playable_mission_flow(mission: Dictionary, scenes: Array) -> void:
 		"%s: %s" % [background.get("name", "Campo de Missao"), background.get("mood", "")],
 		"Camera: %s" % background.get("camera", ""),
 		"Props: %s" % ", ".join(_string_array(background.get("props", []))),
+		"",
+		"[b]Arquetipo tatico[/b]",
+		"%s" % gameplay.get("label", "Encontro tatico"),
+		"Pressao: %s" % gameplay.get("pressure", ""),
+		"",
+		"[b]Vitoria[/b]",
+		"- %s" % "\n- ".join(_string_array(gameplay.get("victory", []))),
+		"",
+		"[b]Falha[/b]",
+		"- %s" % "\n- ".join(_string_array(gameplay.get("failure", []))),
+		"",
+		"[b]Interacoes de ambiente[/b]",
+		"- %s" % "\n- ".join(_string_array(gameplay.get("interactions", []))),
 		"",
 		"[b]Jogabilidade acontecendo[/b]",
 		"- A cena abre a situacao.",
@@ -1015,6 +1029,7 @@ func _show_mission_screen(mission: Dictionary) -> void:
 	var enemies := _mission_enemies(mission)
 	var presentation := _mission_presentation(mission)
 	var background: Dictionary = presentation.get("background", {})
+	var gameplay: Dictionary = presentation.get("gameplay", {})
 	var mission_actions: Array = presentation.get("actions", [])
 	var rewards: Dictionary = mission.get("rewards", {})
 	var lines: Array[String] = [
@@ -1028,6 +1043,13 @@ func _show_mission_screen(mission: Dictionary) -> void:
 		"[b]Fundo da missao[/b]",
 		"%s: %s" % [background.get("name", "Campo de Missao"), background.get("mood", "")],
 		"Camera: %s" % background.get("camera", ""),
+		"",
+		"[b]Arquetipo tatico[/b]",
+		"%s" % gameplay.get("label", "Encontro tatico"),
+		"Pressao: %s" % gameplay.get("pressure", ""),
+		"Vitoria: %s" % " / ".join(_string_array(gameplay.get("victory", []))),
+		"Falha: %s" % " / ".join(_string_array(gameplay.get("failure", []))),
+		"Interacoes: %s" % " / ".join(_string_array(gameplay.get("interactions", []))),
 		"",
 		"[b]Regras em uso[/b]",
 		"- Turnos com 2 PA",

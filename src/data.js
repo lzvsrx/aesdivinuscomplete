@@ -250,6 +250,125 @@ const MANAGEMENT_TYPES = ["Ato", "Cena cinematica", "Cena de tensao", "Cena de d
 const BOSS_TYPES = ["Cacada/chefe", "Chefe", "Chefe tutorial", "Chefe final multifasico"];
 const SUPERNATURAL_TYPES = ["Cena sobrenatural", "Exploracao/horror", "Dungeon tatica", "Missao psicologica", "Travessia", "Chefe tutorial", "Chefe final multifasico"];
 
+export const MISSION_DESIGN_REFERENCES = [
+  {
+    game: "XCOM 2",
+    designUse: "Objetivos primarios/secundarios, extracao, cobertura, reforcos e missao com pressao de tempo.",
+    aesDivinusRule: "Missoes de defesa, escolta, assalto e resgate recebem relogio, objetivo principal, objetivo opcional e falha clara."
+  },
+  {
+    game: "Divinity: Original Sin 2 / Baldur's Gate 3",
+    designUse: "Combate por turnos com acoes criativas, ambiente interativo, altura, superficies e escolhas com consequencias.",
+    aesDivinusRule: "Cada missao recebe interacoes de terreno, escolhas de abordagem e acoes que mudam medo, coragem, reputacao ou recursos."
+  },
+  {
+    game: "Wartales",
+    designUse: "Companhia medieval, sobrevivencia, contratos, exploracao, acampamento, profissao e gestao de recursos.",
+    aesDivinusRule: "Missoes de busca, investigacao, travessia e caravana ligam suprimentos, feridos, sobreviventes e recompensas persistentes."
+  },
+  {
+    game: "King Arthur: Knight's Tale",
+    designUse: "RPG tatico sombrio com herois, moralidade, lealdade, recuperacao, castelo/reino e decisoes politicas.",
+    aesDivinusRule: "Cenas politicas, julgamento, duques e companheiros alteram reputacao, lealdade, perdas e condicoes de epilogo."
+  }
+];
+
+export const MISSION_GAMEPLAY_ARCHETYPES = {
+  cinematic: {
+    label: "Cena cinematica interativa",
+    victory: ["Escolher resposta de William", "Registrar consequencia no diario"],
+    failure: ["Sem falha direta; custo politico se ignorar contexto"],
+    pressure: "Pressao narrativa, moral e de reputacao.",
+    interactions: ["escolha de dialogo", "leitura de companheiros", "registro no codex"]
+  },
+  council: {
+    label: "Conselho, politica e gestao",
+    victory: ["Escolher prioridade", "Aplicar custo/recompensa de recursos"],
+    failure: ["Perder reputacao com faccao", "Abrir rota mais dificil"],
+    pressure: "Recursos limitados e faccoes cobrando resposta.",
+    interactions: ["negociar", "comprometer comida/ouro/tropas", "julgar consequencias"]
+  },
+  investigate: {
+    label: "Investigacao e exploracao",
+    victory: ["Encontrar pista chave", "Identificar causa ou culpado"],
+    failure: ["Tempo esgotado", "Pista destruida", "Inimigo foge"],
+    pressure: "Rastros somem, medo cresce e recursos podem acabar.",
+    interactions: ["percepcao", "interagir com corpos/portas", "rotas ocultas", "luz/ruido"]
+  },
+  rescue: {
+    label: "Busca e resgate",
+    victory: ["Localizar alvo", "Retirar sobreviventes"],
+    failure: ["Sobrevivente morre", "Caravana/regiao cai", "Baixas persistentes"],
+    pressure: "Relogio de missao e risco de emboscada.",
+    interactions: ["evacuar", "tratar feridos", "abrir rota segura", "proteger civis"]
+  },
+  escort: {
+    label: "Escolta e travessia",
+    victory: ["Levar carga/grupo ate o destino", "Manter suprimentos acima do minimo"],
+    failure: ["Carga perdida", "Companheiro cai", "Rota bloqueada"],
+    pressure: "Emboscadas, fome, terreno e escolhas de caminho.",
+    interactions: ["escolher rota", "reorganizar formacao", "usar suprimentos", "detectar emboscada"]
+  },
+  defense: {
+    label: "Defesa por setores",
+    victory: ["Segurar setor ate o fim", "Proteger portao/ponte/cidade"],
+    failure: ["Setor principal cai", "Civis ou tropas demais perdidos"],
+    pressure: "Reforcos chegam em ondas e barricadas degradam.",
+    interactions: ["reforcar barricada", "reposicionar arqueiros", "chamar reforcos", "apagar fogo"]
+  },
+  assault: {
+    label: "Assalto multiobjetivo",
+    victory: ["Romper objetivos", "Escolher infiltrar, sabotar ou atacar"],
+    failure: ["Alarme total", "Perdas altas", "Objetivo fica inacessivel"],
+    pressure: "Alarme, patrulhas, cobertura e rotas alternativas.",
+    interactions: ["infiltrar", "sabotar", "abrir portao", "ataque frontal", "flanquear"]
+  },
+  diplomacy: {
+    label: "Diplomacia armada",
+    victory: ["Evitar ruptura ou vencer sem massacre", "Preservar reputacao essencial"],
+    failure: ["Aliado vira inimigo", "Faccoes rompem", "Lealdade cai"],
+    pressure: "Decisoes morais e politica em combate.",
+    interactions: ["negociar sob ameaca", "capturar", "forcar rendicao", "evitar baixas"]
+  },
+  horror: {
+    label: "Horror, cripta e medo",
+    victory: ["Sobreviver", "Controlar luz/medo", "Resolver ritual ou puzzle"],
+    failure: ["Coragem colapsa", "Ritual avanca", "Trauma permanente"],
+    pressure: "Escuridao, efeitos psicologicos e eventos de rodada.",
+    interactions: ["manter luz", "selar runa", "investigar escritura", "acalmar aliado"]
+  },
+  boss: {
+    label: "Chefe por fases",
+    victory: ["Quebrar mecanismos", "Sobreviver as fases", "Derrotar/capturar chefe"],
+    failure: ["Ritual completa", "William cai", "Companheiros fogem"],
+    pressure: "Fases alteram terreno, medo, reforcos e objetivo.",
+    interactions: ["quebrar fase", "comandar coragem", "usar terreno", "romper ritual"]
+  },
+  final: {
+    label: "Final reativo",
+    victory: ["Resolver objetivos em ordem escolhida", "Definir destino do poder"],
+    failure: ["Aliancas insuficientes", "Recursos colapsam", "Entidade vence condicao de ritual"],
+    pressure: "Tudo que foi salvo, administrado e decidido entra no calculo.",
+    interactions: ["convocar aliados", "romper tres objetivos", "decidir destino", "liderar sob medo"]
+  }
+};
+
+function missionArchetype(mission) {
+  const type = mission.type.toLowerCase();
+  const id = mission.id.toLowerCase();
+  if (type.includes("chefe final") || id.includes("final") || id.includes("last_order")) return "final";
+  if (BOSS_TYPES.includes(mission.type)) return "boss";
+  if (type.includes("horror") || type.includes("cripta") || type.includes("psicologica") || type.includes("sobrenatural") || type.includes("travessia")) return "horror";
+  if (type.includes("defesa") || type.includes("cerco") || type.includes("ponte")) return "defense";
+  if (type.includes("assalto") || type.includes("batalha moral") || type.includes("mapa grande")) return "assault";
+  if (type.includes("diplomacia") || type.includes("politica") || type.includes("julgamento") || type.includes("duques")) return "diplomacy";
+  if (type.includes("resgate") || type.includes("busca") || type.includes("corrida")) return "rescue";
+  if (type.includes("escolta") || type.includes("travessia")) return "escort";
+  if (type.includes("investigacao") || type.includes("exploracao") || type.includes("dungeon")) return "investigate";
+  if (type.includes("conselho") || mission.managementOnly) return "council";
+  return "cinematic";
+}
+
 function missionEnemySet(type) {
   if (BOSS_TYPES.includes(type) || SUPERNATURAL_TYPES.includes(type)) return "manifestation";
   return "forest_first_contact";
@@ -393,9 +512,11 @@ function missionBackdrop(mission) {
 
 function missionActions(mission) {
   const type = mission.type.toLowerCase();
+  const archetype = MISSION_GAMEPLAY_ARCHETYPES[missionArchetype(mission)];
   const actions = [
     { id: `${mission.id}_objective`, label: `Executar objetivo: ${mission.title}`, cost: "2 PA", effect: mission.objective },
-    { id: `${mission.id}_perception`, label: "Ler terreno", cost: "1 PA", effect: "Revela pistas, cobertura, rotas e ameacas." }
+    { id: `${mission.id}_perception`, label: "Ler terreno", cost: "1 PA", effect: "Revela pistas, cobertura, rotas e ameacas." },
+    { id: `${mission.id}_archetype_core`, label: archetype.label, cost: "regra", effect: archetype.pressure }
   ];
   if (type.includes("defesa") || type.includes("cerco")) {
     actions.push({ id: `${mission.id}_barricade`, label: "Reforcar barricada", cost: "1 PA + madeira", effect: "Aumenta defesa do setor e atrasa reforcos inimigos." });
@@ -425,6 +546,8 @@ export const MISSION_PRESENTATION = Object.fromEntries(
     mission.id,
     {
       background: missionBackdrop(mission),
+      archetype: missionArchetype(mission),
+      gameplay: MISSION_GAMEPLAY_ARCHETYPES[missionArchetype(mission)],
       actions: missionActions(mission)
     }
   ])

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-24T22:00:34.943Z",
+  "generatedAt": "2026-08-24T22:12:26.025Z",
   "game": "Aes Divinus",
   "source": "src/data.js",
   "fearStates": {
@@ -3052,6 +3052,24 @@
         ],
         "camera": "terceira pessoa baixa que abre para enquadramento tatico quando a ameaca aparece"
       },
+      "archetype": "council",
+      "gameplay": {
+        "label": "Conselho, politica e gestao",
+        "victory": [
+          "Escolher prioridade",
+          "Aplicar custo/recompensa de recursos"
+        ],
+        "failure": [
+          "Perder reputacao com faccao",
+          "Abrir rota mais dificil"
+        ],
+        "pressure": "Recursos limitados e faccoes cobrando resposta.",
+        "interactions": [
+          "negociar",
+          "comprometer comida/ouro/tropas",
+          "julgar consequencias"
+        ]
+      },
       "actions": [
         {
           "id": "prologue_opening_objective",
@@ -3064,6 +3082,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "prologue_opening_archetype_core",
+          "label": "Conselho, politica e gestao",
+          "cost": "regra",
+          "effect": "Recursos limitados e faccoes cobrando resposta."
         },
         {
           "id": "prologue_opening_negotiate",
@@ -3104,6 +3128,26 @@
         ],
         "camera": "terceira pessoa baixa que abre para enquadramento tatico quando a ameaca aparece"
       },
+      "archetype": "investigate",
+      "gameplay": {
+        "label": "Investigacao e exploracao",
+        "victory": [
+          "Encontrar pista chave",
+          "Identificar causa ou culpado"
+        ],
+        "failure": [
+          "Tempo esgotado",
+          "Pista destruida",
+          "Inimigo foge"
+        ],
+        "pressure": "Rastros somem, medo cresce e recursos podem acabar.",
+        "interactions": [
+          "percepcao",
+          "interagir com corpos/portas",
+          "rotas ocultas",
+          "luz/ruido"
+        ]
+      },
       "actions": [
         {
           "id": "old_road_objective",
@@ -3116,6 +3160,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "old_road_archetype_core",
+          "label": "Investigacao e exploracao",
+          "cost": "regra",
+          "effect": "Rastros somem, medo cresce e recursos podem acabar."
         },
         {
           "id": "old_road_inspect",
@@ -3156,6 +3206,24 @@
         ],
         "camera": "terceira pessoa baixa que abre para enquadramento tatico quando a ameaca aparece"
       },
+      "archetype": "council",
+      "gameplay": {
+        "label": "Conselho, politica e gestao",
+        "victory": [
+          "Escolher prioridade",
+          "Aplicar custo/recompensa de recursos"
+        ],
+        "failure": [
+          "Perder reputacao com faccao",
+          "Abrir rota mais dificil"
+        ],
+        "pressure": "Recursos limitados e faccoes cobrando resposta.",
+        "interactions": [
+          "negociar",
+          "comprometer comida/ouro/tropas",
+          "julgar consequencias"
+        ]
+      },
       "actions": [
         {
           "id": "forest_signs_objective",
@@ -3168,6 +3236,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "forest_signs_archetype_core",
+          "label": "Conselho, politica e gestao",
+          "cost": "regra",
+          "effect": "Recursos limitados e faccoes cobrando resposta."
         },
         {
           "id": "forest_signs_negotiate",
@@ -3208,6 +3282,23 @@
         ],
         "camera": "terceira pessoa baixa que abre para enquadramento tatico quando a ameaca aparece"
       },
+      "archetype": "cinematic",
+      "gameplay": {
+        "label": "Cena cinematica interativa",
+        "victory": [
+          "Escolher resposta de William",
+          "Registrar consequencia no diario"
+        ],
+        "failure": [
+          "Sem falha direta; custo politico se ignorar contexto"
+        ],
+        "pressure": "Pressao narrativa, moral e de reputacao.",
+        "interactions": [
+          "escolha de dialogo",
+          "leitura de companheiros",
+          "registro no codex"
+        ]
+      },
       "actions": [
         {
           "id": "ambush_objective",
@@ -3220,6 +3311,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "ambush_archetype_core",
+          "label": "Cena cinematica interativa",
+          "cost": "regra",
+          "effect": "Pressao narrativa, moral e de reputacao."
         },
         {
           "id": "ambush_attack",
@@ -3260,6 +3357,24 @@
         ],
         "camera": "terceira pessoa baixa que abre para enquadramento tatico quando a ameaca aparece"
       },
+      "archetype": "council",
+      "gameplay": {
+        "label": "Conselho, politica e gestao",
+        "victory": [
+          "Escolher prioridade",
+          "Aplicar custo/recompensa de recursos"
+        ],
+        "failure": [
+          "Perder reputacao com faccao",
+          "Abrir rota mais dificil"
+        ],
+        "pressure": "Recursos limitados e faccoes cobrando resposta.",
+        "interactions": [
+          "negociar",
+          "comprometer comida/ouro/tropas",
+          "julgar consequencias"
+        ]
+      },
       "actions": [
         {
           "id": "after_blood_objective",
@@ -3272,6 +3387,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "after_blood_archetype_core",
+          "label": "Conselho, politica e gestao",
+          "cost": "regra",
+          "effect": "Recursos limitados e faccoes cobrando resposta."
         },
         {
           "id": "after_blood_negotiate",
@@ -3312,6 +3433,26 @@
         ],
         "camera": "terceira pessoa baixa que abre para enquadramento tatico quando a ameaca aparece"
       },
+      "archetype": "rescue",
+      "gameplay": {
+        "label": "Busca e resgate",
+        "victory": [
+          "Localizar alvo",
+          "Retirar sobreviventes"
+        ],
+        "failure": [
+          "Sobrevivente morre",
+          "Caravana/regiao cai",
+          "Baixas persistentes"
+        ],
+        "pressure": "Relogio de missao e risco de emboscada.",
+        "interactions": [
+          "evacuar",
+          "tratar feridos",
+          "abrir rota segura",
+          "proteger civis"
+        ]
+      },
       "actions": [
         {
           "id": "survivor_objective",
@@ -3324,6 +3465,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "survivor_archetype_core",
+          "label": "Busca e resgate",
+          "cost": "regra",
+          "effect": "Relogio de missao e risco de emboscada."
         },
         {
           "id": "survivor_evacuate",
@@ -3364,6 +3511,27 @@
         ],
         "camera": "terceira pessoa baixa que abre para enquadramento tatico quando a ameaca aparece"
       },
+      "archetype": "horror",
+      "gameplay": {
+        "label": "Horror, cripta e medo",
+        "victory": [
+          "Sobreviver",
+          "Controlar luz/medo",
+          "Resolver ritual ou puzzle"
+        ],
+        "failure": [
+          "Coragem colapsa",
+          "Ritual avanca",
+          "Trauma permanente"
+        ],
+        "pressure": "Escuridao, efeitos psicologicos e eventos de rodada.",
+        "interactions": [
+          "manter luz",
+          "selar runa",
+          "investigar escritura",
+          "acalmar aliado"
+        ]
+      },
       "actions": [
         {
           "id": "transformation_objective",
@@ -3376,6 +3544,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "transformation_archetype_core",
+          "label": "Horror, cripta e medo",
+          "cost": "regra",
+          "effect": "Escuridao, efeitos psicologicos e eventos de rodada."
         },
         {
           "id": "transformation_negotiate",
@@ -3416,6 +3590,27 @@
         ],
         "camera": "terceira pessoa baixa que abre para enquadramento tatico quando a ameaca aparece"
       },
+      "archetype": "boss",
+      "gameplay": {
+        "label": "Chefe por fases",
+        "victory": [
+          "Quebrar mecanismos",
+          "Sobreviver as fases",
+          "Derrotar/capturar chefe"
+        ],
+        "failure": [
+          "Ritual completa",
+          "William cai",
+          "Companheiros fogem"
+        ],
+        "pressure": "Fases alteram terreno, medo, reforcos e objetivo.",
+        "interactions": [
+          "quebrar fase",
+          "comandar coragem",
+          "usar terreno",
+          "romper ritual"
+        ]
+      },
       "actions": [
         {
           "id": "real_battle_objective",
@@ -3428,6 +3623,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "real_battle_archetype_core",
+          "label": "Chefe por fases",
+          "cost": "regra",
+          "effect": "Fases alteram terreno, medo, reforcos e objetivo."
         },
         {
           "id": "real_battle_break_phase",
@@ -3468,6 +3669,26 @@
         ],
         "camera": "terceira pessoa baixa que abre para enquadramento tatico quando a ameaca aparece"
       },
+      "archetype": "diplomacy",
+      "gameplay": {
+        "label": "Diplomacia armada",
+        "victory": [
+          "Evitar ruptura ou vencer sem massacre",
+          "Preservar reputacao essencial"
+        ],
+        "failure": [
+          "Aliado vira inimigo",
+          "Faccoes rompem",
+          "Lealdade cai"
+        ],
+        "pressure": "Decisoes morais e politica em combate.",
+        "interactions": [
+          "negociar sob ameaca",
+          "capturar",
+          "forcar rendicao",
+          "evitar baixas"
+        ]
+      },
       "actions": [
         {
           "id": "hubris_objective",
@@ -3480,6 +3701,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "hubris_archetype_core",
+          "label": "Diplomacia armada",
+          "cost": "regra",
+          "effect": "Decisoes morais e politica em combate."
         },
         {
           "id": "hubris_negotiate",
@@ -3520,6 +3747,24 @@
         ],
         "camera": "plano de mesa com cortes para rostos e emblemas de faccao"
       },
+      "archetype": "council",
+      "gameplay": {
+        "label": "Conselho, politica e gestao",
+        "victory": [
+          "Escolher prioridade",
+          "Aplicar custo/recompensa de recursos"
+        ],
+        "failure": [
+          "Perder reputacao com faccao",
+          "Abrir rota mais dificil"
+        ],
+        "pressure": "Recursos limitados e faccoes cobrando resposta.",
+        "interactions": [
+          "negociar",
+          "comprometer comida/ouro/tropas",
+          "julgar consequencias"
+        ]
+      },
       "actions": [
         {
           "id": "stone_council_objective",
@@ -3532,6 +3777,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "stone_council_archetype_core",
+          "label": "Conselho, politica e gestao",
+          "cost": "regra",
+          "effect": "Recursos limitados e faccoes cobrando resposta."
         },
         {
           "id": "stone_council_negotiate",
@@ -3572,6 +3823,26 @@
         ],
         "camera": "plano de mesa com cortes para rostos e emblemas de faccao"
       },
+      "archetype": "investigate",
+      "gameplay": {
+        "label": "Investigacao e exploracao",
+        "victory": [
+          "Encontrar pista chave",
+          "Identificar causa ou culpado"
+        ],
+        "failure": [
+          "Tempo esgotado",
+          "Pista destruida",
+          "Inimigo foge"
+        ],
+        "pressure": "Rastros somem, medo cresce e recursos podem acabar.",
+        "interactions": [
+          "percepcao",
+          "interagir com corpos/portas",
+          "rotas ocultas",
+          "luz/ruido"
+        ]
+      },
       "actions": [
         {
           "id": "empty_granaries_objective",
@@ -3584,6 +3855,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "empty_granaries_archetype_core",
+          "label": "Investigacao e exploracao",
+          "cost": "regra",
+          "effect": "Rastros somem, medo cresce e recursos podem acabar."
         },
         {
           "id": "empty_granaries_negotiate",
@@ -3624,6 +3901,26 @@
         ],
         "camera": "terceira pessoa exploratoria com destaques de percepcao"
       },
+      "archetype": "rescue",
+      "gameplay": {
+        "label": "Busca e resgate",
+        "victory": [
+          "Localizar alvo",
+          "Retirar sobreviventes"
+        ],
+        "failure": [
+          "Sobrevivente morre",
+          "Caravana/regiao cai",
+          "Baixas persistentes"
+        ],
+        "pressure": "Relogio de missao e risco de emboscada.",
+        "interactions": [
+          "evacuar",
+          "tratar feridos",
+          "abrir rota segura",
+          "proteger civis"
+        ]
+      },
       "actions": [
         {
           "id": "village_without_bells_objective",
@@ -3636,6 +3933,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "village_without_bells_archetype_core",
+          "label": "Busca e resgate",
+          "cost": "regra",
+          "effect": "Relogio de missao e risco de emboscada."
         },
         {
           "id": "village_without_bells_evacuate",
@@ -3676,6 +3979,26 @@
         ],
         "camera": "terceira pessoa baixa que abre para enquadramento tatico quando a ameaca aparece"
       },
+      "archetype": "escort",
+      "gameplay": {
+        "label": "Escolta e travessia",
+        "victory": [
+          "Levar carga/grupo ate o destino",
+          "Manter suprimentos acima do minimo"
+        ],
+        "failure": [
+          "Carga perdida",
+          "Companheiro cai",
+          "Rota bloqueada"
+        ],
+        "pressure": "Emboscadas, fome, terreno e escolhas de caminho.",
+        "interactions": [
+          "escolher rota",
+          "reorganizar formacao",
+          "usar suprimentos",
+          "detectar emboscada"
+        ]
+      },
       "actions": [
         {
           "id": "wolves_on_the_road_objective",
@@ -3688,6 +4011,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "wolves_on_the_road_archetype_core",
+          "label": "Escolta e travessia",
+          "cost": "regra",
+          "effect": "Emboscadas, fome, terreno e escolhas de caminho."
         },
         {
           "id": "wolves_on_the_road_attack",
@@ -3728,6 +4057,23 @@
         ],
         "camera": "camera tatica orbitavel para combate por turnos"
       },
+      "archetype": "cinematic",
+      "gameplay": {
+        "label": "Cena cinematica interativa",
+        "victory": [
+          "Escolher resposta de William",
+          "Registrar consequencia no diario"
+        ],
+        "failure": [
+          "Sem falha direta; custo politico se ignorar contexto"
+        ],
+        "pressure": "Pressao narrativa, moral e de reputacao.",
+        "interactions": [
+          "escolha de dialogo",
+          "leitura de companheiros",
+          "registro no codex"
+        ]
+      },
       "actions": [
         {
           "id": "blood_debt_objective",
@@ -3740,6 +4086,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "blood_debt_archetype_core",
+          "label": "Cena cinematica interativa",
+          "cost": "regra",
+          "effect": "Pressao narrativa, moral e de reputacao."
         },
         {
           "id": "blood_debt_attack",
@@ -3780,6 +4132,25 @@
         ],
         "camera": "camera tatica alta para setor, reforcos e objetivos de defesa"
       },
+      "archetype": "defense",
+      "gameplay": {
+        "label": "Defesa por setores",
+        "victory": [
+          "Segurar setor ate o fim",
+          "Proteger portao/ponte/cidade"
+        ],
+        "failure": [
+          "Setor principal cai",
+          "Civis ou tropas demais perdidos"
+        ],
+        "pressure": "Reforcos chegam em ondas e barricadas degradam.",
+        "interactions": [
+          "reforcar barricada",
+          "reposicionar arqueiros",
+          "chamar reforcos",
+          "apagar fogo"
+        ]
+      },
       "actions": [
         {
           "id": "gate_at_dusk_objective",
@@ -3792,6 +4163,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "gate_at_dusk_archetype_core",
+          "label": "Defesa por setores",
+          "cost": "regra",
+          "effect": "Reforcos chegam em ondas e barricadas degradam."
         },
         {
           "id": "gate_at_dusk_barricade",
@@ -3832,6 +4209,26 @@
         ],
         "camera": "plano de mesa com cortes para rostos e emblemas de faccao"
       },
+      "archetype": "diplomacy",
+      "gameplay": {
+        "label": "Diplomacia armada",
+        "victory": [
+          "Evitar ruptura ou vencer sem massacre",
+          "Preservar reputacao essencial"
+        ],
+        "failure": [
+          "Aliado vira inimigo",
+          "Faccoes rompem",
+          "Lealdade cai"
+        ],
+        "pressure": "Decisoes morais e politica em combate.",
+        "interactions": [
+          "negociar sob ameaca",
+          "capturar",
+          "forcar rendicao",
+          "evitar baixas"
+        ]
+      },
       "actions": [
         {
           "id": "prince_trial_objective",
@@ -3844,6 +4241,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "prince_trial_archetype_core",
+          "label": "Diplomacia armada",
+          "cost": "regra",
+          "effect": "Decisoes morais e politica em combate."
         },
         {
           "id": "prince_trial_negotiate",
@@ -3884,6 +4287,27 @@
         ],
         "camera": "enquadramento amplo para fases, mecanismos e escala da ameaca"
       },
+      "archetype": "boss",
+      "gameplay": {
+        "label": "Chefe por fases",
+        "victory": [
+          "Quebrar mecanismos",
+          "Sobreviver as fases",
+          "Derrotar/capturar chefe"
+        ],
+        "failure": [
+          "Ritual completa",
+          "William cai",
+          "Companheiros fogem"
+        ],
+        "pressure": "Fases alteram terreno, medo, reforcos e objetivo.",
+        "interactions": [
+          "quebrar fase",
+          "comandar coragem",
+          "usar terreno",
+          "romper ritual"
+        ]
+      },
       "actions": [
         {
           "id": "herald_of_the_woods_objective",
@@ -3896,6 +4320,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "herald_of_the_woods_archetype_core",
+          "label": "Chefe por fases",
+          "cost": "regra",
+          "effect": "Fases alteram terreno, medo, reforcos e objetivo."
         },
         {
           "id": "herald_of_the_woods_break_phase",
@@ -3936,6 +4366,24 @@
         ],
         "camera": "plano de mesa com cortes para rostos e emblemas de faccao"
       },
+      "archetype": "council",
+      "gameplay": {
+        "label": "Conselho, politica e gestao",
+        "victory": [
+          "Escolher prioridade",
+          "Aplicar custo/recompensa de recursos"
+        ],
+        "failure": [
+          "Perder reputacao com faccao",
+          "Abrir rota mais dificil"
+        ],
+        "pressure": "Recursos limitados e faccoes cobrando resposta.",
+        "interactions": [
+          "negociar",
+          "comprometer comida/ouro/tropas",
+          "julgar consequencias"
+        ]
+      },
       "actions": [
         {
           "id": "act_ii_burning_frontiers_objective",
@@ -3948,6 +4396,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "act_ii_burning_frontiers_archetype_core",
+          "label": "Conselho, politica e gestao",
+          "cost": "regra",
+          "effect": "Recursos limitados e faccoes cobrando resposta."
         },
         {
           "id": "act_ii_burning_frontiers_negotiate",
@@ -3988,6 +4442,25 @@
         ],
         "camera": "camera tatica alta para setor, reforcos e objetivos de defesa"
       },
+      "archetype": "defense",
+      "gameplay": {
+        "label": "Defesa por setores",
+        "victory": [
+          "Segurar setor ate o fim",
+          "Proteger portao/ponte/cidade"
+        ],
+        "failure": [
+          "Setor principal cai",
+          "Civis ou tropas demais perdidos"
+        ],
+        "pressure": "Reforcos chegam em ondas e barricadas degradam.",
+        "interactions": [
+          "reforcar barricada",
+          "reposicionar arqueiros",
+          "chamar reforcos",
+          "apagar fogo"
+        ]
+      },
       "actions": [
         {
           "id": "ash_bridge_objective",
@@ -4000,6 +4473,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "ash_bridge_archetype_core",
+          "label": "Defesa por setores",
+          "cost": "regra",
+          "effect": "Reforcos chegam em ondas e barricadas degradam."
         },
         {
           "id": "ash_bridge_barricade",
@@ -4040,6 +4519,26 @@
         ],
         "camera": "terceira pessoa exploratoria com destaques de percepcao"
       },
+      "archetype": "rescue",
+      "gameplay": {
+        "label": "Busca e resgate",
+        "victory": [
+          "Localizar alvo",
+          "Retirar sobreviventes"
+        ],
+        "failure": [
+          "Sobrevivente morre",
+          "Caravana/regiao cai",
+          "Baixas persistentes"
+        ],
+        "pressure": "Relogio de missao e risco de emboscada.",
+        "interactions": [
+          "evacuar",
+          "tratar feridos",
+          "abrir rota segura",
+          "proteger civis"
+        ]
+      },
       "actions": [
         {
           "id": "lost_caravan_objective",
@@ -4052,6 +4551,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "lost_caravan_archetype_core",
+          "label": "Busca e resgate",
+          "cost": "regra",
+          "effect": "Relogio de missao e risco de emboscada."
         },
         {
           "id": "lost_caravan_evacuate",
@@ -4092,6 +4597,27 @@
         ],
         "camera": "camera tatica orbitavel para combate por turnos"
       },
+      "archetype": "assault",
+      "gameplay": {
+        "label": "Assalto multiobjetivo",
+        "victory": [
+          "Romper objetivos",
+          "Escolher infiltrar, sabotar ou atacar"
+        ],
+        "failure": [
+          "Alarme total",
+          "Perdas altas",
+          "Objetivo fica inacessivel"
+        ],
+        "pressure": "Alarme, patrulhas, cobertura e rotas alternativas.",
+        "interactions": [
+          "infiltrar",
+          "sabotar",
+          "abrir portao",
+          "ataque frontal",
+          "flanquear"
+        ]
+      },
       "actions": [
         {
           "id": "broken_fortress_objective",
@@ -4104,6 +4630,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "broken_fortress_archetype_core",
+          "label": "Assalto multiobjetivo",
+          "cost": "regra",
+          "effect": "Alarme, patrulhas, cobertura e rotas alternativas."
         },
         {
           "id": "broken_fortress_attack",
@@ -4144,6 +4676,26 @@
         ],
         "camera": "terceira pessoa exploratoria com destaques de percepcao"
       },
+      "archetype": "investigate",
+      "gameplay": {
+        "label": "Investigacao e exploracao",
+        "victory": [
+          "Encontrar pista chave",
+          "Identificar causa ou culpado"
+        ],
+        "failure": [
+          "Tempo esgotado",
+          "Pista destruida",
+          "Inimigo foge"
+        ],
+        "pressure": "Rastros somem, medo cresce e recursos podem acabar.",
+        "interactions": [
+          "percepcao",
+          "interagir com corpos/portas",
+          "rotas ocultas",
+          "luz/ruido"
+        ]
+      },
       "actions": [
         {
           "id": "field_of_the_dead_objective",
@@ -4156,6 +4708,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "field_of_the_dead_archetype_core",
+          "label": "Investigacao e exploracao",
+          "cost": "regra",
+          "effect": "Rastros somem, medo cresce e recursos podem acabar."
         },
         {
           "id": "field_of_the_dead_inspect",
@@ -4196,6 +4754,26 @@
         ],
         "camera": "camera tatica orbitavel para combate por turnos"
       },
+      "archetype": "diplomacy",
+      "gameplay": {
+        "label": "Diplomacia armada",
+        "victory": [
+          "Evitar ruptura ou vencer sem massacre",
+          "Preservar reputacao essencial"
+        ],
+        "failure": [
+          "Aliado vira inimigo",
+          "Faccoes rompem",
+          "Lealdade cai"
+        ],
+        "pressure": "Decisoes morais e politica em combate.",
+        "interactions": [
+          "negociar sob ameaca",
+          "capturar",
+          "forcar rendicao",
+          "evitar baixas"
+        ]
+      },
       "actions": [
         {
           "id": "blood_between_banners_objective",
@@ -4208,6 +4786,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "blood_between_banners_archetype_core",
+          "label": "Diplomacia armada",
+          "cost": "regra",
+          "effect": "Decisoes morais e politica em combate."
         },
         {
           "id": "blood_between_banners_attack",
@@ -4248,6 +4832,23 @@
         ],
         "camera": "camera tatica orbitavel para combate por turnos"
       },
+      "archetype": "cinematic",
+      "gameplay": {
+        "label": "Cena cinematica interativa",
+        "victory": [
+          "Escolher resposta de William",
+          "Registrar consequencia no diario"
+        ],
+        "failure": [
+          "Sem falha direta; custo politico se ignorar contexto"
+        ],
+        "pressure": "Pressao narrativa, moral e de reputacao.",
+        "interactions": [
+          "escolha de dialogo",
+          "leitura de companheiros",
+          "registro no codex"
+        ]
+      },
       "actions": [
         {
           "id": "siege_objective",
@@ -4260,6 +4861,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "siege_archetype_core",
+          "label": "Cena cinematica interativa",
+          "cost": "regra",
+          "effect": "Pressao narrativa, moral e de reputacao."
         },
         {
           "id": "siege_attack",
@@ -4300,6 +4907,27 @@
         ],
         "camera": "enquadramento amplo para fases, mecanismos e escala da ameaca"
       },
+      "archetype": "boss",
+      "gameplay": {
+        "label": "Chefe por fases",
+        "victory": [
+          "Quebrar mecanismos",
+          "Sobreviver as fases",
+          "Derrotar/capturar chefe"
+        ],
+        "failure": [
+          "Ritual completa",
+          "William cai",
+          "Companheiros fogem"
+        ],
+        "pressure": "Fases alteram terreno, medo, reforcos e objetivo.",
+        "interactions": [
+          "quebrar fase",
+          "comandar coragem",
+          "usar terreno",
+          "romper ritual"
+        ]
+      },
       "actions": [
         {
           "id": "faceless_general_objective",
@@ -4312,6 +4940,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "faceless_general_archetype_core",
+          "label": "Chefe por fases",
+          "cost": "regra",
+          "effect": "Fases alteram terreno, medo, reforcos e objetivo."
         },
         {
           "id": "faceless_general_break_phase",
@@ -4352,6 +4986,24 @@
         ],
         "camera": "plano de mesa com cortes para rostos e emblemas de faccao"
       },
+      "archetype": "council",
+      "gameplay": {
+        "label": "Conselho, politica e gestao",
+        "victory": [
+          "Escolher prioridade",
+          "Aplicar custo/recompensa de recursos"
+        ],
+        "failure": [
+          "Perder reputacao com faccao",
+          "Abrir rota mais dificil"
+        ],
+        "pressure": "Recursos limitados e faccoes cobrando resposta.",
+        "interactions": [
+          "negociar",
+          "comprometer comida/ouro/tropas",
+          "julgar consequencias"
+        ]
+      },
       "actions": [
         {
           "id": "act_iii_voices_below_objective",
@@ -4364,6 +5016,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "act_iii_voices_below_archetype_core",
+          "label": "Conselho, politica e gestao",
+          "cost": "regra",
+          "effect": "Recursos limitados e faccoes cobrando resposta."
         },
         {
           "id": "act_iii_voices_below_negotiate",
@@ -4404,6 +5062,27 @@
         ],
         "camera": "enquadramento amplo para fases, mecanismos e escala da ameaca"
       },
+      "archetype": "horror",
+      "gameplay": {
+        "label": "Horror, cripta e medo",
+        "victory": [
+          "Sobreviver",
+          "Controlar luz/medo",
+          "Resolver ritual ou puzzle"
+        ],
+        "failure": [
+          "Coragem colapsa",
+          "Ritual avanca",
+          "Trauma permanente"
+        ],
+        "pressure": "Escuridao, efeitos psicologicos e eventos de rodada.",
+        "interactions": [
+          "manter luz",
+          "selar runa",
+          "investigar escritura",
+          "acalmar aliado"
+        ]
+      },
       "actions": [
         {
           "id": "abandoned_monastery_objective",
@@ -4416,6 +5095,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "abandoned_monastery_archetype_core",
+          "label": "Horror, cripta e medo",
+          "cost": "regra",
+          "effect": "Escuridao, efeitos psicologicos e eventos de rodada."
         },
         {
           "id": "abandoned_monastery_inspect",
@@ -4456,6 +5141,26 @@
         ],
         "camera": "camera tatica orbitavel para combate por turnos"
       },
+      "archetype": "investigate",
+      "gameplay": {
+        "label": "Investigacao e exploracao",
+        "victory": [
+          "Encontrar pista chave",
+          "Identificar causa ou culpado"
+        ],
+        "failure": [
+          "Tempo esgotado",
+          "Pista destruida",
+          "Inimigo foge"
+        ],
+        "pressure": "Rastros somem, medo cresce e recursos podem acabar.",
+        "interactions": [
+          "percepcao",
+          "interagir com corpos/portas",
+          "rotas ocultas",
+          "luz/ruido"
+        ]
+      },
       "actions": [
         {
           "id": "under_the_crypt_objective",
@@ -4468,6 +5173,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "under_the_crypt_archetype_core",
+          "label": "Investigacao e exploracao",
+          "cost": "regra",
+          "effect": "Rastros somem, medo cresce e recursos podem acabar."
         },
         {
           "id": "under_the_crypt_attack",
@@ -4508,6 +5219,26 @@
         ],
         "camera": "terceira pessoa exploratoria com destaques de percepcao"
       },
+      "archetype": "investigate",
+      "gameplay": {
+        "label": "Investigacao e exploracao",
+        "victory": [
+          "Encontrar pista chave",
+          "Identificar causa ou culpado"
+        ],
+        "failure": [
+          "Tempo esgotado",
+          "Pista destruida",
+          "Inimigo foge"
+        ],
+        "pressure": "Rastros somem, medo cresce e recursos podem acabar.",
+        "interactions": [
+          "percepcao",
+          "interagir com corpos/portas",
+          "rotas ocultas",
+          "luz/ruido"
+        ]
+      },
       "actions": [
         {
           "id": "forbidden_name_objective",
@@ -4520,6 +5251,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "forbidden_name_archetype_core",
+          "label": "Investigacao e exploracao",
+          "cost": "regra",
+          "effect": "Rastros somem, medo cresce e recursos podem acabar."
         },
         {
           "id": "forbidden_name_inspect",
@@ -4560,6 +5297,27 @@
         ],
         "camera": "camera tatica orbitavel para combate por turnos"
       },
+      "archetype": "horror",
+      "gameplay": {
+        "label": "Horror, cripta e medo",
+        "victory": [
+          "Sobreviver",
+          "Controlar luz/medo",
+          "Resolver ritual ou puzzle"
+        ],
+        "failure": [
+          "Coragem colapsa",
+          "Ritual avanca",
+          "Trauma permanente"
+        ],
+        "pressure": "Escuridao, efeitos psicologicos e eventos de rodada.",
+        "interactions": [
+          "manter luz",
+          "selar runa",
+          "investigar escritura",
+          "acalmar aliado"
+        ]
+      },
       "actions": [
         {
           "id": "echoes_of_fear_objective",
@@ -4572,6 +5330,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "echoes_of_fear_archetype_core",
+          "label": "Horror, cripta e medo",
+          "cost": "regra",
+          "effect": "Escuridao, efeitos psicologicos e eventos de rodada."
         },
         {
           "id": "echoes_of_fear_attack",
@@ -4612,6 +5376,24 @@
         ],
         "camera": "plano de mesa com cortes para rostos e emblemas de faccao"
       },
+      "archetype": "council",
+      "gameplay": {
+        "label": "Conselho, politica e gestao",
+        "victory": [
+          "Escolher prioridade",
+          "Aplicar custo/recompensa de recursos"
+        ],
+        "failure": [
+          "Perder reputacao com faccao",
+          "Abrir rota mais dificil"
+        ],
+        "pressure": "Recursos limitados e faccoes cobrando resposta.",
+        "interactions": [
+          "negociar",
+          "comprometer comida/ouro/tropas",
+          "julgar consequencias"
+        ]
+      },
       "actions": [
         {
           "id": "artifact_objective",
@@ -4624,6 +5406,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "artifact_archetype_core",
+          "label": "Conselho, politica e gestao",
+          "cost": "regra",
+          "effect": "Recursos limitados e faccoes cobrando resposta."
         },
         {
           "id": "artifact_negotiate",
@@ -4664,6 +5452,27 @@
         ],
         "camera": "enquadramento amplo para fases, mecanismos e escala da ameaca"
       },
+      "archetype": "boss",
+      "gameplay": {
+        "label": "Chefe por fases",
+        "victory": [
+          "Quebrar mecanismos",
+          "Sobreviver as fases",
+          "Derrotar/capturar chefe"
+        ],
+        "failure": [
+          "Ritual completa",
+          "William cai",
+          "Companheiros fogem"
+        ],
+        "pressure": "Fases alteram terreno, medo, reforcos e objetivo.",
+        "interactions": [
+          "quebrar fase",
+          "comandar coragem",
+          "usar terreno",
+          "romper ritual"
+        ]
+      },
       "actions": [
         {
           "id": "mouth_of_the_earth_objective",
@@ -4676,6 +5485,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "mouth_of_the_earth_archetype_core",
+          "label": "Chefe por fases",
+          "cost": "regra",
+          "effect": "Fases alteram terreno, medo, reforcos e objetivo."
         },
         {
           "id": "mouth_of_the_earth_break_phase",
@@ -4716,6 +5531,24 @@
         ],
         "camera": "plano de mesa com cortes para rostos e emblemas de faccao"
       },
+      "archetype": "council",
+      "gameplay": {
+        "label": "Conselho, politica e gestao",
+        "victory": [
+          "Escolher prioridade",
+          "Aplicar custo/recompensa de recursos"
+        ],
+        "failure": [
+          "Perder reputacao com faccao",
+          "Abrir rota mais dificil"
+        ],
+        "pressure": "Recursos limitados e faccoes cobrando resposta.",
+        "interactions": [
+          "negociar",
+          "comprometer comida/ouro/tropas",
+          "julgar consequencias"
+        ]
+      },
       "actions": [
         {
           "id": "act_iv_divided_kingdom_objective",
@@ -4728,6 +5561,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "act_iv_divided_kingdom_archetype_core",
+          "label": "Conselho, politica e gestao",
+          "cost": "regra",
+          "effect": "Recursos limitados e faccoes cobrando resposta."
         },
         {
           "id": "act_iv_divided_kingdom_negotiate",
@@ -4768,6 +5607,26 @@
         ],
         "camera": "camera tatica orbitavel para combate por turnos"
       },
+      "archetype": "rescue",
+      "gameplay": {
+        "label": "Busca e resgate",
+        "victory": [
+          "Localizar alvo",
+          "Retirar sobreviventes"
+        ],
+        "failure": [
+          "Sobrevivente morre",
+          "Caravana/regiao cai",
+          "Baixas persistentes"
+        ],
+        "pressure": "Relogio de missao e risco de emboscada.",
+        "interactions": [
+          "evacuar",
+          "tratar feridos",
+          "abrir rota segura",
+          "proteger civis"
+        ]
+      },
       "actions": [
         {
           "id": "messengers_objective",
@@ -4780,6 +5639,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "messengers_archetype_core",
+          "label": "Busca e resgate",
+          "cost": "regra",
+          "effect": "Relogio de missao e risco de emboscada."
         },
         {
           "id": "messengers_attack",
@@ -4820,6 +5685,26 @@
         ],
         "camera": "plano de mesa com cortes para rostos e emblemas de faccao"
       },
+      "archetype": "diplomacy",
+      "gameplay": {
+        "label": "Diplomacia armada",
+        "victory": [
+          "Evitar ruptura ou vencer sem massacre",
+          "Preservar reputacao essencial"
+        ],
+        "failure": [
+          "Aliado vira inimigo",
+          "Faccoes rompem",
+          "Lealdade cai"
+        ],
+        "pressure": "Decisoes morais e politica em combate.",
+        "interactions": [
+          "negociar sob ameaca",
+          "capturar",
+          "forcar rendicao",
+          "evitar baixas"
+        ]
+      },
       "actions": [
         {
           "id": "dukes_choice_objective",
@@ -4832,6 +5717,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "dukes_choice_archetype_core",
+          "label": "Diplomacia armada",
+          "cost": "regra",
+          "effect": "Decisoes morais e politica em combate."
         },
         {
           "id": "dukes_choice_negotiate",
@@ -4872,6 +5763,27 @@
         ],
         "camera": "camera tatica orbitavel para combate por turnos"
       },
+      "archetype": "assault",
+      "gameplay": {
+        "label": "Assalto multiobjetivo",
+        "victory": [
+          "Romper objetivos",
+          "Escolher infiltrar, sabotar ou atacar"
+        ],
+        "failure": [
+          "Alarme total",
+          "Perdas altas",
+          "Objetivo fica inacessivel"
+        ],
+        "pressure": "Alarme, patrulhas, cobertura e rotas alternativas.",
+        "interactions": [
+          "infiltrar",
+          "sabotar",
+          "abrir portao",
+          "ataque frontal",
+          "flanquear"
+        ]
+      },
       "actions": [
         {
           "id": "brothers_against_brothers_objective",
@@ -4884,6 +5796,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "brothers_against_brothers_archetype_core",
+          "label": "Assalto multiobjetivo",
+          "cost": "regra",
+          "effect": "Alarme, patrulhas, cobertura e rotas alternativas."
         },
         {
           "id": "brothers_against_brothers_attack",
@@ -4924,6 +5842,27 @@
         ],
         "camera": "camera tatica orbitavel para combate por turnos"
       },
+      "archetype": "assault",
+      "gameplay": {
+        "label": "Assalto multiobjetivo",
+        "victory": [
+          "Romper objetivos",
+          "Escolher infiltrar, sabotar ou atacar"
+        ],
+        "failure": [
+          "Alarme total",
+          "Perdas altas",
+          "Objetivo fica inacessivel"
+        ],
+        "pressure": "Alarme, patrulhas, cobertura e rotas alternativas.",
+        "interactions": [
+          "infiltrar",
+          "sabotar",
+          "abrir portao",
+          "ataque frontal",
+          "flanquear"
+        ]
+      },
       "actions": [
         {
           "id": "besieged_city_objective",
@@ -4936,6 +5875,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "besieged_city_archetype_core",
+          "label": "Assalto multiobjetivo",
+          "cost": "regra",
+          "effect": "Alarme, patrulhas, cobertura e rotas alternativas."
         },
         {
           "id": "besieged_city_attack",
@@ -4976,6 +5921,23 @@
         ],
         "camera": "camera tatica orbitavel para combate por turnos"
       },
+      "archetype": "cinematic",
+      "gameplay": {
+        "label": "Cena cinematica interativa",
+        "victory": [
+          "Escolher resposta de William",
+          "Registrar consequencia no diario"
+        ],
+        "failure": [
+          "Sem falha direta; custo politico se ignorar contexto"
+        ],
+        "pressure": "Pressao narrativa, moral e de reputacao.",
+        "interactions": [
+          "escolha de dialogo",
+          "leitura de companheiros",
+          "registro no codex"
+        ]
+      },
       "actions": [
         {
           "id": "betrayal_objective",
@@ -4988,6 +5950,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "betrayal_archetype_core",
+          "label": "Cena cinematica interativa",
+          "cost": "regra",
+          "effect": "Pressao narrativa, moral e de reputacao."
         },
         {
           "id": "betrayal_attack",
@@ -5028,6 +5996,27 @@
         ],
         "camera": "camera tatica orbitavel para combate por turnos"
       },
+      "archetype": "assault",
+      "gameplay": {
+        "label": "Assalto multiobjetivo",
+        "victory": [
+          "Romper objetivos",
+          "Escolher infiltrar, sabotar ou atacar"
+        ],
+        "failure": [
+          "Alarme total",
+          "Perdas altas",
+          "Objetivo fica inacessivel"
+        ],
+        "pressure": "Alarme, patrulhas, cobertura e rotas alternativas.",
+        "interactions": [
+          "infiltrar",
+          "sabotar",
+          "abrir portao",
+          "ataque frontal",
+          "flanquear"
+        ]
+      },
       "actions": [
         {
           "id": "empty_throne_objective",
@@ -5040,6 +6029,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "empty_throne_archetype_core",
+          "label": "Assalto multiobjetivo",
+          "cost": "regra",
+          "effect": "Alarme, patrulhas, cobertura e rotas alternativas."
         },
         {
           "id": "empty_throne_attack",
@@ -5080,6 +6075,24 @@
         ],
         "camera": "plano de mesa com cortes para rostos e emblemas de faccao"
       },
+      "archetype": "council",
+      "gameplay": {
+        "label": "Conselho, politica e gestao",
+        "victory": [
+          "Escolher prioridade",
+          "Aplicar custo/recompensa de recursos"
+        ],
+        "failure": [
+          "Perder reputacao com faccao",
+          "Abrir rota mais dificil"
+        ],
+        "pressure": "Recursos limitados e faccoes cobrando resposta.",
+        "interactions": [
+          "negociar",
+          "comprometer comida/ouro/tropas",
+          "julgar consequencias"
+        ]
+      },
       "actions": [
         {
           "id": "act_v_aes_divinus_objective",
@@ -5092,6 +6105,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "act_v_aes_divinus_archetype_core",
+          "label": "Conselho, politica e gestao",
+          "cost": "regra",
+          "effect": "Recursos limitados e faccoes cobrando resposta."
         },
         {
           "id": "act_v_aes_divinus_negotiate",
@@ -5132,6 +6151,26 @@
         ],
         "camera": "plano de mesa com cortes para rostos e emblemas de faccao"
       },
+      "archetype": "final",
+      "gameplay": {
+        "label": "Final reativo",
+        "victory": [
+          "Resolver objetivos em ordem escolhida",
+          "Definir destino do poder"
+        ],
+        "failure": [
+          "Aliancas insuficientes",
+          "Recursos colapsam",
+          "Entidade vence condicao de ritual"
+        ],
+        "pressure": "Tudo que foi salvo, administrado e decidido entra no calculo.",
+        "interactions": [
+          "convocar aliados",
+          "romper tres objetivos",
+          "decidir destino",
+          "liderar sob medo"
+        ]
+      },
       "actions": [
         {
           "id": "final_march_objective",
@@ -5144,6 +6183,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "final_march_archetype_core",
+          "label": "Final reativo",
+          "cost": "regra",
+          "effect": "Tudo que foi salvo, administrado e decidido entra no calculo."
         },
         {
           "id": "final_march_negotiate",
@@ -5184,6 +6229,27 @@
         ],
         "camera": "camera tatica orbitavel para combate por turnos"
       },
+      "archetype": "horror",
+      "gameplay": {
+        "label": "Horror, cripta e medo",
+        "victory": [
+          "Sobreviver",
+          "Controlar luz/medo",
+          "Resolver ritual ou puzzle"
+        ],
+        "failure": [
+          "Coragem colapsa",
+          "Ritual avanca",
+          "Trauma permanente"
+        ],
+        "pressure": "Escuridao, efeitos psicologicos e eventos de rodada.",
+        "interactions": [
+          "manter luz",
+          "selar runa",
+          "investigar escritura",
+          "acalmar aliado"
+        ]
+      },
       "actions": [
         {
           "id": "corrupted_land_objective",
@@ -5196,6 +6262,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "corrupted_land_archetype_core",
+          "label": "Horror, cripta e medo",
+          "cost": "regra",
+          "effect": "Escuridao, efeitos psicologicos e eventos de rodada."
         },
         {
           "id": "corrupted_land_attack",
@@ -5236,6 +6308,23 @@
         ],
         "camera": "camera tatica orbitavel para combate por turnos"
       },
+      "archetype": "cinematic",
+      "gameplay": {
+        "label": "Cena cinematica interativa",
+        "victory": [
+          "Escolher resposta de William",
+          "Registrar consequencia no diario"
+        ],
+        "failure": [
+          "Sem falha direta; custo politico se ignorar contexto"
+        ],
+        "pressure": "Pressao narrativa, moral e de reputacao.",
+        "interactions": [
+          "escolha de dialogo",
+          "leitura de companheiros",
+          "registro no codex"
+        ]
+      },
       "actions": [
         {
           "id": "those_who_remained_objective",
@@ -5248,6 +6337,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "those_who_remained_archetype_core",
+          "label": "Cena cinematica interativa",
+          "cost": "regra",
+          "effect": "Pressao narrativa, moral e de reputacao."
         },
         {
           "id": "those_who_remained_attack",
@@ -5288,6 +6383,27 @@
         ],
         "camera": "camera tatica orbitavel para combate por turnos"
       },
+      "archetype": "assault",
+      "gameplay": {
+        "label": "Assalto multiobjetivo",
+        "victory": [
+          "Romper objetivos",
+          "Escolher infiltrar, sabotar ou atacar"
+        ],
+        "failure": [
+          "Alarme total",
+          "Perdas altas",
+          "Objetivo fica inacessivel"
+        ],
+        "pressure": "Alarme, patrulhas, cobertura e rotas alternativas.",
+        "interactions": [
+          "infiltrar",
+          "sabotar",
+          "abrir portao",
+          "ataque frontal",
+          "flanquear"
+        ]
+      },
       "actions": [
         {
           "id": "abyss_gates_objective",
@@ -5300,6 +6416,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "abyss_gates_archetype_core",
+          "label": "Assalto multiobjetivo",
+          "cost": "regra",
+          "effect": "Alarme, patrulhas, cobertura e rotas alternativas."
         },
         {
           "id": "abyss_gates_attack",
@@ -5340,6 +6462,24 @@
         ],
         "camera": "plano de mesa com cortes para rostos e emblemas de faccao"
       },
+      "archetype": "council",
+      "gameplay": {
+        "label": "Conselho, politica e gestao",
+        "victory": [
+          "Escolher prioridade",
+          "Aplicar custo/recompensa de recursos"
+        ],
+        "failure": [
+          "Perder reputacao com faccao",
+          "Abrir rota mais dificil"
+        ],
+        "pressure": "Recursos limitados e faccoes cobrando resposta.",
+        "interactions": [
+          "negociar",
+          "comprometer comida/ouro/tropas",
+          "julgar consequencias"
+        ]
+      },
       "actions": [
         {
           "id": "price_of_the_crown_objective",
@@ -5352,6 +6492,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "price_of_the_crown_archetype_core",
+          "label": "Conselho, politica e gestao",
+          "cost": "regra",
+          "effect": "Recursos limitados e faccoes cobrando resposta."
         },
         {
           "id": "price_of_the_crown_negotiate",
@@ -5392,6 +6538,26 @@
         ],
         "camera": "enquadramento amplo para fases, mecanismos e escala da ameaca"
       },
+      "archetype": "final",
+      "gameplay": {
+        "label": "Final reativo",
+        "victory": [
+          "Resolver objetivos em ordem escolhida",
+          "Definir destino do poder"
+        ],
+        "failure": [
+          "Aliancas insuficientes",
+          "Recursos colapsam",
+          "Entidade vence condicao de ritual"
+        ],
+        "pressure": "Tudo que foi salvo, administrado e decidido entra no calculo.",
+        "interactions": [
+          "convocar aliados",
+          "romper tres objetivos",
+          "decidir destino",
+          "liderar sob medo"
+        ]
+      },
       "actions": [
         {
           "id": "aes_divinus_final_objective",
@@ -5404,6 +6570,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "aes_divinus_final_archetype_core",
+          "label": "Final reativo",
+          "cost": "regra",
+          "effect": "Tudo que foi salvo, administrado e decidido entra no calculo."
         },
         {
           "id": "aes_divinus_final_break_phase",
@@ -5444,6 +6616,26 @@
         ],
         "camera": "plano de mesa com cortes para rostos e emblemas de faccao"
       },
+      "archetype": "final",
+      "gameplay": {
+        "label": "Final reativo",
+        "victory": [
+          "Resolver objetivos em ordem escolhida",
+          "Definir destino do poder"
+        ],
+        "failure": [
+          "Aliancas insuficientes",
+          "Recursos colapsam",
+          "Entidade vence condicao de ritual"
+        ],
+        "pressure": "Tudo que foi salvo, administrado e decidido entra no calculo.",
+        "interactions": [
+          "convocar aliados",
+          "romper tres objetivos",
+          "decidir destino",
+          "liderar sob medo"
+        ]
+      },
       "actions": [
         {
           "id": "last_order_objective",
@@ -5456,6 +6648,12 @@
           "label": "Ler terreno",
           "cost": "1 PA",
           "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "last_order_archetype_core",
+          "label": "Final reativo",
+          "cost": "regra",
+          "effect": "Tudo que foi salvo, administrado e decidido entra no calculo."
         },
         {
           "id": "last_order_negotiate",
@@ -5475,6 +6673,236 @@
           "cost": "final",
           "effect": "Define epilogo."
         }
+      ]
+    }
+  },
+  "missionDesignReferences": [
+    {
+      "game": "XCOM 2",
+      "designUse": "Objetivos primarios/secundarios, extracao, cobertura, reforcos e missao com pressao de tempo.",
+      "aesDivinusRule": "Missoes de defesa, escolta, assalto e resgate recebem relogio, objetivo principal, objetivo opcional e falha clara."
+    },
+    {
+      "game": "Divinity: Original Sin 2 / Baldur's Gate 3",
+      "designUse": "Combate por turnos com acoes criativas, ambiente interativo, altura, superficies e escolhas com consequencias.",
+      "aesDivinusRule": "Cada missao recebe interacoes de terreno, escolhas de abordagem e acoes que mudam medo, coragem, reputacao ou recursos."
+    },
+    {
+      "game": "Wartales",
+      "designUse": "Companhia medieval, sobrevivencia, contratos, exploracao, acampamento, profissao e gestao de recursos.",
+      "aesDivinusRule": "Missoes de busca, investigacao, travessia e caravana ligam suprimentos, feridos, sobreviventes e recompensas persistentes."
+    },
+    {
+      "game": "King Arthur: Knight's Tale",
+      "designUse": "RPG tatico sombrio com herois, moralidade, lealdade, recuperacao, castelo/reino e decisoes politicas.",
+      "aesDivinusRule": "Cenas politicas, julgamento, duques e companheiros alteram reputacao, lealdade, perdas e condicoes de epilogo."
+    }
+  ],
+  "missionGameplayArchetypes": {
+    "cinematic": {
+      "label": "Cena cinematica interativa",
+      "victory": [
+        "Escolher resposta de William",
+        "Registrar consequencia no diario"
+      ],
+      "failure": [
+        "Sem falha direta; custo politico se ignorar contexto"
+      ],
+      "pressure": "Pressao narrativa, moral e de reputacao.",
+      "interactions": [
+        "escolha de dialogo",
+        "leitura de companheiros",
+        "registro no codex"
+      ]
+    },
+    "council": {
+      "label": "Conselho, politica e gestao",
+      "victory": [
+        "Escolher prioridade",
+        "Aplicar custo/recompensa de recursos"
+      ],
+      "failure": [
+        "Perder reputacao com faccao",
+        "Abrir rota mais dificil"
+      ],
+      "pressure": "Recursos limitados e faccoes cobrando resposta.",
+      "interactions": [
+        "negociar",
+        "comprometer comida/ouro/tropas",
+        "julgar consequencias"
+      ]
+    },
+    "investigate": {
+      "label": "Investigacao e exploracao",
+      "victory": [
+        "Encontrar pista chave",
+        "Identificar causa ou culpado"
+      ],
+      "failure": [
+        "Tempo esgotado",
+        "Pista destruida",
+        "Inimigo foge"
+      ],
+      "pressure": "Rastros somem, medo cresce e recursos podem acabar.",
+      "interactions": [
+        "percepcao",
+        "interagir com corpos/portas",
+        "rotas ocultas",
+        "luz/ruido"
+      ]
+    },
+    "rescue": {
+      "label": "Busca e resgate",
+      "victory": [
+        "Localizar alvo",
+        "Retirar sobreviventes"
+      ],
+      "failure": [
+        "Sobrevivente morre",
+        "Caravana/regiao cai",
+        "Baixas persistentes"
+      ],
+      "pressure": "Relogio de missao e risco de emboscada.",
+      "interactions": [
+        "evacuar",
+        "tratar feridos",
+        "abrir rota segura",
+        "proteger civis"
+      ]
+    },
+    "escort": {
+      "label": "Escolta e travessia",
+      "victory": [
+        "Levar carga/grupo ate o destino",
+        "Manter suprimentos acima do minimo"
+      ],
+      "failure": [
+        "Carga perdida",
+        "Companheiro cai",
+        "Rota bloqueada"
+      ],
+      "pressure": "Emboscadas, fome, terreno e escolhas de caminho.",
+      "interactions": [
+        "escolher rota",
+        "reorganizar formacao",
+        "usar suprimentos",
+        "detectar emboscada"
+      ]
+    },
+    "defense": {
+      "label": "Defesa por setores",
+      "victory": [
+        "Segurar setor ate o fim",
+        "Proteger portao/ponte/cidade"
+      ],
+      "failure": [
+        "Setor principal cai",
+        "Civis ou tropas demais perdidos"
+      ],
+      "pressure": "Reforcos chegam em ondas e barricadas degradam.",
+      "interactions": [
+        "reforcar barricada",
+        "reposicionar arqueiros",
+        "chamar reforcos",
+        "apagar fogo"
+      ]
+    },
+    "assault": {
+      "label": "Assalto multiobjetivo",
+      "victory": [
+        "Romper objetivos",
+        "Escolher infiltrar, sabotar ou atacar"
+      ],
+      "failure": [
+        "Alarme total",
+        "Perdas altas",
+        "Objetivo fica inacessivel"
+      ],
+      "pressure": "Alarme, patrulhas, cobertura e rotas alternativas.",
+      "interactions": [
+        "infiltrar",
+        "sabotar",
+        "abrir portao",
+        "ataque frontal",
+        "flanquear"
+      ]
+    },
+    "diplomacy": {
+      "label": "Diplomacia armada",
+      "victory": [
+        "Evitar ruptura ou vencer sem massacre",
+        "Preservar reputacao essencial"
+      ],
+      "failure": [
+        "Aliado vira inimigo",
+        "Faccoes rompem",
+        "Lealdade cai"
+      ],
+      "pressure": "Decisoes morais e politica em combate.",
+      "interactions": [
+        "negociar sob ameaca",
+        "capturar",
+        "forcar rendicao",
+        "evitar baixas"
+      ]
+    },
+    "horror": {
+      "label": "Horror, cripta e medo",
+      "victory": [
+        "Sobreviver",
+        "Controlar luz/medo",
+        "Resolver ritual ou puzzle"
+      ],
+      "failure": [
+        "Coragem colapsa",
+        "Ritual avanca",
+        "Trauma permanente"
+      ],
+      "pressure": "Escuridao, efeitos psicologicos e eventos de rodada.",
+      "interactions": [
+        "manter luz",
+        "selar runa",
+        "investigar escritura",
+        "acalmar aliado"
+      ]
+    },
+    "boss": {
+      "label": "Chefe por fases",
+      "victory": [
+        "Quebrar mecanismos",
+        "Sobreviver as fases",
+        "Derrotar/capturar chefe"
+      ],
+      "failure": [
+        "Ritual completa",
+        "William cai",
+        "Companheiros fogem"
+      ],
+      "pressure": "Fases alteram terreno, medo, reforcos e objetivo.",
+      "interactions": [
+        "quebrar fase",
+        "comandar coragem",
+        "usar terreno",
+        "romper ritual"
+      ]
+    },
+    "final": {
+      "label": "Final reativo",
+      "victory": [
+        "Resolver objetivos em ordem escolhida",
+        "Definir destino do poder"
+      ],
+      "failure": [
+        "Aliancas insuficientes",
+        "Recursos colapsam",
+        "Entidade vence condicao de ritual"
+      ],
+      "pressure": "Tudo que foi salvo, administrado e decidido entra no calculo.",
+      "interactions": [
+        "convocar aliados",
+        "romper tres objetivos",
+        "decidir destino",
+        "liderar sob medo"
       ]
     }
   },

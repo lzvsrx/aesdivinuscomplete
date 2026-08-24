@@ -15,6 +15,8 @@ import {
   HISTORICAL_TIMELINE,
   HUD_SPECS,
   MISSIONS,
+  MISSION_DESIGN_REFERENCES,
+  MISSION_GAMEPLAY_ARCHETYPES,
   MISSION_PRESENTATION,
   PERFORMANCE_PROFILES_3D,
   SAFE_MODE_RECOVERY,
@@ -35,12 +37,24 @@ test("Godot content includes attached lore, movement and world systems", () => {
 });
 
 test("every Godot mission has its own backdrop and gameplay actions", () => {
+  assert.ok(MISSION_DESIGN_REFERENCES.length >= 4);
+  assert.ok(MISSION_DESIGN_REFERENCES.some((reference) => reference.game === "XCOM 2"));
+  assert.ok(MISSION_DESIGN_REFERENCES.some((reference) => reference.game.includes("Wartales")));
+  assert.ok(MISSION_GAMEPLAY_ARCHETYPES.boss.victory.some((objective) => objective.includes("fases")));
+  assert.ok(MISSION_GAMEPLAY_ARCHETYPES.defense.interactions.includes("reforcar barricada"));
+
   for (const mission of MISSIONS) {
     const presentation = MISSION_PRESENTATION[mission.id];
     assert.ok(presentation, `${mission.id} missing presentation`);
     assert.ok(presentation.background?.id, `${mission.id} missing background`);
     assert.ok(presentation.background?.mood, `${mission.id} missing background mood`);
+    assert.ok(presentation.archetype, `${mission.id} missing gameplay archetype`);
+    assert.ok(presentation.gameplay?.label, `${mission.id} missing gameplay label`);
+    assert.ok(presentation.gameplay?.victory?.length, `${mission.id} missing victory conditions`);
+    assert.ok(presentation.gameplay?.failure?.length, `${mission.id} missing failure conditions`);
+    assert.ok(presentation.gameplay?.interactions?.length, `${mission.id} missing mission interactions`);
     assert.ok(presentation.actions?.length >= 4, `${mission.id} missing mission actions`);
+    assert.ok(presentation.actions.some((action) => action.id === `${mission.id}_archetype_core`));
     assert.ok(presentation.actions.some((action) => action.id === `${mission.id}_objective`));
   }
 });
