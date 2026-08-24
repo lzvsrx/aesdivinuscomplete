@@ -328,6 +328,108 @@ export const MISSIONS = MISSION_ROWS.map(([order, act, id, title, type, objectiv
   };
 });
 
+function missionBackdrop(mission) {
+  const type = mission.type.toLowerCase();
+  const act = mission.act.toLowerCase();
+  if (mission.id.includes("prologue") || mission.id.includes("road") || act.includes("floresta")) {
+    return {
+      id: "blood_forest",
+      name: "Floresta de Sangue",
+      mood: "Trilha escura, arvores fechadas, lama, folhas vermelhas e sinais de emboscada.",
+      palette: ["#07100b", "#253126", "#6d1d1b", "#d0a951"],
+      props: ["rastro", "tronco caido", "suprimentos", "neblina baixa"],
+      camera: "terceira pessoa baixa que abre para enquadramento tatico quando a ameaca aparece"
+    };
+  }
+  if (type.includes("conselho") || type.includes("politica") || type.includes("decisiva") || type.includes("decisao") || mission.managementOnly) {
+    return {
+      id: "war_council",
+      name: "Mesa de Guerra",
+      mood: "Pedra, velas, mapas marcados, bandeiras de faccao e pressao politica.",
+      palette: ["#101214", "#2c2520", "#8a6a2e", "#d0a951"],
+      props: ["mapa", "velas", "selos", "estandartes"],
+      camera: "plano de mesa com cortes para rostos e emblemas de faccao"
+    };
+  }
+  if (type.includes("defesa") || type.includes("cerco") || type.includes("ponte")) {
+    return {
+      id: "siege_line",
+      name: "Linha de Defesa",
+      mood: "Barricadas, arqueiros, fumaca, setores sob pressao e rotas alternativas.",
+      palette: ["#121313", "#343632", "#7d2d23", "#b9b09b"],
+      props: ["barricada", "portao", "plataforma de arqueiro", "fogo"],
+      camera: "camera tatica alta para setor, reforcos e objetivos de defesa"
+    };
+  }
+  if (type.includes("chefe") || type.includes("sobrenatural") || type.includes("horror") || type.includes("cripta") || type.includes("abismo")) {
+    return {
+      id: "corrupted_ritual",
+      name: "Ritual Corrompido",
+      mood: "Pedra fria, veios violetas, sombras vivas e medo crescendo no terreno.",
+      palette: ["#050508", "#18121e", "#5b2e83", "#c7b37a"],
+      props: ["runa", "monolito", "nevoa violeta", "fissura"],
+      camera: "enquadramento amplo para fases, mecanismos e escala da ameaca"
+    };
+  }
+  if (type.includes("resgate") || type.includes("busca") || type.includes("exploracao") || type.includes("investigacao")) {
+    return {
+      id: "search_zone",
+      name: "Zona de Busca",
+      mood: "Casas quebradas, marcas no chao, silencio de vila e pontos de interacao.",
+      palette: ["#0d1212", "#26302d", "#547c63", "#c7b37a"],
+      props: ["pista", "corpo", "porta", "rota escondida"],
+      camera: "terceira pessoa exploratoria com destaques de percepcao"
+    };
+  }
+  return {
+    id: "battlefield",
+    name: "Campo de Missao",
+    mood: "Terreno aberto, cobertura, posicoes de frente/retaguarda e relogio de missao.",
+    palette: ["#0c0f0f", "#272b2a", "#6e8fa4", "#d0a951"],
+    props: ["cobertura", "altura", "objetivo", "marcador de rota"],
+    camera: "camera tatica orbitavel para combate por turnos"
+  };
+}
+
+function missionActions(mission) {
+  const type = mission.type.toLowerCase();
+  const actions = [
+    { id: `${mission.id}_objective`, label: `Executar objetivo: ${mission.title}`, cost: "2 PA", effect: mission.objective },
+    { id: `${mission.id}_perception`, label: "Ler terreno", cost: "1 PA", effect: "Revela pistas, cobertura, rotas e ameacas." }
+  ];
+  if (type.includes("defesa") || type.includes("cerco")) {
+    actions.push({ id: `${mission.id}_barricade`, label: "Reforcar barricada", cost: "1 PA + madeira", effect: "Aumenta defesa do setor e atrasa reforcos inimigos." });
+    actions.push({ id: `${mission.id}_archers`, label: "Reposicionar arqueiros", cost: "1 PA", effect: "Ganha altura, cobertura e controle de linha de visao." });
+  } else if (type.includes("chefe")) {
+    actions.push({ id: `${mission.id}_break_phase`, label: "Quebrar mecanismo/fase", cost: "2 PA", effect: "Avanca objetivo de chefe alem de reduzir HP." });
+    actions.push({ id: `${mission.id}_hold_courage`, label: "Comandar coragem", cost: "1 PA", effect: "Reduz medo e impede colapso de companheiros." });
+  } else if (type.includes("politica") || type.includes("conselho") || mission.managementOnly) {
+    actions.push({ id: `${mission.id}_negotiate`, label: "Negociar com faccao", cost: "decisao", effect: "Altera reputacao e abre rotas politicas." });
+    actions.push({ id: `${mission.id}_spend_resources`, label: "Comprometer recursos", cost: "recursos", effect: "Muda comida, defesa, tropas ou investigacao." });
+  } else if (type.includes("resgate") || type.includes("busca")) {
+    actions.push({ id: `${mission.id}_evacuate`, label: "Retirar sobreviventes", cost: "2 PA", effect: "Salva civis e reduz perdas persistentes." });
+    actions.push({ id: `${mission.id}_race_clock`, label: "Acelerar busca", cost: "1 PA + risco", effect: "Avanca antes do tempo, mas aumenta chance de emboscada." });
+  } else if (type.includes("investigacao") || type.includes("exploracao")) {
+    actions.push({ id: `${mission.id}_inspect`, label: "Investigar pista chave", cost: "1 PA", effect: "Revela causa, culpado, ritual ou rota oculta." });
+    actions.push({ id: `${mission.id}_interact`, label: "Interagir com objeto", cost: "1 PA", effect: "Aciona porta, alavanca, registro, corpo ou suprimento." });
+  } else {
+    actions.push({ id: `${mission.id}_attack`, label: "Atacar ameaca", cost: "1 PA", effect: "Resolve conflito direto com arma equipada." });
+    actions.push({ id: `${mission.id}_formation`, label: "Manter formacao", cost: "1 PA", effect: "Melhora defesa, cobertura e lealdade em risco." });
+  }
+  actions.push({ id: `${mission.id}_finish`, label: "Registrar consequencia", cost: "final", effect: mission.impact });
+  return actions;
+}
+
+export const MISSION_PRESENTATION = Object.fromEntries(
+  MISSIONS.map((mission) => [
+    mission.id,
+    {
+      background: missionBackdrop(mission),
+      actions: missionActions(mission)
+    }
+  ])
+);
+
 const MISSION_SCENE_OVERRIDES = {
   prologue_opening: [
     {

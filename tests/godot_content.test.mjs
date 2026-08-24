@@ -14,6 +14,8 @@ import {
   GODOT_TECHNICAL_ARCHITECTURE,
   HISTORICAL_TIMELINE,
   HUD_SPECS,
+  MISSIONS,
+  MISSION_PRESENTATION,
   PERFORMANCE_PROFILES_3D,
   SAFE_MODE_RECOVERY,
   SIDE_SCROLLER_ACTIONS,
@@ -30,6 +32,17 @@ test("Godot content includes attached lore, movement and world systems", () => {
   assert.ok(GODOT_GAME_STRUCTURE.targetStyle.includes("RPG tatico 3D"));
   assert.ok(GODOT_GAME_STRUCTURE.sceneFolders.includes("scenes/player/player.tscn"));
   assert.ok(WORLD_LORE.aesDivinus.includes("Minerio divino"));
+});
+
+test("every Godot mission has its own backdrop and gameplay actions", () => {
+  for (const mission of MISSIONS) {
+    const presentation = MISSION_PRESENTATION[mission.id];
+    assert.ok(presentation, `${mission.id} missing presentation`);
+    assert.ok(presentation.background?.id, `${mission.id} missing background`);
+    assert.ok(presentation.background?.mood, `${mission.id} missing background mood`);
+    assert.ok(presentation.actions?.length >= 4, `${mission.id} missing mission actions`);
+    assert.ok(presentation.actions.some((action) => action.id === `${mission.id}_objective`));
+  }
 });
 
 test("Godot world data keeps characters, duchies, marks and bestiary connected", () => {

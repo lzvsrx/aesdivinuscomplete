@@ -11,6 +11,7 @@ var left_column: VBoxContainer
 var center_column: VBoxContainer
 var right_column: VBoxContainer
 var mission_list: ItemList
+var mission_backdrop: Control
 var detail_title: Label
 var detail_text: RichTextLabel
 var resource_text: RichTextLabel
@@ -146,6 +147,10 @@ func _build_ui() -> void:
 
 	var center := _panel("content", 520)
 	center_column = center
+	mission_backdrop = MissionBackdrop.new()
+	mission_backdrop.custom_minimum_size = Vector2(0, 150)
+	mission_backdrop.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	center.add_child(mission_backdrop)
 	detail_title = _title("")
 	center.add_child(detail_title)
 	detail_text = RichTextLabel.new()
@@ -452,10 +457,16 @@ func _palette_label_from_id(id: String) -> String:
 
 func _refresh_mission_detail() -> void:
 	var mission := _selected_mission()
+	_refresh_backdrop(mission)
 	detail_title.text = "%s. %s" % [mission.get("order", 0), mission.get("title", "")]
-	detail_text.text = "[b]%s[/b]\nTipo: %s\n\nObjetivo: %s\nImpacto: %s\n\nOpcionais:\n- %s" % [
+	var presentation := _mission_presentation(mission)
+	var background: Dictionary = presentation.get("background", {})
+	detail_text.text = "[b]%s[/b]\nTipo: %s\n\n[b]Fundo proprio[/b]\n%s - %s\nProps: %s\n\nObjetivo: %s\nImpacto: %s\n\nOpcionais:\n- %s" % [
 		mission.get("act", ""),
 		mission.get("type", ""),
+		background.get("name", "Campo de Missao"),
+		background.get("mood", ""),
+		", ".join(_string_array(background.get("props", []))),
 		mission.get("objective", ""),
 		mission.get("impact", ""),
 		"\n- ".join(mission.get("optional", []))
@@ -891,6 +902,7 @@ func _complete_mission() -> void:
 	_autosave("Missao resolvida.")
 
 func _show_scene_screen(mission: Dictionary, scenes: Array) -> void:
+	_refresh_backdrop(mission)
 	var scene: Dictionary = {}
 	if scenes.is_empty():
 		scene = {
@@ -921,6 +933,7 @@ func _show_scene_screen(mission: Dictionary, scenes: Array) -> void:
 	])
 
 func _show_playable_mission_flow(mission: Dictionary, scenes: Array) -> void:
+	_refresh_backdrop(mission)
 	var scene: Dictionary = {}
 	if scenes.is_empty():
 		scene = {
@@ -933,6 +946,9 @@ func _show_playable_mission_flow(mission: Dictionary, scenes: Array) -> void:
 	else:
 		scene = scenes[0]
 	var enemies := _mission_enemies(mission)
+	var presentation := _mission_presentation(mission)
+	var background: Dictionary = presentation.get("background", {})
+	var mission_actions: Array = presentation.get("actions", [])
 	var rewards: Dictionary = mission.get("rewards", {})
 	var lines: Array[String] = [
 		"[b]Cena em execucao[/b]",
@@ -949,14 +965,29 @@ func _show_playable_mission_flow(mission: Dictionary, scenes: Array) -> void:
 		"Tipo: %s" % mission.get("type", ""),
 		"Objetivo: %s" % mission.get("objective", ""),
 		"",
+		"[b]Fundo da missao[/b]",
+		"%s: %s" % [background.get("name", "Campo de Missao"), background.get("mood", "")],
+		"Camera: %s" % background.get("camera", ""),
+		"Props: %s" % ", ".join(_string_array(background.get("props", []))),
+		"",
 		"[b]Jogabilidade acontecendo[/b]",
 		"- A cena abre a situacao.",
 		"- A missao entra no mesmo fluxo.",
 		"- Turnos, PA, movimento, cobertura, medo, coragem e lideranca ficam representados neste encontro.",
 		"- Ao concluir, recompensas e consequencias sao aplicadas e o jogo avanca.",
 		"",
-		"[b]Ameacas no encontro[/b]"
+		"[b]Acoes proprias desta missao[/b]"
 	]
+	for action in mission_actions:
+		lines.append("- %s [%s]: %s" % [
+			action.get("label", ""),
+			action.get("cost", ""),
+			action.get("effect", "")
+		])
+	lines.append("")
+	lines.append_array([
+		"[b]Ameacas no encontro[/b]"
+	])
 	for enemy in enemies:
 		lines.append("- %s / %s / HP %s / arma %s" % [
 			enemy.get("name", ""),
@@ -980,7 +1011,11 @@ func _show_playable_mission_flow(mission: Dictionary, scenes: Array) -> void:
 	detail_text.text = "\n".join(lines)
 
 func _show_mission_screen(mission: Dictionary) -> void:
+	_refresh_backdrop(mission)
 	var enemies := _mission_enemies(mission)
+	var presentation := _mission_presentation(mission)
+	var background: Dictionary = presentation.get("background", {})
+	var mission_actions: Array = presentation.get("actions", [])
 	var rewards: Dictionary = mission.get("rewards", {})
 	var lines: Array[String] = [
 		"[b]Missao ativa[/b]",
@@ -990,13 +1025,25 @@ func _show_mission_screen(mission: Dictionary) -> void:
 		"[b]Objetivo jogavel[/b]",
 		mission.get("objective", ""),
 		"",
+		"[b]Fundo da missao[/b]",
+		"%s: %s" % [background.get("name", "Campo de Missao"), background.get("mood", "")],
+		"Camera: %s" % background.get("camera", ""),
+		"",
 		"[b]Regras em uso[/b]",
 		"- Turnos com 2 PA",
 		"- Movimento, ataque, cobertura, medo, coragem e lideranca",
 		"- Autosave ao iniciar e concluir",
 		"",
-		"[b]Inimigos/ameacas previstas[/b]"
+		"[b]Acoes proprias[/b]"
 	]
+	for action in mission_actions:
+		lines.append("- %s [%s]: %s" % [
+			action.get("label", ""),
+			action.get("cost", ""),
+			action.get("effect", "")
+		])
+	lines.append("")
+	lines.append("[b]Inimigos/ameacas previstas[/b]")
 	for enemy in enemies:
 		lines.append("- %s / %s / HP %s / arma %s" % [
 			enemy.get("name", ""),
@@ -1021,6 +1068,7 @@ func _show_mission_screen(mission: Dictionary) -> void:
 	detail_text.text = "\n".join(lines)
 
 func _show_mission_result(mission: Dictionary) -> void:
+	_refresh_backdrop(mission)
 	var completed: Array = state.get("campaign", {}).get("completed", [])
 	detail_title.text = "Resultado - %s" % mission.get("title", "")
 	detail_text.text = "\n".join([
@@ -1046,6 +1094,17 @@ func _mission_enemies(mission: Dictionary) -> Array:
 		else:
 			set_id = "forest_first_contact"
 	return sets.get(set_id, [])
+
+func _mission_presentation(mission: Dictionary) -> Dictionary:
+	return data.get("missionPresentation", {}).get(mission.get("id", ""), {})
+
+func _refresh_backdrop(mission: Dictionary) -> void:
+	if mission_backdrop == null:
+		return
+	var presentation := _mission_presentation(mission)
+	mission_backdrop.set("mission_data", mission)
+	mission_backdrop.set("presentation_data", presentation)
+	mission_backdrop.queue_redraw()
 
 func _apply_rewards(rewards: Dictionary) -> void:
 	var p: Dictionary = state.get("principality", {})
@@ -1087,6 +1146,79 @@ func _apply_hardware_profile() -> void:
 	elif cores >= 12:
 		quality = "high"
 	state["settings"]["quality"] = quality
+
+class MissionBackdrop:
+	extends Control
+
+	var mission_data: Dictionary = {}
+	var presentation_data: Dictionary = {}
+
+	func _draw() -> void:
+		var rect := Rect2(Vector2.ZERO, size)
+		var background: Dictionary = presentation_data.get("background", {})
+		var palette: Array = background.get("palette", ["#0c0f0f", "#272b2a", "#6e8fa4", "#d0a951"])
+		var base := _color(palette[0], Color(0.04, 0.05, 0.05))
+		var mid := _color(palette[min(1, palette.size() - 1)], Color(0.13, 0.15, 0.14))
+		var accent := _color(palette[min(2, palette.size() - 1)], Color(0.43, 0.56, 0.64))
+		var gold := _color(palette[min(3, palette.size() - 1)], Color(0.82, 0.66, 0.32))
+		draw_rect(rect, base, true)
+		draw_rect(Rect2(Vector2(0, size.y * 0.58), Vector2(size.x, size.y * 0.42)), mid.darkened(0.28), true)
+		_draw_sky_band(accent)
+		_draw_environment(str(background.get("id", "battlefield")), accent, gold, mid)
+		draw_rect(rect.grow(-1), _alpha(gold, 0.28), false, 1.0)
+		var title := str(mission_data.get("title", "Missao"))
+		var bg_name := str(background.get("name", "Campo de Missao"))
+		draw_string(ThemeDB.fallback_font, Vector2(16, 28), bg_name, HORIZONTAL_ALIGNMENT_LEFT, size.x - 32, 18, gold)
+		draw_string(ThemeDB.fallback_font, Vector2(16, size.y - 18), title, HORIZONTAL_ALIGNMENT_LEFT, size.x - 32, 16, Color(0.90, 0.88, 0.78))
+
+	func _draw_sky_band(accent: Color) -> void:
+		for i in range(5):
+			var alpha := 0.05 + float(i) * 0.025
+			draw_rect(Rect2(0, i * size.y * 0.10, size.x, size.y * 0.10), _alpha(accent, alpha), true)
+
+	func _draw_environment(id: String, accent: Color, gold: Color, mid: Color) -> void:
+		var w := size.x
+		var h := size.y
+		if id == "blood_forest":
+			for i in range(7):
+				var x := w * (0.10 + i * 0.13)
+				draw_line(Vector2(x, h * 0.30), Vector2(x - 12, h * 0.88), mid.lightened(0.10), 6)
+				draw_circle(Vector2(x - 6, h * 0.26), 24, accent.darkened(0.25))
+			draw_line(Vector2(w * 0.18, h * 0.72), Vector2(w * 0.82, h * 0.64), _alpha(gold, 0.50), 3)
+		elif id == "war_council":
+			draw_circle(Vector2(w * 0.5, h * 0.68), min(w, h) * 0.28, mid.lightened(0.12))
+			for i in range(5):
+				draw_circle(Vector2(w * (0.22 + i * 0.14), h * 0.42), 7, _alpha(gold, 0.75))
+			draw_line(Vector2(w * 0.18, h * 0.68), Vector2(w * 0.82, h * 0.68), _alpha(gold, 0.50), 2)
+		elif id == "siege_line":
+			for i in range(6):
+				draw_line(Vector2(w * (0.10 + i * 0.16), h * 0.82), Vector2(w * (0.18 + i * 0.16), h * 0.52), mid.lightened(0.18), 9)
+			draw_rect(Rect2(w * 0.18, h * 0.56, w * 0.64, h * 0.12), accent.darkened(0.1), true)
+			draw_circle(Vector2(w * 0.80, h * 0.32), 16, _alpha(gold, 0.35))
+		elif id == "corrupted_ritual":
+			draw_circle(Vector2(w * 0.5, h * 0.62), min(w, h) * 0.30, _alpha(accent, 0.35))
+			for i in range(6):
+				var angle := TAU * float(i) / 6.0
+				draw_line(Vector2(w * 0.5, h * 0.62), Vector2(w * 0.5 + cos(angle) * 120.0, h * 0.62 + sin(angle) * 44.0), accent.lightened(0.2), 2)
+			draw_circle(Vector2(w * 0.5, h * 0.62), 18, _alpha(gold, 0.65))
+		elif id == "search_zone":
+			for i in range(4):
+				draw_circle(Vector2(w * (0.20 + i * 0.18), h * (0.42 + (i % 2) * 0.18)), 10, _alpha(gold, 0.65))
+				draw_line(Vector2(w * (0.20 + i * 0.18), h * (0.42 + (i % 2) * 0.18)), Vector2(w * (0.28 + i * 0.16), h * 0.78), _alpha(accent, 0.45), 2)
+			draw_rect(Rect2(w * 0.10, h * 0.70, w * 0.80, 4), mid.lightened(0.18), true)
+		else:
+			for i in range(6):
+				draw_circle(Vector2(w * (0.16 + i * 0.13), h * 0.68), 12, _alpha(accent, 0.42))
+			draw_line(Vector2(w * 0.16, h * 0.58), Vector2(w * 0.84, h * 0.58), _alpha(gold, 0.45), 2)
+
+	func _color(value: Variant, fallback: Color) -> Color:
+		var text := str(value)
+		if text.begins_with("#"):
+			return Color.html(text)
+		return fallback
+
+	func _alpha(color: Color, value: float) -> Color:
+		return Color(color.r, color.g, color.b, value)
 
 class AvatarPreview:
 	extends Control

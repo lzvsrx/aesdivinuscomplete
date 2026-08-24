@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-24T21:37:21.400Z",
+  "generatedAt": "2026-08-24T21:45:34.064Z",
   "game": "Aes Divinus",
   "source": "src/data.js",
   "fearStates": {
@@ -3031,6 +3031,2452 @@
         "effect": "Resolve como cena/gestao e volta a mesa."
       }
     ]
+  },
+  "missionPresentation": {
+    "prologue_opening": {
+      "background": {
+        "id": "blood_forest",
+        "name": "Floresta de Sangue",
+        "mood": "Trilha escura, arvores fechadas, lama, folhas vermelhas e sinais de emboscada.",
+        "palette": [
+          "#07100b",
+          "#253126",
+          "#6d1d1b",
+          "#d0a951"
+        ],
+        "props": [
+          "rastro",
+          "tronco caido",
+          "suprimentos",
+          "neblina baixa"
+        ],
+        "camera": "terceira pessoa baixa que abre para enquadramento tatico quando a ameaca aparece"
+      },
+      "actions": [
+        {
+          "id": "prologue_opening_objective",
+          "label": "Executar objetivo: Cena P0 - Abertura",
+          "cost": "2 PA",
+          "effect": "Apresentar William, o grupo e a viagem pela Floresta de Sangue."
+        },
+        {
+          "id": "prologue_opening_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "prologue_opening_negotiate",
+          "label": "Negociar com faccao",
+          "cost": "decisao",
+          "effect": "Altera reputacao e abre rotas politicas."
+        },
+        {
+          "id": "prologue_opening_spend_resources",
+          "label": "Comprometer recursos",
+          "cost": "recursos",
+          "effect": "Muda comida, defesa, tropas ou investigacao."
+        },
+        {
+          "id": "prologue_opening_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Define tom, contexto e primeira leitura dos companheiros."
+        }
+      ]
+    },
+    "old_road": {
+      "background": {
+        "id": "blood_forest",
+        "name": "Floresta de Sangue",
+        "mood": "Trilha escura, arvores fechadas, lama, folhas vermelhas e sinais de emboscada.",
+        "palette": [
+          "#07100b",
+          "#253126",
+          "#6d1d1b",
+          "#d0a951"
+        ],
+        "props": [
+          "rastro",
+          "tronco caido",
+          "suprimentos",
+          "neblina baixa"
+        ],
+        "camera": "terceira pessoa baixa que abre para enquadramento tatico quando a ameaca aparece"
+      },
+      "actions": [
+        {
+          "id": "old_road_objective",
+          "label": "Executar objetivo: Missao P1 - Pela Estrada Velha",
+          "cost": "2 PA",
+          "effect": "Explorar a trilha, seguir rastros e encontrar suprimentos opcionais."
+        },
+        {
+          "id": "old_road_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "old_road_inspect",
+          "label": "Investigar pista chave",
+          "cost": "1 PA",
+          "effect": "Revela causa, culpado, ritual ou rota oculta."
+        },
+        {
+          "id": "old_road_interact",
+          "label": "Interagir com objeto",
+          "cost": "1 PA",
+          "effect": "Aciona porta, alavanca, registro, corpo ou suprimento."
+        },
+        {
+          "id": "old_road_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Ensina movimento, interacao e Percepcao."
+        }
+      ]
+    },
+    "forest_signs": {
+      "background": {
+        "id": "blood_forest",
+        "name": "Floresta de Sangue",
+        "mood": "Trilha escura, arvores fechadas, lama, folhas vermelhas e sinais de emboscada.",
+        "palette": [
+          "#07100b",
+          "#253126",
+          "#6d1d1b",
+          "#d0a951"
+        ],
+        "props": [
+          "rastro",
+          "tronco caido",
+          "suprimentos",
+          "neblina baixa"
+        ],
+        "camera": "terceira pessoa baixa que abre para enquadramento tatico quando a ameaca aparece"
+      },
+      "actions": [
+        {
+          "id": "forest_signs_objective",
+          "label": "Executar objetivo: Cena P2 - Sinais na Mata",
+          "cost": "2 PA",
+          "effect": "Ouvir os sons da floresta e perceber que algo acompanha o grupo."
+        },
+        {
+          "id": "forest_signs_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "forest_signs_negotiate",
+          "label": "Negociar com faccao",
+          "cost": "decisao",
+          "effect": "Altera reputacao e abre rotas politicas."
+        },
+        {
+          "id": "forest_signs_spend_resources",
+          "label": "Comprometer recursos",
+          "cost": "recursos",
+          "effect": "Muda comida, defesa, tropas ou investigacao."
+        },
+        {
+          "id": "forest_signs_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Aumenta tensao e prepara a emboscada."
+        }
+      ]
+    },
+    "ambush": {
+      "background": {
+        "id": "blood_forest",
+        "name": "Floresta de Sangue",
+        "mood": "Trilha escura, arvores fechadas, lama, folhas vermelhas e sinais de emboscada.",
+        "palette": [
+          "#07100b",
+          "#253126",
+          "#6d1d1b",
+          "#d0a951"
+        ],
+        "props": [
+          "rastro",
+          "tronco caido",
+          "suprimentos",
+          "neblina baixa"
+        ],
+        "camera": "terceira pessoa baixa que abre para enquadramento tatico quando a ameaca aparece"
+      },
+      "actions": [
+        {
+          "id": "ambush_objective",
+          "label": "Executar objetivo: Missao P3 - Emboscada",
+          "cost": "2 PA",
+          "effect": "Vencer ou forcar retirada dos barbaros."
+        },
+        {
+          "id": "ambush_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "ambush_attack",
+          "label": "Atacar ameaca",
+          "cost": "1 PA",
+          "effect": "Resolve conflito direto com arma equipada."
+        },
+        {
+          "id": "ambush_formation",
+          "label": "Manter formacao",
+          "cost": "1 PA",
+          "effect": "Melhora defesa, cobertura e lealdade em risco."
+        },
+        {
+          "id": "ambush_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Ensina turnos, PA, ataque, movimento e cobertura."
+        }
+      ]
+    },
+    "after_blood": {
+      "background": {
+        "id": "blood_forest",
+        "name": "Floresta de Sangue",
+        "mood": "Trilha escura, arvores fechadas, lama, folhas vermelhas e sinais de emboscada.",
+        "palette": [
+          "#07100b",
+          "#253126",
+          "#6d1d1b",
+          "#d0a951"
+        ],
+        "props": [
+          "rastro",
+          "tronco caido",
+          "suprimentos",
+          "neblina baixa"
+        ],
+        "camera": "terceira pessoa baixa que abre para enquadramento tatico quando a ameaca aparece"
+      },
+      "actions": [
+        {
+          "id": "after_blood_objective",
+          "label": "Executar objetivo: Cena P4 - Depois do Sangue",
+          "cost": "2 PA",
+          "effect": "Escolher como os companheiros reagem a batalha."
+        },
+        {
+          "id": "after_blood_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "after_blood_negotiate",
+          "label": "Negociar com faccao",
+          "cost": "decisao",
+          "effect": "Altera reputacao e abre rotas politicas."
+        },
+        {
+          "id": "after_blood_spend_resources",
+          "label": "Comprometer recursos",
+          "cost": "recursos",
+          "effect": "Muda comida, defesa, tropas ou investigacao."
+        },
+        {
+          "id": "after_blood_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Altera lealdade, marca emocional e personalidade do grupo."
+        }
+      ]
+    },
+    "survivor": {
+      "background": {
+        "id": "blood_forest",
+        "name": "Floresta de Sangue",
+        "mood": "Trilha escura, arvores fechadas, lama, folhas vermelhas e sinais de emboscada.",
+        "palette": [
+          "#07100b",
+          "#253126",
+          "#6d1d1b",
+          "#d0a951"
+        ],
+        "props": [
+          "rastro",
+          "tronco caido",
+          "suprimentos",
+          "neblina baixa"
+        ],
+        "camera": "terceira pessoa baixa que abre para enquadramento tatico quando a ameaca aparece"
+      },
+      "actions": [
+        {
+          "id": "survivor_objective",
+          "label": "Executar objetivo: Missao P5 - O Sobrevivente",
+          "cost": "2 PA",
+          "effect": "Encontrar um sobrevivente ferido, ajuda-lo e eliminar inimigos."
+        },
+        {
+          "id": "survivor_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "survivor_evacuate",
+          "label": "Retirar sobreviventes",
+          "cost": "2 PA",
+          "effect": "Salva civis e reduz perdas persistentes."
+        },
+        {
+          "id": "survivor_race_clock",
+          "label": "Acelerar busca",
+          "cost": "1 PA + risco",
+          "effect": "Avanca antes do tempo, mas aumenta chance de emboscada."
+        },
+        {
+          "id": "survivor_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Combina interacao, resgate e combate."
+        }
+      ]
+    },
+    "transformation": {
+      "background": {
+        "id": "blood_forest",
+        "name": "Floresta de Sangue",
+        "mood": "Trilha escura, arvores fechadas, lama, folhas vermelhas e sinais de emboscada.",
+        "palette": [
+          "#07100b",
+          "#253126",
+          "#6d1d1b",
+          "#d0a951"
+        ],
+        "props": [
+          "rastro",
+          "tronco caido",
+          "suprimentos",
+          "neblina baixa"
+        ],
+        "camera": "terceira pessoa baixa que abre para enquadramento tatico quando a ameaca aparece"
+      },
+      "actions": [
+        {
+          "id": "transformation_objective",
+          "label": "Executar objetivo: Cena P6 - A Transformacao",
+          "cost": "2 PA",
+          "effect": "Sobreviver ao primeiro sinal de transformacao de um inimigo."
+        },
+        {
+          "id": "transformation_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "transformation_negotiate",
+          "label": "Negociar com faccao",
+          "cost": "decisao",
+          "effect": "Altera reputacao e abre rotas politicas."
+        },
+        {
+          "id": "transformation_spend_resources",
+          "label": "Comprometer recursos",
+          "cost": "recursos",
+          "effect": "Muda comida, defesa, tropas ou investigacao."
+        },
+        {
+          "id": "transformation_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Introduz Medo e Coragem."
+        }
+      ]
+    },
+    "real_battle": {
+      "background": {
+        "id": "blood_forest",
+        "name": "Floresta de Sangue",
+        "mood": "Trilha escura, arvores fechadas, lama, folhas vermelhas e sinais de emboscada.",
+        "palette": [
+          "#07100b",
+          "#253126",
+          "#6d1d1b",
+          "#d0a951"
+        ],
+        "props": [
+          "rastro",
+          "tronco caido",
+          "suprimentos",
+          "neblina baixa"
+        ],
+        "camera": "terceira pessoa baixa que abre para enquadramento tatico quando a ameaca aparece"
+      },
+      "actions": [
+        {
+          "id": "real_battle_objective",
+          "label": "Executar objetivo: Missao P7 - A Real Batalha",
+          "cost": "2 PA",
+          "effect": "Proteger companheiros e, opcionalmente, deixar a criatura com meia vida."
+        },
+        {
+          "id": "real_battle_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "real_battle_break_phase",
+          "label": "Quebrar mecanismo/fase",
+          "cost": "2 PA",
+          "effect": "Avanca objetivo de chefe alem de reduzir HP."
+        },
+        {
+          "id": "real_battle_hold_courage",
+          "label": "Comandar coragem",
+          "cost": "1 PA",
+          "effect": "Reduz medo e impede colapso de companheiros."
+        },
+        {
+          "id": "real_battle_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Ensina medo, lideranca e retirada."
+        }
+      ]
+    },
+    "hubris": {
+      "background": {
+        "id": "blood_forest",
+        "name": "Floresta de Sangue",
+        "mood": "Trilha escura, arvores fechadas, lama, folhas vermelhas e sinais de emboscada.",
+        "palette": [
+          "#07100b",
+          "#253126",
+          "#6d1d1b",
+          "#d0a951"
+        ],
+        "props": [
+          "rastro",
+          "tronco caido",
+          "suprimentos",
+          "neblina baixa"
+        ],
+        "camera": "terceira pessoa baixa que abre para enquadramento tatico quando a ameaca aparece"
+      },
+      "actions": [
+        {
+          "id": "hubris_objective",
+          "label": "Executar objetivo: Cena P8 - O Hubris",
+          "cost": "2 PA",
+          "effect": "Decidir como relatar o ocorrido ao retornar."
+        },
+        {
+          "id": "hubris_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "hubris_negotiate",
+          "label": "Negociar com faccao",
+          "cost": "decisao",
+          "effect": "Altera reputacao e abre rotas politicas."
+        },
+        {
+          "id": "hubris_spend_resources",
+          "label": "Comprometer recursos",
+          "cost": "recursos",
+          "effect": "Muda comida, defesa, tropas ou investigacao."
+        },
+        {
+          "id": "hubris_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Gera a primeira consequencia politica."
+        }
+      ]
+    },
+    "stone_council": {
+      "background": {
+        "id": "war_council",
+        "name": "Mesa de Guerra",
+        "mood": "Pedra, velas, mapas marcados, bandeiras de faccao e pressao politica.",
+        "palette": [
+          "#101214",
+          "#2c2520",
+          "#8a6a2e",
+          "#d0a951"
+        ],
+        "props": [
+          "mapa",
+          "velas",
+          "selos",
+          "estandartes"
+        ],
+        "camera": "plano de mesa com cortes para rostos e emblemas de faccao"
+      },
+      "actions": [
+        {
+          "id": "stone_council_objective",
+          "label": "Executar objetivo: Conselho de Pedra",
+          "cost": "2 PA",
+          "effect": "Escolher prioridade: comida, defesa ou investigacao."
+        },
+        {
+          "id": "stone_council_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "stone_council_negotiate",
+          "label": "Negociar com faccao",
+          "cost": "decisao",
+          "effect": "Altera reputacao e abre rotas politicas."
+        },
+        {
+          "id": "stone_council_spend_resources",
+          "label": "Comprometer recursos",
+          "cost": "recursos",
+          "effect": "Muda comida, defesa, tropas ou investigacao."
+        },
+        {
+          "id": "stone_council_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Abre rotas e modifica recursos."
+        }
+      ]
+    },
+    "empty_granaries": {
+      "background": {
+        "id": "war_council",
+        "name": "Mesa de Guerra",
+        "mood": "Pedra, velas, mapas marcados, bandeiras de faccao e pressao politica.",
+        "palette": [
+          "#101214",
+          "#2c2520",
+          "#8a6a2e",
+          "#d0a951"
+        ],
+        "props": [
+          "mapa",
+          "velas",
+          "selos",
+          "estandartes"
+        ],
+        "camera": "plano de mesa com cortes para rostos e emblemas de faccao"
+      },
+      "actions": [
+        {
+          "id": "empty_granaries_objective",
+          "label": "Executar objetivo: Celeiros Vazios",
+          "cost": "2 PA",
+          "effect": "Descobrir causa da falta de comida."
+        },
+        {
+          "id": "empty_granaries_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "empty_granaries_negotiate",
+          "label": "Negociar com faccao",
+          "cost": "decisao",
+          "effect": "Altera reputacao e abre rotas politicas."
+        },
+        {
+          "id": "empty_granaries_spend_resources",
+          "label": "Comprometer recursos",
+          "cost": "recursos",
+          "effect": "Muda comida, defesa, tropas ou investigacao."
+        },
+        {
+          "id": "empty_granaries_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Pode revelar roubo, corrupcao ou ataque."
+        }
+      ]
+    },
+    "village_without_bells": {
+      "background": {
+        "id": "search_zone",
+        "name": "Zona de Busca",
+        "mood": "Casas quebradas, marcas no chao, silencio de vila e pontos de interacao.",
+        "palette": [
+          "#0d1212",
+          "#26302d",
+          "#547c63",
+          "#c7b37a"
+        ],
+        "props": [
+          "pista",
+          "corpo",
+          "porta",
+          "rota escondida"
+        ],
+        "camera": "terceira pessoa exploratoria com destaques de percepcao"
+      },
+      "actions": [
+        {
+          "id": "village_without_bells_objective",
+          "label": "Executar objetivo: A Vila sem Sinos",
+          "cost": "2 PA",
+          "effect": "Encontrar moradores e retirar sobreviventes."
+        },
+        {
+          "id": "village_without_bells_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "village_without_bells_evacuate",
+          "label": "Retirar sobreviventes",
+          "cost": "2 PA",
+          "effect": "Salva civis e reduz perdas persistentes."
+        },
+        {
+          "id": "village_without_bells_race_clock",
+          "label": "Acelerar busca",
+          "cost": "1 PA + risco",
+          "effect": "Avanca antes do tempo, mas aumenta chance de emboscada."
+        },
+        {
+          "id": "village_without_bells_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Primeiro mapa semiaberto."
+        }
+      ]
+    },
+    "wolves_on_the_road": {
+      "background": {
+        "id": "blood_forest",
+        "name": "Floresta de Sangue",
+        "mood": "Trilha escura, arvores fechadas, lama, folhas vermelhas e sinais de emboscada.",
+        "palette": [
+          "#07100b",
+          "#253126",
+          "#6d1d1b",
+          "#d0a951"
+        ],
+        "props": [
+          "rastro",
+          "tronco caido",
+          "suprimentos",
+          "neblina baixa"
+        ],
+        "camera": "terceira pessoa baixa que abre para enquadramento tatico quando a ameaca aparece"
+      },
+      "actions": [
+        {
+          "id": "wolves_on_the_road_objective",
+          "label": "Executar objetivo: Lobos na Estrada",
+          "cost": "2 PA",
+          "effect": "Levar carregamento ate o principado."
+        },
+        {
+          "id": "wolves_on_the_road_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "wolves_on_the_road_attack",
+          "label": "Atacar ameaca",
+          "cost": "1 PA",
+          "effect": "Resolve conflito direto com arma equipada."
+        },
+        {
+          "id": "wolves_on_the_road_formation",
+          "label": "Manter formacao",
+          "cost": "1 PA",
+          "effect": "Melhora defesa, cobertura e lealdade em risco."
+        },
+        {
+          "id": "wolves_on_the_road_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Emboscadas e rotas alternativas."
+        }
+      ]
+    },
+    "blood_debt": {
+      "background": {
+        "id": "battlefield",
+        "name": "Campo de Missao",
+        "mood": "Terreno aberto, cobertura, posicoes de frente/retaguarda e relogio de missao.",
+        "palette": [
+          "#0c0f0f",
+          "#272b2a",
+          "#6e8fa4",
+          "#d0a951"
+        ],
+        "props": [
+          "cobertura",
+          "altura",
+          "objetivo",
+          "marcador de rota"
+        ],
+        "camera": "camera tatica orbitavel para combate por turnos"
+      },
+      "actions": [
+        {
+          "id": "blood_debt_objective",
+          "label": "Executar objetivo: Divida de Sangue",
+          "cost": "2 PA",
+          "effect": "Resolver conflito ligado a Donovan/Ethan/Albert."
+        },
+        {
+          "id": "blood_debt_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "blood_debt_attack",
+          "label": "Atacar ameaca",
+          "cost": "1 PA",
+          "effect": "Resolve conflito direto com arma equipada."
+        },
+        {
+          "id": "blood_debt_formation",
+          "label": "Manter formacao",
+          "cost": "1 PA",
+          "effect": "Melhora defesa, cobertura e lealdade em risco."
+        },
+        {
+          "id": "blood_debt_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Lealdade individual."
+        }
+      ]
+    },
+    "gate_at_dusk": {
+      "background": {
+        "id": "siege_line",
+        "name": "Linha de Defesa",
+        "mood": "Barricadas, arqueiros, fumaca, setores sob pressao e rotas alternativas.",
+        "palette": [
+          "#121313",
+          "#343632",
+          "#7d2d23",
+          "#b9b09b"
+        ],
+        "props": [
+          "barricada",
+          "portao",
+          "plataforma de arqueiro",
+          "fogo"
+        ],
+        "camera": "camera tatica alta para setor, reforcos e objetivos de defesa"
+      },
+      "actions": [
+        {
+          "id": "gate_at_dusk_objective",
+          "label": "Executar objetivo: O Portao ao Anoitecer",
+          "cost": "2 PA",
+          "effect": "Defender entrada por varias rodadas."
+        },
+        {
+          "id": "gate_at_dusk_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "gate_at_dusk_barricade",
+          "label": "Reforcar barricada",
+          "cost": "1 PA + madeira",
+          "effect": "Aumenta defesa do setor e atrasa reforcos inimigos."
+        },
+        {
+          "id": "gate_at_dusk_archers",
+          "label": "Reposicionar arqueiros",
+          "cost": "1 PA",
+          "effect": "Ganha altura, cobertura e controle de linha de visao."
+        },
+        {
+          "id": "gate_at_dusk_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Barricadas, arqueiros e reforcos."
+        }
+      ]
+    },
+    "prince_trial": {
+      "background": {
+        "id": "war_council",
+        "name": "Mesa de Guerra",
+        "mood": "Pedra, velas, mapas marcados, bandeiras de faccao e pressao politica.",
+        "palette": [
+          "#101214",
+          "#2c2520",
+          "#8a6a2e",
+          "#d0a951"
+        ],
+        "props": [
+          "mapa",
+          "velas",
+          "selos",
+          "estandartes"
+        ],
+        "camera": "plano de mesa com cortes para rostos e emblemas de faccao"
+      },
+      "actions": [
+        {
+          "id": "prince_trial_objective",
+          "label": "Executar objetivo: Julgamento do Principe",
+          "cost": "2 PA",
+          "effect": "Julgar responsaveis e consequencias."
+        },
+        {
+          "id": "prince_trial_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "prince_trial_negotiate",
+          "label": "Negociar com faccao",
+          "cost": "decisao",
+          "effect": "Altera reputacao e abre rotas politicas."
+        },
+        {
+          "id": "prince_trial_spend_resources",
+          "label": "Comprometer recursos",
+          "cost": "recursos",
+          "effect": "Muda comida, defesa, tropas ou investigacao."
+        },
+        {
+          "id": "prince_trial_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Reputacao por faccao."
+        }
+      ]
+    },
+    "herald_of_the_woods": {
+      "background": {
+        "id": "corrupted_ritual",
+        "name": "Ritual Corrompido",
+        "mood": "Pedra fria, veios violetas, sombras vivas e medo crescendo no terreno.",
+        "palette": [
+          "#050508",
+          "#18121e",
+          "#5b2e83",
+          "#c7b37a"
+        ],
+        "props": [
+          "runa",
+          "monolito",
+          "nevoa violeta",
+          "fissura"
+        ],
+        "camera": "enquadramento amplo para fases, mecanismos e escala da ameaca"
+      },
+      "actions": [
+        {
+          "id": "herald_of_the_woods_objective",
+          "label": "Executar objetivo: Chefe - O Arauto da Mata",
+          "cost": "2 PA",
+          "effect": "Eliminar ou capturar criatura/comandante."
+        },
+        {
+          "id": "herald_of_the_woods_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "herald_of_the_woods_break_phase",
+          "label": "Quebrar mecanismo/fase",
+          "cost": "2 PA",
+          "effect": "Avanca objetivo de chefe alem de reduzir HP."
+        },
+        {
+          "id": "herald_of_the_woods_hold_courage",
+          "label": "Comandar coragem",
+          "cost": "1 PA",
+          "effect": "Reduz medo e impede colapso de companheiros."
+        },
+        {
+          "id": "herald_of_the_woods_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Chefe com medo e terreno."
+        }
+      ]
+    },
+    "act_ii_burning_frontiers": {
+      "background": {
+        "id": "war_council",
+        "name": "Mesa de Guerra",
+        "mood": "Pedra, velas, mapas marcados, bandeiras de faccao e pressao politica.",
+        "palette": [
+          "#101214",
+          "#2c2520",
+          "#8a6a2e",
+          "#d0a951"
+        ],
+        "props": [
+          "mapa",
+          "velas",
+          "selos",
+          "estandartes"
+        ],
+        "camera": "plano de mesa com cortes para rostos e emblemas de faccao"
+      },
+      "actions": [
+        {
+          "id": "act_ii_burning_frontiers_objective",
+          "label": "Executar objetivo: Ato II - Fronteiras em Chamas",
+          "cost": "2 PA",
+          "effect": "Abrir o arco de guerra nas fronteiras."
+        },
+        {
+          "id": "act_ii_burning_frontiers_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "act_ii_burning_frontiers_negotiate",
+          "label": "Negociar com faccao",
+          "cost": "decisao",
+          "effect": "Altera reputacao e abre rotas politicas."
+        },
+        {
+          "id": "act_ii_burning_frontiers_spend_resources",
+          "label": "Comprometer recursos",
+          "cost": "recursos",
+          "effect": "Muda comida, defesa, tropas ou investigacao."
+        },
+        {
+          "id": "act_ii_burning_frontiers_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Novas rotas, pressoes militares e ameacas coordenadas."
+        }
+      ]
+    },
+    "ash_bridge": {
+      "background": {
+        "id": "siege_line",
+        "name": "Linha de Defesa",
+        "mood": "Barricadas, arqueiros, fumaca, setores sob pressao e rotas alternativas.",
+        "palette": [
+          "#121313",
+          "#343632",
+          "#7d2d23",
+          "#b9b09b"
+        ],
+        "props": [
+          "barricada",
+          "portao",
+          "plataforma de arqueiro",
+          "fogo"
+        ],
+        "camera": "camera tatica alta para setor, reforcos e objetivos de defesa"
+      },
+      "actions": [
+        {
+          "id": "ash_bridge_objective",
+          "label": "Executar objetivo: Ponte de Cinzas",
+          "cost": "2 PA",
+          "effect": "Segurar ponte ou destrui-la."
+        },
+        {
+          "id": "ash_bridge_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "ash_bridge_barricade",
+          "label": "Reforcar barricada",
+          "cost": "1 PA + madeira",
+          "effect": "Aumenta defesa do setor e atrasa reforcos inimigos."
+        },
+        {
+          "id": "ash_bridge_archers",
+          "label": "Reposicionar arqueiros",
+          "cost": "1 PA",
+          "effect": "Ganha altura, cobertura e controle de linha de visao."
+        },
+        {
+          "id": "ash_bridge_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Muda rota estrategica."
+        }
+      ]
+    },
+    "lost_caravan": {
+      "background": {
+        "id": "search_zone",
+        "name": "Zona de Busca",
+        "mood": "Casas quebradas, marcas no chao, silencio de vila e pontos de interacao.",
+        "palette": [
+          "#0d1212",
+          "#26302d",
+          "#547c63",
+          "#c7b37a"
+        ],
+        "props": [
+          "pista",
+          "corpo",
+          "porta",
+          "rota escondida"
+        ],
+        "camera": "terceira pessoa exploratoria com destaques de percepcao"
+      },
+      "actions": [
+        {
+          "id": "lost_caravan_objective",
+          "label": "Executar objetivo: Caravana Perdida",
+          "cost": "2 PA",
+          "effect": "Localizar caravana antes do tempo acabar."
+        },
+        {
+          "id": "lost_caravan_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "lost_caravan_evacuate",
+          "label": "Retirar sobreviventes",
+          "cost": "2 PA",
+          "effect": "Salva civis e reduz perdas persistentes."
+        },
+        {
+          "id": "lost_caravan_race_clock",
+          "label": "Acelerar busca",
+          "cost": "1 PA + risco",
+          "effect": "Avanca antes do tempo, mas aumenta chance de emboscada."
+        },
+        {
+          "id": "lost_caravan_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Recursos e sobreviventes."
+        }
+      ]
+    },
+    "broken_fortress": {
+      "background": {
+        "id": "battlefield",
+        "name": "Campo de Missao",
+        "mood": "Terreno aberto, cobertura, posicoes de frente/retaguarda e relogio de missao.",
+        "palette": [
+          "#0c0f0f",
+          "#272b2a",
+          "#6e8fa4",
+          "#d0a951"
+        ],
+        "props": [
+          "cobertura",
+          "altura",
+          "objetivo",
+          "marcador de rota"
+        ],
+        "camera": "camera tatica orbitavel para combate por turnos"
+      },
+      "actions": [
+        {
+          "id": "broken_fortress_objective",
+          "label": "Executar objetivo: Fortaleza Partida",
+          "cost": "2 PA",
+          "effect": "Abrir portao por infiltracao, sabotagem ou ataque frontal."
+        },
+        {
+          "id": "broken_fortress_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "broken_fortress_attack",
+          "label": "Atacar ameaca",
+          "cost": "1 PA",
+          "effect": "Resolve conflito direto com arma equipada."
+        },
+        {
+          "id": "broken_fortress_formation",
+          "label": "Manter formacao",
+          "cost": "1 PA",
+          "effect": "Melhora defesa, cobertura e lealdade em risco."
+        },
+        {
+          "id": "broken_fortress_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Tres rotas."
+        }
+      ]
+    },
+    "field_of_the_dead": {
+      "background": {
+        "id": "search_zone",
+        "name": "Zona de Busca",
+        "mood": "Casas quebradas, marcas no chao, silencio de vila e pontos de interacao.",
+        "palette": [
+          "#0d1212",
+          "#26302d",
+          "#547c63",
+          "#c7b37a"
+        ],
+        "props": [
+          "pista",
+          "corpo",
+          "porta",
+          "rota escondida"
+        ],
+        "camera": "terceira pessoa exploratoria com destaques de percepcao"
+      },
+      "actions": [
+        {
+          "id": "field_of_the_dead_objective",
+          "label": "Executar objetivo: Campo dos Mortos",
+          "cost": "2 PA",
+          "effect": "Descobrir por que corpos desapareceram."
+        },
+        {
+          "id": "field_of_the_dead_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "field_of_the_dead_inspect",
+          "label": "Investigar pista chave",
+          "cost": "1 PA",
+          "effect": "Revela causa, culpado, ritual ou rota oculta."
+        },
+        {
+          "id": "field_of_the_dead_interact",
+          "label": "Interagir com objeto",
+          "cost": "1 PA",
+          "effect": "Aciona porta, alavanca, registro, corpo ou suprimento."
+        },
+        {
+          "id": "field_of_the_dead_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Sobrenatural cresce."
+        }
+      ]
+    },
+    "blood_between_banners": {
+      "background": {
+        "id": "battlefield",
+        "name": "Campo de Missao",
+        "mood": "Terreno aberto, cobertura, posicoes de frente/retaguarda e relogio de missao.",
+        "palette": [
+          "#0c0f0f",
+          "#272b2a",
+          "#6e8fa4",
+          "#d0a951"
+        ],
+        "props": [
+          "cobertura",
+          "altura",
+          "objetivo",
+          "marcador de rota"
+        ],
+        "camera": "camera tatica orbitavel para combate por turnos"
+      },
+      "actions": [
+        {
+          "id": "blood_between_banners_objective",
+          "label": "Executar objetivo: Sangue entre Estandartes",
+          "cost": "2 PA",
+          "effect": "Evitar ou vencer conflito entre aliados."
+        },
+        {
+          "id": "blood_between_banners_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "blood_between_banners_attack",
+          "label": "Atacar ameaca",
+          "cost": "1 PA",
+          "effect": "Resolve conflito direto com arma equipada."
+        },
+        {
+          "id": "blood_between_banners_formation",
+          "label": "Manter formacao",
+          "cost": "1 PA",
+          "effect": "Melhora defesa, cobertura e lealdade em risco."
+        },
+        {
+          "id": "blood_between_banners_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Reputacao politica."
+        }
+      ]
+    },
+    "siege": {
+      "background": {
+        "id": "battlefield",
+        "name": "Campo de Missao",
+        "mood": "Terreno aberto, cobertura, posicoes de frente/retaguarda e relogio de missao.",
+        "palette": [
+          "#0c0f0f",
+          "#272b2a",
+          "#6e8fa4",
+          "#d0a951"
+        ],
+        "props": [
+          "cobertura",
+          "altura",
+          "objetivo",
+          "marcador de rota"
+        ],
+        "camera": "camera tatica orbitavel para combate por turnos"
+      },
+      "actions": [
+        {
+          "id": "siege_objective",
+          "label": "Executar objetivo: Cerco",
+          "cost": "2 PA",
+          "effect": "Defender setores, comandar tropas e escolher onde intervir."
+        },
+        {
+          "id": "siege_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "siege_attack",
+          "label": "Atacar ameaca",
+          "cost": "1 PA",
+          "effect": "Resolve conflito direto com arma equipada."
+        },
+        {
+          "id": "siege_formation",
+          "label": "Manter formacao",
+          "cost": "1 PA",
+          "effect": "Melhora defesa, cobertura e lealdade em risco."
+        },
+        {
+          "id": "siege_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Perdas persistentes."
+        }
+      ]
+    },
+    "faceless_general": {
+      "background": {
+        "id": "corrupted_ritual",
+        "name": "Ritual Corrompido",
+        "mood": "Pedra fria, veios violetas, sombras vivas e medo crescendo no terreno.",
+        "palette": [
+          "#050508",
+          "#18121e",
+          "#5b2e83",
+          "#c7b37a"
+        ],
+        "props": [
+          "runa",
+          "monolito",
+          "nevoa violeta",
+          "fissura"
+        ],
+        "camera": "enquadramento amplo para fases, mecanismos e escala da ameaca"
+      },
+      "actions": [
+        {
+          "id": "faceless_general_objective",
+          "label": "Executar objetivo: O General sem Rosto",
+          "cost": "2 PA",
+          "effect": "Quebrar comando inimigo e sobreviver as fases."
+        },
+        {
+          "id": "faceless_general_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "faceless_general_break_phase",
+          "label": "Quebrar mecanismo/fase",
+          "cost": "2 PA",
+          "effect": "Avanca objetivo de chefe alem de reduzir HP."
+        },
+        {
+          "id": "faceless_general_hold_courage",
+          "label": "Comandar coragem",
+          "cost": "1 PA",
+          "effect": "Reduz medo e impede colapso de companheiros."
+        },
+        {
+          "id": "faceless_general_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Inimigos coordenados + medo."
+        }
+      ]
+    },
+    "act_iii_voices_below": {
+      "background": {
+        "id": "war_council",
+        "name": "Mesa de Guerra",
+        "mood": "Pedra, velas, mapas marcados, bandeiras de faccao e pressao politica.",
+        "palette": [
+          "#101214",
+          "#2c2520",
+          "#8a6a2e",
+          "#d0a951"
+        ],
+        "props": [
+          "mapa",
+          "velas",
+          "selos",
+          "estandartes"
+        ],
+        "camera": "plano de mesa com cortes para rostos e emblemas de faccao"
+      },
+      "actions": [
+        {
+          "id": "act_iii_voices_below_objective",
+          "label": "Executar objetivo: Ato III - Vozes Sob a Terra",
+          "cost": "2 PA",
+          "effect": "Iniciar a descida as ruinas e segredos proibidos."
+        },
+        {
+          "id": "act_iii_voices_below_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "act_iii_voices_below_negotiate",
+          "label": "Negociar com faccao",
+          "cost": "decisao",
+          "effect": "Altera reputacao e abre rotas politicas."
+        },
+        {
+          "id": "act_iii_voices_below_spend_resources",
+          "label": "Comprometer recursos",
+          "cost": "recursos",
+          "effect": "Muda comida, defesa, tropas ou investigacao."
+        },
+        {
+          "id": "act_iii_voices_below_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "O horror e os traumas passam a alterar missoes."
+        }
+      ]
+    },
+    "abandoned_monastery": {
+      "background": {
+        "id": "corrupted_ritual",
+        "name": "Ritual Corrompido",
+        "mood": "Pedra fria, veios violetas, sombras vivas e medo crescendo no terreno.",
+        "palette": [
+          "#050508",
+          "#18121e",
+          "#5b2e83",
+          "#c7b37a"
+        ],
+        "props": [
+          "runa",
+          "monolito",
+          "nevoa violeta",
+          "fissura"
+        ],
+        "camera": "enquadramento amplo para fases, mecanismos e escala da ameaca"
+      },
+      "actions": [
+        {
+          "id": "abandoned_monastery_objective",
+          "label": "Executar objetivo: Mosteiro Abandonado",
+          "cost": "2 PA",
+          "effect": "Encontrar registros e sobreviver ao local."
+        },
+        {
+          "id": "abandoned_monastery_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "abandoned_monastery_inspect",
+          "label": "Investigar pista chave",
+          "cost": "1 PA",
+          "effect": "Revela causa, culpado, ritual ou rota oculta."
+        },
+        {
+          "id": "abandoned_monastery_interact",
+          "label": "Interagir com objeto",
+          "cost": "1 PA",
+          "effect": "Aciona porta, alavanca, registro, corpo ou suprimento."
+        },
+        {
+          "id": "abandoned_monastery_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Puzzles leves e medo."
+        }
+      ]
+    },
+    "under_the_crypt": {
+      "background": {
+        "id": "battlefield",
+        "name": "Campo de Missao",
+        "mood": "Terreno aberto, cobertura, posicoes de frente/retaguarda e relogio de missao.",
+        "palette": [
+          "#0c0f0f",
+          "#272b2a",
+          "#6e8fa4",
+          "#d0a951"
+        ],
+        "props": [
+          "cobertura",
+          "altura",
+          "objetivo",
+          "marcador de rota"
+        ],
+        "camera": "camera tatica orbitavel para combate por turnos"
+      },
+      "actions": [
+        {
+          "id": "under_the_crypt_objective",
+          "label": "Executar objetivo: Sob a Cripta",
+          "cost": "2 PA",
+          "effect": "Abrir caminho por ruinas subterraneas."
+        },
+        {
+          "id": "under_the_crypt_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "under_the_crypt_attack",
+          "label": "Atacar ameaca",
+          "cost": "1 PA",
+          "effect": "Resolve conflito direto com arma equipada."
+        },
+        {
+          "id": "under_the_crypt_formation",
+          "label": "Manter formacao",
+          "cost": "1 PA",
+          "effect": "Melhora defesa, cobertura e lealdade em risco."
+        },
+        {
+          "id": "under_the_crypt_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Luz, armadilhas e rotas."
+        }
+      ]
+    },
+    "forbidden_name": {
+      "background": {
+        "id": "search_zone",
+        "name": "Zona de Busca",
+        "mood": "Casas quebradas, marcas no chao, silencio de vila e pontos de interacao.",
+        "palette": [
+          "#0d1212",
+          "#26302d",
+          "#547c63",
+          "#c7b37a"
+        ],
+        "props": [
+          "pista",
+          "corpo",
+          "porta",
+          "rota escondida"
+        ],
+        "camera": "terceira pessoa exploratoria com destaques de percepcao"
+      },
+      "actions": [
+        {
+          "id": "forbidden_name_objective",
+          "label": "Executar objetivo: O Nome Proibido",
+          "cost": "2 PA",
+          "effect": "Reconstruir ritual por documentos e testemunhos."
+        },
+        {
+          "id": "forbidden_name_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "forbidden_name_inspect",
+          "label": "Investigar pista chave",
+          "cost": "1 PA",
+          "effect": "Revela causa, culpado, ritual ou rota oculta."
+        },
+        {
+          "id": "forbidden_name_interact",
+          "label": "Interagir com objeto",
+          "cost": "1 PA",
+          "effect": "Aciona porta, alavanca, registro, corpo ou suprimento."
+        },
+        {
+          "id": "forbidden_name_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Lore e decisao."
+        }
+      ]
+    },
+    "echoes_of_fear": {
+      "background": {
+        "id": "battlefield",
+        "name": "Campo de Missao",
+        "mood": "Terreno aberto, cobertura, posicoes de frente/retaguarda e relogio de missao.",
+        "palette": [
+          "#0c0f0f",
+          "#272b2a",
+          "#6e8fa4",
+          "#d0a951"
+        ],
+        "props": [
+          "cobertura",
+          "altura",
+          "objetivo",
+          "marcador de rota"
+        ],
+        "camera": "camera tatica orbitavel para combate por turnos"
+      },
+      "actions": [
+        {
+          "id": "echoes_of_fear_objective",
+          "label": "Executar objetivo: Ecos de Medo",
+          "cost": "2 PA",
+          "effect": "Enfrentar manifestacao ligada aos traumas do grupo."
+        },
+        {
+          "id": "echoes_of_fear_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "echoes_of_fear_attack",
+          "label": "Atacar ameaca",
+          "cost": "1 PA",
+          "effect": "Resolve conflito direto com arma equipada."
+        },
+        {
+          "id": "echoes_of_fear_formation",
+          "label": "Manter formacao",
+          "cost": "1 PA",
+          "effect": "Melhora defesa, cobertura e lealdade em risco."
+        },
+        {
+          "id": "echoes_of_fear_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Traumas alteram encontros."
+        }
+      ]
+    },
+    "artifact": {
+      "background": {
+        "id": "war_council",
+        "name": "Mesa de Guerra",
+        "mood": "Pedra, velas, mapas marcados, bandeiras de faccao e pressao politica.",
+        "palette": [
+          "#101214",
+          "#2c2520",
+          "#8a6a2e",
+          "#d0a951"
+        ],
+        "props": [
+          "mapa",
+          "velas",
+          "selos",
+          "estandartes"
+        ],
+        "camera": "plano de mesa com cortes para rostos e emblemas de faccao"
+      },
+      "actions": [
+        {
+          "id": "artifact_objective",
+          "label": "Executar objetivo: O Artefato",
+          "cost": "2 PA",
+          "effect": "Destruir, guardar ou usar objeto sobrenatural."
+        },
+        {
+          "id": "artifact_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "artifact_negotiate",
+          "label": "Negociar com faccao",
+          "cost": "decisao",
+          "effect": "Altera reputacao e abre rotas politicas."
+        },
+        {
+          "id": "artifact_spend_resources",
+          "label": "Comprometer recursos",
+          "cost": "recursos",
+          "effect": "Muda comida, defesa, tropas ou investigacao."
+        },
+        {
+          "id": "artifact_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Campanha ramifica."
+        }
+      ]
+    },
+    "mouth_of_the_earth": {
+      "background": {
+        "id": "corrupted_ritual",
+        "name": "Ritual Corrompido",
+        "mood": "Pedra fria, veios violetas, sombras vivas e medo crescendo no terreno.",
+        "palette": [
+          "#050508",
+          "#18121e",
+          "#5b2e83",
+          "#c7b37a"
+        ],
+        "props": [
+          "runa",
+          "monolito",
+          "nevoa violeta",
+          "fissura"
+        ],
+        "camera": "enquadramento amplo para fases, mecanismos e escala da ameaca"
+      },
+      "actions": [
+        {
+          "id": "mouth_of_the_earth_objective",
+          "label": "Executar objetivo: A Boca da Terra",
+          "cost": "2 PA",
+          "effect": "Impedir ritual e selar passagem."
+        },
+        {
+          "id": "mouth_of_the_earth_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "mouth_of_the_earth_break_phase",
+          "label": "Quebrar mecanismo/fase",
+          "cost": "2 PA",
+          "effect": "Avanca objetivo de chefe alem de reduzir HP."
+        },
+        {
+          "id": "mouth_of_the_earth_hold_courage",
+          "label": "Comandar coragem",
+          "cost": "1 PA",
+          "effect": "Reduz medo e impede colapso de companheiros."
+        },
+        {
+          "id": "mouth_of_the_earth_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Objetivo por fases, nao apenas HP."
+        }
+      ]
+    },
+    "act_iv_divided_kingdom": {
+      "background": {
+        "id": "war_council",
+        "name": "Mesa de Guerra",
+        "mood": "Pedra, velas, mapas marcados, bandeiras de faccao e pressao politica.",
+        "palette": [
+          "#101214",
+          "#2c2520",
+          "#8a6a2e",
+          "#d0a951"
+        ],
+        "props": [
+          "mapa",
+          "velas",
+          "selos",
+          "estandartes"
+        ],
+        "camera": "plano de mesa com cortes para rostos e emblemas de faccao"
+      },
+      "actions": [
+        {
+          "id": "act_iv_divided_kingdom_objective",
+          "label": "Executar objetivo: Ato IV - Reino Dividido",
+          "cost": "2 PA",
+          "effect": "Abrir a crise politica do reino."
+        },
+        {
+          "id": "act_iv_divided_kingdom_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "act_iv_divided_kingdom_negotiate",
+          "label": "Negociar com faccao",
+          "cost": "decisao",
+          "effect": "Altera reputacao e abre rotas politicas."
+        },
+        {
+          "id": "act_iv_divided_kingdom_spend_resources",
+          "label": "Comprometer recursos",
+          "cost": "recursos",
+          "effect": "Muda comida, defesa, tropas ou investigacao."
+        },
+        {
+          "id": "act_iv_divided_kingdom_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Aliancas e reputacoes passam a definir rotas."
+        }
+      ]
+    },
+    "messengers": {
+      "background": {
+        "id": "battlefield",
+        "name": "Campo de Missao",
+        "mood": "Terreno aberto, cobertura, posicoes de frente/retaguarda e relogio de missao.",
+        "palette": [
+          "#0c0f0f",
+          "#272b2a",
+          "#6e8fa4",
+          "#d0a951"
+        ],
+        "props": [
+          "cobertura",
+          "altura",
+          "objetivo",
+          "marcador de rota"
+        ],
+        "camera": "camera tatica orbitavel para combate por turnos"
+      },
+      "actions": [
+        {
+          "id": "messengers_objective",
+          "label": "Executar objetivo: Mensageiros",
+          "cost": "2 PA",
+          "effect": "Entregar ordens antes que regioes caiam."
+        },
+        {
+          "id": "messengers_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "messengers_attack",
+          "label": "Atacar ameaca",
+          "cost": "1 PA",
+          "effect": "Resolve conflito direto com arma equipada."
+        },
+        {
+          "id": "messengers_formation",
+          "label": "Manter formacao",
+          "cost": "1 PA",
+          "effect": "Melhora defesa, cobertura e lealdade em risco."
+        },
+        {
+          "id": "messengers_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Mapa e tempo."
+        }
+      ]
+    },
+    "dukes_choice": {
+      "background": {
+        "id": "war_council",
+        "name": "Mesa de Guerra",
+        "mood": "Pedra, velas, mapas marcados, bandeiras de faccao e pressao politica.",
+        "palette": [
+          "#101214",
+          "#2c2520",
+          "#8a6a2e",
+          "#d0a951"
+        ],
+        "props": [
+          "mapa",
+          "velas",
+          "selos",
+          "estandartes"
+        ],
+        "camera": "plano de mesa com cortes para rostos e emblemas de faccao"
+      },
+      "actions": [
+        {
+          "id": "dukes_choice_objective",
+          "label": "Executar objetivo: A Escolha dos Duques",
+          "cost": "2 PA",
+          "effect": "Convencer faccoes com reputacao acumulada."
+        },
+        {
+          "id": "dukes_choice_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "dukes_choice_negotiate",
+          "label": "Negociar com faccao",
+          "cost": "decisao",
+          "effect": "Altera reputacao e abre rotas politicas."
+        },
+        {
+          "id": "dukes_choice_spend_resources",
+          "label": "Comprometer recursos",
+          "cost": "recursos",
+          "effect": "Muda comida, defesa, tropas ou investigacao."
+        },
+        {
+          "id": "dukes_choice_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Aliancas reais."
+        }
+      ]
+    },
+    "brothers_against_brothers": {
+      "background": {
+        "id": "battlefield",
+        "name": "Campo de Missao",
+        "mood": "Terreno aberto, cobertura, posicoes de frente/retaguarda e relogio de missao.",
+        "palette": [
+          "#0c0f0f",
+          "#272b2a",
+          "#6e8fa4",
+          "#d0a951"
+        ],
+        "props": [
+          "cobertura",
+          "altura",
+          "objetivo",
+          "marcador de rota"
+        ],
+        "camera": "camera tatica orbitavel para combate por turnos"
+      },
+      "actions": [
+        {
+          "id": "brothers_against_brothers_objective",
+          "label": "Executar objetivo: Irmaos contra Irmaos",
+          "cost": "2 PA",
+          "effect": "Vencer sem massacrar aliados quando possivel."
+        },
+        {
+          "id": "brothers_against_brothers_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "brothers_against_brothers_attack",
+          "label": "Atacar ameaca",
+          "cost": "1 PA",
+          "effect": "Resolve conflito direto com arma equipada."
+        },
+        {
+          "id": "brothers_against_brothers_formation",
+          "label": "Manter formacao",
+          "cost": "1 PA",
+          "effect": "Melhora defesa, cobertura e lealdade em risco."
+        },
+        {
+          "id": "brothers_against_brothers_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Captura/rendicao."
+        }
+      ]
+    },
+    "besieged_city": {
+      "background": {
+        "id": "battlefield",
+        "name": "Campo de Missao",
+        "mood": "Terreno aberto, cobertura, posicoes de frente/retaguarda e relogio de missao.",
+        "palette": [
+          "#0c0f0f",
+          "#272b2a",
+          "#6e8fa4",
+          "#d0a951"
+        ],
+        "props": [
+          "cobertura",
+          "altura",
+          "objetivo",
+          "marcador de rota"
+        ],
+        "camera": "camera tatica orbitavel para combate por turnos"
+      },
+      "actions": [
+        {
+          "id": "besieged_city_objective",
+          "label": "Executar objetivo: A Cidade Cercada",
+          "cost": "2 PA",
+          "effect": "Gerenciar comida, setores e civis durante cerco."
+        },
+        {
+          "id": "besieged_city_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "besieged_city_attack",
+          "label": "Atacar ameaca",
+          "cost": "1 PA",
+          "effect": "Resolve conflito direto com arma equipada."
+        },
+        {
+          "id": "besieged_city_formation",
+          "label": "Manter formacao",
+          "cost": "1 PA",
+          "effect": "Melhora defesa, cobertura e lealdade em risco."
+        },
+        {
+          "id": "besieged_city_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Principado + combate."
+        }
+      ]
+    },
+    "betrayal": {
+      "background": {
+        "id": "battlefield",
+        "name": "Campo de Missao",
+        "mood": "Terreno aberto, cobertura, posicoes de frente/retaguarda e relogio de missao.",
+        "palette": [
+          "#0c0f0f",
+          "#272b2a",
+          "#6e8fa4",
+          "#d0a951"
+        ],
+        "props": [
+          "cobertura",
+          "altura",
+          "objetivo",
+          "marcador de rota"
+        ],
+        "camera": "camera tatica orbitavel para combate por turnos"
+      },
+      "actions": [
+        {
+          "id": "betrayal_objective",
+          "label": "Executar objetivo: Traicao",
+          "cost": "2 PA",
+          "effect": "Revelar traidor conforme relacoes e decisoes."
+        },
+        {
+          "id": "betrayal_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "betrayal_attack",
+          "label": "Atacar ameaca",
+          "cost": "1 PA",
+          "effect": "Resolve conflito direto com arma equipada."
+        },
+        {
+          "id": "betrayal_formation",
+          "label": "Manter formacao",
+          "cost": "1 PA",
+          "effect": "Melhora defesa, cobertura e lealdade em risco."
+        },
+        {
+          "id": "betrayal_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Lealdade paga consequencia."
+        }
+      ]
+    },
+    "empty_throne": {
+      "background": {
+        "id": "battlefield",
+        "name": "Campo de Missao",
+        "mood": "Terreno aberto, cobertura, posicoes de frente/retaguarda e relogio de missao.",
+        "palette": [
+          "#0c0f0f",
+          "#272b2a",
+          "#6e8fa4",
+          "#d0a951"
+        ],
+        "props": [
+          "cobertura",
+          "altura",
+          "objetivo",
+          "marcador de rota"
+        ],
+        "camera": "camera tatica orbitavel para combate por turnos"
+      },
+      "actions": [
+        {
+          "id": "empty_throne_objective",
+          "label": "Executar objetivo: O Trono Vazio",
+          "cost": "2 PA",
+          "effect": "Retomar ou proteger centro de poder."
+        },
+        {
+          "id": "empty_throne_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "empty_throne_attack",
+          "label": "Atacar ameaca",
+          "cost": "1 PA",
+          "effect": "Resolve conflito direto com arma equipada."
+        },
+        {
+          "id": "empty_throne_formation",
+          "label": "Manter formacao",
+          "cost": "1 PA",
+          "effect": "Melhora defesa, cobertura e lealdade em risco."
+        },
+        {
+          "id": "empty_throne_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Varias rotas e objetivos."
+        }
+      ]
+    },
+    "act_v_aes_divinus": {
+      "background": {
+        "id": "war_council",
+        "name": "Mesa de Guerra",
+        "mood": "Pedra, velas, mapas marcados, bandeiras de faccao e pressao politica.",
+        "palette": [
+          "#101214",
+          "#2c2520",
+          "#8a6a2e",
+          "#d0a951"
+        ],
+        "props": [
+          "mapa",
+          "velas",
+          "selos",
+          "estandartes"
+        ],
+        "camera": "plano de mesa com cortes para rostos e emblemas de faccao"
+      },
+      "actions": [
+        {
+          "id": "act_v_aes_divinus_objective",
+          "label": "Executar objetivo: Ato V - Aes Divinus",
+          "cost": "2 PA",
+          "effect": "Abrir a marcha final contra a fonte do poder."
+        },
+        {
+          "id": "act_v_aes_divinus_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "act_v_aes_divinus_negotiate",
+          "label": "Negociar com faccao",
+          "cost": "decisao",
+          "effect": "Altera reputacao e abre rotas politicas."
+        },
+        {
+          "id": "act_v_aes_divinus_spend_resources",
+          "label": "Comprometer recursos",
+          "cost": "recursos",
+          "effect": "Muda comida, defesa, tropas ou investigacao."
+        },
+        {
+          "id": "act_v_aes_divinus_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Todas as escolhas anteriores entram em jogo."
+        }
+      ]
+    },
+    "final_march": {
+      "background": {
+        "id": "war_council",
+        "name": "Mesa de Guerra",
+        "mood": "Pedra, velas, mapas marcados, bandeiras de faccao e pressao politica.",
+        "palette": [
+          "#101214",
+          "#2c2520",
+          "#8a6a2e",
+          "#d0a951"
+        ],
+        "props": [
+          "mapa",
+          "velas",
+          "selos",
+          "estandartes"
+        ],
+        "camera": "plano de mesa com cortes para rostos e emblemas de faccao"
+      },
+      "actions": [
+        {
+          "id": "final_march_objective",
+          "label": "Executar objetivo: Marcha Final",
+          "cost": "2 PA",
+          "effect": "Escolher tropas, companheiros e suprimentos."
+        },
+        {
+          "id": "final_march_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "final_march_negotiate",
+          "label": "Negociar com faccao",
+          "cost": "decisao",
+          "effect": "Altera reputacao e abre rotas politicas."
+        },
+        {
+          "id": "final_march_spend_resources",
+          "label": "Comprometer recursos",
+          "cost": "recursos",
+          "effect": "Muda comida, defesa, tropas ou investigacao."
+        },
+        {
+          "id": "final_march_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Tudo que foi administrado importa."
+        }
+      ]
+    },
+    "corrupted_land": {
+      "background": {
+        "id": "battlefield",
+        "name": "Campo de Missao",
+        "mood": "Terreno aberto, cobertura, posicoes de frente/retaguarda e relogio de missao.",
+        "palette": [
+          "#0c0f0f",
+          "#272b2a",
+          "#6e8fa4",
+          "#d0a951"
+        ],
+        "props": [
+          "cobertura",
+          "altura",
+          "objetivo",
+          "marcador de rota"
+        ],
+        "camera": "camera tatica orbitavel para combate por turnos"
+      },
+      "actions": [
+        {
+          "id": "corrupted_land_objective",
+          "label": "Executar objetivo: Terra Corrompida",
+          "cost": "2 PA",
+          "effect": "Cruzar regiao alterada pelo sobrenatural."
+        },
+        {
+          "id": "corrupted_land_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "corrupted_land_attack",
+          "label": "Atacar ameaca",
+          "cost": "1 PA",
+          "effect": "Resolve conflito direto com arma equipada."
+        },
+        {
+          "id": "corrupted_land_formation",
+          "label": "Manter formacao",
+          "cost": "1 PA",
+          "effect": "Melhora defesa, cobertura e lealdade em risco."
+        },
+        {
+          "id": "corrupted_land_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Recursos e Coragem."
+        }
+      ]
+    },
+    "those_who_remained": {
+      "background": {
+        "id": "battlefield",
+        "name": "Campo de Missao",
+        "mood": "Terreno aberto, cobertura, posicoes de frente/retaguarda e relogio de missao.",
+        "palette": [
+          "#0c0f0f",
+          "#272b2a",
+          "#6e8fa4",
+          "#d0a951"
+        ],
+        "props": [
+          "cobertura",
+          "altura",
+          "objetivo",
+          "marcador de rota"
+        ],
+        "camera": "camera tatica orbitavel para combate por turnos"
+      },
+      "actions": [
+        {
+          "id": "those_who_remained_objective",
+          "label": "Executar objetivo: Os Que Ficaram",
+          "cost": "2 PA",
+          "effect": "Encontrar personagens/faccoes conforme escolhas anteriores."
+        },
+        {
+          "id": "those_who_remained_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "those_who_remained_attack",
+          "label": "Atacar ameaca",
+          "cost": "1 PA",
+          "effect": "Resolve conflito direto com arma equipada."
+        },
+        {
+          "id": "those_who_remained_formation",
+          "label": "Manter formacao",
+          "cost": "1 PA",
+          "effect": "Melhora defesa, cobertura e lealdade em risco."
+        },
+        {
+          "id": "those_who_remained_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Campanha reativa."
+        }
+      ]
+    },
+    "abyss_gates": {
+      "background": {
+        "id": "battlefield",
+        "name": "Campo de Missao",
+        "mood": "Terreno aberto, cobertura, posicoes de frente/retaguarda e relogio de missao.",
+        "palette": [
+          "#0c0f0f",
+          "#272b2a",
+          "#6e8fa4",
+          "#d0a951"
+        ],
+        "props": [
+          "cobertura",
+          "altura",
+          "objetivo",
+          "marcador de rota"
+        ],
+        "camera": "camera tatica orbitavel para combate por turnos"
+      },
+      "actions": [
+        {
+          "id": "abyss_gates_objective",
+          "label": "Executar objetivo: Portoes do Abismo",
+          "cost": "2 PA",
+          "effect": "Romper tres objetivos em ordem escolhida."
+        },
+        {
+          "id": "abyss_gates_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "abyss_gates_attack",
+          "label": "Atacar ameaca",
+          "cost": "1 PA",
+          "effect": "Resolve conflito direto com arma equipada."
+        },
+        {
+          "id": "abyss_gates_formation",
+          "label": "Manter formacao",
+          "cost": "1 PA",
+          "effect": "Melhora defesa, cobertura e lealdade em risco."
+        },
+        {
+          "id": "abyss_gates_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Grande arena multiobjetivo."
+        }
+      ]
+    },
+    "price_of_the_crown": {
+      "background": {
+        "id": "war_council",
+        "name": "Mesa de Guerra",
+        "mood": "Pedra, velas, mapas marcados, bandeiras de faccao e pressao politica.",
+        "palette": [
+          "#101214",
+          "#2c2520",
+          "#8a6a2e",
+          "#d0a951"
+        ],
+        "props": [
+          "mapa",
+          "velas",
+          "selos",
+          "estandartes"
+        ],
+        "camera": "plano de mesa com cortes para rostos e emblemas de faccao"
+      },
+      "actions": [
+        {
+          "id": "price_of_the_crown_objective",
+          "label": "Executar objetivo: O Preco da Coroa",
+          "cost": "2 PA",
+          "effect": "Escolha politica/pessoal antes do final."
+        },
+        {
+          "id": "price_of_the_crown_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "price_of_the_crown_negotiate",
+          "label": "Negociar com faccao",
+          "cost": "decisao",
+          "effect": "Altera reputacao e abre rotas politicas."
+        },
+        {
+          "id": "price_of_the_crown_spend_resources",
+          "label": "Comprometer recursos",
+          "cost": "recursos",
+          "effect": "Muda comida, defesa, tropas ou investigacao."
+        },
+        {
+          "id": "price_of_the_crown_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Define aliados e condicoes."
+        }
+      ]
+    },
+    "aes_divinus_final": {
+      "background": {
+        "id": "corrupted_ritual",
+        "name": "Ritual Corrompido",
+        "mood": "Pedra fria, veios violetas, sombras vivas e medo crescendo no terreno.",
+        "palette": [
+          "#050508",
+          "#18121e",
+          "#5b2e83",
+          "#c7b37a"
+        ],
+        "props": [
+          "runa",
+          "monolito",
+          "nevoa violeta",
+          "fissura"
+        ],
+        "camera": "enquadramento amplo para fases, mecanismos e escala da ameaca"
+      },
+      "actions": [
+        {
+          "id": "aes_divinus_final_objective",
+          "label": "Executar objetivo: Aes Divinus",
+          "cost": "2 PA",
+          "effect": "Sobreviver, quebrar mecanismos/ritual e enfrentar entidade."
+        },
+        {
+          "id": "aes_divinus_final_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "aes_divinus_final_break_phase",
+          "label": "Quebrar mecanismo/fase",
+          "cost": "2 PA",
+          "effect": "Avanca objetivo de chefe alem de reduzir HP."
+        },
+        {
+          "id": "aes_divinus_final_hold_courage",
+          "label": "Comandar coragem",
+          "cost": "1 PA",
+          "effect": "Reduz medo e impede colapso de companheiros."
+        },
+        {
+          "id": "aes_divinus_final_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Combate, medo, lideranca, terreno."
+        }
+      ]
+    },
+    "last_order": {
+      "background": {
+        "id": "war_council",
+        "name": "Mesa de Guerra",
+        "mood": "Pedra, velas, mapas marcados, bandeiras de faccao e pressao politica.",
+        "palette": [
+          "#101214",
+          "#2c2520",
+          "#8a6a2e",
+          "#d0a951"
+        ],
+        "props": [
+          "mapa",
+          "velas",
+          "selos",
+          "estandartes"
+        ],
+        "camera": "plano de mesa com cortes para rostos e emblemas de faccao"
+      },
+      "actions": [
+        {
+          "id": "last_order_objective",
+          "label": "Executar objetivo: Ultima Ordem",
+          "cost": "2 PA",
+          "effect": "Escolher destino do poder/principado."
+        },
+        {
+          "id": "last_order_perception",
+          "label": "Ler terreno",
+          "cost": "1 PA",
+          "effect": "Revela pistas, cobertura, rotas e ameacas."
+        },
+        {
+          "id": "last_order_negotiate",
+          "label": "Negociar com faccao",
+          "cost": "decisao",
+          "effect": "Altera reputacao e abre rotas politicas."
+        },
+        {
+          "id": "last_order_spend_resources",
+          "label": "Comprometer recursos",
+          "cost": "recursos",
+          "effect": "Muda comida, defesa, tropas ou investigacao."
+        },
+        {
+          "id": "last_order_finish",
+          "label": "Registrar consequencia",
+          "cost": "final",
+          "effect": "Define epilogo."
+        }
+      ]
+    }
   },
   "godotGameStructure": {
     "targetStyle": "RPG tatico 3D single-player por turnos com exploracao em terceira pessoa.",
