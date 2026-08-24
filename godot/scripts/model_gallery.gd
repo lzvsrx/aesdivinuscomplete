@@ -21,9 +21,19 @@ func _load_specs() -> Dictionary:
 func _build_world() -> void:
 	var camera := Camera3D.new()
 	camera.name = "Camera3D"
-	camera.position = Vector3(0, 3.1, 8.5)
-	camera.rotation_degrees = Vector3(-18, 0, 0)
+	camera.position = Vector3(0, 3.6, 9.4)
+	camera.rotation_degrees = Vector3(-20, 0, 0)
 	add_child(camera)
+	var world := WorldEnvironment.new()
+	world.name = "WorldEnvironment"
+	var env := Environment.new()
+	env.background_mode = Environment.BG_COLOR
+	env.background_color = Color(0.025, 0.028, 0.030)
+	env.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
+	env.ambient_light_color = Color(0.22, 0.20, 0.18)
+	env.ambient_light_energy = 0.55
+	world.environment = env
+	add_child(world)
 	var light := DirectionalLight3D.new()
 	light.name = "KeyLight"
 	light.position = Vector3(0, 4, 4)
@@ -36,6 +46,12 @@ func _build_world() -> void:
 	fill.light_color = Color(0.56, 0.40, 0.79)
 	fill.light_energy = 1.4
 	add_child(fill)
+	var rim := OmniLight3D.new()
+	rim.name = "GoldRimLight"
+	rim.position = Vector3(-3.8, 2.6, -1.8)
+	rim.light_color = Color(0.82, 0.66, 0.32)
+	rim.light_energy = 0.9
+	add_child(rim)
 	var ground := MeshInstance3D.new()
 	ground.name = "Ground"
 	var mesh := PlaneMesh.new()
@@ -43,6 +59,9 @@ func _build_world() -> void:
 	ground.mesh = mesh
 	ground.set_surface_override_material(0, ModelLibraryScript.make_material(Color(0.07, 0.075, 0.075)))
 	add_child(ground)
+	_add_display_band(Vector3(0, 0.01, -0.8), Vector2(13.5, 2.4), Color(0.10, 0.09, 0.07))
+	_add_display_band(Vector3(0, 0.012, 2.35), Vector2(13.5, 1.55), Color(0.07, 0.08, 0.08))
+	_add_display_band(Vector3(0, 0.014, 3.9), Vector2(10.5, 1.25), Color(0.06, 0.07, 0.06))
 
 func _build_gallery() -> void:
 	var x := -4.8
@@ -84,3 +103,13 @@ func _add_label(text: String, position: Vector3) -> void:
 	label.font_size = 26
 	label.modulate = Color(0.82, 0.66, 0.32)
 	add_child(label)
+
+func _add_display_band(position: Vector3, size: Vector2, color: Color) -> void:
+	var band := MeshInstance3D.new()
+	band.name = "display_band"
+	var mesh := PlaneMesh.new()
+	mesh.size = size
+	band.mesh = mesh
+	band.position = position
+	band.set_surface_override_material(0, ModelLibraryScript.make_material(color))
+	add_child(band)

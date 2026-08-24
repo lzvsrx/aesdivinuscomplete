@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-24T22:53:01.430Z",
+  "generatedAt": "2026-08-24T23:03:51.675Z",
   "game": "Aes Divinus",
   "source": "src/data.js",
   "fearStates": {
@@ -3099,22 +3099,21 @@
         ],
         "camera": "terceira pessoa baixa que abre para enquadramento tatico quando a ameaca aparece"
       },
-      "archetype": "council",
+      "archetype": "cinematic",
       "gameplay": {
-        "label": "Conselho, politica e gestao",
+        "label": "Cena cinematica interativa",
         "victory": [
-          "Escolher prioridade",
-          "Aplicar custo/recompensa de recursos"
+          "Escolher resposta de William",
+          "Registrar consequencia no diario"
         ],
         "failure": [
-          "Perder reputacao com faccao",
-          "Abrir rota mais dificil"
+          "Sem falha direta; custo politico se ignorar contexto"
         ],
-        "pressure": "Recursos limitados e faccoes cobrando resposta.",
+        "pressure": "Pressao narrativa, moral e de reputacao.",
         "interactions": [
-          "negociar",
-          "comprometer comida/ouro/tropas",
-          "julgar consequencias"
+          "escolha de dialogo",
+          "leitura de companheiros",
+          "registro no codex"
         ]
       },
       "actions": [
@@ -3132,9 +3131,9 @@
         },
         {
           "id": "prologue_opening_archetype_core",
-          "label": "Conselho, politica e gestao",
+          "label": "Cena cinematica interativa",
           "cost": "regra",
-          "effect": "Recursos limitados e faccoes cobrando resposta."
+          "effect": "Pressao narrativa, moral e de reputacao."
         },
         {
           "id": "prologue_opening_negotiate",
@@ -3253,22 +3252,21 @@
         ],
         "camera": "terceira pessoa baixa que abre para enquadramento tatico quando a ameaca aparece"
       },
-      "archetype": "council",
+      "archetype": "cinematic",
       "gameplay": {
-        "label": "Conselho, politica e gestao",
+        "label": "Cena cinematica interativa",
         "victory": [
-          "Escolher prioridade",
-          "Aplicar custo/recompensa de recursos"
+          "Escolher resposta de William",
+          "Registrar consequencia no diario"
         ],
         "failure": [
-          "Perder reputacao com faccao",
-          "Abrir rota mais dificil"
+          "Sem falha direta; custo politico se ignorar contexto"
         ],
-        "pressure": "Recursos limitados e faccoes cobrando resposta.",
+        "pressure": "Pressao narrativa, moral e de reputacao.",
         "interactions": [
-          "negociar",
-          "comprometer comida/ouro/tropas",
-          "julgar consequencias"
+          "escolha de dialogo",
+          "leitura de companheiros",
+          "registro no codex"
         ]
       },
       "actions": [
@@ -3286,9 +3284,9 @@
         },
         {
           "id": "forest_signs_archetype_core",
-          "label": "Conselho, politica e gestao",
+          "label": "Cena cinematica interativa",
           "cost": "regra",
-          "effect": "Recursos limitados e faccoes cobrando resposta."
+          "effect": "Pressao narrativa, moral e de reputacao."
         },
         {
           "id": "forest_signs_negotiate",
@@ -3404,22 +3402,21 @@
         ],
         "camera": "terceira pessoa baixa que abre para enquadramento tatico quando a ameaca aparece"
       },
-      "archetype": "council",
+      "archetype": "cinematic",
       "gameplay": {
-        "label": "Conselho, politica e gestao",
+        "label": "Cena cinematica interativa",
         "victory": [
-          "Escolher prioridade",
-          "Aplicar custo/recompensa de recursos"
+          "Escolher resposta de William",
+          "Registrar consequencia no diario"
         ],
         "failure": [
-          "Perder reputacao com faccao",
-          "Abrir rota mais dificil"
+          "Sem falha direta; custo politico se ignorar contexto"
         ],
-        "pressure": "Recursos limitados e faccoes cobrando resposta.",
+        "pressure": "Pressao narrativa, moral e de reputacao.",
         "interactions": [
-          "negociar",
-          "comprometer comida/ouro/tropas",
-          "julgar consequencias"
+          "escolha de dialogo",
+          "leitura de companheiros",
+          "registro no codex"
         ]
       },
       "actions": [
@@ -3437,9 +3434,9 @@
         },
         {
           "id": "after_blood_archetype_core",
-          "label": "Conselho, politica e gestao",
+          "label": "Cena cinematica interativa",
           "cost": "regra",
-          "effect": "Recursos limitados e faccoes cobrando resposta."
+          "effect": "Pressao narrativa, moral e de reputacao."
         },
         {
           "id": "after_blood_negotiate",

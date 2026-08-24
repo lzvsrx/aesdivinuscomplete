@@ -17,6 +17,12 @@ var mission_overlay: PanelContainer
 var mission_overlay_title: Label
 var mission_overlay_status: RichTextLabel
 var mission_overlay_arena: Control
+var inventory_overlay: PanelContainer
+var inventory_title: Label
+var inventory_status: RichTextLabel
+var inventory_shop_list: VBoxContainer
+var inventory_owned_list: VBoxContainer
+var inventory_craft_list: VBoxContainer
 var detail_title: Label
 var detail_text: RichTextLabel
 var resource_text: RichTextLabel
@@ -269,6 +275,7 @@ func _build_ui() -> void:
 	log_text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	right.add_child(log_text)
 	_build_mission_play_screen()
+	_build_inventory_screen()
 
 func _build_mission_play_screen() -> void:
 	mission_overlay = PanelContainer.new()
@@ -334,6 +341,103 @@ func _build_mission_play_screen() -> void:
 	controls.add_child(_button("Rodada", func() -> void: mission_overlay_arena.call("command_new_turn")))
 	controls.add_child(_button("Salvar", func() -> void: _autosave("Save manual na missao.")))
 	controls.add_child(_button("Fechar", _hide_mission_arena))
+
+func _build_inventory_screen() -> void:
+	inventory_overlay = PanelContainer.new()
+	inventory_overlay.visible = false
+	inventory_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	inventory_overlay.offset_left = 18
+	inventory_overlay.offset_top = 18
+	inventory_overlay.offset_right = -18
+	inventory_overlay.offset_bottom = -18
+	inventory_overlay.add_theme_stylebox_override("panel", _mission_overlay_style())
+	add_child(inventory_overlay)
+
+	var margin := MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", 14)
+	margin.add_theme_constant_override("margin_top", 12)
+	margin.add_theme_constant_override("margin_right", 14)
+	margin.add_theme_constant_override("margin_bottom", 12)
+	inventory_overlay.add_child(margin)
+
+	var wrap := VBoxContainer.new()
+	wrap.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	wrap.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	wrap.add_theme_constant_override("separation", 10)
+	margin.add_child(wrap)
+
+	var header := HBoxContainer.new()
+	header.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	header.add_theme_constant_override("separation", 10)
+	wrap.add_child(header)
+
+	inventory_title = _title("Mercado, vendas e oficina")
+	inventory_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	header.add_child(inventory_title)
+	header.add_child(_button("Salvar", func() -> void: _autosave("Save manual do arsenal.")))
+	header.add_child(_button("Fechar", _hide_inventory_screen))
+
+	inventory_status = RichTextLabel.new()
+	inventory_status.bbcode_enabled = true
+	inventory_status.fit_content = true
+	inventory_status.custom_minimum_size = Vector2(0, 58)
+	inventory_status.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	wrap.add_child(inventory_status)
+
+	var scroll := ScrollContainer.new()
+	scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	wrap.add_child(scroll)
+
+	var columns := GridContainer.new()
+	columns.columns = 3
+	columns.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	columns.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	columns.add_theme_constant_override("h_separation", 10)
+	columns.add_theme_constant_override("v_separation", 10)
+	scroll.add_child(columns)
+
+	inventory_shop_list = _inventory_column("Comprar nas lojas", columns)
+	inventory_owned_list = _inventory_column("Vender e equipar", columns)
+	inventory_craft_list = _inventory_column("Criar itens", columns)
+
+func _inventory_column(title: String, parent: GridContainer) -> VBoxContainer:
+	var shell := PanelContainer.new()
+	shell.custom_minimum_size = Vector2(300, 0)
+	shell.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	shell.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	shell.add_theme_stylebox_override("panel", _inventory_card_style(Color(0.82, 0.66, 0.32, 0.18)))
+	var margin := MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", 10)
+	margin.add_theme_constant_override("margin_top", 10)
+	margin.add_theme_constant_override("margin_right", 10)
+	margin.add_theme_constant_override("margin_bottom", 10)
+	shell.add_child(margin)
+	var list := VBoxContainer.new()
+	list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	list.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	list.add_theme_constant_override("separation", 8)
+	margin.add_child(list)
+	var label := Label.new()
+	label.text = title
+	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	label.add_theme_font_size_override("font_size", 18)
+	label.add_theme_color_override("font_color", Color(0.82, 0.66, 0.32))
+	list.add_child(label)
+	parent.add_child(shell)
+	return list
+
+func _inventory_card_style(border: Color) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0.065, 0.070, 0.068, 0.96)
+	style.border_color = border
+	style.set_border_width_all(1)
+	style.corner_radius_top_left = 6
+	style.corner_radius_top_right = 6
+	style.corner_radius_bottom_left = 6
+	style.corner_radius_bottom_right = 6
+	return style
 
 func _panel(name: String, width: int) -> VBoxContainer:
 	var shell := PanelContainer.new()
@@ -489,6 +593,12 @@ func _update_responsive_layout() -> void:
 	if mission_overlay_arena:
 		var reserved := 188.0 if viewport_width >= 820 else 232.0
 		mission_overlay_arena.custom_minimum_size = Vector2(0, max(320.0, viewport_height - reserved))
+	if inventory_overlay:
+		var inventory_margin := 8 if viewport_width < 820 else 18
+		inventory_overlay.offset_left = inventory_margin
+		inventory_overlay.offset_top = inventory_margin
+		inventory_overlay.offset_right = -inventory_margin
+		inventory_overlay.offset_bottom = -inventory_margin
 
 func _set_panel_widths(left_width: int, center_width: int, right_width: int) -> void:
 	var widths := [left_width, center_width, right_width]
@@ -562,6 +672,7 @@ func _refresh_mission_detail() -> void:
 	var mission := _selected_mission()
 	_refresh_backdrop(mission)
 	_hide_mission_arena()
+	_hide_inventory_screen()
 	detail_title.text = "%s. %s" % [mission.get("order", 0), mission.get("title", "")]
 	var presentation := _mission_presentation(mission)
 	var background: Dictionary = presentation.get("background", {})
@@ -577,6 +688,8 @@ func _refresh_mission_detail() -> void:
 	]
 
 func _show_inventory() -> void:
+	_hide_mission_arena()
+	_show_inventory_screen()
 	detail_title.text = "Arsenal, lojas e economia"
 	var currency: Dictionary = data.get("gameCurrency", {})
 	var economy: Dictionary = state.get("economy", {})
@@ -606,6 +719,323 @@ func _show_inventory() -> void:
 		var item: Dictionary = data.get("itemCatalog", {}).get(item_id, {})
 		lines.append("- %s / %s / Pedra: %s" % [item.get("name", item_id), item.get("type", ""), item.get("stone", "")])
 	detail_text.text = "\n".join(lines)
+
+func _show_inventory_screen() -> void:
+	if inventory_overlay == null:
+		return
+	inventory_overlay.visible = true
+	_refresh_inventory_screen("Arsenal aberto.")
+
+func _hide_inventory_screen() -> void:
+	if inventory_overlay:
+		inventory_overlay.visible = false
+
+func _refresh_inventory_screen(message := "") -> void:
+	if inventory_status == null:
+		return
+	var currency: Dictionary = data.get("gameCurrency", {})
+	var economy: Dictionary = state.get("economy", {})
+	var p: Dictionary = state.get("principality", {})
+	inventory_status.text = "[b]Saldo[/b] %s %s | Ouro %s | Ferro %s | Madeira %s\n%s" % [
+		economy.get("balance", 0),
+		currency.get("symbol", "CA"),
+		p.get("gold", 0),
+		p.get("iron", 0),
+		p.get("wood", 0),
+		message
+	]
+	_clear_children_after_header(inventory_shop_list)
+	_clear_children_after_header(inventory_owned_list)
+	_clear_children_after_header(inventory_craft_list)
+	_populate_shop_items()
+	_populate_owned_items()
+	_populate_craft_items()
+	_refresh_resources()
+	_refresh_avatar()
+
+func _clear_children_after_header(container: VBoxContainer) -> void:
+	if container == null:
+		return
+	while container.get_child_count() > 1:
+		var child := container.get_child(1)
+		container.remove_child(child)
+		child.queue_free()
+
+func _populate_shop_items() -> void:
+	var catalog: Dictionary = data.get("itemCatalog", {})
+	for shop in data.get("shopAreas", []):
+		var shop_label := Label.new()
+		shop_label.text = "%s - %s" % [shop.get("name", ""), shop.get("specialty", "")]
+		shop_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		shop_label.add_theme_color_override("font_color", Color(0.76, 0.76, 0.70))
+		inventory_shop_list.add_child(shop_label)
+		for item_id in catalog.keys():
+			var item: Dictionary = catalog[item_id]
+			if item.get("shop", "") == shop.get("id", ""):
+				inventory_shop_list.add_child(_item_trade_card(item_id, "buy"))
+
+func _populate_owned_items() -> void:
+	var owned: Array = state.get("inventory", {}).get("owned", [])
+	if owned.is_empty():
+		var empty := Label.new()
+		empty.text = "Nenhum item no inventario."
+		inventory_owned_list.add_child(empty)
+	for item_id in owned:
+		var item: Dictionary = _item_definition(str(item_id))
+		if not item.is_empty():
+			inventory_owned_list.add_child(_item_trade_card(str(item_id), "owned"))
+
+func _populate_craft_items() -> void:
+	for item_id in data.get("itemCatalog", {}).keys():
+		inventory_craft_list.add_child(_item_trade_card(str(item_id), "craft"))
+
+func _item_trade_card(item_id: String, mode: String) -> PanelContainer:
+	var item := _item_definition(item_id)
+	var card := PanelContainer.new()
+	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	card.add_theme_stylebox_override("panel", _inventory_card_style(_stone_color(item.get("stone", ""))))
+	var margin := MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", 8)
+	margin.add_theme_constant_override("margin_top", 8)
+	margin.add_theme_constant_override("margin_right", 8)
+	margin.add_theme_constant_override("margin_bottom", 8)
+	card.add_child(margin)
+	var box := VBoxContainer.new()
+	box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	box.add_theme_constant_override("separation", 6)
+	margin.add_child(box)
+	var title := Label.new()
+	title.text = "%s" % item.get("name", item_id)
+	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	title.add_theme_font_size_override("font_size", 16)
+	title.add_theme_color_override("font_color", Color(0.92, 0.88, 0.76))
+	box.add_child(title)
+	var description := RichTextLabel.new()
+	description.bbcode_enabled = true
+	description.fit_content = true
+	description.custom_minimum_size = Vector2(0, 76)
+	description.text = "%s / [color=#d0a951]%s[/color]\n%s\n%s" % [
+		_item_type_label(item.get("type", "")),
+		item.get("stone", ""),
+		item.get("description", ""),
+		_item_stat_line(item)
+	]
+	box.add_child(description)
+	var actions := HBoxContainer.new()
+	actions.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	actions.add_theme_constant_override("separation", 6)
+	box.add_child(actions)
+	if mode == "buy":
+		var buy := _button("Comprar %s" % item.get("price", 0), func() -> void: _buy_item(item_id))
+		buy.disabled = _owns_item(item_id) or int(state.get("economy", {}).get("balance", 0)) < int(item.get("price", 0))
+		actions.add_child(buy)
+	elif mode == "owned":
+		var equip := _button("Equipar", func() -> void: _equip_item("william", item_id))
+		var sell := _button("Vender %s" % item.get("sellPrice", 0), func() -> void: _sell_item(item_id))
+		sell.disabled = _is_equipped(item_id)
+		actions.add_child(equip)
+		actions.add_child(sell)
+	else:
+		var recipe := _craft_recipe(item)
+		var craft := _button("Criar", func() -> void: _craft_item(item_id))
+		craft.disabled = not _can_craft(recipe) or _owns_item(item_id)
+		actions.add_child(craft)
+		var cost := Label.new()
+		cost.text = "Ouro %s | Ferro %s | Madeira %s" % [recipe.get("gold", 0), recipe.get("iron", 0), recipe.get("wood", 0)]
+		cost.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		cost.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		actions.add_child(cost)
+	return card
+
+func _item_definition(item_id: String) -> Dictionary:
+	var item: Dictionary = data.get("itemCatalog", {}).get(item_id, {}).duplicate(true)
+	if item.is_empty():
+		return {}
+	var weapons: Dictionary = data.get("weapons", {})
+	var armors: Dictionary = data.get("armors", {})
+	if item.get("type", "") == "weapon" and weapons.has(item_id):
+		item.merge(weapons[item_id], false)
+	if item.get("type", "") == "armor" and armors.has(item_id):
+		item.merge(armors[item_id], false)
+	if not item.has("name"):
+		item["name"] = item_id.replace("_", " ").capitalize()
+	return item
+
+func _item_type_label(type_id: String) -> String:
+	if type_id == "weapon":
+		return "Arma"
+	if type_id == "armor":
+		return "Armadura"
+	if type_id == "tool":
+		return "Ferramenta"
+	return type_id.capitalize()
+
+func _item_stat_line(item: Dictionary) -> String:
+	if item.get("type", "") == "weapon":
+		return "Dano %s-%s | Alcance %s | Precisao %s" % [item.get("min", 0), item.get("max", 0), item.get("range", 1), item.get("accuracy", 0)]
+	if item.get("type", "") == "armor":
+		return "Defesa %s | Esquiva %s | Iniciativa %s" % [item.get("defense", 0), item.get("dodge", 0), item.get("initiative", 0)]
+	return "Uso: suporte, investigacao, cura ou navegacao em missao."
+
+func _owns_item(item_id: String) -> bool:
+	return state.get("inventory", {}).get("owned", []).has(item_id)
+
+func _is_equipped(item_id: String) -> bool:
+	for slots in state.get("inventory", {}).get("equipped", {}).values():
+		if slots is Dictionary and slots.values().has(item_id):
+			return true
+	return false
+
+func _buy_item(item_id: String) -> void:
+	var item := _item_definition(item_id)
+	if item.is_empty():
+		_refresh_inventory_screen("Item inexistente.")
+		return
+	if _owns_item(item_id):
+		_refresh_inventory_screen("Item ja pertence ao inventario.")
+		return
+	var economy: Dictionary = state.get("economy", {})
+	var price := int(item.get("price", 0))
+	if int(economy.get("balance", 0)) < price:
+		_refresh_inventory_screen("Coroas insuficientes.")
+		return
+	economy["balance"] = int(economy.get("balance", 0)) - price
+	state["economy"] = economy
+	_add_owned_item(item_id)
+	_record_transaction("buy", item_id, -price)
+	_add_journal_once("Compra realizada: %s." % item.get("name", item_id))
+	_autosave("Compra de item.")
+	_refresh_inventory_screen("Compra realizada: %s." % item.get("name", item_id))
+
+func _sell_item(item_id: String) -> void:
+	var item := _item_definition(item_id)
+	if item.is_empty() or not _owns_item(item_id):
+		_refresh_inventory_screen("Item nao pertence ao jogador.")
+		return
+	if _is_equipped(item_id):
+		_refresh_inventory_screen("Nao venda item equipado.")
+		return
+	var owned: Array = state.get("inventory", {}).get("owned", [])
+	owned.erase(item_id)
+	state["inventory"]["owned"] = owned
+	var value := int(item.get("sellPrice", 0))
+	var economy: Dictionary = state.get("economy", {})
+	economy["balance"] = int(economy.get("balance", 0)) + value
+	state["economy"] = economy
+	_record_transaction("sell", item_id, value)
+	_add_journal_once("Venda realizada: %s." % item.get("name", item_id))
+	_autosave("Venda de item.")
+	_refresh_inventory_screen("Venda realizada: %s." % item.get("name", item_id))
+
+func _equip_item(hero_id: String, item_id: String) -> void:
+	var item := _item_definition(item_id)
+	if item.is_empty() or not _owns_item(item_id):
+		_refresh_inventory_screen("Compre ou crie o item antes de equipar.")
+		return
+	var slot := str(item.get("equipSlot", item.get("type", "")))
+	if not state.has("inventory") or not (state["inventory"] is Dictionary):
+		state["inventory"] = {}
+	if not state["inventory"].has("equipped") or not (state["inventory"]["equipped"] is Dictionary):
+		state["inventory"]["equipped"] = {}
+	if not state["inventory"]["equipped"].has(hero_id) or not (state["inventory"]["equipped"][hero_id] is Dictionary):
+		state["inventory"]["equipped"][hero_id] = {}
+	state["inventory"]["equipped"][hero_id][slot] = item_id
+	if hero_id == "william":
+		if slot == "weapon":
+			state["player_character"]["weapon"] = item_id
+			_select_option_text(weapon, item_id)
+		elif slot == "armor":
+			state["player_character"]["armor"] = item_id
+		elif slot == "tool":
+			state["player_character"]["tool"] = item_id
+	_add_journal_once("%s equipado." % item.get("name", item_id))
+	_autosave("Equipamento alterado.")
+	_refresh_inventory_screen("%s equipado em William." % item.get("name", item_id))
+
+func _craft_item(item_id: String) -> void:
+	var item := _item_definition(item_id)
+	if item.is_empty():
+		_refresh_inventory_screen("Receita inexistente.")
+		return
+	if _owns_item(item_id):
+		_refresh_inventory_screen("Item ja pertence ao inventario.")
+		return
+	var recipe := _craft_recipe(item)
+	if not _can_craft(recipe):
+		_refresh_inventory_screen("Recursos insuficientes para criar.")
+		return
+	var p: Dictionary = state.get("principality", {})
+	for key in recipe.keys():
+		p[key] = int(p.get(key, 0)) - int(recipe[key])
+	state["principality"] = p
+	_add_owned_item(item_id)
+	_record_transaction("craft", item_id, 0, recipe)
+	_add_journal_once("Item criado na oficina: %s." % item.get("name", item_id))
+	_autosave("Criacao de item.")
+	_refresh_inventory_screen("Item criado: %s." % item.get("name", item_id))
+
+func _add_owned_item(item_id: String) -> void:
+	if not state.has("inventory") or not (state["inventory"] is Dictionary):
+		state["inventory"] = {}
+	if not state["inventory"].has("owned") or not (state["inventory"]["owned"] is Array):
+		state["inventory"]["owned"] = []
+	var owned: Array = state["inventory"]["owned"]
+	if not owned.has(item_id):
+		owned.append(item_id)
+	state["inventory"]["owned"] = owned
+
+func _record_transaction(type: String, item_id: String, amount: int, recipe := {}) -> void:
+	if not state.has("economy") or not (state["economy"] is Dictionary):
+		state["economy"] = {}
+	if not state["economy"].has("transactions") or not (state["economy"]["transactions"] is Array):
+		state["economy"]["transactions"] = []
+	var transactions: Array = state["economy"]["transactions"]
+	transactions.append({
+		"type": type,
+		"itemId": item_id,
+		"amount": amount,
+		"recipe": recipe,
+		"at": Time.get_datetime_string_from_system(true)
+	})
+	state["economy"]["transactions"] = transactions.slice(max(0, transactions.size() - 80), transactions.size())
+
+func _craft_recipe(item: Dictionary) -> Dictionary:
+	var price := int(item.get("price", 10))
+	var recipe := {
+		"gold": max(1, int(ceil(float(price) * 0.18))),
+		"iron": 0,
+		"wood": 0
+	}
+	if item.get("type", "") == "weapon":
+		recipe["iron"] = max(2, int(ceil(float(price) * 0.18)))
+		recipe["wood"] = 1 if str(item.get("id", "")).contains("bow") else 0
+	elif item.get("type", "") == "armor":
+		recipe["iron"] = max(1, int(ceil(float(price) * 0.14)))
+		recipe["wood"] = 1
+	else:
+		recipe["wood"] = max(2, int(ceil(float(price) * 0.16)))
+		if str(item.get("shop", "")) == "relicary":
+			recipe["iron"] = 2
+	return recipe
+
+func _can_craft(recipe: Dictionary) -> bool:
+	var p: Dictionary = state.get("principality", {})
+	for key in recipe.keys():
+		if int(p.get(key, 0)) < int(recipe[key]):
+			return false
+	return true
+
+func _stone_color(stone: String) -> Color:
+	var lower := stone.to_lower()
+	if lower.contains("ametista") or lower.contains("safira"):
+		return Color(0.50, 0.28, 0.86, 0.42)
+	if lower.contains("rubro") or lower.contains("cinabrio"):
+		return Color(0.85, 0.24, 0.12, 0.38)
+	if lower.contains("jaspe") or lower.contains("cura") or lower.contains("pista"):
+		return Color(0.25, 0.70, 0.45, 0.36)
+	if lower.contains("onix") or lower.contains("hematita"):
+		return Color(0.70, 0.70, 0.76, 0.34)
+	return Color(0.82, 0.66, 0.32, 0.32)
 
 func _show_account() -> void:
 	detail_title.text = "Conta, login lembrado e autosave"
@@ -1463,7 +1893,7 @@ class MissionArena:
 		var top_h := 44.0
 		var hud_h := 84.0
 		var available := Vector2(max(80.0, size.x - pad * 2.0), max(80.0, size.y - pad * 2.0 - top_h - hud_h))
-		var target_ratio := float(GRID_W) / float(GRID_H)
+		var target_ratio := 1.72
 		var board_w := available.x
 		var board_h := board_w / target_ratio
 		if board_h > available.y:

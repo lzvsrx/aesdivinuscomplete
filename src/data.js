@@ -406,6 +406,7 @@ function missionArchetype(mission) {
   const id = mission.id.toLowerCase();
   if (type.includes("chefe final") || id.includes("final") || id.includes("last_order")) return "final";
   if (BOSS_TYPES.includes(mission.type)) return "boss";
+  if (type.includes("cena cinematica") || type.includes("cena de tensao") || type.includes("cena de dialogo")) return "cinematic";
   if (type.includes("horror") || type.includes("cripta") || type.includes("psicologica") || type.includes("sobrenatural") || type.includes("travessia")) return "horror";
   if (type.includes("defesa") || type.includes("cerco") || type.includes("ponte")) return "defense";
   if (type.includes("assalto") || type.includes("batalha moral") || type.includes("mapa grande")) return "assault";
