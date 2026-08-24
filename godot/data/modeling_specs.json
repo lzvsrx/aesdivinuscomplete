@@ -1,0 +1,203 @@
+{
+  "version": "2026-08-24",
+  "engine": "Godot 4.7",
+  "modeler": "Blender or any glTF 2.0 exporter",
+  "scale": {
+    "unit": "meter",
+    "humanoidHeight": 1.82,
+    "gridCell": 1.0,
+    "forwardAxis": "-Z",
+    "upAxis": "Y"
+  },
+  "palette": {
+    "iron": "#313536",
+    "gold": "#d0a951",
+    "blood": "#b84b42",
+    "ashBlue": "#6e8fa4",
+    "leather": "#4f2e19",
+    "skin": "#b98b67",
+    "aetherViolet": "#8e65c9",
+    "forest": "#547c63"
+  },
+  "characters": [
+    {
+      "id": "william",
+      "name": "William",
+      "role": "Lider",
+      "height": 1.84,
+      "body": "Atletico",
+      "armor": "medium",
+      "weapon": "iron_sword",
+      "silhouette": "ombros firmes, capa curta, armadura de malha media e postura de comando",
+      "materials": ["mail_dark_iron", "royal_gold_trim", "worn_leather", "hematite_stone"],
+      "animationRig": "humanoid_modular"
+    },
+    {
+      "id": "ethan",
+      "name": "Ethan",
+      "role": "Arqueiro",
+      "height": 1.78,
+      "body": "Definido",
+      "armor": "light",
+      "weapon": "bow",
+      "silhouette": "perfil leve, ombro estreito, arco recurvo e capa dividida para movimento",
+      "materials": ["light_leather", "ash_blue_cloth", "cedar_eye_stone"],
+      "animationRig": "humanoid_modular"
+    },
+    {
+      "id": "albert",
+      "name": "Albert",
+      "role": "Defensor",
+      "height": 1.9,
+      "body": "Forte",
+      "armor": "heavy",
+      "weapon": "spear",
+      "silhouette": "tronco largo, brigantina pesada, lanca longa e base defensiva",
+      "materials": ["heavy_brigandine", "black_onyx_stone", "dark_leather"],
+      "animationRig": "humanoid_modular"
+    },
+    {
+      "id": "dread_wolf",
+      "name": "Manifestacao",
+      "role": "Criatura aterrorizante",
+      "height": 2.15,
+      "body": "Bestial",
+      "armor": "natural",
+      "weapon": "claws",
+      "silhouette": "costas altas, bracos longos, garras, olhos violetas e rachaduras sobrenaturais",
+      "materials": ["corrupted_hide", "aether_violet_emission", "blood_cracks"],
+      "animationRig": "creature_quadruped_hybrid"
+    }
+  ],
+  "weapons": [
+    {
+      "id": "iron_sword",
+      "name": "Espada de ferro",
+      "type": "weapon",
+      "stone": "Granito Jurado",
+      "silhouette": "lamina reta, guarda curta em cruz e pomo circular",
+      "length": 1.12,
+      "materials": ["dark_iron", "worn_leather", "granite_stone"]
+    },
+    {
+      "id": "spear",
+      "name": "Lanca de ferro",
+      "type": "weapon",
+      "stone": "Quartzo de Vigia",
+      "silhouette": "haste longa, ponta em folha e amarra dourada",
+      "length": 2.2,
+      "materials": ["dark_wood", "iron_tip", "watch_quartz"]
+    },
+    {
+      "id": "bow",
+      "name": "Arco de batedor",
+      "type": "weapon",
+      "stone": "Olho de Cedro",
+      "silhouette": "arco recurvo, corda clara e flechas de penas escuras",
+      "length": 1.45,
+      "materials": ["cedar_wood", "linen_string", "dark_fletching"]
+    },
+    {
+      "id": "aes_spear",
+      "name": "Lanca Aes",
+      "type": "weapon",
+      "stone": "Ametista Aes",
+      "silhouette": "ponta longa, runa vertical e brilho violeta interno",
+      "length": 2.32,
+      "materials": ["pale_metal", "gold_rings", "amethyst_emission"]
+    }
+  ],
+  "armors": [
+    {
+      "id": "cloth",
+      "name": "Roupa reforcada",
+      "type": "armor",
+      "stone": "Argila Selada",
+      "silhouette": "camadas de tecido, ombro baixo e cinto simples",
+      "materials": ["reinforced_cloth", "sealed_clay"]
+    },
+    {
+      "id": "light",
+      "name": "Couro leve",
+      "type": "armor",
+      "stone": "Jaspe Verde",
+      "silhouette": "peitoral flexivel, tiras diagonais e pochete de batedor",
+      "materials": ["light_leather", "green_jasper"]
+    },
+    {
+      "id": "medium",
+      "name": "Malha media",
+      "type": "armor",
+      "stone": "Hematita",
+      "silhouette": "malha escura, placas no peito e faixa dourada central",
+      "materials": ["chainmail", "dark_plates", "hematite"]
+    },
+    {
+      "id": "heavy",
+      "name": "Brigantina pesada",
+      "type": "armor",
+      "stone": "Onix Real",
+      "silhouette": "placas largas, rebites visiveis e ombreiras altas",
+      "materials": ["brigandine", "royal_onyx"]
+    }
+  ],
+  "tools": [
+    {
+      "id": "field_kit",
+      "name": "Kit de campo",
+      "type": "tool",
+      "stone": "Agata de Cura",
+      "silhouette": "bolsa dobravel com bandagens, frascos e tesoura",
+      "materials": ["waxed_leather", "linen", "healing_agate"]
+    },
+    {
+      "id": "survey_tools",
+      "name": "Ferramentas de percepcao",
+      "type": "tool",
+      "stone": "Fluorita de Pista",
+      "silhouette": "lente, giz, corda fina e marcador de trilha",
+      "materials": ["bronze", "green_glass", "fluorite"]
+    },
+    {
+      "id": "aes_compass",
+      "name": "Bussola Aes",
+      "type": "tool",
+      "stone": "Safira de Norte",
+      "silhouette": "bussola circular, agulha suspensa e aro com runas",
+      "materials": ["dark_brass", "north_sapphire", "violet_emission"]
+    }
+  ],
+  "environments": [
+    {
+      "id": "blood_forest",
+      "name": "Floresta de Sangue",
+      "type": "biome",
+      "pieces": ["old_road", "fallen_tree_cover", "blood_tree", "campfire", "supply_crate"],
+      "mood": "floresta escura, lama, troncos altos e pressagio sobrenatural"
+    },
+    {
+      "id": "war_table",
+      "name": "Mesa de Guerra",
+      "type": "hub",
+      "pieces": ["stone_table", "map_tokens", "candles", "faction_banners"],
+      "mood": "politico, tenso e funcional"
+    },
+    {
+      "id": "principality_gate",
+      "name": "Portao do Principado",
+      "type": "battlefield",
+      "pieces": ["wooden_gate", "barricade", "archer_platform", "stone_wall"],
+      "mood": "defesa medieval, setores e barricadas"
+    }
+  ],
+  "exportRules": {
+    "format": "glTF 2.0 binary .glb",
+    "textureSets": ["albedo", "normal", "roughness", "metallic", "emission"],
+    "maxTextureProxy": 512,
+    "maxTextureFinal": 2048,
+    "collisionSuffix": "_col",
+    "lodSuffixes": ["_lod0", "_lod1", "_lod2"],
+    "socketPrefix": "socket_",
+    "requiredSockets": ["socket_weapon_r", "socket_shield_l", "socket_back", "socket_tool_belt"]
+  }
+}

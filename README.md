@@ -30,6 +30,10 @@ O que ja foi adaptado:
 - save local em `user://aes_divinus_save.json`;
 - deteccao simples de hardware por CPU para qualidade inicial;
 - assets principais copiados para `godot/assets`;
+- galeria de modelagem 3D em `godot/scenes/model_gallery.tscn`;
+- biblioteca procedural de modelos proxy em `godot/scripts/model_library.gd`;
+- especificacoes de personagens, armas, armaduras, ferramentas e ambientes em `godot/data/modeling_specs.json`;
+- pipeline para modelador Blender/glTF em `docs/MODELAGEM_GODOT_BLENDER_PIPELINE.md`;
 - nucleo C++ em `godot/native/src/aes_divinus_core.*` com regras de iniciativa, acerto, dano, medo e ataque;
 - arquivo de orientacao em `godot/native/README.md` para completar a ligacao GDExtension quando houver toolchain C++.
 
@@ -38,8 +42,19 @@ Comandos:
 ```powershell
 npm run godot:data
 npm run godot:check
+npm run godot:models
 npm run godot:run
 ```
+
+Modelagem adaptada para Godot:
+
+- Personagens: William, Ethan, Albert e Manifestacao.
+- Armas: espada de ferro, lanca de ferro, arco de batedor e lanca Aes.
+- Armaduras: roupa reforcada, couro leve, malha media e brigantina pesada.
+- Ferramentas: kit de campo, ferramentas de percepcao e bussola Aes.
+- Ambientes: Floresta de Sangue, Mesa de Guerra e Portao do Principado.
+
+Os modelos atuais sao proxies low-poly/procedurais para orientar proporcao, silhueta, materiais, sockets e pedras. O modelador deve substituir por `.glb` finais seguindo `docs/MODELAGEM_GODOT_BLENDER_PIPELINE.md`.
 
 Observacao: este computador tem Godot instalado, mas nao tinha compilador C++, SCons ou CMake no PATH durante a migracao. Por isso a build Godot roda com scripts Godot lendo os dados exportados, enquanto o nucleo C++ fica preparado para compilar como GDExtension assim que o toolchain nativo for instalado.
 

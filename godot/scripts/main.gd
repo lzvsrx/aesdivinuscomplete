@@ -96,6 +96,7 @@ func _build_ui() -> void:
 	actions.add_child(_button("Iniciar cena", _start_scene))
 	actions.add_child(_button("Resolver missao", _complete_mission))
 	actions.add_child(_button("Salvar", func() -> void: _autosave("Save manual.")))
+	actions.add_child(_button("Galeria 3D", func() -> void: get_tree().change_scene_to_file("res://scenes/model_gallery.tscn")))
 	resource_text = RichTextLabel.new()
 	resource_text.bbcode_enabled = true
 	resource_text.fit_content = true

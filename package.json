@@ -12,6 +12,7 @@
     "audio:generate": "node scripts/generate-local-audio-assets.mjs",
     "godot:data": "node scripts/export-godot-data.mjs",
     "godot:check": "npm run godot:data && godot --headless --path godot --check-only --script res://scripts/main.gd",
+    "godot:models": "godot --headless --path godot --check-only --script res://scripts/model_gallery.gd && godot --headless --path godot res://scenes/model_gallery.tscn --quit-after 3",
     "godot:run": "npm run godot:data && godot --path godot",
     "prepare:web": "node scripts/prepare-web.mjs",
     "desktop": "npm run prepare:web && electron .",
