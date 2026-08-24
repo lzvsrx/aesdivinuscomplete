@@ -42,6 +42,8 @@ O que ja foi adaptado:
 - manifesto de paridade em `godot/data/aes_divinus_data.json` para garantir que nada feito na versao web/desktop/mobile fique fora da versao Godot;
 - paineis internos no Godot para Arsenal, Audio, Seguranca, Builds, Codex e Completo;
 - paineis internos no Godot para Mundo e Movimento, integrando os PDFs/textos de design, lore, personagens, ducados, marcas, bestiario e a direcao 3D do GDD mestre;
+- tela jogavel de missao em overlay responsivo, com arena tatica, movimento por teclado/mouse/toque, cobertura, objetivo, PA, rodada e botoes grandes para dispositivos moveis;
+- identidade indie integrada ao jogo, com tags de loja, pilares autorais, acessibilidade, creditos/licencas e escopo honesto de single-player;
 - catalogo de audio exportado para Godot e arquivos `.mp3` copiados para `godot/assets/audio`;
 - save local em `user://aes_divinus_save.json`;
 - deteccao simples de hardware por CPU para qualidade inicial;

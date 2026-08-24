@@ -1,22 +1,22 @@
-# Suporte Linux Godot
+﻿# Suporte Linux Godot
 
 Este projeto distribui Aes Divinus para Linux como binario Godot portatil `x86_64`, com pacotes preparados por familia de distro. A abordagem portatil evita depender de um unico gerenciador de pacotes e facilita rodar em distros modernas sem instalacao global.
 
 ## Pacotes gerados
 
-- `Aes-Divinus-Godot-Linux-x64-0.1.13.zip`: pacote minimo com executavel e `.pck`.
-- `Aes-Divinus-Godot-Linux-Universal-x64-0.1.13.zip` e `.tar.gz`: qualquer distro Linux `x86_64` moderna.
-- `Aes-Divinus-Godot-Linux-Debian-Ubuntu-Mint-x64-0.1.13.zip` e `.tar.gz`: Debian, Ubuntu, Linux Mint, Pop!_OS e derivados.
-- `Aes-Divinus-Godot-Linux-Fedora-RHEL-openSUSE-x64-0.1.13.zip` e `.tar.gz`: Fedora, RHEL, AlmaLinux, Rocky Linux, openSUSE e derivados.
-- `Aes-Divinus-Godot-Linux-Arch-Manjaro-x64-0.1.13.zip` e `.tar.gz`: Arch Linux, Manjaro, EndeavourOS e derivados.
-- `Aes-Divinus-Godot-Linux-SteamDeck-x64-0.1.13.zip` e `.tar.gz`: SteamOS / Steam Deck.
-- `Aes-Divinus-Godot-Linux-Distros-0.1.13.txt`: resumo de compatibilidade.
+- `Aes-Divinus-Godot-Linux-x64-0.1.14.zip`: pacote minimo com executavel e `.pck`.
+- `Aes-Divinus-Godot-Linux-Universal-x64-0.1.14.zip` e `.tar.gz`: qualquer distro Linux `x86_64` moderna.
+- `Aes-Divinus-Godot-Linux-Debian-Ubuntu-Mint-x64-0.1.14.zip` e `.tar.gz`: Debian, Ubuntu, Linux Mint, Pop!_OS e derivados.
+- `Aes-Divinus-Godot-Linux-Fedora-RHEL-openSUSE-x64-0.1.14.zip` e `.tar.gz`: Fedora, RHEL, AlmaLinux, Rocky Linux, openSUSE e derivados.
+- `Aes-Divinus-Godot-Linux-Arch-Manjaro-x64-0.1.14.zip` e `.tar.gz`: Arch Linux, Manjaro, EndeavourOS e derivados.
+- `Aes-Divinus-Godot-Linux-SteamDeck-x64-0.1.14.zip` e `.tar.gz`: SteamOS / Steam Deck.
+- `Aes-Divinus-Godot-Linux-Distros-0.1.14.txt`: resumo de compatibilidade.
 
 ## Como rodar
 
 ```bash
-tar -xzf Aes-Divinus-Godot-Linux-Universal-x64-0.1.13.tar.gz
-cd Aes-Divinus-Godot-Linux-Universal-x64-0.1.13
+tar -xzf Aes-Divinus-Godot-Linux-Universal-x64-0.1.14.tar.gz
+cd Aes-Divinus-Godot-Linux-Universal-x64-0.1.14
 bash run-aes-divinus.sh
 ```
 

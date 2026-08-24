@@ -1,0 +1,35 @@
+import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
+import test from "node:test";
+
+test("Godot mission flow opens a playable arena instead of text-only mission screen", async () => {
+  const script = await readFile(new URL("../godot/scripts/main.gd", import.meta.url), "utf8");
+
+  assert.ok(script.includes("class MissionArena"));
+  assert.ok(script.includes("_build_mission_play_screen"));
+  assert.ok(script.includes("mission_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)"));
+  assert.ok(script.includes("mission_overlay_arena = MissionArena.new()"));
+  assert.ok(script.includes("mission_arena = MissionArena.new()"));
+  assert.ok(script.includes("_show_mission_arena(mission, presentation, enemies)"));
+  assert.ok(script.includes("InputEventMouseButton"));
+  assert.ok(script.includes("InputEventScreenTouch"));
+  assert.ok(script.includes("KEY_W"));
+  assert.ok(script.includes("KEY_UP"));
+  assert.ok(script.includes("command_move"));
+  assert.ok(script.includes("command_interact"));
+  assert.ok(script.includes("command_attack"));
+  assert.ok(script.includes("command_defend"));
+  assert.ok(script.includes("command_objective"));
+  assert.ok(script.includes("command_new_turn"));
+  assert.ok(script.includes("_cover_for_mission"));
+  assert.ok(script.includes("_draw_path_overlay"));
+  assert.ok(script.includes("_draw_action_fx"));
+  assert.ok(script.includes("action_fx_timer"));
+  assert.ok(script.includes("visual_player_cell"));
+  assert.ok(script.includes("_attack_nearest"));
+  assert.ok(script.includes("_defend"));
+  assert.ok(!script.includes("func _draw_grid"));
+  assert.ok(script.includes("_move_or_interact"));
+  assert.ok(script.includes("_interact_objective"));
+  assert.ok(script.includes("action_performed.emit"));
+});

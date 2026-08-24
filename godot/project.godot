@@ -8,7 +8,7 @@ config_version=5
 config/name="Aes Divinus"
 config/description="RPG tatico por turnos de fantasia medieval sombria da LZASANTOSWORLDSGAMES."
 run/main_scene="res://scenes/main.tscn"
-config/features=PackedStringArray("4.3", "Forward Plus")
+config/features=PackedStringArray("4.3", "GL Compatibility")
 boot_splash/image="res://assets/aes-divinus-icon-512.png"
 boot_splash/fullsize=false
 config/icon="res://assets/aes-divinus-icon-512.png"
@@ -22,7 +22,7 @@ window/stretch/aspect="expand"
 
 [rendering]
 
-renderer/rendering_method="forward_plus"
+renderer/rendering_method="gl_compatibility"
 textures/canvas_textures/default_texture_filter=0
 textures/vram_compression/import_etc2_astc=true
 

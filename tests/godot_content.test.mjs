@@ -14,6 +14,7 @@ import {
   GODOT_TECHNICAL_ARCHITECTURE,
   HISTORICAL_TIMELINE,
   HUD_SPECS,
+  INDIE_GAME_IDENTITY,
   MISSIONS,
   MISSION_DESIGN_REFERENCES,
   MISSION_GAMEPLAY_ARCHETYPES,
@@ -34,6 +35,9 @@ test("Godot content includes attached lore, movement and world systems", () => {
   assert.ok(GODOT_GAME_STRUCTURE.targetStyle.includes("RPG tatico 3D"));
   assert.ok(GODOT_GAME_STRUCTURE.sceneFolders.includes("scenes/player/player.tscn"));
   assert.ok(WORLD_LORE.aesDivinus.includes("Minerio divino"));
+  assert.ok(INDIE_GAME_IDENTITY.steamTags.includes("Indie"));
+  assert.ok(INDIE_GAME_IDENTITY.steamTags.includes("Tactical RPG"));
+  assert.ok(INDIE_GAME_IDENTITY.accessibilityMustHave.includes("large touch controls"));
 });
 
 test("every Godot mission has its own backdrop and gameplay actions", () => {

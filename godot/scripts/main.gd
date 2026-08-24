@@ -12,6 +12,11 @@ var center_column: VBoxContainer
 var right_column: VBoxContainer
 var mission_list: ItemList
 var mission_backdrop: Control
+var mission_arena: Control
+var mission_overlay: PanelContainer
+var mission_overlay_title: Label
+var mission_overlay_status: RichTextLabel
+var mission_overlay_arena: Control
 var detail_title: Label
 var detail_text: RichTextLabel
 var resource_text: RichTextLabel
@@ -151,6 +156,14 @@ func _build_ui() -> void:
 	mission_backdrop.custom_minimum_size = Vector2(0, 150)
 	mission_backdrop.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	center.add_child(mission_backdrop)
+	mission_arena = MissionArena.new()
+	mission_arena.custom_minimum_size = Vector2(0, 360)
+	mission_arena.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	mission_arena.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	mission_arena.visible = false
+	mission_arena.set("player_data", state.get("player_character", {}))
+	mission_arena.connect("action_performed", _on_arena_action)
+	center.add_child(mission_arena)
 	detail_title = _title("")
 	center.add_child(detail_title)
 	detail_text = RichTextLabel.new()
@@ -178,6 +191,7 @@ func _build_ui() -> void:
 	system_actions.add_child(_button("Mundo", _show_world))
 	system_actions.add_child(_button("Movimento", _show_movement))
 	system_actions.add_child(_button("Config", _show_settings))
+	system_actions.add_child(_button("Indie", _show_indie_identity))
 	system_actions.add_child(_button("Seguranca", _show_security))
 	system_actions.add_child(_button("Builds", _show_builds))
 	system_actions.add_child(_button("Codex", _show_codex))
@@ -254,6 +268,72 @@ func _build_ui() -> void:
 	log_text.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	log_text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	right.add_child(log_text)
+	_build_mission_play_screen()
+
+func _build_mission_play_screen() -> void:
+	mission_overlay = PanelContainer.new()
+	mission_overlay.visible = false
+	mission_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
+	mission_overlay.offset_left = 18
+	mission_overlay.offset_top = 18
+	mission_overlay.offset_right = -18
+	mission_overlay.offset_bottom = -18
+	mission_overlay.add_theme_stylebox_override("panel", _mission_overlay_style())
+	add_child(mission_overlay)
+
+	var margin := MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", 14)
+	margin.add_theme_constant_override("margin_top", 12)
+	margin.add_theme_constant_override("margin_right", 14)
+	margin.add_theme_constant_override("margin_bottom", 12)
+	mission_overlay.add_child(margin)
+
+	var wrap := VBoxContainer.new()
+	wrap.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	wrap.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	wrap.add_theme_constant_override("separation", 10)
+	margin.add_child(wrap)
+
+	var header := HBoxContainer.new()
+	header.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	header.add_theme_constant_override("separation", 10)
+	wrap.add_child(header)
+
+	mission_overlay_title = _title("Missao jogavel")
+	mission_overlay_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	header.add_child(mission_overlay_title)
+	header.add_child(_button("Voltar painel", _hide_mission_arena))
+	header.add_child(_button("Concluir missao", _complete_mission))
+
+	mission_overlay_status = RichTextLabel.new()
+	mission_overlay_status.bbcode_enabled = true
+	mission_overlay_status.fit_content = true
+	mission_overlay_status.custom_minimum_size = Vector2(0, 52)
+	mission_overlay_status.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	wrap.add_child(mission_overlay_status)
+
+	mission_overlay_arena = MissionArena.new()
+	mission_overlay_arena.custom_minimum_size = Vector2(0, 480)
+	mission_overlay_arena.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	mission_overlay_arena.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	mission_overlay_arena.set("player_data", state.get("player_character", {}))
+	mission_overlay_arena.connect("action_performed", _on_arena_action)
+	wrap.add_child(mission_overlay_arena)
+
+	var controls := _button_grid(4)
+	controls.add_theme_constant_override("separation", 8)
+	wrap.add_child(controls)
+	controls.add_child(_button("Subir", func() -> void: mission_overlay_arena.call("command_move", Vector2i(0, -1))))
+	controls.add_child(_button("Voltar", func() -> void: mission_overlay_arena.call("command_move", Vector2i(-1, 0))))
+	controls.add_child(_button("Acao", func() -> void: mission_overlay_arena.call("command_interact")))
+	controls.add_child(_button("Avancar", func() -> void: mission_overlay_arena.call("command_move", Vector2i(1, 0))))
+	controls.add_child(_button("Descer", func() -> void: mission_overlay_arena.call("command_move", Vector2i(0, 1))))
+	controls.add_child(_button("Atacar", func() -> void: mission_overlay_arena.call("command_attack")))
+	controls.add_child(_button("Defender", func() -> void: mission_overlay_arena.call("command_defend")))
+	controls.add_child(_button("Objetivo", func() -> void: mission_overlay_arena.call("command_objective")))
+	controls.add_child(_button("Rodada", func() -> void: mission_overlay_arena.call("command_new_turn")))
+	controls.add_child(_button("Salvar", func() -> void: _autosave("Save manual na missao.")))
+	controls.add_child(_button("Fechar", _hide_mission_arena))
 
 func _panel(name: String, width: int) -> VBoxContainer:
 	var shell := PanelContainer.new()
@@ -293,6 +373,19 @@ func _panel_style() -> StyleBoxFlat:
 	style.corner_radius_top_right = 8
 	style.corner_radius_bottom_left = 8
 	style.corner_radius_bottom_right = 8
+	return style
+
+func _mission_overlay_style() -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0.025, 0.028, 0.027, 0.98)
+	style.border_color = Color(0.82, 0.66, 0.32, 0.50)
+	style.set_border_width_all(2)
+	style.corner_radius_top_left = 8
+	style.corner_radius_top_right = 8
+	style.corner_radius_bottom_left = 8
+	style.corner_radius_bottom_right = 8
+	style.shadow_color = Color(0, 0, 0, 0.50)
+	style.shadow_size = 12
 	return style
 
 func _title(text: String) -> Label:
@@ -374,6 +467,7 @@ func _update_responsive_layout() -> void:
 	if root == null:
 		return
 	var viewport_width := get_viewport_rect().size.x
+	var viewport_height := get_viewport_rect().size.y
 	if viewport_width < 820:
 		root.columns = 1
 		_set_panel_widths(260, 260, 260)
@@ -386,6 +480,15 @@ func _update_responsive_layout() -> void:
 		root.columns = 3
 		_set_panel_widths(300, 520, 320)
 		_set_button_columns(4)
+	if mission_overlay:
+		var margin := 8 if viewport_width < 820 else 18
+		mission_overlay.offset_left = margin
+		mission_overlay.offset_top = margin
+		mission_overlay.offset_right = -margin
+		mission_overlay.offset_bottom = -margin
+	if mission_overlay_arena:
+		var reserved := 188.0 if viewport_width >= 820 else 232.0
+		mission_overlay_arena.custom_minimum_size = Vector2(0, max(320.0, viewport_height - reserved))
 
 func _set_panel_widths(left_width: int, center_width: int, right_width: int) -> void:
 	var widths := [left_width, center_width, right_width]
@@ -458,6 +561,7 @@ func _palette_label_from_id(id: String) -> String:
 func _refresh_mission_detail() -> void:
 	var mission := _selected_mission()
 	_refresh_backdrop(mission)
+	_hide_mission_arena()
 	detail_title.text = "%s. %s" % [mission.get("order", 0), mission.get("title", "")]
 	var presentation := _mission_presentation(mission)
 	var background: Dictionary = presentation.get("background", {})
@@ -578,6 +682,31 @@ func _show_settings() -> void:
 	for key in data.get("qualityPresets", {}).keys():
 		var preset_data: Dictionary = data["qualityPresets"][key]
 		lines.append("- %s: %s FPS, textura %s" % [preset_data.get("label", key), preset_data.get("fps", 60), preset_data.get("texture", "")])
+	detail_text.text = "\n".join(lines)
+
+func _show_indie_identity() -> void:
+	_hide_mission_arena()
+	detail_title.text = "Identidade indie"
+	var indie: Dictionary = data.get("indieGameIdentity", {})
+	var lines: Array[String] = [
+		"[b]%s[/b]" % indie.get("label", "Indie"),
+		indie.get("positioning", "Aes Divinus como RPG tatico indie autoral."),
+		"",
+		"[b]Tags de loja/Steam sugeridas[/b]",
+		"- %s" % "\n- ".join(_string_array(indie.get("steamTags", []))),
+		"",
+		"[b]Pilares indie dentro do jogo[/b]",
+		"- %s" % "\n- ".join(_string_array(indie.get("pillars", []))),
+		"",
+		"[b]Como junta com o RPG tatico[/b]",
+		"- %s" % "\n- ".join(_string_array(indie.get("gameplayBlend", []))),
+		"",
+		"[b]Obrigatorio para polimento indie[/b]",
+		"- %s" % "\n- ".join(_string_array(indie.get("accessibilityMustHave", []))),
+		"",
+		"[b]Cuidados de publicacao[/b]",
+		"- %s" % "\n- ".join(_string_array(indie.get("compliance", [])))
+	]
 	detail_text.text = "\n".join(lines)
 
 func _show_audio() -> void:
@@ -951,6 +1080,7 @@ func _show_playable_mission_flow(mission: Dictionary, scenes: Array) -> void:
 	var gameplay: Dictionary = presentation.get("gameplay", {})
 	var mission_actions: Array = presentation.get("actions", [])
 	var rewards: Dictionary = mission.get("rewards", {})
+	_show_mission_arena(mission, presentation, enemies)
 	var lines: Array[String] = [
 		"[b]Cena em execucao[/b]",
 		scene.get("text", ""),
@@ -1032,6 +1162,7 @@ func _show_mission_screen(mission: Dictionary) -> void:
 	var gameplay: Dictionary = presentation.get("gameplay", {})
 	var mission_actions: Array = presentation.get("actions", [])
 	var rewards: Dictionary = mission.get("rewards", {})
+	_show_mission_arena(mission, presentation, enemies)
 	var lines: Array[String] = [
 		"[b]Missao ativa[/b]",
 		"%s - %s" % [mission.get("act", ""), mission.get("title", "")],
@@ -1091,6 +1222,7 @@ func _show_mission_screen(mission: Dictionary) -> void:
 
 func _show_mission_result(mission: Dictionary) -> void:
 	_refresh_backdrop(mission)
+	_hide_mission_arena()
 	var completed: Array = state.get("campaign", {}).get("completed", [])
 	detail_title.text = "Resultado - %s" % mission.get("title", "")
 	detail_text.text = "\n".join([
@@ -1106,6 +1238,47 @@ func _show_mission_result(mission: Dictionary) -> void:
 		"[b]Proxima missao selecionada[/b]",
 		"A lista avanca automaticamente para o proximo ponto da campanha."
 	])
+
+func _show_mission_arena(mission: Dictionary, presentation: Dictionary, enemies: Array) -> void:
+	if mission_overlay == null or mission_overlay_arena == null:
+		return
+	if mission_arena:
+		mission_arena.visible = false
+	if mission_backdrop:
+		mission_backdrop.visible = false
+	var gameplay: Dictionary = presentation.get("gameplay", {})
+	mission_overlay.visible = true
+	mission_overlay_title.text = "Jogando - %s" % mission.get("title", "Missao")
+	mission_overlay_status.text = "[b]%s[/b] | %s\nObjetivo: %s" % [
+		gameplay.get("label", mission.get("type", "Encontro tatico")),
+		gameplay.get("pressure", mission.get("impact", "")),
+		mission.get("objective", "")
+	]
+	mission_overlay_arena.set("player_data", state.get("player_character", {}))
+	mission_overlay_arena.call("setup", mission, presentation, enemies)
+	mission_overlay_arena.grab_focus()
+	_update_responsive_layout()
+
+func _hide_mission_arena() -> void:
+	if mission_overlay:
+		mission_overlay.visible = false
+	if mission_arena:
+		mission_arena.visible = false
+	if mission_backdrop:
+		mission_backdrop.visible = true
+
+func _on_arena_action(message: String) -> void:
+	_add_journal_once(message)
+	var mission := _selected_mission()
+	var campaign: Dictionary = state.get("campaign", {})
+	campaign["activeMission"] = {
+		"id": mission.get("id", ""),
+		"title": mission.get("title", ""),
+		"message": message,
+		"at": Time.get_datetime_string_from_system(true)
+	}
+	state["campaign"] = campaign
+	_autosave("Acao jogavel da missao.")
 
 func _mission_enemies(mission: Dictionary) -> Array:
 	var sets: Dictionary = data.get("enemySets", {})
@@ -1168,6 +1341,549 @@ func _apply_hardware_profile() -> void:
 	elif cores >= 12:
 		quality = "high"
 	state["settings"]["quality"] = quality
+
+class MissionArena:
+	extends Control
+
+	signal action_performed(message: String)
+
+	const GRID_W := 8
+	const GRID_H := 6
+
+	var mission_data: Dictionary = {}
+	var presentation_data: Dictionary = {}
+	var player_data: Dictionary = {}
+	var enemy_data: Array = []
+	var enemy_cells: Array[Vector2i] = []
+	var cover_cells: Array[Vector2i] = []
+	var player_cell := Vector2i(1, 4)
+	var visual_player_cell := Vector2(1, 4)
+	var objective_cell := Vector2i(6, 1)
+	var turn := 1
+	var action_points := 2
+	var guarded := false
+	var action_fx_timer := 0.0
+	var action_fx_kind := ""
+	var action_fx_cell := Vector2i.ZERO
+	var action_fx_origin := Vector2i.ZERO
+	var last_message := "Use WASD, setas, clique ou toque para mover William."
+
+	func _ready() -> void:
+		focus_mode = Control.FOCUS_ALL
+		mouse_filter = Control.MOUSE_FILTER_STOP
+		set_process(true)
+
+	func setup(mission: Dictionary, presentation: Dictionary, enemies: Array) -> void:
+		mission_data = mission
+		presentation_data = presentation
+		enemy_data = enemies
+		player_cell = Vector2i(1, 4)
+		visual_player_cell = Vector2(player_cell)
+		objective_cell = _objective_for_mission()
+		enemy_cells = []
+		var base_cells := [Vector2i(5, 2), Vector2i(6, 4), Vector2i(4, 1), Vector2i(7, 3)]
+		for index in enemy_data.size():
+			enemy_cells.append(base_cells[index % base_cells.size()])
+		cover_cells = _cover_for_mission()
+		turn = 1
+		action_points = 2
+		guarded = false
+		action_fx_timer = 0.0
+		action_fx_kind = "start"
+		action_fx_cell = player_cell
+		action_fx_origin = player_cell
+		last_message = "Missao jogavel aberta: mova William ate o objetivo e interaja com ameacas."
+		queue_redraw()
+
+	func _process(delta: float) -> void:
+		var target := Vector2(player_cell)
+		visual_player_cell = visual_player_cell.lerp(target, min(1.0, delta * 9.0))
+		if action_fx_timer > 0.0:
+			action_fx_timer = max(0.0, action_fx_timer - delta)
+		if visual_player_cell.distance_to(target) > 0.01 or action_fx_timer > 0.0:
+			queue_redraw()
+
+	func _gui_input(event: InputEvent) -> void:
+		if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+			_move_or_interact(_cell_from_position(event.position))
+			accept_event()
+		elif event is InputEventScreenTouch and event.pressed:
+			_move_or_interact(_cell_from_position(event.position))
+			accept_event()
+		elif event is InputEventKey and event.pressed and not event.echo:
+			var handled := true
+			if event.keycode in [KEY_W, KEY_UP]:
+				_step(Vector2i(0, -1))
+			elif event.keycode in [KEY_S, KEY_DOWN]:
+				_step(Vector2i(0, 1))
+			elif event.keycode in [KEY_A, KEY_LEFT]:
+				_step(Vector2i(-1, 0))
+			elif event.keycode in [KEY_D, KEY_RIGHT]:
+				_step(Vector2i(1, 0))
+			elif event.keycode in [KEY_SPACE, KEY_ENTER]:
+				_interact_current()
+			elif event.keycode == KEY_Q:
+				_attack_nearest()
+			elif event.keycode == KEY_E:
+				_defend()
+			elif event.keycode == KEY_F:
+				_interact_current()
+			elif event.keycode == KEY_R:
+				_new_turn()
+			else:
+				handled = false
+			if handled:
+				accept_event()
+
+	func _draw() -> void:
+		var rect := Rect2(Vector2.ZERO, size)
+		var background: Dictionary = presentation_data.get("background", {})
+		var palette: Array = background.get("palette", ["#101414", "#242827", "#6e8fa4", "#d0a951"])
+		var base := _color(palette[0], Color(0.04, 0.05, 0.05))
+		var mid := _color(palette[min(1, palette.size() - 1)], Color(0.14, 0.15, 0.15))
+		var accent := _color(palette[min(2, palette.size() - 1)], Color(0.43, 0.56, 0.64))
+		var gold := _color(palette[min(3, palette.size() - 1)], Color(0.82, 0.66, 0.32))
+		draw_rect(rect, base, true)
+		draw_rect(rect.grow(-1), Color(gold.r, gold.g, gold.b, 0.35), false, 1.0)
+
+		var board := _board_rect()
+		draw_rect(board.grow(16), Color(0, 0, 0, 0.24), true)
+		draw_rect(board, mid.darkened(0.20), true)
+		_draw_environment(board, str(background.get("id", "battlefield")), accent, gold, mid)
+		_draw_path_overlay(board, gold)
+		_draw_cover(board, accent, gold)
+		_draw_objective(board, gold)
+		_draw_enemies(board)
+		_draw_action_fx(board, gold, accent)
+		_draw_player(board, gold)
+		_draw_hud(board, gold)
+
+	func _board_rect() -> Rect2:
+		var pad := 20.0
+		var top_h := 44.0
+		var hud_h := 84.0
+		var available := Vector2(max(80.0, size.x - pad * 2.0), max(80.0, size.y - pad * 2.0 - top_h - hud_h))
+		var target_ratio := float(GRID_W) / float(GRID_H)
+		var board_w := available.x
+		var board_h := board_w / target_ratio
+		if board_h > available.y:
+			board_h = available.y
+			board_w = board_h * target_ratio
+		var x := (size.x - board_w) * 0.5
+		var y := pad + top_h + (available.y - board_h) * 0.5
+		return Rect2(Vector2(x, y), Vector2(board_w, board_h))
+
+	func _cell_size(board: Rect2) -> Vector2:
+		return Vector2(board.size.x / float(GRID_W), board.size.y / float(GRID_H))
+
+	func _cell_center(board: Rect2, cell: Vector2i) -> Vector2:
+		var cs := _cell_size(board)
+		return board.position + Vector2((float(cell.x) + 0.5) * cs.x, (float(cell.y) + 0.5) * cs.y)
+
+	func _cell_from_position(pos: Vector2) -> Vector2i:
+		var board := _board_rect()
+		var cs := _cell_size(board)
+		var local := pos - board.position
+		return Vector2i(clamp(int(floor(local.x / cs.x)), 0, GRID_W - 1), clamp(int(floor(local.y / cs.y)), 0, GRID_H - 1))
+
+	func _move_or_interact(target: Vector2i) -> void:
+		if not _inside(target):
+			return
+		if target == player_cell:
+			_interact_current()
+			return
+		var enemy_index := enemy_cells.find(target)
+		if enemy_index >= 0:
+			if _distance(player_cell, target) <= 1:
+				_attack(enemy_index)
+			else:
+				_try_move_toward(target)
+			return
+		if target == objective_cell and _distance(player_cell, objective_cell) <= 1:
+			_interact_objective()
+			return
+		_try_move_toward(target)
+
+	func _try_move_toward(target: Vector2i) -> void:
+		if action_points <= 0:
+			_new_turn()
+			return
+		var next := player_cell
+		if abs(target.x - player_cell.x) > abs(target.y - player_cell.y):
+			next.x += signi(target.x - player_cell.x)
+		elif target.y != player_cell.y:
+			next.y += signi(target.y - player_cell.y)
+		elif target.x != player_cell.x:
+			next.x += signi(target.x - player_cell.x)
+		_move_to(next)
+
+	func _step(delta: Vector2i) -> void:
+		_move_to(player_cell + delta)
+
+	func _move_to(cell: Vector2i) -> void:
+		if action_points <= 0:
+			_new_turn()
+			return
+		if not _inside(cell) or enemy_cells.has(cell):
+			last_message = "Caminho bloqueado. Escolha outra rota."
+			queue_redraw()
+			return
+		player_cell = cell
+		action_points -= 1
+		guarded = false
+		_start_fx("move", player_cell, player_cell)
+		var cover_note := " em cobertura" if cover_cells.has(player_cell) else ""
+		last_message = "William moveu para setor %s,%s%s. PA restante: %s." % [player_cell.x + 1, player_cell.y + 1, cover_note, action_points]
+		action_performed.emit(last_message)
+		if player_cell == objective_cell or _distance(player_cell, objective_cell) <= 1:
+			last_message = "Objetivo ao alcance. Use Espaco/Enter ou toque no objetivo para interagir."
+		queue_redraw()
+
+	func _interact_current() -> void:
+		if _distance(player_cell, objective_cell) <= 1:
+			_interact_objective()
+			return
+		for index in enemy_cells.size():
+			if _distance(player_cell, enemy_cells[index]) <= 1:
+				_attack(index)
+				return
+		last_message = "Nada ao alcance. Mova ate objetivo, cobertura ou inimigo."
+		queue_redraw()
+
+	func _attack(index: int) -> void:
+		if action_points <= 0:
+			_new_turn()
+			return
+		if index < 0 or index >= enemy_cells.size():
+			return
+		var enemy_name := str(enemy_data[index].get("name", "Ameaca"))
+		var target_cell := enemy_cells[index]
+		enemy_cells.remove_at(index)
+		enemy_data.remove_at(index)
+		action_points -= 1
+		guarded = false
+		_start_fx("attack", target_cell, player_cell)
+		last_message = "William atacou %s. Ameacas restantes: %s." % [enemy_name, enemy_cells.size()]
+		action_performed.emit(last_message)
+		queue_redraw()
+
+	func _attack_nearest() -> void:
+		var nearest := -1
+		var nearest_distance := 999
+		for index in enemy_cells.size():
+			var d := _distance(player_cell, enemy_cells[index])
+			if d < nearest_distance:
+				nearest = index
+				nearest_distance = d
+		if nearest == -1:
+			last_message = "Nao ha ameacas visiveis para atacar."
+			queue_redraw()
+			return
+		if nearest_distance > 1:
+			last_message = "Ameaca fora de alcance. Aproxime William ou use cobertura."
+			_start_fx("warn", enemy_cells[nearest], player_cell)
+			queue_redraw()
+			return
+		_attack(nearest)
+
+	func _defend() -> void:
+		if action_points <= 0:
+			_new_turn()
+			return
+		action_points -= 1
+		guarded = true
+		_start_fx("defend", player_cell, player_cell)
+		var cover_note := " com bonus de cobertura" if cover_cells.has(player_cell) else ""
+		last_message = "William assumiu defesa%s. Proximo ataque sofre penalidade." % cover_note
+		action_performed.emit(last_message)
+		queue_redraw()
+
+	func _interact_objective() -> void:
+		if action_points <= 0:
+			_new_turn()
+			return
+		action_points -= 1
+		guarded = false
+		_start_fx("objective", objective_cell, player_cell)
+		var gameplay: Dictionary = presentation_data.get("gameplay", {})
+		last_message = "Objetivo executado: %s" % str(mission_data.get("objective", "missao"))
+		if gameplay.has("pressure"):
+			last_message += " | Pressao: %s" % gameplay.get("pressure", "")
+		action_performed.emit(last_message)
+		queue_redraw()
+
+	func _new_turn() -> void:
+		turn += 1
+		action_points = 2
+		guarded = false
+		_start_fx("turn", player_cell, player_cell)
+		last_message = "Rodada %s iniciada. PA restaurados." % turn
+		action_performed.emit(last_message)
+		queue_redraw()
+
+	func _start_fx(kind: String, target: Vector2i, origin: Vector2i) -> void:
+		action_fx_kind = kind
+		action_fx_cell = target
+		action_fx_origin = origin
+		action_fx_timer = 0.45
+
+	func _objective_for_mission() -> Vector2i:
+		var archetype := str(presentation_data.get("archetype", "investigate"))
+		if archetype == "defense":
+			return Vector2i(2, 2)
+		if archetype == "escort":
+			return Vector2i(7, 4)
+		if archetype == "boss" or archetype == "final":
+			return Vector2i(6, 2)
+		if archetype == "horror":
+			return Vector2i(6, 1)
+		return Vector2i(6, 3)
+
+	func _cover_for_mission() -> Array[Vector2i]:
+		var archetype := str(presentation_data.get("archetype", "investigate"))
+		if archetype == "defense":
+			return [Vector2i(1, 2), Vector2i(2, 3), Vector2i(3, 2), Vector2i(4, 4), Vector2i(5, 3)]
+		if archetype == "escort":
+			return [Vector2i(2, 4), Vector2i(3, 4), Vector2i(4, 3), Vector2i(5, 4)]
+		if archetype == "horror":
+			return [Vector2i(2, 2), Vector2i(3, 1), Vector2i(5, 3), Vector2i(6, 4)]
+		if archetype == "boss" or archetype == "final":
+			return [Vector2i(2, 1), Vector2i(2, 4), Vector2i(5, 1), Vector2i(5, 4)]
+		return [Vector2i(2, 3), Vector2i(3, 2), Vector2i(4, 4), Vector2i(5, 2)]
+
+	func _draw_environment(board: Rect2, id: String, accent: Color, gold: Color, mid: Color) -> void:
+		for i in range(8):
+			var alpha := 0.05 + float(i) * 0.018
+			draw_rect(Rect2(board.position.x, board.position.y + board.size.y * float(i) / 8.0, board.size.x, board.size.y / 8.0), Color(accent.r, accent.g, accent.b, alpha), true)
+		for i in range(18):
+			var p := Vector2(
+				board.position.x + board.size.x * fmod(float(i) * 0.173, 0.92) + board.size.x * 0.04,
+				board.position.y + board.size.y * fmod(float(i) * 0.271, 0.86) + board.size.y * 0.06
+			)
+			draw_circle(p, 2.5 + float(i % 3), Color(gold.r, gold.g, gold.b, 0.08))
+		if id == "blood_forest":
+			for i in range(7):
+				var x := board.position.x + board.size.x * (0.12 + i * 0.12)
+				draw_line(Vector2(x, board.position.y + board.size.y * 0.15), Vector2(x - 10, board.end.y), mid.lightened(0.06), 9)
+				draw_circle(Vector2(x - 3, board.position.y + board.size.y * 0.13), 25, accent.darkened(0.38))
+				draw_circle(Vector2(x + 12, board.position.y + board.size.y * 0.19), 18, accent.darkened(0.32))
+			draw_polyline(PackedVector2Array([
+				Vector2(board.position.x + board.size.x * 0.06, board.position.y + board.size.y * 0.76),
+				Vector2(board.position.x + board.size.x * 0.28, board.position.y + board.size.y * 0.68),
+				Vector2(board.position.x + board.size.x * 0.52, board.position.y + board.size.y * 0.61),
+				Vector2(board.position.x + board.size.x * 0.74, board.position.y + board.size.y * 0.54),
+				Vector2(board.position.x + board.size.x * 0.92, board.position.y + board.size.y * 0.50)
+			]), Color(gold.r, gold.g, gold.b, 0.35), 9)
+		elif id == "war_council":
+			draw_circle(board.position + board.size * 0.5, min(board.size.x, board.size.y) * 0.23, mid.lightened(0.12))
+			draw_circle(board.position + board.size * 0.5, min(board.size.x, board.size.y) * 0.31, Color(gold.r, gold.g, gold.b, 0.12))
+			for i in range(6):
+				draw_circle(board.position + Vector2(board.size.x * (0.20 + i * 0.12), board.size.y * 0.48), 7, Color(gold.r, gold.g, gold.b, 0.42))
+			draw_line(Vector2(board.position.x + board.size.x * 0.18, board.position.y + board.size.y * 0.50), Vector2(board.end.x - board.size.x * 0.18, board.position.y + board.size.y * 0.50), Color(gold.r, gold.g, gold.b, 0.20), 4)
+		elif id == "siege_line":
+			draw_rect(Rect2(board.position.x, board.position.y + board.size.y * 0.58, board.size.x, board.size.y * 0.16), accent.darkened(0.15), true)
+			for i in range(6):
+				var x := board.position.x + board.size.x * (0.08 + i * 0.16)
+				draw_line(Vector2(x, board.position.y + board.size.y * 0.82), Vector2(x + 34, board.position.y + board.size.y * 0.56), mid.lightened(0.10), 8)
+			for i in range(4):
+				draw_circle(Vector2(board.position.x + board.size.x * (0.18 + i * 0.22), board.position.y + board.size.y * 0.35), 10, Color(0.82, 0.34, 0.12, 0.20))
+		elif id == "corrupted_ritual":
+			draw_circle(board.position + board.size * 0.5, min(board.size.x, board.size.y) * 0.22, Color(accent.r, accent.g, accent.b, 0.35))
+			for i in range(8):
+				var angle := TAU * float(i) / 8.0
+				draw_line(board.position + board.size * 0.5, board.position + board.size * 0.5 + Vector2(cos(angle), sin(angle)) * min(board.size.x, board.size.y) * 0.28, Color(gold.r, gold.g, gold.b, 0.25), 2)
+			draw_circle(board.position + board.size * 0.5, min(board.size.x, board.size.y) * 0.07, Color(0.50, 0.24, 0.86, 0.30))
+		elif id == "search_zone":
+			for i in range(5):
+				draw_circle(board.position + Vector2(board.size.x * (0.16 + i * 0.16), board.size.y * (0.34 + float(i % 2) * 0.22)), 10, Color(gold.r, gold.g, gold.b, 0.42))
+			draw_polyline(PackedVector2Array([
+				Vector2(board.position.x + board.size.x * 0.12, board.position.y + board.size.y * 0.72),
+				Vector2(board.position.x + board.size.x * 0.28, board.position.y + board.size.y * 0.58),
+				Vector2(board.position.x + board.size.x * 0.48, board.position.y + board.size.y * 0.64),
+				Vector2(board.position.x + board.size.x * 0.70, board.position.y + board.size.y * 0.46)
+			]), Color(accent.r, accent.g, accent.b, 0.30), 5)
+		else:
+			draw_line(board.position + Vector2(board.size.x * 0.10, board.size.y * 0.72), board.position + Vector2(board.size.x * 0.90, board.size.y * 0.44), Color(gold.r, gold.g, gold.b, 0.22), 5)
+
+	func _draw_path_overlay(board: Rect2, gold: Color) -> void:
+		var cs := _cell_size(board)
+		for x in range(GRID_W):
+			for y in range(GRID_H):
+				var center := _cell_center(board, Vector2i(x, y))
+				var radius: float = min(cs.x, cs.y) * 0.035
+				draw_circle(center, radius, Color(gold.r, gold.g, gold.b, 0.13))
+		var route := PackedVector2Array([
+			_cell_center(board, Vector2i(1, 4)),
+			_cell_center(board, Vector2i(2, 4)),
+			_cell_center(board, Vector2i(3, 3)),
+			_cell_center(board, Vector2i(4, 3)),
+			_cell_center(board, Vector2i(5, 3)),
+			_cell_center(board, objective_cell)
+		])
+		draw_polyline(route, Color(gold.r, gold.g, gold.b, 0.32), max(3.0, min(cs.x, cs.y) * 0.045))
+
+	func _draw_cover(board: Rect2, accent: Color, gold: Color) -> void:
+		var cs := _cell_size(board)
+		for cell in cover_cells:
+			var top_left := board.position + Vector2(float(cell.x) * cs.x, float(cell.y) * cs.y)
+			var cover_rect := Rect2(top_left + cs * 0.20, cs * 0.60)
+			_draw_soft_rect(cover_rect, 10, Color(0.08, 0.09, 0.08, 0.72))
+			_draw_soft_rect(cover_rect.grow(-2), 8, Color(accent.r, accent.g, accent.b, 0.14))
+			draw_line(cover_rect.position + Vector2(8, cover_rect.size.y - 8), cover_rect.end - Vector2(8, 8), Color(gold.r, gold.g, gold.b, 0.22), 3)
+
+	func _draw_player(board: Rect2, gold: Color) -> void:
+		var pos := _cell_center_visual(board, visual_player_cell)
+		var scale: float = clamp(min(_cell_size(board).x, _cell_size(board).y) / 76.0, 0.78, 1.35)
+		var body := Color(0.74, 0.56, 0.24)
+		if guarded:
+			draw_circle(pos, 34 * scale, Color(gold.r, gold.g, gold.b, 0.18))
+			draw_arc(pos, 31 * scale, -PI * 0.86, PI * 0.86, 28, Color(gold.r, gold.g, gold.b, 0.62), 4 * scale)
+		draw_circle(pos + Vector2(0, 23) * scale, 20 * scale, Color(0, 0, 0, 0.28))
+		draw_polygon([
+			pos + Vector2(-24, -1) * scale,
+			pos + Vector2(24, -1) * scale,
+			pos + Vector2(16, 29) * scale,
+			pos + Vector2(-16, 29) * scale
+		], [
+			body.lightened(0.06),
+			body,
+			body.darkened(0.20),
+			body.darkened(0.08)
+		])
+		draw_circle(pos + Vector2(0, 8) * scale, 19 * scale, body)
+		draw_circle(pos + Vector2(0, -15) * scale, 14 * scale, Color(0.72, 0.53, 0.38))
+		draw_line(pos + Vector2(-21, 14) * scale, pos + Vector2(21, 14) * scale, Color(0.08, 0.06, 0.04), 4 * scale)
+		draw_circle(pos + Vector2(-6, -17) * scale, 2.2 * scale, Color.BLACK)
+		draw_circle(pos + Vector2(6, -17) * scale, 2.2 * scale, Color.BLACK)
+		draw_rect(Rect2(pos.x - 24 * scale, pos.y - 30 * scale, 48 * scale, 62 * scale), Color(gold.r, gold.g, gold.b, 0.24), false, max(2.0, 2.0 * scale))
+		draw_string(ThemeDB.fallback_font, pos + Vector2(-38, 43) * scale, player_data.get("name", "William"), HORIZONTAL_ALIGNMENT_CENTER, 76 * scale, 13 * scale, gold)
+
+	func _cell_center_visual(board: Rect2, cell: Vector2) -> Vector2:
+		var cs := _cell_size(board)
+		return board.position + Vector2((cell.x + 0.5) * cs.x, (cell.y + 0.5) * cs.y)
+
+	func _draw_enemies(board: Rect2) -> void:
+		for index in enemy_cells.size():
+			var pos := _cell_center(board, enemy_cells[index])
+			var scale: float = clamp(min(_cell_size(board).x, _cell_size(board).y) / 76.0, 0.78, 1.30)
+			draw_circle(pos + Vector2(0, 19) * scale, 18 * scale, Color(0, 0, 0, 0.25))
+			draw_polygon([
+				pos + Vector2(-20, 2) * scale,
+				pos + Vector2(20, 2) * scale,
+				pos + Vector2(14, 24) * scale,
+				pos + Vector2(-14, 24) * scale
+			], [
+				Color(0.34, 0.06, 0.06),
+				Color(0.42, 0.08, 0.08),
+				Color(0.22, 0.03, 0.03),
+				Color(0.28, 0.04, 0.04)
+			])
+			draw_circle(pos, 17 * scale, Color(0.42, 0.08, 0.08))
+			draw_circle(pos + Vector2(-6, -5) * scale, 2.2 * scale, Color(0.92, 0.80, 0.58))
+			draw_circle(pos + Vector2(6, -5) * scale, 2.2 * scale, Color(0.92, 0.80, 0.58))
+			draw_line(pos + Vector2(-9, 8) * scale, pos + Vector2(9, 8) * scale, Color(0.12, 0, 0), 3 * scale)
+			draw_string(ThemeDB.fallback_font, pos + Vector2(-30, 34) * scale, str(enemy_data[index].get("role", "Ameaca")), HORIZONTAL_ALIGNMENT_CENTER, 60 * scale, 11 * scale, Color(0.96, 0.72, 0.68))
+
+	func _draw_objective(board: Rect2, gold: Color) -> void:
+		var pos := _cell_center(board, objective_cell)
+		var scale: float = clamp(min(_cell_size(board).x, _cell_size(board).y) / 76.0, 0.78, 1.30)
+		var pulse: float = 1.0 + 0.08 * sin(float(Time.get_ticks_msec()) * 0.006)
+		draw_polygon([
+			pos + Vector2(0, -25) * scale * pulse,
+			pos + Vector2(23, 0) * scale * pulse,
+			pos + Vector2(0, 25) * scale * pulse,
+			pos + Vector2(-23, 0) * scale * pulse
+		], [
+			gold.lightened(0.18),
+			gold,
+			gold.darkened(0.35),
+			gold.darkened(0.12)
+		])
+		draw_circle(pos, 8 * scale, Color(0.15, 0.12, 0.06))
+		draw_string(ThemeDB.fallback_font, pos + Vector2(-34, 39) * scale, "OBJETIVO", HORIZONTAL_ALIGNMENT_CENTER, 68 * scale, 11 * scale, gold.lightened(0.2))
+
+	func _draw_action_fx(board: Rect2, gold: Color, accent: Color) -> void:
+		if action_fx_timer <= 0.0:
+			return
+		var t: float = action_fx_timer / 0.45
+		var target := _cell_center(board, action_fx_cell)
+		var origin := _cell_center(board, action_fx_origin)
+		var alpha: float = clamp(t, 0.0, 1.0)
+		if action_fx_kind == "attack":
+			draw_line(origin, target, Color(gold.r, gold.g, gold.b, 0.72 * alpha), 5)
+			draw_arc(target, 28.0 * (1.25 - t * 0.25), -PI * 0.25, PI * 1.25, 24, Color(0.96, 0.82, 0.48, 0.82 * alpha), 4)
+			draw_circle(target, 18.0 * (1.15 - t * 0.15), Color(0.70, 0.08, 0.04, 0.22 * alpha))
+		elif action_fx_kind == "objective":
+			draw_circle(target, 42.0 * (1.2 - t * 0.2), Color(gold.r, gold.g, gold.b, 0.18 * alpha))
+			draw_arc(target, 34.0, 0, TAU, 40, Color(gold.r, gold.g, gold.b, 0.70 * alpha), 4)
+		elif action_fx_kind == "defend":
+			draw_arc(target, 39.0 * (1.12 - t * 0.12), -PI, TAU, 42, Color(accent.r, accent.g, accent.b, 0.72 * alpha), 5)
+		elif action_fx_kind == "turn" or action_fx_kind == "start":
+			draw_circle(target, 38.0 * (1.3 - t * 0.3), Color(accent.r, accent.g, accent.b, 0.16 * alpha))
+		elif action_fx_kind == "warn":
+			draw_arc(target, 32.0, 0, TAU, 30, Color(0.95, 0.20, 0.14, 0.85 * alpha), 4)
+
+	func _draw_hud(board: Rect2, gold: Color) -> void:
+		var y := board.end.y + 28
+		var gameplay: Dictionary = presentation_data.get("gameplay", {})
+		draw_string(ThemeDB.fallback_font, Vector2(18, 28), "Missao em campo - %s" % mission_data.get("title", "Missao"), HORIZONTAL_ALIGNMENT_LEFT, size.x - 36, 20, gold)
+		draw_string(ThemeDB.fallback_font, Vector2(18, y), "Rodada %s | PA %s | WASD/setas, clique, toque ou botoes inferiores" % [turn, action_points], HORIZONTAL_ALIGNMENT_LEFT, size.x - 36, 14, Color(0.90, 0.88, 0.80))
+		draw_string(ThemeDB.fallback_font, Vector2(18, y + 24), "Objetivo: %s" % mission_data.get("objective", ""), HORIZONTAL_ALIGNMENT_LEFT, size.x - 36, 13, Color(0.82, 0.82, 0.76))
+		draw_string(ThemeDB.fallback_font, Vector2(18, y + 48), "Acao: %s" % last_message, HORIZONTAL_ALIGNMENT_LEFT, size.x - 36, 13, Color(0.78, 0.86, 0.78))
+		if gameplay.has("label"):
+			draw_string(ThemeDB.fallback_font, Vector2(size.x - 310, 28), str(gameplay.get("label", "")), HORIZONTAL_ALIGNMENT_RIGHT, 292, 14, Color(0.80, 0.80, 0.72))
+
+	func command_move(delta: Vector2i) -> void:
+		_step(delta)
+
+	func command_interact() -> void:
+		_interact_current()
+
+	func command_attack() -> void:
+		_attack_nearest()
+
+	func command_defend() -> void:
+		_defend()
+
+	func command_objective() -> void:
+		if _distance(player_cell, objective_cell) <= 1:
+			_interact_objective()
+		else:
+			last_message = "Objetivo fora de alcance. Avance pela rota dourada."
+			_start_fx("warn", objective_cell, player_cell)
+			queue_redraw()
+
+	func command_new_turn() -> void:
+		_new_turn()
+
+	func _inside(cell: Vector2i) -> bool:
+		return cell.x >= 0 and cell.y >= 0 and cell.x < GRID_W and cell.y < GRID_H
+
+	func _distance(a: Vector2i, b: Vector2i) -> int:
+		return abs(a.x - b.x) + abs(a.y - b.y)
+
+	func signi(value: int) -> int:
+		if value > 0:
+			return 1
+		if value < 0:
+			return -1
+		return 0
+
+	func _color(value: Variant, fallback: Color) -> Color:
+		var text := str(value)
+		if text.begins_with("#"):
+			return Color.html(text)
+		return fallback
+
+	func _draw_soft_rect(r: Rect2, radius: float, color: Color) -> void:
+		var d: float = min(radius * 2.0, min(r.size.x, r.size.y))
+		var rr: float = d * 0.5
+		draw_rect(Rect2(r.position + Vector2(rr, 0), Vector2(max(0.0, r.size.x - d), r.size.y)), color, true)
+		draw_rect(Rect2(r.position + Vector2(0, rr), Vector2(r.size.x, max(0.0, r.size.y - d))), color, true)
+		draw_circle(r.position + Vector2(rr, rr), rr, color)
+		draw_circle(r.position + Vector2(r.size.x - rr, rr), rr, color)
+		draw_circle(r.position + Vector2(rr, r.size.y - rr), rr, color)
+		draw_circle(r.position + Vector2(r.size.x - rr, r.size.y - rr), rr, color)
 
 class MissionBackdrop:
 	extends Control

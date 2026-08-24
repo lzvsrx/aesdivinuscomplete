@@ -273,6 +273,54 @@ export const MISSION_DESIGN_REFERENCES = [
   }
 ];
 
+export const INDIE_GAME_IDENTITY = {
+  label: "Indie tatico 3D autoral",
+  positioning: "Aes Divinus junta RPG tatico medieval sombrio, gestao de principado e campanha narrativa com identidade independente brasileira.",
+  steamTags: [
+    "Indie",
+    "Tactical RPG",
+    "Turn-Based Tactics",
+    "Singleplayer",
+    "Story Rich",
+    "Dark Fantasy",
+    "Medieval",
+    "Strategy RPG",
+    "Choices Matter",
+    "3D"
+  ],
+  pillars: [
+    "escopo focado em sistemas jogaveis claros",
+    "arte estilizada e autoral em vez de realismo caro",
+    "missao curta com decisao forte e consequencia persistente",
+    "controles simples para PC e toque",
+    "acessibilidade visivel desde o inicio",
+    "creditos, licencas e identidade da desenvolvedora transparentes"
+  ],
+  gameplayBlend: [
+    "cada missao deve ter uma regra memoravel, mesmo usando a mesma base tatica",
+    "a arena prioriza leitura visual, cobertura, objetivo e movimentacao sem excesso de UI",
+    "o tom indie aparece no codex, nas telas de creditos, nos bastidores e no manifesto da LZASANTOSWORLDSGAMES",
+    "as builds devem continuar leves e portateis para Windows, Linux, Android e iOS assinavel"
+  ],
+  accessibilityMustHave: [
+    "fontScale",
+    "interfaceScale",
+    "contrast",
+    "colorBlindMode",
+    "combatSpeed",
+    "targetSize",
+    "large touch controls",
+    "separate audio controls"
+  ],
+  compliance: [
+    "usar somente assets com licenca clara",
+    "manter creditos de pessoas e ferramentas",
+    "documentar fontes sonoras e bibliotecas",
+    "evitar prometer online se o jogo e singleplayer/local",
+    "usar tags de loja que descrevam o jogo de verdade"
+  ]
+};
+
 export const MISSION_GAMEPLAY_ARCHETYPES = {
   cinematic: {
     label: "Cena cinematica interativa",

@@ -1,5 +1,5 @@
 param(
-  [string] $Version = "0.1.13"
+  [string] $Version = "0.1.14"
 )
 
 $ErrorActionPreference = "Stop"
@@ -46,10 +46,7 @@ $linuxExported = Export-Godot -Preset "Linux" -Output "Aes-Divinus-Godot-Linux-x
 $androidExported = Export-Godot -Preset "Android" -Output "Aes-Divinus-Godot-Android-debug.apk" -Debug
 $iosExported = Export-Godot -Preset "iOS" -Output "Aes-Divinus-Godot-iOS-project.zip"
 
-Compress-Archive -Path @(
-  (Join-Path $OutDir "Aes-Divinus-Godot-Windows-x64.exe"),
-  (Join-Path $OutDir "Aes-Divinus-Godot-Windows-x64.pck")
-) -DestinationPath (Join-Path $OutDir "Aes-Divinus-Godot-Windows-x64-$Version.zip") -Force
+powershell -NoProfile -ExecutionPolicy Bypass -File (Join-Path $Root "scripts\package-godot-windows.ps1") -Version $Version -OutDir $OutDir -Root $Root
 
 Compress-Archive -Path @(
   (Join-Path $OutDir "Aes-Divinus-Godot-Linux-x64.x86_64"),
