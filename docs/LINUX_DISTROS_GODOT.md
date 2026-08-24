@@ -4,19 +4,19 @@ Este projeto distribui Aes Divinus para Linux como binario Godot portatil `x86_6
 
 ## Pacotes gerados
 
-- `Aes-Divinus-Godot-Linux-x64-0.1.14.zip`: pacote minimo com executavel e `.pck`.
-- `Aes-Divinus-Godot-Linux-Universal-x64-0.1.14.zip` e `.tar.gz`: qualquer distro Linux `x86_64` moderna.
-- `Aes-Divinus-Godot-Linux-Debian-Ubuntu-Mint-x64-0.1.14.zip` e `.tar.gz`: Debian, Ubuntu, Linux Mint, Pop!_OS e derivados.
-- `Aes-Divinus-Godot-Linux-Fedora-RHEL-openSUSE-x64-0.1.14.zip` e `.tar.gz`: Fedora, RHEL, AlmaLinux, Rocky Linux, openSUSE e derivados.
-- `Aes-Divinus-Godot-Linux-Arch-Manjaro-x64-0.1.14.zip` e `.tar.gz`: Arch Linux, Manjaro, EndeavourOS e derivados.
-- `Aes-Divinus-Godot-Linux-SteamDeck-x64-0.1.14.zip` e `.tar.gz`: SteamOS / Steam Deck.
-- `Aes-Divinus-Godot-Linux-Distros-0.1.14.txt`: resumo de compatibilidade.
+- `Aes-Divinus-Godot-Linux-x64-0.1.15.zip`: pacote minimo com executavel e `.pck`.
+- `Aes-Divinus-Godot-Linux-Universal-x64-0.1.15.zip` e `.tar.gz`: qualquer distro Linux `x86_64` moderna.
+- `Aes-Divinus-Godot-Linux-Debian-Ubuntu-Mint-x64-0.1.15.zip` e `.tar.gz`: Debian, Ubuntu, Linux Mint, Pop!_OS e derivados.
+- `Aes-Divinus-Godot-Linux-Fedora-RHEL-openSUSE-x64-0.1.15.zip` e `.tar.gz`: Fedora, RHEL, AlmaLinux, Rocky Linux, openSUSE e derivados.
+- `Aes-Divinus-Godot-Linux-Arch-Manjaro-x64-0.1.15.zip` e `.tar.gz`: Arch Linux, Manjaro, EndeavourOS e derivados.
+- `Aes-Divinus-Godot-Linux-SteamDeck-x64-0.1.15.zip` e `.tar.gz`: SteamOS / Steam Deck.
+- `Aes-Divinus-Godot-Linux-Distros-0.1.15.txt`: resumo de compatibilidade.
 
 ## Como rodar
 
 ```bash
-tar -xzf Aes-Divinus-Godot-Linux-Universal-x64-0.1.14.tar.gz
-cd Aes-Divinus-Godot-Linux-Universal-x64-0.1.14
+tar -xzf Aes-Divinus-Godot-Linux-Universal-x64-0.1.15.tar.gz
+cd Aes-Divinus-Godot-Linux-Universal-x64-0.1.15
 bash run-aes-divinus.sh
 ```
 
