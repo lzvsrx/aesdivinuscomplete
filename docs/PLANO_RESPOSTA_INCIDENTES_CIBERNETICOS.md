@@ -25,6 +25,8 @@ Fontes:
 - CERT.br - Recomendacoes para notificacoes: https://cert.br/docs/notificacoes/
 - FTC - Data Breach Response Guide: https://www.ftc.gov/business-guidance/resources/data-breach-response-guide-business
 
+Contatos operacionais por regiao, autoridade e plataforma ficam no documento `docs/CONTATOS_AUTORIDADES_CIBERNETICAS_GLOBAIS.md`.
+
 ## Dados protegidos no projeto
 
 - nome, email e perfil local do jogador;
@@ -91,6 +93,7 @@ Tratar como incidente quando houver suspeita ou confirmacao de:
 - Se houver indicio de crime, registrar ocorrencia/comunicacao junto ao canal competente, como Policia Federal/Comunica PF ou delegacia especializada local.
 - Se houver incidente tecnico de rede, ataque, malware, varredura ou origem desconhecida, notificar contatos de rede envolvidos e o CERT.br quando apropriado.
 - Se o incidente afetar plataforma, loja, pagamento ou repositorio, seguir tambem o canal oficial de Steam, GitHub, Google Play, Apple ou processador de pagamento.
+- Para escolher o canal correto fora do Brasil, consultar `docs/CONTATOS_AUTORIDADES_CIBERNETICAS_GLOBAIS.md` e confirmar o contato no site oficial antes do envio.
 
 5. Recuperar
 
@@ -172,4 +175,3 @@ Preencher antes de publicar:
 - Email de privacidade:
 - Canal de denuncia/abuso:
 - Politica publica de vulnerabilidades:
-

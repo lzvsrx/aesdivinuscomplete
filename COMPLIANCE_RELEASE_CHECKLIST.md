@@ -64,6 +64,7 @@ Este checklist nao substitui advogado. Ele organiza itens para reduzir riscos an
 - Acionar ANPD/titulares quando incidente com dados pessoais puder causar risco ou dano relevante.
 - Acionar Policia Federal/delegacia competente quando houver indicio de crime cibernetico.
 - Notificar CERT.br e contatos de rede quando houver incidente tecnico de rede ou origem desconhecida.
+- Manter `docs/CONTATOS_AUTORIDADES_CIBERNETICAS_GLOBAIS.md` revisado antes de cada release internacional.
 
 ## Steam
 
@@ -89,4 +90,5 @@ Este checklist nao substitui advogado. Ele organiza itens para reduzir riscos an
 - Testar offline e sem token.
 - Revisar documentos legais.
 - Revisar `docs/PLANO_RESPOSTA_INCIDENTES_CIBERNETICOS.md`.
+- Revisar `docs/CONTATOS_AUTORIDADES_CIBERNETICAS_GLOBAIS.md`.
 - Arquivar evidencias de licencas e aprovacoes.

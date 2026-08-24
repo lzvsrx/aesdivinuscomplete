@@ -237,11 +237,12 @@ Arquivos incluidos no projeto:
 - `TERMS_OF_USE.md`
 - `COMPLIANCE_RELEASE_CHECKLIST.md`
 - `docs/PLANO_RESPOSTA_INCIDENTES_CIBERNETICOS.md`
+- `docs/CONTATOS_AUTORIDADES_CIBERNETICAS_GLOBAIS.md`
 - `docs/DIREITOS_PUBLICACAO_STEAM_REGRAS.md`
 
 Esses documentos ajudam a preparar lancamento, revisao de loja e auditoria interna, mas devem ser revisados por advogado antes de venda publica ou publicacao mundial.
 
-O plano de incidentes define como preservar evidencias, conter falhas, avaliar dados pessoais e acionar ANPD, titulares afetados, Policia Federal, CERT.br, plataformas ou outras autoridades quando houver obrigacao legal, indicio de crime cibernetico ou risco relevante para usuarios/empresa.
+O plano de incidentes define como preservar evidencias, conter falhas, avaliar dados pessoais e acionar ANPD, titulares afetados, Policia Federal, CERT.br, plataformas ou outras autoridades quando houver obrigacao legal, indicio de crime cibernetico ou risco relevante para usuarios/empresa. A lista de contatos globais centraliza canais do Brasil, EUA, Europa/Reino Unido, Canada, Australia, Nova Zelandia, diretorios mundiais de autoridades e plataformas como GitHub, Steam, Apple e Google Play.
 
 ## Como rodar em desenvolvimento
 
