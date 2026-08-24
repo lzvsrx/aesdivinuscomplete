@@ -396,81 +396,553 @@ select:focus {
   border: 1px solid var(--line);
   border-radius: 8px;
   background:
+    radial-gradient(ellipse at 50% 82%, rgba(208, 169, 81, .2), transparent 28%),
     linear-gradient(180deg, rgba(110, 143, 164, .14), rgba(184, 75, 66, .08)),
     repeating-linear-gradient(0deg, rgba(255, 255, 255, .06) 0 1px, transparent 1px 34px);
   overflow: hidden;
+  --avatar-primary: #d0a951;
+  --avatar-secondary: #313536;
+  --avatar-eye: #6f431d;
+  --avatar-hair: #151515;
+  --avatar-skin: #b98b67;
+}
+
+.avatar-forge > div,
+.avatar-forge span,
+.avatar-forge em {
+  position: absolute;
+}
+
+.avatar-rim {
+  inset: 12px;
+  border: 1px solid rgba(208, 169, 81, .18);
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+.avatar-cape {
+  left: 50%;
+  top: 90px;
+  width: 160px;
+  height: 188px;
+  transform: translateX(-50%);
+  border-radius: 58px 58px 22px 22px;
+  background:
+    linear-gradient(90deg, transparent 0 15%, rgba(0, 0, 0, .42) 16% 20%, transparent 21%),
+    linear-gradient(135deg, color-mix(in srgb, var(--avatar-secondary), #000 28%), #111);
+  box-shadow: 0 18px 35px rgba(0, 0, 0, .45);
+}
+
+.avatar-body {
+  left: 50%;
+  top: 124px;
+  width: 128px;
+  height: 142px;
+  transform: translateX(-50%) perspective(260px) rotateX(5deg);
+  border: 3px solid #111;
+  border-radius: 44px 44px 22px 22px;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, .2), transparent 24% 72%, rgba(0, 0, 0, .38)),
+    linear-gradient(180deg, var(--avatar-primary), color-mix(in srgb, var(--avatar-secondary), #000 18%));
+  box-shadow: inset 0 12px 18px rgba(255, 255, 255, .12), inset 0 -28px 24px rgba(0, 0, 0, .28);
+}
+
+.avatar-armor {
+  left: 50%;
+  top: 138px;
+  width: 96px;
+  height: 106px;
+  transform: translateX(-50%);
+}
+
+.armor-core {
+  inset: 0;
+  border: 2px solid rgba(17, 17, 17, .9);
+  border-radius: 18px 18px 12px 12px;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, .22), transparent 42% 58%, rgba(0, 0, 0, .34)),
+    linear-gradient(180deg, #c4b27b, #5e6362 58%, #282d2d);
+  clip-path: polygon(10% 0, 90% 0, 78% 100%, 22% 100%);
+}
+
+.armor-belt {
+  left: 9px;
+  right: 9px;
+  bottom: 16px;
+  height: 12px;
+  border: 1px solid #171717;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #1c1511, var(--avatar-primary), #1c1511);
+}
+
+.armor-stone {
+  left: 50%;
+  top: 36px;
+  width: 18px;
+  height: 24px;
+  transform: translateX(-50%) rotate(45deg);
+  border: 2px solid rgba(255, 255, 255, .42);
+  border-radius: 6px;
+  background: var(--avatar-eye);
+  box-shadow: 0 0 18px color-mix(in srgb, var(--avatar-eye), transparent 25%);
+}
+
+.avatar-neck {
+  left: 50%;
+  top: 104px;
+  width: 28px;
+  height: 34px;
+  transform: translateX(-50%);
+  border: 2px solid #111;
+  border-radius: 10px;
+  background: linear-gradient(90deg, var(--avatar-skin), #8b6046);
+}
+
+.avatar-head {
+  left: 50%;
+  top: 36px;
+  width: 78px;
+  height: 88px;
+  transform: translateX(-50%);
+  border: 3px solid #111;
+  border-radius: 50% 50% 44% 44%;
+  background:
+    radial-gradient(circle at 34% 30%, rgba(255, 255, 255, .28), transparent 16%),
+    linear-gradient(90deg, var(--avatar-skin), #c0946f 52%, #8d6048);
+  box-shadow: inset -10px -8px 12px rgba(0, 0, 0, .18);
+  z-index: 5;
+}
+
+.avatar-ear {
+  top: 35px;
+  width: 12px;
+  height: 18px;
+  border: 2px solid #111;
+  border-radius: 999px;
+  background: #a97858;
+}
+
+.avatar-ear.left {
+  left: -11px;
+}
+
+.avatar-ear.right {
+  right: -11px;
+}
+
+.avatar-hair {
+  left: -3px;
+  right: -3px;
+  top: -7px;
+  height: 42px;
+  border-radius: 50% 50% 22% 22%;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, .2), transparent 24%),
+    var(--avatar-hair);
+  box-shadow: inset -8px -8px 10px rgba(0, 0, 0, .42);
+}
+
+.avatar-eye {
+  top: 42px;
+  width: 12px;
+  height: 8px;
+  border: 1px solid #111;
+  border-radius: 50%;
+  background: radial-gradient(circle at 60% 42%, #fff 0 14%, #111 15% 32%, var(--avatar-eye) 33%);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--avatar-eye), transparent 28%);
+}
+
+.avatar-eye.left {
+  left: 22px;
+}
+
+.avatar-eye.right {
+  right: 22px;
+}
+
+.avatar-nose {
+  left: 50%;
+  top: 50px;
+  width: 9px;
+  height: 18px;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: rgba(84, 48, 33, .26);
+}
+
+.avatar-mouth {
+  left: 50%;
+  bottom: 18px;
+  width: 24px;
+  height: 7px;
+  transform: translateX(-50%);
+  border-bottom: 2px solid rgba(35, 18, 14, .55);
+  border-radius: 50%;
+}
+
+.avatar-beard {
+  left: 16px;
+  right: 16px;
+  bottom: -2px;
+  height: 26px;
+  border-radius: 20px 20px 40px 40px;
+  background: var(--avatar-hair);
+  opacity: .86;
+}
+
+.avatar-arm {
+  top: 136px;
+  width: 31px;
+  height: 116px;
+  border: 3px solid #111;
+  border-radius: 999px;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, .18), transparent 42%, rgba(0, 0, 0, .3)),
+    linear-gradient(180deg, var(--avatar-secondary), var(--avatar-primary));
+  transform-origin: top center;
+}
+
+.avatar-arm-left {
+  left: calc(50% - 84px);
+  transform: rotate(9deg);
+}
+
+.avatar-arm-right {
+  right: calc(50% - 84px);
+  transform: rotate(-9deg);
+}
+
+.avatar-legs {
+  left: 50%;
+  top: 246px;
+  width: 82px;
+  height: 54px;
+  transform: translateX(-50%);
+}
+
+.avatar-legs span {
+  top: 0;
+  width: 28px;
+  height: 56px;
+  border: 3px solid #111;
+  border-radius: 10px 10px 16px 16px;
+  background: linear-gradient(180deg, #272c2d, #131617);
+}
+
+.avatar-legs span:first-child {
+  left: 7px;
+}
+
+.avatar-legs span:last-child {
+  right: 7px;
+}
+
+.avatar-boots {
+  left: 50%;
+  top: 294px;
+  width: 104px;
+  height: 18px;
+  transform: translateX(-50%);
+}
+
+.avatar-boots span {
+  bottom: 0;
+  width: 42px;
+  height: 16px;
+  border-radius: 8px 8px 4px 4px;
+  background: #080909;
+}
+
+.avatar-boots span:first-child {
+  left: 4px;
+}
+
+.avatar-boots span:last-child {
+  right: 4px;
+}
+
+.avatar-weapon {
+  left: calc(50% + 62px);
+  top: 72px;
+  width: 42px;
+  height: 198px;
+  transform: rotate(10deg);
+  transform-origin: center bottom;
+  z-index: 4;
+}
+
+.avatar-weapon span {
+  left: 50%;
+  top: 34px;
+  width: 10px;
+  height: 142px;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: linear-gradient(180deg, #f0d98b, #84612d);
+  box-shadow: 0 0 0 2px #111;
+}
+
+.avatar-weapon::before,
+.avatar-weapon::after {
+  content: "";
+  position: absolute;
+}
+
+.avatar-weapon::before {
+  left: 50%;
+  top: 0;
+  width: 18px;
+  height: 58px;
+  transform: translateX(-50%);
+  clip-path: polygon(50% 0, 100% 45%, 64% 100%, 36% 100%, 0 45%);
+  background: linear-gradient(90deg, #f5f2dd, #888f8f 55%, #303535);
+  box-shadow: 0 0 0 2px #111;
+}
+
+.avatar-weapon::after {
+  left: 11px;
+  top: 85px;
+  width: 26px;
+  height: 10px;
+  border-radius: 999px;
+  background: #111;
+  box-shadow: inset 0 0 0 2px var(--avatar-primary);
+}
+
+.avatar-nameplate {
+  left: 50%;
+  bottom: 12px;
+  min-width: 132px;
+  max-width: 82%;
+  transform: translateX(-50%);
+  border: 1px solid rgba(208, 169, 81, .55);
+  border-radius: 8px;
+  padding: 5px 8px;
+  background: rgba(7, 8, 8, .72);
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 800;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.avatar-shadow {
+  left: 50%;
+  top: 284px;
+  width: 168px;
+  height: 24px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: rgba(0, 0, 0, .44);
+  filter: blur(3px);
+}
+
+.avatar-forge[data-body="Magro"] .avatar-body {
+  width: 96px;
+}
+
+.avatar-forge[data-body="Definido"] .avatar-body,
+.avatar-forge[data-body="Fit"] .avatar-body {
+  width: 112px;
+}
+
+.avatar-forge[data-body="Atletico"] .avatar-body,
+.avatar-forge[data-body="Musculoso"] .avatar-body {
+  width: 136px;
+}
+
+.avatar-forge[data-body="Forte"] .avatar-body {
+  width: 150px;
+}
+
+.avatar-forge[data-body="Corpulento"] .avatar-body,
+.avatar-forge[data-body="Gordinho"] .avatar-body {
+  width: 166px;
+  border-radius: 56px 56px 26px 26px;
+}
+
+.avatar-forge[data-shape="Triangular"] .avatar-body {
+  clip-path: polygon(27% 0, 73% 0, 96% 100%, 4% 100%);
+}
+
+.avatar-forge[data-shape="Trapezio"] .avatar-body,
+.avatar-forge[data-shape="Triangulo invertido"] .avatar-body {
+  clip-path: polygon(4% 0, 96% 0, 82% 100%, 18% 100%);
+}
+
+.avatar-forge[data-shape="Oval"] .avatar-body {
+  border-radius: 62px 62px 38px 38px;
+}
+
+.avatar-forge[data-face="Quadrado"] .avatar-head,
+.avatar-forge[data-face="Hexagonal"] .avatar-head {
+  border-radius: 38% 38% 34% 34%;
+}
+
+.avatar-forge[data-face="Longo"] .avatar-head {
+  height: 98px;
+}
+
+.avatar-forge[data-face="Redondo"] .avatar-head {
+  width: 84px;
+  height: 84px;
+}
+
+.avatar-forge[data-eye-shape*="Redondos"] .avatar-eye {
+  height: 11px;
+}
+
+.avatar-forge[data-eye-shape*="finos"] .avatar-eye,
+.avatar-forge[data-eye-shape*="Orientais"] .avatar-eye {
+  height: 6px;
+  transform: skewX(-14deg);
+}
+
+.avatar-forge[data-eye-shape*="Caidos"] .avatar-eye {
+  transform: rotate(8deg);
+}
+
+.avatar-forge[data-hair="Raspado"] .avatar-hair {
+  height: 14px;
+  opacity: .65;
+}
+
+.avatar-forge[data-hair*="Cacheado"] .avatar-hair,
+.avatar-forge[data-hair*="Crespo"] .avatar-hair {
+  height: 48px;
+  border-radius: 48% 48% 30% 30%;
+  background:
+    radial-gradient(circle at 18% 35%, rgba(255, 255, 255, .2), transparent 0 12%, transparent 13%),
+    radial-gradient(circle at 38% 22%, rgba(255, 255, 255, .18), transparent 0 12%, transparent 13%),
+    var(--avatar-hair);
+}
+
+.avatar-forge[data-hair*="Liso"] .avatar-hair {
+  height: 54px;
+  border-radius: 50% 50% 28px 28px;
+}
+
+.avatar-forge[data-beard="Sem barba"] .avatar-beard {
+  display: none;
+}
+
+.avatar-forge[data-beard="Cavanhaque"] .avatar-beard {
+  left: 29px;
+  right: 29px;
+  height: 24px;
+}
+
+.avatar-forge[data-beard="Bigode nobre"] .avatar-beard {
+  left: 18px;
+  right: 18px;
+  bottom: 13px;
+  height: 9px;
+  border-radius: 999px;
+}
+
+.avatar-forge[data-beard="Barba cheia"] .avatar-beard {
+  left: 10px;
+  right: 10px;
+  height: 34px;
+}
+
+.avatar-forge[data-weapon="bow"] .avatar-weapon {
+  left: calc(50% + 72px);
+  top: 76px;
+  width: 46px;
+  height: 176px;
+  border: 5px solid #7b4f29;
+  border-left-color: transparent;
+  border-radius: 50%;
+  background: transparent;
+}
+
+.avatar-forge[data-weapon="bow"] .avatar-weapon span {
+  left: 10px;
+  top: 12px;
+  width: 2px;
+  height: 152px;
+  background: #e3d8b7;
+  box-shadow: none;
+}
+
+.avatar-forge[data-weapon="bow"] .avatar-weapon::before {
+  left: 27px;
+  top: 78px;
+  width: 70px;
+  height: 4px;
+  transform: none;
+  clip-path: none;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #d8d1b0, #313536);
+  box-shadow: none;
+}
+
+.avatar-forge[data-weapon="bow"] .avatar-weapon::after {
+  display: none;
+}
+
+.avatar-forge[data-weapon="iron_sword"] .avatar-weapon {
+  left: calc(50% + 70px);
+  top: 84px;
+}
+
+.avatar-forge[data-weapon="iron_sword"] .avatar-weapon span {
+  top: 76px;
+  height: 96px;
+  background: linear-gradient(180deg, #6b3f25, #1d1410);
+}
+
+.avatar-forge[data-weapon="iron_sword"] .avatar-weapon::before {
+  height: 98px;
+  width: 20px;
+  background: linear-gradient(90deg, #f2f2e9, #909696 54%, #343939);
+}
+
+.avatar-forge[data-weapon="iron_sword"] .avatar-weapon::after {
+  top: 94px;
+}
+
+.avatar-forge[data-weapon="spear"] .avatar-weapon {
+  left: calc(50% + 76px);
+  top: 36px;
+  height: 238px;
+}
+
+.avatar-forge[data-weapon="spear"] .avatar-weapon span {
+  top: 58px;
+  height: 178px;
+}
+
+.avatar-forge[data-weapon="spear"] .avatar-weapon::before {
+  height: 70px;
+}
+
+.avatar-forge[data-weapon="spear"] .avatar-weapon::after {
+  top: 112px;
+}
+
+@supports not (color: color-mix(in srgb, #000, #fff)) {
+  .avatar-cape {
+    background: linear-gradient(135deg, var(--avatar-secondary), #111);
+  }
+
+  .avatar-body {
+    background: linear-gradient(180deg, var(--avatar-primary), var(--avatar-secondary));
+  }
+
+  .armor-stone,
+  .avatar-eye {
+    box-shadow: none;
+  }
 }
 
 .avatar-forge span,
 .avatar-forge i,
 .avatar-forge b {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
   display: block;
-}
-
-.avatar-forge span {
-  top: 42px;
-  width: 74px;
-  height: 92px;
-  border-radius: 48% 48% 44% 44%;
-  background: #b58b68;
-  border: 3px solid #1b1718;
-}
-
-.avatar-forge i {
-  top: 126px;
-  width: 124px;
-  height: 150px;
-  border-radius: 40px 40px 18px 18px;
-  background: linear-gradient(90deg, #313536, #d0a951 48%, #313536);
-  border: 3px solid #111;
-}
-
-.avatar-forge b {
-  top: 98px;
-  width: 26px;
-  height: 208px;
-  border-radius: 999px;
-  background: linear-gradient(#f1e0a2, #8b8b83, #b84b42);
-  box-shadow: 0 0 0 3px #151515;
-}
-
-.avatar-forge em {
-  position: absolute;
-  left: 50%;
-  top: 270px;
-  width: 150px;
-  height: 22px;
-  transform: translateX(-50%);
-  border-radius: 50%;
-  background: rgba(0, 0, 0, .36);
-  filter: blur(2px);
-}
-
-.avatar-forge[data-body="Magro"] i {
-  width: 92px;
-}
-
-.avatar-forge[data-body="Definido"] i,
-.avatar-forge[data-body="Fit"] i {
-  width: 112px;
-}
-
-.avatar-forge[data-body="Atletico"] i,
-.avatar-forge[data-body="Musculoso"] i {
-  width: 132px;
-}
-
-.avatar-forge[data-body="Forte"] i {
-  width: 148px;
-}
-
-.avatar-forge[data-body="Corpulento"] i,
-.avatar-forge[data-body="Gordinho"] i {
-  width: 164px;
-  border-radius: 54px 54px 24px 24px;
 }
 
 .title-content {

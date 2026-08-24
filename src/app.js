@@ -259,24 +259,26 @@ function renderCharacterCreator() {
       <label>Barba <select name="beard">${options(CHARACTER_OPTIONS.beards, current.beard)}</select></label>
       <label>Paleta <select name="palette">${CHARACTER_OPTIONS.palettes.map((item) => `<option value="${item.id}" ${current.palette === item.id ? "selected" : ""}>${item.label}</option>`).join("")}</select></label>
       <label>Arma inicial <select name="weapon">
-        <option value="iron_sword">Espada de ferro</option>
-        <option value="spear">Lanca de ferro</option>
-        <option value="bow">Arco</option>
+        <option value="iron_sword" ${current.weapon === "iron_sword" ? "selected" : ""}>Espada de ferro</option>
+        <option value="spear" ${current.weapon === "spear" ? "selected" : ""}>Lanca de ferro</option>
+        <option value="bow" ${current.weapon === "bow" ? "selected" : ""}>Arco</option>
       </select></label>
     </div>
     <p class="form-error" aria-live="polite"></p>
   `;
   const preview = el("aside", "character-preview");
   preview.innerHTML = `
-    <div class="avatar-forge" data-body="${escapeHtml(current.body ?? "Atletico")}"><span></span><i></i><b></b><em></em></div>
+    ${avatarMarkup(current)}
     <h2>Modelo 3D base</h2>
     <p>Especificacao modular: esqueleto humanoide, corpo, rosto, olhos, cabelo, barba, roupa, armadura, arma, ferramenta e pedra vinculada em pecas separadas para troca em runtime.</p>
     <dl>
       <dt>Olhos</dt><dd>${escapeHtml(current.eyeColor ?? "Castanho")}</dd>
       <dt>Cabelo</dt><dd>${escapeHtml(current.hairColor ?? "Preto natural")}</dd>
       <dt>Corpo</dt><dd>${escapeHtml(current.bodyShape ?? "Trapezio")}</dd>
+      <dt>Arma</dt><dd>${escapeHtml(weaponLabel(current.weapon ?? "iron_sword"))}</dd>
     </dl>
   `;
+  applyAvatarAppearance(preview.querySelector(".avatar-forge"), current);
   form.addEventListener("input", () => updateCharacterPreview(form, preview));
   const actions = el("div", "auth-actions");
   actions.append(actionButton("Criar personagem", "Salvar personagem no banco", () => submitCharacter(form)));
@@ -294,12 +296,102 @@ function submitCharacter(form) {
 function updateCharacterPreview(form, preview) {
   const data = Object.fromEntries(new FormData(form).entries());
   const avatar = preview.querySelector(".avatar-forge");
-  avatar.dataset.body = data.body ?? "Atletico";
+  applyAvatarAppearance(avatar, data);
   preview.querySelector("dl").innerHTML = `
     <dt>Olhos</dt><dd>${escapeHtml(data.eyeColor ?? "Castanho")}</dd>
     <dt>Cabelo</dt><dd>${escapeHtml(data.hairColor ?? "Preto natural")}</dd>
     <dt>Corpo</dt><dd>${escapeHtml(data.bodyShape ?? "Trapezio")}</dd>
+    <dt>Arma</dt><dd>${escapeHtml(weaponLabel(data.weapon ?? "iron_sword"))}</dd>
   `;
+}
+
+function avatarMarkup(current = {}) {
+  return `
+    <div class="avatar-forge"
+      data-body="${escapeHtml(current.body ?? "Atletico")}"
+      data-shape="${escapeHtml(current.bodyShape ?? "Trapezio")}"
+      data-face="${escapeHtml(current.face ?? "Oval")}"
+      data-eye-shape="${escapeHtml(current.eyeShape ?? "Amendoados")}"
+      data-hair="${escapeHtml(current.hair ?? "Ondulado 2B")}"
+      data-beard="${escapeHtml(current.beard ?? "Barba curta")}"
+      data-weapon="${escapeHtml(current.weapon ?? "iron_sword")}">
+      <div class="avatar-rim"></div>
+      <div class="avatar-cape"></div>
+      <div class="avatar-legs"><span></span><span></span></div>
+      <div class="avatar-boots"><span></span><span></span></div>
+      <div class="avatar-body"></div>
+      <div class="avatar-armor">
+        <span class="armor-core"></span>
+        <span class="armor-belt"></span>
+        <span class="armor-stone"></span>
+      </div>
+      <div class="avatar-arm avatar-arm-left"></div>
+      <div class="avatar-arm avatar-arm-right"></div>
+      <div class="avatar-weapon"><span></span></div>
+      <div class="avatar-neck"></div>
+      <div class="avatar-head">
+        <span class="avatar-ear left"></span>
+        <span class="avatar-ear right"></span>
+        <span class="avatar-hair"></span>
+        <span class="avatar-eye left"></span>
+        <span class="avatar-eye right"></span>
+        <span class="avatar-nose"></span>
+        <span class="avatar-mouth"></span>
+        <span class="avatar-beard"></span>
+      </div>
+      <div class="avatar-nameplate">${escapeHtml(current.name ?? "William")}</div>
+      <em class="avatar-shadow"></em>
+    </div>
+  `;
+}
+
+function applyAvatarAppearance(avatar, data = {}) {
+  if (!avatar) return;
+  const palette = CHARACTER_OPTIONS.palettes.find((item) => item.id === data.palette) ?? CHARACTER_OPTIONS.palettes[0];
+  avatar.dataset.body = data.body ?? "Atletico";
+  avatar.dataset.shape = data.bodyShape ?? "Trapezio";
+  avatar.dataset.face = data.face ?? "Oval";
+  avatar.dataset.eyeShape = data.eyeShape ?? "Amendoados";
+  avatar.dataset.hair = data.hair ?? "Ondulado 2B";
+  avatar.dataset.beard = data.beard ?? "Barba curta";
+  avatar.dataset.weapon = data.weapon ?? "iron_sword";
+  avatar.style.setProperty("--avatar-primary", palette.primary);
+  avatar.style.setProperty("--avatar-secondary", palette.secondary);
+  avatar.style.setProperty("--avatar-eye", colorForEye(data.eyeColor));
+  avatar.style.setProperty("--avatar-hair", colorForHair(data.hairColor));
+  avatar.querySelector(".avatar-nameplate").textContent = data.name || "William";
+}
+
+function colorForEye(value = "Castanho") {
+  const key = value.toLowerCase();
+  if (key.includes("violeta") || key.includes("ametista")) return "#8e65c9";
+  if (key.includes("azul") || key.includes("safira")) return "#5da4d9";
+  if (key.includes("verde")) return "#6fa35f";
+  if (key.includes("cinza")) return "#a8b0ad";
+  if (key.includes("ambar") || key.includes("a vela") || key.includes("avela")) return "#b47a2c";
+  if (key.includes("onix") || key.includes("preto")) return "#171717";
+  return "#6f431d";
+}
+
+function colorForHair(value = "Preto natural") {
+  const key = value.toLowerCase();
+  if (key.includes("violeta")) return "#7a4bb2";
+  if (key.includes("vermelho") || key.includes("acaju")) return "#8e302d";
+  if (key.includes("cobre")) return "#b85f25";
+  if (key.includes("loiro clarissimo") || key.includes("muito claro")) return "#f1dd91";
+  if (key.includes("loiro")) return "#c9a64a";
+  if (key.includes("acinzentado")) return "#8c908c";
+  if (key.includes("castanho claro")) return "#8a5b2e";
+  if (key.includes("castanho") || key.includes("marrom")) return "#4f2e19";
+  return "#151515";
+}
+
+function weaponLabel(weapon) {
+  return {
+    iron_sword: "Espada de ferro",
+    spear: "Lanca de ferro",
+    bow: "Arco"
+  }[weapon] ?? "Espada de ferro";
 }
 
 function renderTitleScreen() {
