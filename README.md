@@ -17,6 +17,16 @@ Esta versao e uma implementacao jogavel web/desktop/mobile do documento de desig
 - Banco local IndexedDB ativo.
 - Testes automatizados passando.
 
+## Navegacao do repositorio
+
+- [Documentacao completa](docs/README.md)
+- [Como contribuir](CONTRIBUTING.md)
+- [Politica de seguranca](SECURITY.md)
+- [Privacidade](PRIVACY_POLICY.md)
+- [Termos de Uso](TERMS_OF_USE.md)
+- [Checklist legal e de release](COMPLIANCE_RELEASE_CHECKLIST.md)
+- [Instaladores e builds](BUILD_INSTALLERS.md)
+
 ## Plataforma Godot/C++
 
 A migracao para Godot foi iniciada sem apagar a versao web atual. A nova estrutura fica em `godot/` e usa Godot 4.7.1.

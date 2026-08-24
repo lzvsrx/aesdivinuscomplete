@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Reporte de seguranca
+    url: https://github.com/lzvsrx/aesdivinuscomplete/security
+    about: Nao reporte vulnerabilidades publicamente. Use o canal privado de seguranca do GitHub quando habilitado.
