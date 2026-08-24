@@ -439,6 +439,163 @@ export const SCREEN_FLOW = [
   { id: "codex", label: "Codex", template: "archive", purpose: "Consultar sistemas, faccoes, criaturas, dano, defesa e status." }
 ];
 
+export const GODOT_GAME_STRUCTURE = {
+  targetStyle: "Action RPG 2D Pixel Art / Side-Scroller integrado ao RPG tatico por turnos ja existente.",
+  note: "Os documentos anexos sao usados como material de design e lore. A implementacao Godot mantem a campanha tatica e adiciona base para exploracao 2D lateral.",
+  sceneFolders: [
+    "scenes/core/main.tscn",
+    "scenes/core/game_manager.tscn",
+    "scenes/core/transition.tscn",
+    "scenes/player/player.tscn",
+    "scenes/player/player_camera.tscn",
+    "scenes/player/player_effects.tscn",
+    "scenes/characters/william.tscn",
+    "scenes/characters/ethan.tscn",
+    "scenes/characters/donovan.tscn",
+    "scenes/characters/albert.tscn",
+    "scenes/characters/hilda.tscn",
+    "scenes/characters/elric.tscn",
+    "scenes/enemies/barbarian.tscn",
+    "scenes/enemies/canis_ferox.tscn",
+    "scenes/enemies/homines_corrupti.tscn",
+    "scenes/enemies/bestia_ignis.tscn",
+    "scenes/bosses/ogre_larva_belli.tscn",
+    "scenes/maps/wood_forest_01.tscn",
+    "scenes/maps/wood_forest_02.tscn",
+    "scenes/maps/wood_forest_03.tscn",
+    "scenes/maps/gradon_city.tscn",
+    "scenes/maps/gradon_castle.tscn",
+    "scenes/maps/council_room.tscn",
+    "scenes/maps/prince_room.tscn",
+    "scenes/maps/military_quarters.tscn",
+    "scenes/maps/blacksmith.tscn",
+    "scenes/ui/hud.tscn",
+    "scenes/ui/pause_menu.tscn",
+    "scenes/ui/inventory.tscn",
+    "scenes/ui/equipment.tscn",
+    "scenes/ui/dialogue_box.tscn",
+    "scenes/ui/map_menu.tscn",
+    "scenes/ui/game_over.tscn",
+    "scenes/cutscenes/intro.tscn",
+    "scenes/cutscenes/wood_ambush.tscn",
+    "scenes/cutscenes/army_massacre.tscn",
+    "scenes/cutscenes/william_fall.tscn"
+  ],
+  mainSceneResponsibilities: ["carregar mapas", "carregar jogador", "controlar HUD", "controlar transicoes", "controlar musica", "controlar progresso", "trocar cenas", "abrir menus"],
+  playerNodePlan: ["AnimatedSprite2D", "CollisionShape2D", "HurtBox", "AttackArea", "InteractionArea", "Camera2D", "Marker2D", "AudioStreamPlayer2D", "PlayerStats", "AnimationPlayer"]
+};
+
+export const SIDE_SCROLLER_ACTIONS = [
+  { id: "idle", state: "IDLE", animation: "idle", input: "sem direcao", gameplay: "Respirar, mover roupa/cabelo e manter arma preparada." },
+  { id: "walk", state: "WALK", animation: "walk", input: "A/D", gameplay: "Movimento moderado e preciso para exploracao." },
+  { id: "run", state: "RUN", animation: "run", input: "Shift + A/D", gameplay: "Maior velocidade, possivel consumo de stamina e transicao rapida para esquiva/ataque." },
+  { id: "jump", state: "JUMP", animation: "jump", input: "Espaco", gameplay: "Inicio do arco de salto, antes de subida/quebra para queda." },
+  { id: "fall", state: "FALL", animation: "fall", input: "gravidade", gameplay: "Estado quando a velocidade vertical fica positiva fora do chao." },
+  { id: "land", state: "LAND", animation: "land", input: "tocar chao", gameplay: "Recuperacao curta antes de voltar a idle, andar ou atacar." },
+  { id: "attack", state: "ATTACK", animation: "attack", input: "ataque leve", gameplay: "Ataque rapido de curta janela." },
+  { id: "heavy_attack", state: "HEAVY_ATTACK", animation: "heavy_attack", input: "ataque forte", gameplay: "Ataque mais lento com maior dano/impacto." },
+  { id: "block", state: "BLOCK", animation: "block", input: "defesa", gameplay: "Reduz dano frontal e prepara contra-ataque." },
+  { id: "parry", state: "PARRY", animation: "parry", input: "defesa no tempo certo", gameplay: "Janela curta para quebrar postura inimiga." },
+  { id: "dodge", state: "DODGE", animation: "dodge", input: "esquiva", gameplay: "Reposicionamento rapido com invulnerabilidade curta." },
+  { id: "hurt", state: "HURT", animation: "hurt", input: "receber dano", gameplay: "Interrompe acoes e aplica impacto." },
+  { id: "stun", state: "STUN", animation: "stun", input: "postura quebrada", gameplay: "Impede agir por tempo limitado." },
+  { id: "interact", state: "INTERACT", animation: "interact", input: "interacao", gameplay: "Falar, coletar, examinar pistas e ativar objetos." },
+  { id: "special", state: "SPECIAL", animation: "special", input: "habilidade", gameplay: "Uso de marca, lideranca ou golpe especial." },
+  { id: "dead", state: "DEAD", animation: "dead", input: "HP zero", gameplay: "Fim da unidade/cena de derrota." }
+];
+
+export const WILLIAM_ROUTES = [
+  { id: "route_1_knight", name: "Rota 1 - Cavaleiro orgulhoso", personality: "Bravura e determinacao", flaws: "Impulsivo e arrogante", weapons: ["Espada de duas maos", "Martelo de guerra"], armor: "Armadura pesada", items: ["Bracelete", "Capacete"], bonuses: { strength: 5, courage: 2, perception: -5, inspiration: -2 }, markBias: ["Gloregni", "Iusdicta"] },
+  { id: "route_2_diplomat", name: "Rota 2 - Cavaleiro diplomata", personality: "Compromisso e transparencia", flaws: "Hesitacao e peso moral", weapons: ["Espada", "Escudo"], armor: "Malha media", items: ["Selo de audiencia"], bonuses: { inspiration: 4, perception: 2, courage: -1 }, markBias: ["Gloregni", "Satiae"] },
+  { id: "route_3_builder", name: "Rota 3 - Governante construtor", personality: "Pragmatismo e responsabilidade", flaws: "Controle excessivo", weapons: ["Martelo de guerra", "Espada curta"], armor: "Armadura media", items: ["Ferramentas de corte"], bonuses: { infrastructure: 5, perception: 2, strength: 1 }, markBias: ["Thofestoe", "Gloregni"] },
+  { id: "route_4_strategist", name: "Rota 4 - Estrategista", personality: "Analise e paciencia", flaws: "Frieza e distancia", weapons: ["Lanca", "Arco"], armor: "Couro reforcado", items: ["Mapa de campanha"], bonuses: { perception: 4, inspiration: 3, strength: -1 }, markBias: ["Satiae", "Iusdicta"] },
+  { id: "route_5_survivor", name: "Rota 5 - Sobrevivente da corte", personality: "Astucia e adaptacao", flaws: "Desconfianca e cinismo", weapons: ["Adaga", "Espada"], armor: "Couro leve", items: ["Anel de corte"], bonuses: { agility: 4, perception: 3, courage: -2 }, markBias: ["Satiae", "Stipulation"] },
+  { id: "route_6_hard", name: "Rota 6 - Dificil", personality: "Orgulho ferido e ambicao", flaws: "Risco de crueldade", weapons: ["Espada de duas maos", "Lanca Aes"], armor: "Armadura pesada", items: ["Marca instavel"], bonuses: { strength: 3, courage: 3, loyalty: -5 }, markBias: ["A Sanctis Signatus", "Gloregni"] }
+];
+
+export const WORLD_LORE = {
+  startingDate: "25 de fevereiro de 1441",
+  startingRegion: "Principado de Berwick/Gradron, caminho entre King's Lynn e Foxley Wood",
+  aesDivinus: "Minerio divino surgido apos grandes rupturas historicas. E pesado demais para armaduras eficientes, mas excelente para joias, pontas de flecha e armas contra corrompidos.",
+  aesWeapons: "Espadas, lancas e alabardas Aes possuem metal esverdeado com tons dourados. Em humanos cortam como aco; em seres abencoados por anjos corrompidos ferem, envenenam e atravessam pele como papel.",
+  greatRupture: "A Grande Ruptura separou anjos puros e corrompidos; os corrompidos foram banidos para uma dimensao fora da realidade humana.",
+  divineLandsWar: "As Guerras das Terras Divinas explicam a disputa por territorio, minerio Aes e legitimidade imperial."
+};
+
+export const CHARACTER_DATABASE = [
+  { id: "william_augusto", name: "William Augusto", group: "Protagonistas", age: 19, role: "Principe e protagonista", description: "Rosto jovial, nariz reto, olhos azuis com tons amarelos/dourados, corpo um pouco magro e sorriso arrogante.", traits: ["rotas mudam personalidade", "lideranca", "governo"], flaws: ["orgulho", "pressao da corte"] },
+  { id: "hilda_augusto", name: "Hilda Augusto", group: "Protagonistas", age: 19, role: "Versao feminina/rota alternativa de William", description: "Mesma funcao narrativa de William em rota alternativa de genero.", traits: ["lideranca", "coroa"], flaws: ["pressao da corte"] },
+  { id: "elric_legrand", name: "Duque Elric Legrand", group: "Aliados e corte", age: 35, role: "Antigo cavaleiro da Guerra das Terras Divinas", description: "Responsavel e sereno, conservador e cinico; mentor militar/politico de William.", traits: ["experiencia", "disciplina"], flaws: ["conservadorismo", "cinismo"] },
+  { id: "ethan_armand", name: "Ethan Armand", group: "Companheiros", age: 20, role: "Cavaleiro da dinastia Armand", description: "Alto, definido, cabelo ondulado castanho, rosto oval, barba inicial, olhos redondos castanhos.", traits: ["leal", "reservado"], flaws: ["superficial", "irritadico"] },
+  { id: "donovan_mitchell", name: "Donovan Mitchell", group: "Companheiros", age: 22, role: "Cavaleiro, filho unico do duque Bezalel", description: "Corpo atletico, cabelos pretos lisos, rosto coracao, olhos azul-escuros redondos.", traits: ["paciente", "versatil"], flaws: ["individualista", "egocentrico"] },
+  { id: "albert_roberts", name: "Albert Roberts", group: "Companheiros", age: 21, role: "Cavaleiro da dinastia Roberts", description: "Cabelos ruivos ondulados, olhos verdes amendoados e fisico definido.", traits: ["temperado", "solidario"], flaws: ["arrogante", "ignorante"] },
+  { id: "enguerrand_corbin", name: "Enguerrand Corbin", group: "Aliados variaveis", age: 34, role: "Mercenario", description: "Paciente e resiliente, mas oportunista e desonesto.", traits: ["resiliencia"], flaws: ["oportunismo", "desonestidade"] },
+  { id: "isabeau_moreau", name: "Isabeau Moreau", group: "Aliados", age: 18, role: "Santa guerreira", description: "Ganha importancia a partir do final do Ato I.", traits: ["fe", "combate"], flaws: ["idealismo"] },
+  { id: "roger_redhead", name: "Roger Redhead", group: "Aliados", age: 18, role: "Soldado de infantaria", description: "Acompanhou William durante grande parte da campanha.", traits: ["persistencia"], flaws: ["inexperiencia"] },
+  { id: "cadman_armand", name: "Cadman Armand", group: "Corte", age: 28, role: "Irmao mais velho de Ethan", description: "Cavaleiro respeitado, orgulhoso da familia e proximo de Elric.", traits: ["forca", "orgulho"], flaws: ["rigidez"] },
+  { id: "bezalel_mitchell", name: "Duque Bezalel Mitchell", group: "Antagonistas politicos", age: 37, role: "Pai de Donovan e antagonista politico", description: "Inteligente, manipulador e sadico.", traits: ["estrategia", "manipulacao"], flaws: ["crueldade"] },
+  { id: "frederico", name: "Bispo Frederico", group: "Corte e igreja", age: 50, role: "Clerigo", description: "Figura religiosa ligada a corte e aos conflitos de fe.", traits: ["autoridade"], flaws: ["dogmatismo"] },
+  { id: "john", name: "John", group: "Corte e igreja", age: 27, role: "Monge copista", description: "Guarda e interpreta registros.", traits: ["memoria"], flaws: ["medo"] },
+  { id: "agnes_heller", name: "Agnes Heller", group: "Corte e igreja", age: 19, role: "Freira", description: "Ligada a cuidados, fe e rumor popular.", traits: ["compaixao"], flaws: ["fragilidade politica"] },
+  { id: "robert_smith", name: "Robert Smith", group: "Povo e oficio", age: 39, role: "Ferreiro", description: "Ferreiro do principado e ponto de ligacao com armas/ferramentas.", traits: ["oficio"], flaws: ["familia vulneravel"] },
+  { id: "maria", name: "Maria", group: "Povo e oficio", age: 39, role: "Esposa de Robert", description: "Parte da familia do ferreiro.", traits: ["cuidado"], flaws: ["risco civil"] },
+  { id: "mateus", name: "Mateus", group: "Povo e oficio", age: 12, role: "Filho mais velho do ferreiro", description: "Crianca civil afetada por decisoes de guerra.", traits: ["curiosidade"], flaws: ["vulnerabilidade"] },
+  { id: "tome", name: "Tome", group: "Povo e oficio", age: 7, role: "Filho mais novo do ferreiro", description: "Crianca civil afetada por fome e cerco.", traits: ["inocencia"], flaws: ["vulnerabilidade"] },
+  { id: "rafael", name: "Rafael", group: "Povo e oficio", age: 49, role: "Barbeiro-cirurgiao", description: "Tratamento de feridos e consequencias fisicas.", traits: ["medicina pratica"], flaws: ["limites tecnicos"] },
+  { id: "guilherme", name: "Guilherme", group: "Povo e oficio", age: 17, role: "Aprendiz de cirurgiao", description: "Aprendiz de Rafael.", traits: ["aprendizado"], flaws: ["inexperiencia"] },
+  { id: "godwin", name: "Godwin", group: "Corte e igreja", age: 60, role: "Monge", description: "Memoria antiga da fe e das escrituras.", traits: ["tradicao"], flaws: ["cansaco"] }
+];
+
+export const DUCHIES = [
+  { id: "legrand", name: "Dinastia Legrand", duke: "Elric Legrand", position: "Direita do principado, abaixo do ducado Michael", specialty: "Diplomacia e memoria militar", emblem: "Ave carregando uma espada", resources: "Recursos moderados e exercito de cerca de 200 homens", tension: "Respeitado, mas pequeno para sustentar a crise sozinho." },
+  { id: "michael", name: "Dinastia Michael", duke: "Bezalel Mitchell", position: "Direita do principado, acima de Legrand", specialty: "Segredos, espionagem e neutralidade calculada", emblem: "Corvo escuro em floresta escura", resources: "Informacao e forcas ocultas", tension: "Acusada de alimentar conflitos sem deixar provas." },
+  { id: "armand", name: "Dinastia Armand", duke: "Cadman Armand", position: "Esquerda do principado, acima de Roberts", specialty: "Exercitos e forca militar", emblem: "Cavaleiro erguendo espada contra um leao", resources: "Principal forca armada do principado", tension: "Pode enfrentar barbaros ou o principe se enxergar fraqueza." },
+  { id: "roberts", name: "Dinastia Roberts", duke: "Casa Roberts", position: "Esquerda do principado, abaixo de Armand", specialty: "Fe, comida e recursos", emblem: "Cruz laranja com circulo", resources: "Principal fonte de alimento e suprimentos", tension: "Religiosa e conservadora, confia primeiro na propria fe." }
+];
+
+export const BESTIARY = [
+  { id: "homines_corrupti", name: "Homines Corrupti", act: "Prologo/Ato I", type: "Humano corrompido", threat: "Atacam viajantes, soldados isolados e grupos pequenos nas florestas.", combat: "Pele um pouco mais resistente, vulneravel a espada e arco; aumenta medo em camponeses.", model: "Silhueta humana ferida, olhos vazios, pele irregular." },
+  { id: "barbarian_homines_corrupti", name: "Homines Corrupti Barbaros", act: "Prologo/Ato II", type: "Barbaro corrompido", threat: "Tropa de choque das invasoes barbaras.", combat: "Mais resistente, usa protecoes em ombros/capacete e pressiona linha de frente.", model: "Barbaro com armadura quebrada e veios de corrupcao." },
+  { id: "servi_belli_larvae", name: "Servi Belli Larvae", act: "Ato II", type: "Cadaver de guerra reanimado", threat: "Mortos usados para distrair tropas e abrir caminho aos invasores.", combat: "Avanca em massa, causa atordoamento e medo.", model: "Corpo incompleto com roupa antiga, feridas abertas e arma simples." },
+  { id: "ogre_larva_belli", name: "Ogre Larva Belli", act: "Ato II/Ato III", type: "Chefe grotesco", threat: "Evolucao de Servi apos matar ou ser alterado por barbaros.", combat: "Alto HP, membros extras, armas fundidas a carne, ataques de area.", model: "Gigante sem humanidade, torso exposto e cranio animal." },
+  { id: "praecones_caesarum", name: "Praecones Caesarum", act: "Ato III/Ato V", type: "Arauto dos anjos traidores", threat: "Lidera campanhas, rituais e corrupcao territorial.", combat: "Fases, medo, invocacao e retorno ao continente corrompido se destruido.", model: "Humano nobre deformado por marca profana." },
+  { id: "canis_ferox", name: "Canis Ferox", act: "Prologo/Ato II", type: "Canino corrompido", threat: "Caca viajantes e camponeses; anda em bandos de ate quatro.", combat: "Rapido, flanqueia, late para aumentar medo.", model: "Canino grande, ferido, olhos furiosos." },
+  { id: "bestia_ignis", name: "Bestia Ignis", act: "Ato II/Ato III", type: "Abominacao ritual", threat: "Mistura de lobo/cao, cabra e serpente usada como arma barbarica.", combat: "Fogo, mordida, chifres, veneno e garras.", model: "Cabeca canina/caprina, cauda de serpente, garganta incandescente." },
+  { id: "corvus_stipulation", name: "Corvus Stipulation", act: "Final do Ato II", type: "Guardiao monstruoso", threat: "Corvo gigante de tres olhos guardando o territorio Michael.", combat: "Bico esmagador, patas pesadas, sombras e terror.", model: "Ave enorme preta, tres olhos, aura de escuridao." },
+  { id: "umbrae_maleficae", name: "Umbrae Maleficae", act: "Ato III", type: "Cultistas das sombras", threat: "Manipuladoras e assassinas ligadas a Stipulation.", combat: "Emboscada, ilusao, pouca luz e controle social.", model: "Mantos escuros, rosto quase oculto, gestos rituais." },
+  { id: "superior_umbrae_maleficae", name: "Superior Umbrae Maleficae", act: "Ato III", type: "Lider de culto", threat: "Porta-voz de Stipulation e criadora de criaturas sombrias.", combat: "Rituais, convocacao e mapas em escuridao sufocante.", model: "Figura cerimonial com marcas e luz negra." },
+  { id: "mulier_umbris_consumptae", name: "Mulier Umbris Consumptae", act: "Ato III", type: "Vitima amaldicoada", threat: "Mulheres sacrificadas que vagam gritando maldicoes e espalhando medo.", combat: "Grito, peste, dano de coragem.", model: "Sem olhos, boca aberta, liquido escuro." },
+  { id: "qui_decepti_sunt", name: "Qui Decepti Sunt", act: "Ato III", type: "Servo enganado", threat: "Homens consumidos por falsas promessas de poder.", combat: "Obediencia absoluta, ataques coordenados, resistencia mental baixa.", model: "Pele palida, olhos negros e marcas de lagrima escura." },
+  { id: "bellum_bellatoris", name: "Bellum Bellatoris", act: "Ato V", type: "Vilao sobrenatural", threat: "Demonio ligado a guerra/sangue e aos horrores maiores da campanha.", combat: "Multifasico, pressao de medo, sangue, terreno e lideranca.", model: "Entidade marcial, carne e metal vivo." }
+];
+
+export const DIVINE_MARKS = [
+  { id: "iusdicta", name: "Marca de Iusdicta", alignment: "Anjo puro", domain: "Justica", sign: "Asas nas costas e olhos azul-claro/dourados; a cegueira fisica abre visao astral.", gameplay: "Revela pecados, enfraquece marcados por Stipulation e fortalece decisoes justas." },
+  { id: "thofestoe", name: "Marca de Thofestoe", alignment: "Anjo puro", domain: "Fogo calmo, oficio e construcao", sign: "Marca do antebraco ao torso como calor acolhedor.", gameplay: "Melhora forja, ferramentas, obras, armas e leitura de materiais." },
+  { id: "gloregni", name: "Marca de Gloregni", alignment: "Anjo puro", domain: "Coroa e lideranca", sign: "Surge na mao de monarcas em tempos de caos.", gameplay: "Amplifica outras marcas, lideranca, forca e autoridade politica." },
+  { id: "satiae", name: "Marca de Satiae", alignment: "Anjo puro", domain: "Conhecimento e sabedoria", sign: "Olhos verdes marcados por tons escuros ao redor.", gameplay: "Aumenta aprendizado, leitura social, investigacao e risco de arrogancia." },
+  { id: "miseritae", name: "Marca de Miseritae", alignment: "Anjo puro", domain: "Vida e misericordia", sign: "Plantas no torso crescendo aos antebracos.", gameplay: "Cura ferimentos, sente dor dos vivos e cria dilemas contra matar." },
+  { id: "sanctis_signatus", name: "A Sanctis Signatus", alignment: "Marcos historicos", domain: "As cinco bencaos", sign: "Olhos dourados com detalhes de cores conforme as bencaos despertas.", gameplay: "Pode despertar marcas em outros escolhidos e ramificar poderes por acao." },
+  { id: "bellinis", name: "Marca de Bellinis", alignment: "Anjo corrompido", domain: "Guerra e sangue", sign: "Carne queimada, musculos e veias expostos.", gameplay: "Cria arautos gigantes, fogo, machados vivos e destruicao brutal." },
+  { id: "stipulation", name: "Marca de Stipulation", alignment: "Anjo corrompido", domain: "Manipulacao e segredo", sign: "Quase transparente, revelada por luz ou escuridao extrema; ausencia de sombra.", gameplay: "Disfarce, espionagem, asas negras e controle por mentira." }
+];
+
+export const ANGELS = {
+  pure: ["Anjo da Coragem", "Anjo da Justica", "Anjo da Vida", "Anjo da Esperanca", "Anjo da Harmonia"],
+  corrupted: ["Anjo da Guerra e do Sangue", "Anjo da Manipulacao e das Artimanhas", "Anjo da Morte", "Anjo do Medo", "Anjo da Perfeicao"]
+};
+
+export const HISTORICAL_TIMELINE = [
+  { period: "600-700", title: "Comeco do Imperio Romano Bizatino", summary: "Martinus, Amandus, Agustinos e Catao marcam a formacao, golpe e sucessao inicial." },
+  { period: "750-800", title: "Grande Era Bizantina", summary: "Marcus fortalece armas, protecoes, escolas e saude antes da transicao imperial." },
+  { period: "800-850", title: "Era de Cesar", summary: "Expansionismo tiranico, fome, incendio de Roma e traicao de Brutus." },
+  { period: "850-910", title: "Era dos Caidos", summary: "Tribos do norte contatam Bellinis; Nero pesquisa anjos caidos e quase rompe o selo da morte." },
+  { period: "910-950", title: "Era dos Marcados", summary: "Surgem Homines Corrupti, Praecones Caesarum e os herois Sanctis Signatus contra Nero." },
+  { period: "950-1000", title: "Fim do velho imperio", summary: "Revoltas e fragmentacao levam ao Imperio Gra-Franco-Saxao, reino Itano e novas potencias." },
+  { period: "1280-1436", title: "Guerras das Terras Divinas", summary: "Conflitos por territorio, legitimidade e minerio Aes preparam a crise de 1441." },
+  { period: "1441", title: "Prologo - Floresta de Sangue", summary: "William lidera 300 homens entre King's Lynn e Foxley Wood contra invasores barbaros." }
+];
+
 export const CHARACTER_OPTIONS = {
   origins: [
     { id: "abakorum", label: "Abakorum", bonus: "Lealdade +5", description: "Criado perto da coroa e acostumado a peso politico." },
@@ -553,10 +710,15 @@ export const EQUIPMENT_DESIGNS = [
 
 export const CODEX = [
   { title: "Combate por turnos", text: "Cada combatente usa 2 PA por turno. Movimento, ataque, postura, item, inspiracao e espera competem pelo mesmo recurso." },
+  { title: "Exploracao 2D side-scroller", text: "A versao Godot recebe base de Action RPG 2D Pixel Art / Side-Scroller para mapas de exploracao, interacao, camera lateral, estados de movimento e transicoes para combate tatico." },
   { title: "Posicoes", text: "Aliados ocupam seis posicoes a esquerda e inimigos seis a direita. Frente protege e aproxima; retaguarda favorece arco, suporte, altura e cobertura." },
   { title: "Medo e coragem", text: "Ameacas, mortes e efeitos sobrenaturais testam Coragem. Estados de medo reduzem iniciativa, acerto, defesa e podem bloquear a acao." },
   { title: "Lideranca", text: "William pode inspirar, manter formacao, reagrupar e impedir recuos. Lealdade decide se ordens perigosas sao aceitas." },
-  { title: "Principado", text: "Comida, madeira, ferro, ouro, tropas, infraestrutura e reputacao conectam campanha, missoes e consequencias." }
+  { title: "Principado", text: "Comida, madeira, ferro, ouro, tropas, infraestrutura e reputacao conectam campanha, missoes e consequencias." },
+  { title: "Ducados de Gradron", text: "Legrand, Michael, Armand e Roberts formam a pressao politica do principado, cada um com recursos, emblemas, rivalidades e rotas proprias." },
+  { title: "Aes Divinus", text: "Minerio divino pesado, usado em joias, pontas de flecha e armas esverdeadas/douradas capazes de ferir criaturas corrompidas com eficacia superior." },
+  { title: "Marcas divinas", text: "Iusdicta, Thofestoe, Gloregni, Satiae, Miseritae, A Sanctis Signatus, Bellinis e Stipulation conectam poderes, consequencias fisicas, politica e escolhas." },
+  { title: "Bestiario", text: "Homines Corrupti, Servi Belli Larvae, Ogre Larva Belli, Praecones Caesarum, Canis Ferox, Bestia Ignis e criaturas de Stipulation entram como ameacas de campanha e direcao de modelagem." }
 ];
 
 export const INITIAL_PRINCIPALITY = {

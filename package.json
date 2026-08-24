@@ -1,6 +1,6 @@
 {
   "name": "aes-divinus",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "private": true,
   "type": "module",
   "main": "electron/main.cjs",
@@ -14,6 +14,7 @@
     "godot:check": "npm run godot:data && godot --headless --path godot --check-only --script res://scripts/main.gd",
     "godot:models": "godot --headless --path godot --check-only --script res://scripts/model_gallery.gd && godot --headless --path godot res://scenes/model_gallery.tscn --quit-after 3",
     "godot:run": "npm run godot:data && godot --path godot",
+    "godot:export": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/export-godot-release.ps1",
     "prepare:web": "node scripts/prepare-web.mjs",
     "desktop": "npm run prepare:web && electron .",
     "build:windows": "npm run prepare:web && electron-builder --win nsis --x64",

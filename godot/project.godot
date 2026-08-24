@@ -24,8 +24,8 @@ window/stretch/aspect="expand"
 
 renderer/rendering_method="forward_plus"
 textures/canvas_textures/default_texture_filter=0
+textures/vram_compression/import_etc2_astc=true
 
 [autoload]
 
 SaveSystem="*res://scripts/save_system.gd"
-

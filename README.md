@@ -26,6 +26,8 @@ Esta versao e uma implementacao jogavel web/desktop/mobile do documento de desig
 - [Termos de Uso](TERMS_OF_USE.md)
 - [Checklist legal e de release](COMPLIANCE_RELEASE_CHECKLIST.md)
 - [Instaladores e builds](BUILD_INSTALLERS.md)
+- [Executadores por plataforma](launchers/README.md)
+- [Releases Godot](docs/GODOT_RELEASES.md)
 
 ## Plataforma Godot/C++
 
@@ -39,6 +41,7 @@ O que ja foi adaptado:
 - campanha completa, cenas, armas, armaduras, medo/coragem, lojas, codex e opcoes de personagem exportadas para Godot;
 - manifesto de paridade em `godot/data/aes_divinus_data.json` para garantir que nada feito na versao web/desktop/mobile fique fora da versao Godot;
 - paineis internos no Godot para Arsenal, Audio, Seguranca, Builds, Codex e Completo;
+- paineis internos no Godot para Mundo e Movimento, integrando os PDFs/textos de design, lore, personagens, ducados, marcas, bestiario e base 2D side-scroller;
 - catalogo de audio exportado para Godot e arquivos `.mp3` copiados para `godot/assets/audio`;
 - save local em `user://aes_divinus_save.json`;
 - deteccao simples de hardware por CPU para qualidade inicial;
@@ -57,6 +60,24 @@ npm run godot:data
 npm run godot:check
 npm run godot:models
 npm run godot:run
+```
+
+Executadores prontos:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts\launcher.ps1 web
+powershell -ExecutionPolicy Bypass -File scripts\launcher.ps1 desktop
+powershell -ExecutionPolicy Bypass -File scripts\launcher.ps1 godot
+powershell -ExecutionPolicy Bypass -File scripts\launcher.ps1 android-apk
+```
+
+No Linux/macOS:
+
+```bash
+./scripts/launcher.sh web
+./scripts/launcher.sh desktop
+./scripts/launcher.sh godot
+./scripts/launcher.sh build-linux-installer
 ```
 
 Modelagem adaptada para Godot:
@@ -88,6 +109,8 @@ Observacao: este computador tem Godot instalado, mas nao tinha compilador C++, S
 - **Arsenal, lojas e economia:** moeda Coroas de Aes, compra, venda, equipamento por personagem e areas de loja para armas, armaduras, ferramentas e reliquias.
 - **Pedras dos itens:** armas, armaduras e ferramentas possuem pedra associada para lore, gameplay e direcao de modelagem.
 - **Codex:** explicacao interna dos sistemas principais.
+- **Mundo/lore dos anexos:** William/Hilda, Ethan, Donovan, Albert, Elric, Bezalel, personagens civis, ducados Legrand/Michael/Armand/Roberts, Aes Divinus, anjos, marcas e bestiario foram integrados aos dados exportados para Godot.
+- **Exploracao 2D Godot:** estrutura Action RPG 2D Pixel Art / Side-Scroller com estados `IDLE`, `WALK`, `RUN`, `JUMP`, `FALL`, `LAND`, `ATTACK`, `HEAVY_ATTACK`, `BLOCK`, `PARRY`, `DODGE`, `HURT`, `STUN`, `INTERACT`, `SPECIAL` e `DEAD`.
 - **Save completo:** todo progresso e salvo no IndexedDB com autosave.
 - **Autosave GitHub obrigatorio no fluxo:** criar conta, logar, criar personagem e salvar progresso disparam envio para o repositorio configurado, usando token pessoal fornecido pelo dono do jogo.
 - **Deteccao de hardware:** o jogo identifica CPU logica, memoria aproximada, GPU/WebGL, tela, pixel ratio, touch e preferencia de movimento reduzido para aplicar qualidade automaticamente.

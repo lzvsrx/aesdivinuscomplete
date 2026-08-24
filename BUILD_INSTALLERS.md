@@ -1,5 +1,31 @@
 # Aes Divinus - instaladores e builds
 
+## Executadores prontos
+
+Os atalhos ficam em `launchers/` e chamam o executor central em `scripts/launcher.ps1` ou `scripts/launcher.sh`.
+
+Windows:
+
+```powershell
+.\launchers\windows-web.bat
+.\launchers\windows-desktop.bat
+.\launchers\windows-godot.bat
+.\launchers\windows-build-installer.bat
+.\launchers\windows-android-apk.bat
+```
+
+Linux/macOS:
+
+```bash
+chmod +x launchers/*.sh scripts/launcher.sh
+./launchers/linux-web.sh
+./launchers/linux-desktop.sh
+./launchers/linux-godot.sh
+./launchers/linux-build-installer.sh
+./launchers/android-apk.sh
+./launchers/ios-sync.sh
+```
+
 ## Windows
 
 Gera instalador NSIS `.exe` em `release/`:

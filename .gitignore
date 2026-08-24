@@ -11,6 +11,7 @@ release/
 # Local toolchains and temporary downloads
 tools/
 build/failed/
+build/extracted_docs/
 
 # Temporary or backup native projects
 android-capacitor8-backup/
@@ -27,3 +28,5 @@ Thumbs.db
 .vscode/
 .idea/
 
+# Godot local cache
+godot/.godot/

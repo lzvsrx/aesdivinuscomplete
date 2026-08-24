@@ -9,6 +9,7 @@ Este diretorio concentra os documentos de producao, seguranca, direitos e public
 - [Plano de resposta a incidentes ciberneticos](PLANO_RESPOSTA_INCIDENTES_CIBERNETICOS.md)
 - [Contatos globais de autoridades ciberneticas](CONTATOS_AUTORIDADES_CIBERNETICAS_GLOBAIS.md)
 - [Pipeline de modelagem Godot/Blender](MODELAGEM_GODOT_BLENDER_PIPELINE.md)
+- [Releases Godot](GODOT_RELEASES.md)
 
 ## Documentos na raiz
 
@@ -18,6 +19,7 @@ Este diretorio concentra os documentos de producao, seguranca, direitos e public
 - [Checklist legal e de release](../COMPLIANCE_RELEASE_CHECKLIST.md)
 - [Instaladores e builds](../BUILD_INSTALLERS.md)
 - [Politica de seguranca do repositorio](../SECURITY.md)
+- [Executadores por plataforma](../launchers/README.md)
 
 ## Estrutura principal
 

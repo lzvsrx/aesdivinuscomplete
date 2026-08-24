@@ -102,6 +102,8 @@ func _build_ui() -> void:
 	center.add_child(system_actions)
 	system_actions.add_child(_button("Arsenal", _show_inventory))
 	system_actions.add_child(_button("Audio", _show_audio))
+	system_actions.add_child(_button("Mundo", _show_world))
+	system_actions.add_child(_button("Movimento", _show_movement))
 	system_actions.add_child(_button("Seguranca", _show_security))
 	system_actions.add_child(_button("Builds", _show_builds))
 	system_actions.add_child(_button("Codex", _show_codex))
@@ -246,6 +248,67 @@ func _show_audio() -> void:
 		lines.append("- %s: %s | arquivos: %s" % [key, item.get("label", ""), ", ".join(file_names)])
 	lines.append("")
 	lines.append("Os MP3 locais ficam em godot/assets/audio e podem ser ligados a AudioStreamPlayer no Godot.")
+	detail_text.text = "\n".join(lines)
+
+func _show_world() -> void:
+	detail_title.text = "Mundo, personagens e bestiario"
+	var lore: Dictionary = data.get("worldLore", {})
+	var lines: Array[String] = [
+		"[b]Inicio[/b]",
+		"%s - %s" % [lore.get("startingDate", ""), lore.get("startingRegion", "")],
+		"",
+		"[b]Aes Divinus[/b]",
+		lore.get("aesDivinus", ""),
+		lore.get("aesWeapons", ""),
+		"",
+		"[b]Ducados de Gradron[/b]"
+	]
+	for duchy in data.get("duchies", []):
+		lines.append("- %s: %s | Emblema: %s" % [duchy.get("name", ""), duchy.get("specialty", ""), duchy.get("emblem", "")])
+	lines.append("")
+	lines.append("[b]Personagens[/b]")
+	for character in data.get("characterDatabase", []):
+		lines.append("- %s (%s): %s" % [character.get("name", ""), character.get("role", ""), character.get("description", "")])
+	lines.append("")
+	lines.append("[b]Bestiario[/b]")
+	for creature in data.get("bestiary", []):
+		lines.append("- %s / %s: %s" % [creature.get("name", ""), creature.get("act", ""), creature.get("combat", "")])
+	lines.append("")
+	lines.append("[b]Marcas[/b]")
+	for mark in data.get("divineMarks", []):
+		lines.append("- %s (%s): %s" % [mark.get("name", ""), mark.get("domain", ""), mark.get("gameplay", "")])
+	detail_text.text = "\n".join(lines)
+
+func _show_movement() -> void:
+	detail_title.text = "Exploracao 2D e movimentos"
+	var structure: Dictionary = data.get("godotGameStructure", {})
+	var lines: Array[String] = [
+		"[b]Estilo Godot[/b]",
+		structure.get("targetStyle", ""),
+		structure.get("note", ""),
+		"",
+		"[b]Estados do jogador[/b]"
+	]
+	for action in data.get("sideScrollerActions", []):
+		lines.append("- %s / %s / %s: %s" % [
+			action.get("state", ""),
+			action.get("animation", ""),
+			action.get("input", ""),
+			action.get("gameplay", "")
+		])
+	lines.append("")
+	lines.append("[b]Rotas de William[/b]")
+	for route in data.get("williamRoutes", []):
+		lines.append("- %s: %s | Defeitos: %s | Marcas: %s" % [
+			route.get("name", ""),
+			route.get("personality", ""),
+			route.get("flaws", ""),
+			", ".join(route.get("markBias", []))
+		])
+	lines.append("")
+	lines.append("[b]Pastas/cenas planejadas[/b]")
+	for scene_path in structure.get("sceneFolders", []):
+		lines.append("- " + str(scene_path))
 	detail_text.text = "\n".join(lines)
 
 func _show_security() -> void:

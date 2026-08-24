@@ -1,20 +1,30 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import {
+  ANGELS,
   ARMORS,
   CHARACTER_OPTIONS,
+  CHARACTER_DATABASE,
   CODEX,
+  BESTIARY,
+  DIVINE_MARKS,
+  DUCHIES,
   EQUIPMENT_DESIGNS,
   FEAR_STATES,
   GAME_CURRENCY,
+  GODOT_GAME_STRUCTURE,
+  HISTORICAL_TIMELINE,
   HEROES,
   INITIAL_PRINCIPALITY,
   ITEM_CATALOG,
   MISSIONS,
   MISSION_SCENES,
   POSITION_TRAITS,
+  SIDE_SCROLLER_ACTIONS,
   SHOP_AREAS,
-  WEAPONS
+  WEAPONS,
+  WILLIAM_ROUTES,
+  WORLD_LORE
 } from "../src/data.js";
 import { AUDIO_CATALOG } from "../src/audio.js";
 
@@ -40,6 +50,16 @@ await fs.writeFile(
       initialPrincipality: INITIAL_PRINCIPALITY,
       missions: MISSIONS,
       missionScenes: MISSION_SCENES,
+      godotGameStructure: GODOT_GAME_STRUCTURE,
+      sideScrollerActions: SIDE_SCROLLER_ACTIONS,
+      williamRoutes: WILLIAM_ROUTES,
+      worldLore: WORLD_LORE,
+      characterDatabase: CHARACTER_DATABASE,
+      duchies: DUCHIES,
+      bestiary: BESTIARY,
+      divineMarks: DIVINE_MARKS,
+      angels: ANGELS,
+      historicalTimeline: HISTORICAL_TIMELINE,
       characterOptions: CHARACTER_OPTIONS,
       equipmentDesigns: EQUIPMENT_DESIGNS,
       audioCatalog: AUDIO_CATALOG,
@@ -49,8 +69,11 @@ await fs.writeFile(
         gameplaySystems: [
           "login/cadastro local lembrado",
           "criacao de personagem completa",
+          "rotas de origem/personalidade de William",
           "campanha com prologo e 38 missoes principais",
           "cenas narrativas de missao",
+          "estrutura de exploracao 2D side-scroller para Godot",
+          "estados de movimento e acao do jogador",
           "combate tatico por turnos",
           "posicoes, PA, acerto, dano, cobertura e alcance",
           "medo, coragem e lideranca",
@@ -65,6 +88,7 @@ await fs.writeFile(
           "sincronizacao GitHub preparada",
           "seguranca, privacidade, termos e resposta a incidentes",
           "modelagem 3D Godot e pipeline Blender/glTF",
+          "personagens, ducados, bestiario, anjos e marcas dos novos documentos",
           "nucleo C++ preparado para GDExtension"
         ],
         documents: [
