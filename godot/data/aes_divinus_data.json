@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-24T23:25:45.506Z",
+  "generatedAt": "2026-08-24T23:34:00.503Z",
   "game": "Aes Divinus",
   "source": "src/data.js",
   "fearStates": {
@@ -212,6 +212,63 @@
     "shortName": "Coroas",
     "symbol": "CA",
     "description": "Moeda usada por aventureiros, ferreiros e mercados do principado."
+  },
+  "unifiedGameStyle": {
+    "name": "Aes Divinus - RPG Tatico Narrativo de Reino",
+    "shortLabel": "RPG tatico narrativo de reino",
+    "promise": "Um unico jogo single-player em que exploracao, cenas, combate, horror, gestao, arsenal e consequencias alimentam a mesma campanha.",
+    "coreLoop": [
+      "Explorar o mapa ou a cena",
+      "Ler pistas, faccoes, medo e recursos",
+      "Escolher abordagem e preparar equipamento/formacao",
+      "Resolver encontro tatico por turnos ou decisao narrativa",
+      "Aplicar consequencias em personagens, principado, reputacao e inventario",
+      "Voltar ao hub para comprar, vender, criar itens e decidir a proxima missao"
+    ],
+    "styleLayers": [
+      {
+        "id": "tactical_rpg",
+        "label": "RPG tatico por turnos",
+        "role": "Base de jogabilidade: PA, posicao, cobertura, alcance, inimigos, chefes e objetivos."
+      },
+      {
+        "id": "story_rich",
+        "label": "Campanha narrativa",
+        "role": "Cenas, dialogos, escolhas morais, lealdade e epilogo reativo."
+      },
+      {
+        "id": "kingdom_management",
+        "label": "Gestao de principado",
+        "role": "Comida, madeira, ferro, ouro, tropas e reputacao mudam rotas e condicoes de missao."
+      },
+      {
+        "id": "dark_fantasy_horror",
+        "label": "Fantasia sombria com horror",
+        "role": "Medo, coragem, trauma, rituais, criaturas corrompidas e pressao sobrenatural."
+      },
+      {
+        "id": "exploration_3d",
+        "label": "Exploracao 3D",
+        "role": "Movimento em terceira pessoa, interacao, percepcao, mapas locais e rotas alternativas."
+      },
+      {
+        "id": "indie_identity",
+        "label": "Indie autoral brasileiro",
+        "role": "Escopo focado, arte estilizada, controles simples, acessibilidade e assinatura da LZASANTOSWORLDSGAMES."
+      },
+      {
+        "id": "arsenal_workshop",
+        "label": "Arsenal e oficina",
+        "role": "Compra, venda, equipamento, criacao de itens e pedras Aes ligados ao combate e a exploracao."
+      }
+    ],
+    "designRule": "Cada tela, missao, item e modelo deve servir ao loop unico: decisao dificil, leitura clara, consequencia salva e retorno ao principado.",
+    "storeDescription": "RPG tatico narrativo de reino, single-player, 3D, indie, fantasia medieval sombria, com escolhas persistentes, gestao de principado e combate por turnos.",
+    "forbiddenSplit": [
+      "Nao separar side-scroller, tatica, gestao e horror como jogos diferentes.",
+      "Nao criar tela ou sistema que nao altere campanha, personagem, recurso, item ou reputacao.",
+      "Nao prometer online/multiplayer; a base oficial e single-player com save local e sincronizacao preparada."
+    ]
   },
   "indieGameIdentity": {
     "label": "Indie tatico 3D autoral",
@@ -8823,8 +8880,8 @@
       "text": "Cada combatente usa 2 PA por turno. Movimento, ataque, postura, item, inspiracao e espera competem pelo mesmo recurso."
     },
     {
-      "title": "Exploracao 2D side-scroller",
-      "text": "A versao Godot recebe base de Action RPG 2D Pixel Art / Side-Scroller para mapas de exploracao, interacao, camera lateral, estados de movimento e transicoes para combate tatico."
+      "title": "Estilo unico",
+      "text": "A versao Godot consolida as ideias de side-scroller, RPG tatico, exploracao, gestao, horror e narrativa em um so genero: RPG tatico narrativo de reino, com exploracao 3D e combate por turnos conectados ao principado."
     },
     {
       "title": "Posicoes",

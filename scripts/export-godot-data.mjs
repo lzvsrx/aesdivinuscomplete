@@ -40,6 +40,7 @@ import {
   SHOP_AREAS,
   TACTICAL_3D_SYSTEMS,
   TRAUMA_SYSTEM,
+  UNIFIED_GAME_STYLE,
   WEAPONS,
   WILLIAM_ROUTES,
   WORLD_LORE
@@ -62,6 +63,7 @@ await fs.writeFile(
       weapons: WEAPONS,
       armors: ARMORS,
       gameCurrency: GAME_CURRENCY,
+      unifiedGameStyle: UNIFIED_GAME_STYLE,
       indieGameIdentity: INDIE_GAME_IDENTITY,
       shopAreas: SHOP_AREAS,
       itemCatalog: ITEM_CATALOG,

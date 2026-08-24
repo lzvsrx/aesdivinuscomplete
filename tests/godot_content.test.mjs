@@ -1,10 +1,12 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import test from "node:test";
 import {
   AI_ARCHETYPES,
   BESTIARY,
   CAMERA_3D_PROFILES,
   CHARACTER_DATABASE,
+  CODEX,
   CORE_GAME_LOOP,
   DESIGN_PILLARS,
   DIVINE_MARKS,
@@ -23,6 +25,7 @@ import {
   SAFE_MODE_RECOVERY,
   SIDE_SCROLLER_ACTIONS,
   TACTICAL_3D_SYSTEMS,
+  UNIFIED_GAME_STYLE,
   WILLIAM_ROUTES,
   WORLD_LORE
 } from "../src/data.js";
@@ -38,6 +41,12 @@ test("Godot content includes attached lore, movement and world systems", () => {
   assert.ok(INDIE_GAME_IDENTITY.steamTags.includes("Indie"));
   assert.ok(INDIE_GAME_IDENTITY.steamTags.includes("Tactical RPG"));
   assert.ok(INDIE_GAME_IDENTITY.accessibilityMustHave.includes("large touch controls"));
+  assert.equal(UNIFIED_GAME_STYLE.shortLabel, "RPG tatico narrativo de reino");
+  assert.ok(UNIFIED_GAME_STYLE.promise.includes("Um unico jogo"));
+  assert.deepEqual(
+    UNIFIED_GAME_STYLE.styleLayers.map((layer) => layer.id),
+    ["tactical_rpg", "story_rich", "kingdom_management", "dark_fantasy_horror", "exploration_3d", "indie_identity", "arsenal_workshop"]
+  );
 });
 
 test("every Godot mission has its own backdrop and gameplay actions", () => {
@@ -86,4 +95,16 @@ test("Godot master GDD V2 systems are represented", () => {
   assert.ok(GODOT_TECHNICAL_ARCHITECTURE.some((system) => system.system === "TurnManager"));
   assert.ok(PERFORMANCE_PROFILES_3D.some((profile) => profile.target === "Mobile"));
   assert.ok(SAFE_MODE_RECOVERY.some((item) => item.includes("Migradores")));
+});
+
+test("unified game style is exported and shown in Godot", async () => {
+  const exporter = await readFile(new URL("../scripts/export-godot-data.mjs", import.meta.url), "utf8");
+  const main = await readFile(new URL("../godot/scripts/main.gd", import.meta.url), "utf8");
+
+  assert.ok(exporter.includes("UNIFIED_GAME_STYLE"));
+  assert.ok(exporter.includes("unifiedGameStyle"));
+  assert.ok(main.includes("data.get(\"unifiedGameStyle\""));
+  assert.ok(main.includes("Estilo unico do jogo"));
+  assert.ok(UNIFIED_GAME_STYLE.designRule.includes("loop unico"));
+  assert.ok(CODEX.some((entry) => entry.title === "Estilo unico"));
 });

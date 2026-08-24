@@ -4,6 +4,12 @@
 
 Esta versao e uma implementacao jogavel web/desktop/mobile do documento de design do jogo, com empacotamento para Windows, Linux, Android e projeto iOS.
 
+## Estilo unificado
+
+O jogo agora trata todos os estilos adicionados como um so: **RPG tatico narrativo de reino**. Aes Divinus nao separa combate tatico, exploracao 3D, horror, gestao, escolhas narrativas, arsenal/oficina e identidade indie como jogos diferentes; tudo alimenta o mesmo ciclo de campanha.
+
+Loop oficial: explorar, ler pistas e ameacas, preparar formacao/equipamento, resolver uma cena ou encontro tatico, aplicar consequencias em personagens/principado/inventario e voltar ao hub para decidir a proxima missao.
+
 ## Status
 
 - Jogo web funcional.
@@ -99,6 +105,7 @@ Observacao: este computador tem Godot instalado, mas nao tinha compilador C++, S
 - **Login e cadastro lembrados:** cadastro minimo, login local, modo convidado, perfis lembrados por dispositivo e campos preparados para teclado mobile.
 - **Criacao de personagem:** nome, tratamento, origem, corpo, forma corporal, rosto, formato/cor dos olhos, tipo/cor do cabelo, barba, paleta e arma inicial.
 - **Fluxo sequencial de telas:** conta, personagem, titulo, cenas, mesa de missoes, combate, arsenal, principado e codex.
+- **Estilo unico:** RPG tatico narrativo de reino, juntando exploracao 3D, combate por turnos, gestao, horror, escolhas, oficina e identidade indie no mesmo loop.
 - **Cenas de missao:** cenas narrativas antes das missoes, com camera, escolha e efeito.
 - **Campanha em 47 entradas:** prologo jogavel na Floresta de Sangue, cinco atos e epilogo com conselho, investigacao, resgate, escolta, companheiros, defesa, politica, chefes, cerco, dungeon, escolhas criticas e final multifasico.
 - **Combate tatico por turnos:** unidades com 2 PA, iniciativa, fila de turno, movimento, ataque, guarda, inspiracao, flecha de fogo e espera.

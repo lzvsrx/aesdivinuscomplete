@@ -1116,9 +1116,32 @@ func _show_settings() -> void:
 
 func _show_indie_identity() -> void:
 	_hide_mission_arena()
-	detail_title.text = "Identidade indie"
+	detail_title.text = "Estilo unico do jogo"
+	var unified: Dictionary = data.get("unifiedGameStyle", {})
 	var indie: Dictionary = data.get("indieGameIdentity", {})
 	var lines: Array[String] = [
+		"[b]%s[/b]" % unified.get("name", "Aes Divinus"),
+		unified.get("promise", "Um unico jogo single-player com sistemas conectados."),
+		"",
+		"[b]Loop unico[/b]",
+		"- %s" % "\n- ".join(_string_array(unified.get("coreLoop", []))),
+		"",
+		"[b]Camadas unificadas[/b]"
+	]
+	for layer in unified.get("styleLayers", []):
+		if layer is Dictionary:
+			lines.append("- %s: %s" % [layer.get("label", ""), layer.get("role", "")])
+	lines.append_array([
+		"",
+		"[b]Regra de design[/b]",
+		unified.get("designRule", ""),
+		"",
+		"[b]Descricao de loja unificada[/b]",
+		unified.get("storeDescription", ""),
+		"",
+		"[b]O que nao separar[/b]",
+		"- %s" % "\n- ".join(_string_array(unified.get("forbiddenSplit", []))),
+		"",
 		"[b]%s[/b]" % indie.get("label", "Indie"),
 		indie.get("positioning", "Aes Divinus como RPG tatico indie autoral."),
 		"",
@@ -1136,7 +1159,7 @@ func _show_indie_identity() -> void:
 		"",
 		"[b]Cuidados de publicacao[/b]",
 		"- %s" % "\n- ".join(_string_array(indie.get("compliance", [])))
-	]
+	])
 	detail_text.text = "\n".join(lines)
 
 func _show_audio() -> void:
