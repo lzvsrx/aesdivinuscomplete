@@ -65,7 +65,14 @@ Compress-Archive -Path $godotProjectFiles.FullName -DestinationPath (Join-Path $
 Compress-Archive -Path "$Root\launchers\*", "$Root\scripts\launcher.ps1", "$Root\scripts\launcher.sh" -DestinationPath (Join-Path $OutDir "Aes-Divinus-Executadores-$Version.zip") -Force
 
 Get-ChildItem $OutDir -File |
-  Where-Object { $_.Name -notlike "SHA256SUMS*" } |
+  Where-Object {
+    $_.Name -notlike "SHA256SUMS*" -and
+    $_.Name -notlike "RELEASE_NOTES*" -and
+    $_.Name -notlike "*.pck" -and
+    $_.Name -notlike "*.exe" -and
+    $_.Name -notlike "*.x86_64" -and
+    $_.Name -notlike "*.idsig"
+  } |
   ForEach-Object {
     $hash = Get-FileHash $_.FullName -Algorithm SHA256
     "$($hash.Hash.ToLower())  $($_.Name)"
