@@ -17,6 +17,8 @@ O jogador nao deve:
 - vender, sublicenciar ou explorar comercialmente arquivos do jogo;
 - usar tokens, contas ou saves de terceiros sem autorizacao.
 
+Violar seguranca, explorar vulnerabilidades, fraudar compras, roubar dados, publicar segredos, adulterar builds, praticar abuso, ameaca, odio, extorsao ou qualquer crime cibernetico pode resultar em bloqueio, preservacao de evidencias e comunicacao aos orgaos competentes, plataformas e autoridades responsaveis, conforme o caso.
+
 ## Saves e Sincronizacao
 
 O jogo salva progresso localmente e tenta sincronizar saves no GitHub quando configurado. O token GitHub e responsabilidade do usuario/controlador e deve ter o menor escopo possivel.
@@ -40,3 +42,7 @@ Builds de desenvolvimento podem conter recursos incompletos. A versao comercial 
 ## Suporte
 
 Definir canal oficial de suporte antes do lancamento.
+
+## Incidentes e Autoridades
+
+Suspeitas de incidente de seguranca, abuso, fraude, vazamento de dados, invasao ou crime cibernetico devem seguir o plano `docs/PLANO_RESPOSTA_INCIDENTES_CIBERNETICOS.md`. A empresa deve preservar evidencias, conter o problema e acionar ANPD, titulares afetados, Policia Federal, CERT.br, delegacia competente ou plataformas quando exigido por lei, regra de plataforma ou avaliacao juridica/tecnica.

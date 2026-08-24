@@ -41,6 +41,12 @@ O jogo solicita confirmacao de idade permitida no pais do jogador ou autorizacao
 - token GitHub nao e enviado dentro do arquivo remoto;
 - textos exibidos passam por escape HTML.
 
+## Incidentes de Segurança
+
+Se houver suspeita ou confirmacao de incidente envolvendo dados pessoais, a LZASANTOSWORLDSGAMES deve seguir o plano em `docs/PLANO_RESPOSTA_INCIDENTES_CIBERNETICOS.md`, preservar evidencias, conter o problema e avaliar comunicacao aos titulares e a ANPD quando houver risco ou dano relevante.
+
+Se houver indicio de crime cibernetico, fraude, extorsao, invasao, abuso ou ameaca, a empresa deve avaliar comunicacao aos orgaos competentes, como Policia Federal, delegacia especializada, CERT.br e plataformas envolvidas, conforme o caso.
+
 ## Direitos do Titular
 
 O jogador pode reiniciar o banco local pelo jogo. Antes do lancamento online, a empresa deve disponibilizar canal de contato para acesso, correcao, exclusao e demais direitos previstos em leis aplicaveis.

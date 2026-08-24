@@ -236,9 +236,12 @@ Arquivos incluidos no projeto:
 - `PRIVACY_POLICY.md`
 - `TERMS_OF_USE.md`
 - `COMPLIANCE_RELEASE_CHECKLIST.md`
+- `docs/PLANO_RESPOSTA_INCIDENTES_CIBERNETICOS.md`
 - `docs/DIREITOS_PUBLICACAO_STEAM_REGRAS.md`
 
 Esses documentos ajudam a preparar lancamento, revisao de loja e auditoria interna, mas devem ser revisados por advogado antes de venda publica ou publicacao mundial.
+
+O plano de incidentes define como preservar evidencias, conter falhas, avaliar dados pessoais e acionar ANPD, titulares afetados, Policia Federal, CERT.br, plataformas ou outras autoridades quando houver obrigacao legal, indicio de crime cibernetico ou risco relevante para usuarios/empresa.
 
 ## Como rodar em desenvolvimento
 
